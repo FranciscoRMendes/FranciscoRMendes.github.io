@@ -229,11 +229,11 @@ widgets:
         position: left
         type: profile
         # Author name
-        author: Your name
+        author: Francisco Romaldo Mendes
         # Author title
-        author_title: Your title
+        author_title: Senior Embedded AI Engineer
         # Author's current location
-        location: Your location
+        location: Chicago, Illinois
         # URL or path to the avatar image
         avatar: 
         # Whether show the rounded avatar image
@@ -246,7 +246,7 @@ widgets:
         social_links:
             Github:
                 icon: fab fa-github
-                url: https://github.com/ppoffice
+                url: https://github.com/FranciscoRMendes
             Facebook:
                 icon: fab fa-facebook
                 url: https://facebook.com

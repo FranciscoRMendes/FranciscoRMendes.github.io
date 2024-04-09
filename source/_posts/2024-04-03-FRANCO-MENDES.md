@@ -1,5 +1,5 @@
 ---
-title: "FRANCO-MENDES"
+title: "Shrinking AI Models for Embedded Systems Using Low Rank Approximations"
 date: 2024-04-03
 ---
 

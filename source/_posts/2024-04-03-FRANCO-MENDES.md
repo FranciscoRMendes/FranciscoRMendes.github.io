@@ -11,9 +11,7 @@ There are several notions of size, but the two major ones are :
 The first affects the amount of memory required to store the model, while the second affects the amount of computation required to run the model.
 
 I have worked extensively in matrix factorization before, mostly factorizing sparse matrices for recommendation systems. 
-Unfortunately, while there are many LoRA walk throughs using code, I was not able to find a simple succint explanation of the problem and the solution.
-And _why_ it works. This article aims to address that gap by providing an elementary explanation of the problem, how to set up the optimization problem
-and how to solve it, in possibly linear time. 
+Unfortunately, while there are many LoRA walk throughs using code, I was not able to find a simple succint explanation of the problem and the solution. And _why_ it works. This article aims to address that gap by providing an elementary explanation of the problem, how to set up the optimization problem and how to solve it, in possibly linear time. 
 
 # Introduction to Matrices
 First we start with basic definitions of matrices and tensors. 
@@ -222,9 +220,9 @@ multiplications also reduces.
 When multiplying $U_r \Sigma_r$ by $V_r^T$, where $U_r$ has dimensions $m \times r$ and $V_r^T$ has dimensions $r \times n$, each element of the resulting matrix $U_r \Sigma_r V_r^T$ is obtained by taking the dot product of a row from $U_r \Sigma_r$ with a column from $V_r^T$. Since $U_r \Sigma_r$ has dimensions $m \times r$ and $V_r^T$ has dimensions $r \times n$, each dot product involves $r$ multiplications. Therefore, the total number of multiplications for $U_r \Sigma_r V_r^T$ is $m \times r \times n$.
 
 
-# Formulating The Static Optimization Problem
+# Formulating The Indirect Optimization Problem
 Okay so we know what to do, we need to find an $r$ that keeps the original activations as close to the original value as possible. Lets say the original activations were
-
+I will explain later what the "indirect" means. 
 $A^{(1)} = W \times X$
 The new activations are 
 $A'^{(1)} = W' \times X$
@@ -258,7 +256,41 @@ There is an easier way to achieve this, but the proof is left as an exercise for
 algorithm at $r = 1$ and $r = \frac{m\times n}{m+n}$ and see if you can find where your next choice of $r$ should be.
 
 
+# Formulating the Direct Optimization Problem 
+The indirect optimization problem is a purely mathematical problem that does not "know" that the matrix comes from a neural network. 
+Now we know that the matrix comes from a neural network, we can use this information to our advantage.
+Recall, the general formulation of a neural network, 
+$$
+\hat{y} = A^{(L)} = \text{activation}(W^{(L)} \text{activation}(W^{(L-1)} \dots \text{activation}(W^{(1)} X))) 
+$$
 
+We can use the fact that the matrix comes from a neural network to our advantage. We can use the loss function of the neural network to directly optimize the matrices $U,S, V'$.
+Here, we must be careful to change the notation slightly. We will denote the matrices $U, S, V'$ as $U^{(1)}, S^{(1)}, V'^{(1)}$ to indicate that they are the matrices that come from the first layer of the neural network.
+But these are not necessarily the matrices that come from the SVD of $W^{(1)}$ i.e. when we multiply them together we may not get $W^{(1)}$.
+The reason for this is that the neural network learns the best $U^{(1)}, S^{(1)}, V'^{(1)}$ that minimize the loss function of the neural network, not the best $U, S, V'$ that minimize the distance between the activations of the original and the new matrix.
+This is a subtle but important distinction. This is the approach that LoRA uses. 
+However, there are some important disadvantages to this approach. Let us start with the advantages, 
+* Easy to understand, we want low rank matrices instead of our first layer, so why not start with them and optimize them directly.
+* The optimization problem is now a neural network optimization problem, which is a well studied field.
+* Training is much faster than if you trained on a full rank matrix in the first layer. This is important if you want to run many trials with other hyperparameters.
+Disadvantages,
+* You need to know the rank of the matrix you are looking for. This is not always easy to know.
+* If you want to find the rank you need to run the optimization problem for every rank you want to try.And this optimization problem is more expensive than the one above. 
+* The optimization problem is non-convex, so you may not find the global minimum for the delta you want. Randomness between runs could result in a different weight matrix every time. 
 
+# Conclusion
+For us a neat work around was to get a sense of a usable rank by running the indirect optimization problem and then using that rank to run the direct optimization problem. This way we could get a good rank in a reasonable amount of time.
+Let us recap some of the important concepts we have learned in this article.
+* The size of a matrix is the number of elements it has.
+* The number of operations in a matrix multiplication is the number of multiplications and additions involved.
+* The rank of a matrix is the number of linearly independent rows or columns it has.
+* The SVD of a matrix is a way to factorize it into three matrices.
+* The low rank approximation of a matrix is a way to approximate it with a smaller matrix.
+* The low rank approximation of a matrix can be found by taking the SVD of the matrix and choosing the largest singular values.
+* There are two ways to find the low rank approximation of a matrix: the indirect optimization problem and the direct optimization problem.
 
-
+# References
+1. [LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2110.02800)
+2. [Low Rank Approximation of a Matrix](https://en.wikipedia.org/wiki/Low-rank_approximation)
+3. [Singular Value Decomposition](https://en.wikipedia.org/wiki/Singular_value_decomposition)
+4. [Matrix Multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)

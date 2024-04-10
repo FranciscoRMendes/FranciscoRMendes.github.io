@@ -3,6 +3,17 @@ title: "Shrinking AI Models for Embedded Systems Using Low Rank Approximations"
 date: 2024-04-03
 mathjax: true
 ---
+# Motivation
+As someone who implements deep learning models on embedded systems, an important consideration is often the size of the model. 
+There are several notions of size, but the two major ones are :
+* Number of elements to save, usually in the form of a matrix or tensor.
+* Number of operations to perform, usually in the form of a matrix multiplication.
+The first affects the amount of memory required to store the model, while the second affects the amount of computation required to run the model.
+
+I have worked extensively in matrix factorization before, mostly factorizing sparse matrices for recommendation systems. 
+Unfortunately, while there are many LoRA walk throughs using code, I was not able to find a simple succint explanation of the problem and the solution.
+And _why_ it works. This article aims to address that gap by providing an elementary explanation of the problem, how to set up the optimization problem
+and how to solve it, in possibly linear time. 
 
 # Introduction to Matrices
 First we start with basic definitions of matrices and tensors. 

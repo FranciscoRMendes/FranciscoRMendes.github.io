@@ -179,18 +179,39 @@ First, let's analyze the two in terms of size. The size of $W'$ is the same as $
 $\text{SVD size} = m \times r + r \times r + r \times n $
 Where $m, n$ are the dimensions of $W$ and $r$ is how many singular values were chosen. 
 How much space did we save?
-$\text{SVD size} = m \times r + r \times r + r \times n = r(r+m+n) < (2m + r)r \approx 2mr < m \times n$
-recall, $\text{Original Size} = m \times n$. We can in fact, place an upper bound on $r$ for an SVD to save space. 
-$r(m+n) <r(r+m+n) < m \times n \implies r < \frac{m\times n}{m+n} $
+
+$$
+\text{SVD size} = m \times r + r \times r + r \times n = r(r+m+n) < (2m + r)r \approx 2mr < m \times n
+$$
+
+Recall, 
+$$
+\text{Original Size} = m \times n
+$$
+
+We can in fact, place an upper bound on $r$ for an SVD to save space. 
+
+$$
+r(m+n) <r(r+m+n) < m \times n \implies r < \frac{m\times n}{m+n}
+$$
+
 Where usually this upper bound is never tight. In our example, this value is ,
-$r < \frac{128\times 8192}{128 + 8192} = 126 = r_{max}$
+
+$$
+r < \frac{128\times 8192}{128 + 8192} = 126 = r_{max}
+$$
+
+Usually, we aim to reduce this number by 50% or more i.e. a rank of around 64. But in many of
+our use cases we see ranks of the order $2^3, 2^4, 2^5$ etc. as being enough. 
 
 
 ### Multiplication
+If the concept of size is clear, then it immediately becomes clear why the number of 
+multiplications also reduces. 
 When multiplying $U_r \Sigma_r$ by $V_r^T$, where $U_r$ has dimensions $m \times r$ and $V_r^T$ has dimensions $r \times n$, each element of the resulting matrix $U_r \Sigma_r V_r^T$ is obtained by taking the dot product of a row from $U_r \Sigma_r$ with a column from $V_r^T$. Since $U_r \Sigma_r$ has dimensions $m \times r$ and $V_r^T$ has dimensions $r \times n$, each dot product involves $r$ multiplications. Therefore, the total number of multiplications for $U_r \Sigma_r V_r^T$ is $m \times r \times n$.
 
 
-# Formulating The Optimization Problem
+# Formulating The Static Optimization Problem
 Okay so we know what to do, we need to find an $r$ that keeps the original activations as close to the original value as possible. Lets say the original activations were
 
 $A^{(1)} = W \times X$
@@ -222,13 +243,10 @@ Thus, we need to find the smallest $r$ such that the difference in error is belo
 
 ### Optimization Algorithm
 One obvious way to do this would be a brute force approach, that is,  to simply start at $\frac{m\times n}{m + n}$ and choose smaller and smaller ranks and check if the constraint is satisfied. But for most of my use cases, this turned out to be too long. In our example it would mean trying all the way from $1$ to $126$.  Interestingly, where you choose to start at $1$ or at $126$ depends on where you expect to find a rank $r$ that is close enough to your desired accuracy. 
+There is an easier way to achieve this, but the proof is left as an exercise for the reader. Hint : study the properties of the optimization
+algorithm at $r = 1$ and $r = \frac{m\times n}{m+n}$ and see if you can find where your next choice of $r$ should be.
 
 
-```python
-print("hello")
-def e(c,m):
-  return c*m**2
-```
 
 
 

@@ -7,7 +7,7 @@ logo: /img/logo.svg
 # Page metadata configurations
 head:
     # URL or path to the website's icon
-    favicon: source/_images/Copy of IMG_0937.JPG
+    favicon: /img/favicon.svg
     # Web application manifests configuration
     # https://developer.mozilla.org/en-US/docs/Web/Manifest
     manifest:
@@ -235,7 +235,7 @@ widgets:
         # Author's current location
         location: Chicago, Illinois
         # URL or path to the avatar image
-        avatar: 
+        avatar: source/_images/Copy of IMG_0937.JPG
         # Whether show the rounded avatar image
         avatar_rounded: false
         # Email address for the Gravatar

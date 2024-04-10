@@ -4,18 +4,6 @@ date: 2024-04-03
 mathjax: true
 ---
 
-$$
-i\hbar\frac{\partial}{\partial t}\psi=-\frac{\hbar^2}{2m}\nabla^2\psi+V\psi
-$$
-
-\begin{eqnarray\*}
-\nabla\cdot\vec{E}&=&\frac{\rho}{\epsilon_0}\\\\
-\nabla\cdot\vec{B}&=&0\\\\
-\nabla\times\vec{E}&=&-\frac{\partial B}{\partial t}\\\\
-\nabla\times\vec{B}&=&\mu_0\left(\vec{J}+\epsilon_0\frac{\partial E}{\partial t}\right)\\\\
-\end{eqnarray\*}
-
-
 # Introduction to Matrices
 First we start with basic definitions of matrices and tensors. 
 If you are reading this article you probably know what a matrix is, but here is one anyway.
@@ -24,19 +12,20 @@ $$
 B = \begin{bmatrix}
 1.23 & 2.45 & 3.67 & 4.89 \\\\
 5.01 & 6.32 & 7.54 & 8.76 \\\\
-9.87 & 10.98 & 11.21 & 12.34
+9.87 & 10.98 & 11.21 & 12.34\\\\
 \end{bmatrix}
 $$
 
 Again, consider  a matrix multiplication with a vector, 
 
 $$
-R = \begin{bmatrix} 1.23 & 2.45 & 3.67 & 4.89 \\ 
-5.01 & 6.32 & 7.54 & 8.76 \\ 
-9.87 & 10.98 & 11.21 & 12.34 \end{bmatrix} \begin{bmatrix} 
-2 \\ 
-3 \\ 
-4 
+R = \begin{bmatrix} 1.23 & 2.45 & 3.67 & 4.89 \\\\
+5.01 & 6.32 & 7.54 & 8.76 \\\\
+9.87 & 10.98 & 11.21 & 12.34 \end{bmatrix}
+\begin{bmatrix} 
+2 \\\\ 
+3 \\\\
+4
 \end{bmatrix} 
 $$
 
@@ -59,15 +48,15 @@ The total of 32 bits (or 4 bytes) is used to represent a single floating-point n
 $$
 T = \begin{bmatrix}
     \begin{bmatrix}
-        11.23 & 2.34 \\
-        3.45 & 4.56 \\
-        5.67 & 16.78 \\
+        11.23 & 2.34 \\\\
+        3.45 & 4.56 \\\\
+        5.67 & 16.78 \\\\
     \end{bmatrix} &
     \begin{bmatrix}
-        7.89 & 8.91 \\
-        9.12 & 10.23 \\
-        11.34 & 12.45 \\
-    \end{bmatrix} \\
+        7.89 & 8.91 \\\\
+        9.12 & 10.23 \\\\
+        11.34 & 12.45 \\\\
+    \end{bmatrix} \\\\
 \end{bmatrix}
 $$
 
@@ -98,15 +87,21 @@ A Neural Network is simply a sequence of tensor operations. In this section we w
 Input (3 nodes) --> Hidden Layer (2 nodes, ReLU) --> Output Layer (2 nodes, Sigmoid)
 
 $$
-X = \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix}
+X = \begin{bmatrix} x_1 \\\\ 
+x_2 \\\\ 
+x_3 \end{bmatrix}
 ,
-W^{(1)} = \begin{bmatrix} w_{11} & w_{12} & w_{13} \\ w_{21} & w_{22} & w_{23} \end{bmatrix}
+W^{(1)} = \begin{bmatrix} w_{11} & w_{12} & w_{13} \\\\ 
+w_{21} & w_{22} & w_{23} \end{bmatrix}
 ,
-b^{(1)} = \begin{bmatrix} b_1 \\ b_2 \end{bmatrix}
+b^{(1)} = \begin{bmatrix} b_1 \\\\ 
+b_2 \end{bmatrix}
 ,
-W^{(2)} = \begin{bmatrix} w_{11} & w_{12} \\ w_{21} & w_{22} \end{bmatrix}
+W^{(2)} = \begin{bmatrix} w_{11} & w_{12} \\\\ 
+w_{21} & w_{22} \end{bmatrix}
 ,
-b^{(2)} = \begin{bmatrix} b_1 \\ b_2 \end{bmatrix}
+b^{(2)} = \begin{bmatrix} b_1 \\\\ 
+b_2 \end{bmatrix}
 $$
 
 Hidden layer:
@@ -140,7 +135,10 @@ $$
 In embedded systems its common to just feed an extra input of 1's to the input and drop the biases. If you are familiar with matrix formulations of linear regression, you are probably familiar with this, but if not, you can see this clearly by the following,
 
 $$
-W'X = \begin{bmatrix} w_{11} & w_{12} & b_1 \\ w_{21} & w_{22} & b_2 \end{bmatrix} \begin{bmatrix} x_1 & 1 \\ x_2 & 1 \end{bmatrix} = \begin{bmatrix} w_{11}x_1 + w_{12}x_2 + b_1 \\ w_{21}x_1 + w_{22}x_2 + b_2 \end{bmatrix}
+W'X = \begin{bmatrix} w_{11} & w_{12} & b_1 \\\\ 
+w_{21} & w_{22} & b_2 \end{bmatrix} \begin{bmatrix} x_1 & 1 \\\\ 
+x_2 & 1 \end{bmatrix} = \begin{bmatrix} w_{11}x_1 + w_{12}x_2 + b_1 \\\\ 
+w_{21}x_1 + w_{22}x_2 + b_2 \end{bmatrix}
 $$
 
 Thus, after adding in the 1s to X and the column of biases to $W$ we get, 

@@ -1,5 +1,5 @@
 ---
-title: "Shrinking AI Models for Embedded Systems Using Low Rank Approximations"
+title: "Shrinking AI Models for Embedded Systems Using Low Rank Approximations (LoRA)"
 date: 2024-04-03
 mathjax: true
 ---

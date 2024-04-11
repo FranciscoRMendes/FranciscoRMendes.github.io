@@ -2,6 +2,11 @@
 title: "Shrinking AI Models for Embedded Systems Using Low Rank Approximations (LoRA)"
 date: 2024-04-03
 mathjax: true
+tags : [AI, Machine Learning, Deep Learning, Low Rank Approximation, SVD, Neural Networks, Optimization, LORA]
+categories:
+- [AI]
+- [Machine Learning]
+- [Deep Learning]
 ---
 # Motivation
 As someone who implements deep learning models on embedded systems, an important consideration is often the size of the model. 

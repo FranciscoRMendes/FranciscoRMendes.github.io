@@ -280,8 +280,8 @@ widgets:
         type: links
         # Names and URLs of the sites
         links:
-            Hexo: https://hexo.io
-            Bulma: https://bulma.io
+            TMW Center: https://cri.uchicago.edu/portfolio/thirty-million-words/
+            LinkedIn: https://www.linkedin.com/in/franciscormendes/
     # Categories widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar

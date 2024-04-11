@@ -238,7 +238,7 @@ widgets:
         # Author's current location
         location: Chicago, Illinois
         # URL or path to the avatar image
-        avatar: /img/franco (2).jpg
+        avatar: /gallery/franco.JPG
         # Whether show the rounded avatar image
         avatar_rounded: false
         # Email address for the Gravatar

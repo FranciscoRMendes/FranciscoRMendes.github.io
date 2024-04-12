@@ -17,6 +17,10 @@ The DAA algorithm for one to one matching is a stable matching algorithm that is
 While the one to one matching is well known, the many to many matching is not as well known.
 The many to many matching is a generalization of the one to one matching, where each agent can be matched to multiple agents.
 
+# Code
+Blair matching and DAA matching notebooks at:
+https://github.com/FranciscoRMendes/matching-algorithms
+
 # Fixed Points of Many to Many matching
 
 Define the rejection functions $$R_f(X) = \{(f,s) | (w,s) \in C_f(X)\}$$

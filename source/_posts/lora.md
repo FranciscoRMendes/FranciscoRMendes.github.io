@@ -3,7 +3,7 @@ title: "Shrinking AI Models for Embedded Systems Using Low Rank Approximations (
 date: 2024-04-03
 mathjax: true
 tags : 
-  - AI
+    - AI
     - Machine Learning
     - Deep Learning
     - Low Rank Approximation

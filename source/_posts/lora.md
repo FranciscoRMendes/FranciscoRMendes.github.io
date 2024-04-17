@@ -12,10 +12,7 @@ tags :
     - Optimization
     - LORA
 categories:
-    - AI
-    - Machine Learning
     - Deep Learning
-    - matrix-factorization
 ---
 
 # Motivation

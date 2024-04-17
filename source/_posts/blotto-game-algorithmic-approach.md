@@ -69,8 +69,7 @@ either front loading or back loading strategies is probably a good idea.
 
 ## Backloading {#backloading .unnumbered}
 
-![Example of Pure Back-Loading Strategy, 1000 rounds of
-play](right_skew.png){#fig:my_label}
+<{#fig:my_label}
 
 ![Example of Pure Front-Loading Strategy, 1000 rounds of
 play](left_skew.png){#fig:my_label}

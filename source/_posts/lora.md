@@ -284,6 +284,13 @@ Here, we must be careful to change the notation slightly. We will denote the mat
 But these are not necessarily the matrices that come from the SVD of $W^{(1)}$ i.e. when we multiply them together we may not get $W^{(1)}$.
 The reason for this is that the neural network learns the best $U^{(1)}, S^{(1)}, V'^{(1)}$ that minimize the loss function of the neural network, not the best $U, S, V'$ that minimize the distance between the activations of the original and the new matrix.
 This is a subtle but important distinction. This is the approach that LoRA uses. 
+
+LoRA optimization, where U,S and V are defined for a suitable choice of $r$, is a direct optimization problem.
+
+$$
+\hat{y} = A^{(L)} = \text{activation}(W^{(L)} \text{activation}(W^{(L-1)} \dots \text{activation}(USV'X))) 
+$$
+
 However, there are some important disadvantages to this approach. Let us start with the advantages, 
 * Easy to understand, we want low rank matrices instead of our first layer, so why not start with them and optimize them directly.
 * The optimization problem is now a neural network optimization problem, which is a well studied field.

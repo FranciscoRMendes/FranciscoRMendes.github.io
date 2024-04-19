@@ -323,6 +323,7 @@ Example of tensor multiplication of two tensors $A$ and $B$, for ease of exposit
 Tensor $A$:
 
 $$
+
 \begin{bmatrix}
 \begin{bmatrix}
 1 & 2 \\\\
@@ -333,6 +334,7 @@ $$
 7 & 8 \\\\
 \end{bmatrix}
 \end{bmatrix}
+
 $$
 
 Tensor $B$:

@@ -319,57 +319,60 @@ Let us recap some of the important concepts we have learned in this article.
 Tensor multiplication is a generalization of matrix multiplication. In tensor multiplication, the order of the tensors matters. For example, the product of a 3×4×2 tensor with a 2×4×1 tensor is a 3×4×1 tensor. The number of multiplications and additions involved in tensor multiplication is the same as in matrix multiplication, but the dimensions of the tensors are different. For example, the product of a 3×4×2 tensor with a 2×4×1 tensor involves 3×4×2=243×4×2=24 multiplications and 3×3=93×3=9 additions.
 Example of tensor multiplication of two tensors $A$ and $B$, for ease of exposition $B$ is actually an identity matrix.
 
+
+Tensor $A$:
+
 $$
-Tensor \( A \):
-\[
 \begin{bmatrix}
 \begin{bmatrix}
-1 & 2 \\
-3 & 4 \\
-\end{bmatrix} \\
+1 & 2 \\\\
+3 & 4 \\\\
+\end{bmatrix} \\\\
 \begin{bmatrix}
-5 & 6 \\
-7 & 8 \\
+5 & 6 \\\\
+7 & 8 \\\\
 \end{bmatrix}
 \end{bmatrix}
-\]
+$$
 
-Tensor \( B \):
-\[
-\begin{bmatrix}
-1 & 0 \\
-0 & 1 \\
-\end{bmatrix}
-\]
+Tensor $B$:
 
-Resulting Tensor \( C \):
-\[
+$$
+\begin{bmatrix}
+1 & 0 \\\\
+0 & 1 \\\\
+\end{bmatrix}
+$$
+
+Resulting Tensor $C$:
+
+$$
 \begin{bmatrix}
 \begin{bmatrix}
-1 & 2 \\
-3 & 4 \\
-\end{bmatrix} \\
+1 & 2 \\\\
+3 & 4 \\\\
+\end{bmatrix} \\\\
 \begin{bmatrix}
-5 & 6 \\
-7 & 8 \\
+5 & 6 \\\\
+7 & 8 \\\\
 \end{bmatrix}
 \end{bmatrix}
-\]
+$$
 
 The calculations are as follows:
 
-\[
+$$
 \begin{align*}
-C[0,0,0] &= 1*1 + 2*0 = 1 + 0 = 1 \\
-C[0,0,1] &= 1*0 + 2*1 = 0 + 2 = 2 \\
-C[0,1,0] &= 3*1 + 4*0 = 3 + 0 = 3 \\
-C[0,1,1] &= 3*0 + 4*1 = 0 + 4 = 4 \\
-C[1,0,0] &= 5*1 + 6*0 = 5 + 0 = 5 \\
-C[1,0,1] &= 5*0 + 6*1 = 0 + 6 = 6 \\
-C[1,1,0] &= 7*1 + 8*0 = 7 + 0 = 7 \\
-C[1,1,1] &= 7*0 + 8*1 = 0 + 8 = 8 \\
+C[0,0,0] &= 1*1 + 2*0 = 1 + 0 = 1 \\\\
+C[0,0,1] &= 1*0 + 2*1 = 0 + 2 = 2 \\\\
+C[0,1,0] &= 3*1 + 4*0 = 3 + 0 = 3 \\\\
+C[0,1,1] &= 3*0 + 4*1 = 0 + 4 = 4 \\\\
+C[1,0,0] &= 5*1 + 6*0 = 5 + 0 = 5 \\\\
+C[1,0,1] &= 5*0 + 6*1 = 0 + 6 = 6 \\\\
+C[1,1,0] &= 7*1 + 8*0 = 7 + 0 = 7 \\\\
+C[1,1,1] &= 7*0 + 8*1 = 0 + 8 = 8 \\\\
 \end{align*}
-\]
+
 
 $$
 

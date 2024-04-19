@@ -53,6 +53,7 @@ R = \begin{bmatrix} 1.23 & 2.45 & 3.67 & 4.89 \\\\
 \end{bmatrix} 
 $$
 
+see addendum for a tensor multiplication. 
 # Size
 Given the matrix above the main focus of this article will be to reduce the matrix size so that we never actually store all 12 elements of the matrix. With that said here is a more precise definition of how much space the matrix above takes on hardware memory. 
 In IEEE 754 single-precision format:
@@ -85,7 +86,7 @@ T = \begin{bmatrix}
 $$
 
 While it is useful to think of tensors as a list of matrices, it is important to note that they have some important differences as mathematical objects. It is perhaps more useful to think of matrices as a "special case" of a tensor. 
-
+For this introduction, we will stick to matrices. In a following article, I will build the equivalent intuition but for tensors. However, I will provide points of equivalence between the two, wherever possible.
 
 # Number of Operations
 For the given operation, we're performing a matrix multiplication of a 3×43×4 matrix with a 4×14×1 column vector. The resulting matrix will be a 3×13×1 column vector.
@@ -94,12 +95,8 @@ To compute each element of the resulting vector, we perform the dot product of e
 
 Therefore, for the entire operation:
 
-
-
 * There are 3 rows in the matrix.
 * For each row, there are 4 multiplications and 3 additions.
-
-
 
 Hence, the total number of multiplications is 3×4=123×4=12, and the total number of additions is 3×3=93×3=9.
 
@@ -295,6 +292,7 @@ However, there are some important disadvantages to this approach. Let us start w
 * Easy to understand, we want low rank matrices instead of our first layer, so why not start with them and optimize them directly.
 * The optimization problem is now a neural network optimization problem, which is a well studied field.
 * Training is much faster than if you trained on a full rank matrix in the first layer. This is important if you want to run many trials with other hyperparameters.
+* Binary search as known issues.
 Disadvantages,
 * You need to know the rank of the matrix you are looking for. This is not always easy to know.
 * If you want to find the rank you need to run the optimization problem for every rank you want to try.And this optimization problem is more expensive than the one above. 
@@ -316,3 +314,62 @@ Let us recap some of the important concepts we have learned in this article.
 2. [Low Rank Approximation of a Matrix](https://en.wikipedia.org/wiki/Low-rank_approximation)
 3. [Singular Value Decomposition](https://en.wikipedia.org/wiki/Singular_value_decomposition)
 4. [Matrix Multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
+
+### Addendum
+Tensor multiplication is a generalization of matrix multiplication. In tensor multiplication, the order of the tensors matters. For example, the product of a 3×4×2 tensor with a 2×4×1 tensor is a 3×4×1 tensor. The number of multiplications and additions involved in tensor multiplication is the same as in matrix multiplication, but the dimensions of the tensors are different. For example, the product of a 3×4×2 tensor with a 2×4×1 tensor involves 3×4×2=243×4×2=24 multiplications and 3×3=93×3=9 additions.
+Example of tensor multiplication of two tensors $A$ and $B$, for ease of exposition $B$ is actually an identity matrix.
+
+$$
+Tensor \( A \):
+\[
+\begin{bmatrix}
+\begin{bmatrix}
+1 & 2 \\
+3 & 4 \\
+\end{bmatrix} \\
+\begin{bmatrix}
+5 & 6 \\
+7 & 8 \\
+\end{bmatrix}
+\end{bmatrix}
+\]
+
+Tensor \( B \):
+\[
+\begin{bmatrix}
+1 & 0 \\
+0 & 1 \\
+\end{bmatrix}
+\]
+
+Resulting Tensor \( C \):
+\[
+\begin{bmatrix}
+\begin{bmatrix}
+1 & 2 \\
+3 & 4 \\
+\end{bmatrix} \\
+\begin{bmatrix}
+5 & 6 \\
+7 & 8 \\
+\end{bmatrix}
+\end{bmatrix}
+\]
+
+The calculations are as follows:
+
+\[
+\begin{align*}
+C[0,0,0] &= 1*1 + 2*0 = 1 + 0 = 1 \\
+C[0,0,1] &= 1*0 + 2*1 = 0 + 2 = 2 \\
+C[0,1,0] &= 3*1 + 4*0 = 3 + 0 = 3 \\
+C[0,1,1] &= 3*0 + 4*1 = 0 + 4 = 4 \\
+C[1,0,0] &= 5*1 + 6*0 = 5 + 0 = 5 \\
+C[1,0,1] &= 5*0 + 6*1 = 0 + 6 = 6 \\
+C[1,1,0] &= 7*1 + 8*0 = 7 + 0 = 7 \\
+C[1,1,1] &= 7*0 + 8*1 = 0 + 8 = 8 \\
+\end{align*}
+\]
+
+$$
+

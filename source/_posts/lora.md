@@ -12,7 +12,7 @@ tags :
     - Optimization
     - LORA
 categories:
-    - Deep Learning
+    - blog-post
 ---
 
 # Motivation

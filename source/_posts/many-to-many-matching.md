@@ -8,8 +8,7 @@ tags :
 - pure-mathematics
 - game-theory
 categories:
-    - theoretical economics
-    - pure mathematics
+    - blog-post
 ---
 
 # The Gale Shapley Algorithm (Deferred Acceptance Algorithm or DAA)

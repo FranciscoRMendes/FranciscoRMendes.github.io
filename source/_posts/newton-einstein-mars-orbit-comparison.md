@@ -91,3 +91,4 @@ The Schwarzschild metric was initially derived for the case of a non-rotating, u
 * Excellent channel : https://www.youtube.com/@ScienceClicEN
 * Derive the Einstein tensor : https://www.youtube.com/watch?v=4g1xZNKw2cc
 * BUT WHAT IS A TENSOR : https://www.youtube.com/watch?v=Hf-BxbtCg_A
+* Difference in orbitals, full proof : https://nhsjs.com/2023/the-difference-in-orbits-of-planets-in-terms-of-newtonian-mechanics-and-einsteinian-mechanics/

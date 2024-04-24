@@ -1,8 +1,18 @@
 ---
-title: lora_2
-date: 2024-04-24 13:55:32
-tags: 
+title: "Part II :  Shrinking Neural Networks for Embedded Systems Using Low Rank Approximations (LoRA)"
+date: 2024-04-03
 mathjax: true
+tags : 
+    - AI
+    - Machine Learning
+    - Deep Learning
+    - Low Rank Approximation
+    - SVD
+    - Neural Networks
+    - Optimization
+    - LORA
+categories:
+    - blog-post
 ---
 
 
@@ -59,3 +69,4 @@ The number of multiplies in this operation is $RS + RD^2 + TR$ which is less tha
 
 # References
 https://arxiv.org/pdf/1701.07148.pdf 
+https://arxiv.org/pdf/1412.6553.pdf

@@ -1,3 +1,21 @@
+---
+title: "Part II :  Shrinking Neural Networks for Embedded Systems Using Low Rank Approximations (LoRA)"
+date: 2024-04-24
+mathjax: true
+tags : 
+    - AI
+    - Machine Learning
+    - Deep Learning
+    - Low Rank Approximation
+    - SVD
+    - Neural Networks
+    - Optimization
+    - LORA
+    - Convolutional Neural Networks
+categories:
+    - blog-post
+---
+
 # Convolutional Layer Case
 
 The primary difference between the fully connected layer case and the convolutional layer case is the fact that the convolutional kernel is a tensor. We say that the number of multiplications in an operation depends on the size of the dimensions of the tensors involved in the multiplication. It becomes critical to approximate one large multi-dimensional kernel with multiple smaller kernels of lower dimension.

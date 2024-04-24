@@ -62,6 +62,10 @@ $$
 \mathcal{Y} = U \mathcal{U}V\mathcal{X}
 $$
 
+The number of multiplies in this operation is $RS + RD^2 + TR$ which is less than $TSD^2W'H'$ if $R < T$ and $D < S$.
+
+ ![Convolution Example]("Images/decomposition_illustration.png")
+
 
 # References
 https://arxiv.org/pdf/1701.07148.pdf 

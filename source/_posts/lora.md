@@ -1,5 +1,5 @@
 ---
-title: "Shrinking AI Models for Embedded Systems Using Low Rank Approximations (LoRA)"
+title: "Part I :  Shrinking Neural Networks for Embedded Systems Using Low Rank Approximations (LoRA)"
 date: 2024-04-03
 mathjax: true
 tags : 
@@ -24,6 +24,7 @@ The first affects the amount of memory required to store the model, while the se
 
 I have worked extensively in matrix factorization before, mostly factorizing sparse matrices for recommendation systems. 
 Unfortunately, while there are many LoRA walk throughs using code, I was not able to find a simple succint explanation of the problem and the solution. And _why_ it works. This article aims to address that gap by providing an elementary explanation of the problem, how to set up the optimization problem and how to solve it, in possibly linear time. 
+This is part I, that deals with factorizing a fully connected layer. Part II will deal with factorizing a convolutional layer. 
 
 # Code Follow Along
 The Jupyter Notebook for this is at https://github.com/FranciscoRMendes/tensor-rank

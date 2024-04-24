@@ -43,6 +43,7 @@ $$
 The number of multiplies in this operation is $RS + RD^2 + TR$ which is less than $TSD^2W'H'$ if $R < T$ and $D < S$.
 
 {% asset_img /lora-2/decomposition_illustration.png Alt Text %}
+![Convolution Example](lora-2/decomposition_illustration.png)
 
 In the figure above each of the red arrows indicates a one convolution operation, in figure (a) you have one fairly large filter and one convolution, whereas in the figure (b) you have 3 convolution operations using 3 smaller filters. Let's break down the space and size savings for this. $$E = \frac{TTSD^2}{RS+RD^2+TR}$$ $$C = \frac{TSD^2W'H'}{RSWH + RD^2W'H + TRW'H'}$$ Recall, for our fully connected layers this formula was, $$E = C = \frac{MN}{MR + RN}$$
 

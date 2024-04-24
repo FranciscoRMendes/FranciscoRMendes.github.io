@@ -64,7 +64,7 @@ $$
 
 The number of multiplies in this operation is $RS + RD^2 + TR$ which is less than $TSD^2W'H'$ if $R < T$ and $D < S$.
 
- ![Convolution Example]("./lora-2/decomposition_illustration.png")
+ ![Convolution Example](./lora-2/decomposition_illustration.png)
 
 
 # References

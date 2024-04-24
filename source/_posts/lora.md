@@ -324,7 +324,6 @@ Example of tensor multiplication of two tensors $A$ and $B$, for ease of exposit
 Tensor $A$:
 
 $$
-
 \begin{bmatrix}
 \begin{bmatrix}
 1 & 2 \\\\
@@ -335,11 +334,9 @@ $$
 7 & 8 \\\\
 \end{bmatrix}
 \end{bmatrix}
-
 $$
 
 Tensor $B$:
-
 $$
 \begin{bmatrix}
 1 & 0 \\\\
@@ -365,6 +362,7 @@ $$
 The calculations are as follows:
 
 $$
+
 \begin{align*}
 C[0,0,0] &= 1*1 + 2*0 = 1 + 0 = 1 \\\\
 C[0,0,1] &= 1*0 + 2*1 = 0 + 2 = 2 \\\\
@@ -375,7 +373,6 @@ C[1,0,1] &= 5*0 + 6*1 = 0 + 6 = 6 \\\\
 C[1,1,0] &= 7*1 + 8*0 = 7 + 0 = 7 \\\\
 C[1,1,1] &= 7*0 + 8*1 = 0 + 8 = 8 \\\\
 \end{align*}
-
 
 $$
 

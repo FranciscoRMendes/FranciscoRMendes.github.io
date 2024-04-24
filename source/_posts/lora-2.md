@@ -16,6 +16,10 @@ categories:
     - blog-post
 ---
 
+# Code Follow Along
+The code can be found in the same tensor rank repository :
+https://github.com/FranciscoRMendes/tensor-rank/blob/main/CNN_Decomposition.ipynb
+
 # Convolutional Layer Case
 
 The primary difference between the fully connected layer case and the convolutional layer case is the fact that the convolutional kernel is a tensor. We say that the number of multiplications in an operation depends on the size of the dimensions of the tensors involved in the multiplication. It becomes critical to approximate one large multi-dimensional kernel with multiple smaller kernels of lower dimension.
@@ -54,4 +58,3 @@ So we are ready to go with a decomposition, all that remains is finding out the 
 ## Naive Rank Selection Algorithm
 
 The intuition is that if a layer is more sensitive to decomposition it should have higher ranks. Our algorithm is proprietary but the intuition is as follows. We start with a rank of 1 and increase the rank by 1 until the accuracy drops below a certain threshold. We then decrease the rank by 1 and continue until the accuracy drops below a certain threshold. We then take the rank that gave the highest accuracy. This is a naive algorithm and can be improved upon.
-pandoc version 3.1.13

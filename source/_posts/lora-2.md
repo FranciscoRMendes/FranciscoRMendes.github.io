@@ -34,7 +34,7 @@ $$
 \mathcal{K} = U \mathcal{U}V
 $$
 
-This is similar to the the case of the SVD with an important difference the core $\mathcal{U}$ is a 4 dimensional tensor and not a matrix. Where the first term in each bracket is the size and the second term is the number of multiplies. The size is of one kernel whereas the number of multiplies is the total number of multiplies to generate the complete output (i.e. if the operation denoted by the red arrows was calculated for the entire input tensor to generate the entire output tensor, it is given by the formula, product of kernel dimensions $\times$ product of output tensor dimensions ). $U$ : $R\times S$ ( $R S$, $RSWH$) $\mathcal{U}$ :$R\times D\times D$ ($RD^2$, $RD^2W^{t}H^{t}$) $V$ : $T \times R$ ($TR$, $TRW^{t}H^{t}$) Which makes the transformation function (with $RS + RD^2 + TR$ number of multiplies),
+This is similar to the case of the SVD with an important difference the core $\mathcal{U}$ is a 4 dimensional tensor and not a matrix. Where the first term in each bracket is the size and the second term is the number of multiplies. The size is of one kernel whereas the number of multiplies is the total number of multiplies to generate the complete output (i.e. if the operation denoted by the red arrows was calculated for the entire input tensor to generate the entire output tensor, it is given by the formula, product of kernel dimensions $\times$ product of output tensor dimensions ). $U$ : $R\times S$ ( $R S$, $RSWH$) $\mathcal{U}$ :$R\times D\times D$ ($RD^2$, $RD^2W^{t}H^{t}$) $V$ : $T \times R$ ($TR$, $TRW^{t}H^{t}$) Which makes the transformation function (with $RS + RD^2 + TR$ number of multiplies),
 
 $$
 \mathcal{Y} = U \mathcal{U}V\mathcal{X}
@@ -42,7 +42,7 @@ $$
 
 The number of multiplies in this operation is $RS + RD^2 + TR$ which is less than $TSD^2W'H'$ if $R < T$ and $D < S$.
 
-{% asset_img ./lora-2/decomposition_illustration.png Alt Text %}
+{% asset_img /lora-2/decomposition_illustration.png Alt Text %}
 
 In the figure above each of the red arrows indicates a one convolution operation, in figure (a) you have one fairly large filter and one convolution, whereas in the figure (b) you have 3 convolution operations using 3 smaller filters. Let's break down the space and size savings for this. $$E = \frac{TTSD^2}{RS+RD^2+TR}$$ $$C = \frac{TSD^2W'H'}{RSWH + RD^2W'H + TRW'H'}$$ Recall, for our fully connected layers this formula was, $$E = C = \frac{MN}{MR + RN}$$
 

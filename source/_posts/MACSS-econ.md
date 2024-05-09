@@ -1,3 +1,18 @@
+---
+title: "UChicago Economics Grad School Alumni Interview"
+date: 2024-05-09
+mathjax: true
+tags : 
+    - AI
+    - Machine Learning
+    - economics
+    - career
+categories:
+    - opinion
+---
+
+
+
 # Main Interview
 
 1.  Please tell us your name, your MA program and year of graduation, as well as your current role and title.\

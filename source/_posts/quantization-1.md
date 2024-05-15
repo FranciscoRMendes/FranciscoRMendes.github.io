@@ -37,39 +37,45 @@ tags for 0.20 cents, you get the following table, which shows a loss of
 might as well have printed $6$ labels with the original prices and lost
 $0$ in sales.
 
-| Price | Tags  | Loss
-| 1.99  | 1.8   | -0.19
-| 2.00  | 2     | 0.00
-| 0.59  | 0.4   | -0.19
-| 12.30 | 12    | -0.30
-| 8.50  | 8.4   | -0.10
-| 8.99  | 8.8   | -0.19
-|       | 6     | -0.97
+| Price | Tags | Loss  |
+|-------|------|-------|
+| 1.99  | 1.8  | -0.19 |
+| 2.00  | 2    | 0.00  |
+| 0.59  | 0.4  | -0.19 |
+| 12.30 | 12   | -0.30 |
+| 8.50  | 8.4  | -0.10 |
+| 8.99  | 8.8  | -0.19 |
+|       | 6    | -0.97 |
+
 
 Maybe we can be more aggressive, by choosing tags rounded to the nearest dollar instead,
 we can obviously lose more money but we save on one whole tag!
 
-| Price | Tags  | Loss
-| 1.99  | 1     | -0.99
-| 2.00  | 2     | 0.00
-| 0.59  | 0     | -0.59
-| 12.30 | 12    | -0.30
-| 8.50  | 8     | -0.50
-| 8.99  | 8     | -0.99
-|       | 5     | -3.37
+| Price | Tags | Loss  |
+|-------|------|-------|
+| 1.99  | 1    | -0.99 |
+| 2.00  | 2    | 0.00  |
+| 0.59  | 0    | -0.59 |
+| 12.30 | 12   | -0.30 |
+| 8.50  | 8    | -0.50 |
+| 8.99  | 8    | -0.99 |
+|       | 5    | -3.37 |
 
-How about an even more aggressive one? We round to the nearest $\$10$
+
+How about an even more aggressive one? We round to the nearest $10$ dollars
 and use just two tags. But then we are stuck with a massive loss of
-$\$24$. 
+$24$ dollars. 
 
-| Price | Tags  | Loss
-| 1.99  | 0     | -1.99
-| 2.00  | 0     | -2.00
-| 0.59  | 0     | -0.59
-| 12.30 | 10    | -2.30
-| 8.50  | 0     | -8.50
-| 8.99  | 0     | -8.99
-|       | 2     | -24.37
+| Price | Tags | Loss   |
+|-------|------|--------|
+| 1.99  | 0    | -1.99  |
+| 2.00  | 0    | -2.00  |
+| 0.59  | 0    | -0.59  |
+| 12.30 | 10   | -2.30  |
+| 8.50  | 0    | -8.50  |
+| 8.99  | 0    | -8.99  |
+|       | 2    | -24.37 |
+
 
 In this example, the price tags represent memory units and each price
 tag printed costs a certain amount of memory. Obviously, printing as

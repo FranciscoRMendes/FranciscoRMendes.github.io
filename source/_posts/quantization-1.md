@@ -1,6 +1,6 @@
 ---
 title: "A Manual Implementation of Quantization in PyTorch"
-date: 2024-05-09
+date: 2024-05-15
 mathjax: true
 tags : 
     - AI

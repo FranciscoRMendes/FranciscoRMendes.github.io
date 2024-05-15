@@ -96,16 +96,19 @@ The solution can be arbitrarily bad outside the interval.
 
 A popular assumption is to assume that the function is linear and
 rounded. The second is to start by ignoring the requirement that
-minimizes $\phi(X)$, this ensures the t $$f(x) = \ceil{a + bx}$$,
-$$L = (\ceil{a+bx} - x)^2$$ This function is not differentiable (due to
+minimizes $\phi(X)$, this ensures the t $$f(x) = [a + bx]$$,
+$$L = ([a+bx] - x)^2$$ This function is not differentiable (due to
 the rounding function not being continuous). We can ignore it (but keep
 it in mind when evaluating the optima). $$2(a+bx-x)(b-1) = 0$$
 $$a+ bx - x = 0$$ Now remember this must be true at $2$ points $x_{min}$
-and $x_{max}$. We can insert the ceiling function back in
-$$\ceil{a+bx_{min}} - x_{min} = 0$$ $$\ceil{a+bx_{max}} - x_{max} = 0$$
-
-$$\ceil{a+b0.59} - 0.59 = 0$$ $$a+b0.59  = 1$$ $$a+b12.30 - 12$$
-$$b = (12-1)/(12.30-0.59) = 0.93$$ $$a + 0.93 * 0.59 - 0.59 = 1$$
+and $x_{max}$. We can insert the ceiling function back in,
+$$[a+bx_{min}] - x_{min} = 0$$ 
+$$[a+bx_{max}] - x_{max} = 0$$
+$$[a+b0.59] - 0.59 = 0$$ 
+$$a+b0.59  = 1$$ 
+$$a+b12.30 - 12$$
+$$b = (12-1)/(12.30-0.59) = 0.93$$ 
+$$a + 0.93 * 0.59 - 0.59 = 1$$
 $$a = 1.59 - (0.93*0.59) = 1.0413$$
 
 # Quantization as Bounded Optimization Problem
@@ -124,12 +127,13 @@ them as best as you can to existing price tags. For the sake of argument
 lets say you have tags going from $-1$ to $2$. We will comment on this
 choice of number later.
 
-$$\ceil{a+b0.59} - (-1) = 0$$ $$\ceil{a+b12.30} - 2 = 0$$
+$$[{a+b0.59]- (-1) = 0$$ $$[{a+b12.30}] - 2 = 0$$
 
 $$b(12.30-0.59) = 3$$ $$b = \frac{255}{12.30-0.59} = 21.77$$ Similarly,
-$$\ceil{a + 21.77*0.59} + 128 = 0$$ $$a = \ceil{-21.77*0.59} -128$$
+$$[{a + 21.77*0.59}] + 128 = 0$$ $$a = [-21.77*0.59] -128$$
 
 This gives the oft quoted formula,
 $$\text{scale} = \frac{255}{x_{max} - x_{min}}$$
-$$\text{zeropoint} = \ceil{\text{scale}\cdot x_{min}} -128$$
+
+$$\text{zeropoint} = [\text{scale}\cdot x_{min}] -128$$
  

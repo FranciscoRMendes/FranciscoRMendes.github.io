@@ -205,7 +205,24 @@ Now consider, the manual quantization of the weights and the input.
 
 ```python
 
+    def prepare_model(model_fp32, input_fp32):
+        # model must be set to eval mode for static quantization logic to work
+        model_fp32.eval()
+        model_fp32.qconfig = torch.quantization.QConfig(
+            activation=MinMaxObserver.with_args(dtype=torch.quint8),
+            weight=MinMaxObserver.with_args(dtype=torch.qint8)
+        )
+        # Prepare the model for static quantization. This inserts observers in
+        # the model that will observe activation tensors during calibration.
+        model_fp32_prepared = torch.quantization.prepare(model_fp32)
+        model_fp32_prepared(input_fp32)
+
+        model_int8 = torch.quantization.convert(model_fp32_prepared)
+        return model_int8
+
+
 def quantize_tensor_unsigned(x, scale, zero_point, num_bits=8):
+    # This function mocks the PyTorch QuantStub function which quantizes the input tensor
     qmin = 0.
     qmax = 2. ** num_bits - 1.
 
@@ -221,6 +238,7 @@ class QuantM2(torch.nn.Module):
         super(QuantM2, self).__init__()
         self.fc = torch.nn.Linear(2, 2, bias=False)
         self.model_int8 = prepare_model(model_fp32, input_fp32)
+        # PyTorch automatically quantizes the model for you, we will use those weights to compute a forward pass
         W_q = self.model_int8.fc.weight().int_repr().double() 
         z_w = self.model_int8.fc.weight().q_zero_point()
         self.fc.weight.data = (W_q - z_w)
@@ -232,9 +250,9 @@ class QuantM2(torch.nn.Module):
 
     def forward(self, x):
             input_fp32 = x
-
-            quant_input_unsigned = quantize_tensor_unsigned(input_fp32, self.model_int8.quant(input_fp32).q_scale(),
-                                                            self.model_int8.quant(input_fp32).q_zero_point())
+            s_x = self.model_int8.quant(input_fp32).q_scale()
+            z_x = self.model_int8.quant(input_fp32).q_zero_point()
+            quant_input_unsigned = quantize_tensor_unsigned(input_fp32, s_x,z_x)
             z_x = quant_input_unsigned.zero_point
             s_x = quant_input_unsigned.scale
             s_w = self.model_int8.fc.weight().q_scale()
@@ -242,4 +260,17 @@ class QuantM2(torch.nn.Module):
             x1 = x1 * (s_x * s_w)
             return x1
 
+```
+
+Sample run code 
+
+```python
+cal_dat = torch.randn(1, 2)
+model = M()
+# graph mode implementation
+sample_data = torch.randn(1, 2)
+model(sample_data)
+quant_model_2 = QuantM2(model_fp32=model, input_fp32=sample_data)
+quant_model_2(sample_data)
+quant_model.model_int8(sample_data) # this is the quantized model
 ```

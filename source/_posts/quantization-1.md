@@ -16,13 +16,7 @@ categories:
 
 # Introduction
 
-The packaging of extremely complex techniques inside convenient wrappers
-in PyTorch often makes quick implementations fairly easy, it also removes the need to
-understand the inner workings of the code. However, this obfuscates the
-theory of why such things work and why they are important to us. For instance, for neither love or money, could 
-I figure out what a QuantStub and a DeQuant Stub really do and how to replicate that using pen and paper. 
-In embedded systems one often has to code up certain things \"from scratch\" as it were and sometimes PyTorch's "convenience" can be a major impediment to understanding the underlying theory.
-In the code below, I will show you how to quantize a single layer of a neural network using PyTorch. And explain each step in excruciating detail. But before that we need to understand how or why quantization is important. 
+The packaging of extremely complex techniques inside convenient wrappers in PyTorch often makes quick implementations fairly easy, it also removes the need to understand the inner workings of the code. However, this obfuscates the theory of why such things work and why they are important to us. For instance, for neither love or money, could I figure out what a QuantStub and a DeQuant Stub really do and how to replicate that using pen and paper. In embedded systems one often has to code up certain things \"from scratch\" as it were and sometimes PyTorch's "convenience" can be a major impediment to understanding the underlying theory. In the code below, I will show you how to quantize a single layer of a neural network using PyTorch. And explain each step in excruciating detail. But before that we need to understand how or why quantization is important.
 
 # Intuition behind Quantization
 
@@ -66,21 +60,17 @@ How about an even more aggressive one? We round to the nearest $10$ dollars and 
 |       | 2    | -24.37 |
 
 
-In this example, the price tags represent memory units and each price tag printed costs a certain amount of memory. Obviously, printing as many price tags as there are goods results in no loss of money but also the worst possible outcome as far as memory is concerned. 
-Going the other way reducing the number of tags results in the largest loss in money.
+In this example, the price tags represent memory units and each price tag printed costs a certain amount of memory. Obviously, printing as many price tags as there are goods results in no loss of money but also the worst possible outcome as far as memory is concerned. Going the other way reducing the number of tags results in the largest loss in money.
 
 # Quantization as an (Unbounded) Optimization Problem
 
-Clearly, this calls for an optimization problem, so we can set up the following one : let $f(x)$ be the quantization function , then the loss is as follows,
-$$L = (f(x) - x) + \lambda |\phi (X)|$$
+Clearly, this calls for an optimization problem, so we can set up the following one : let $f(x)$ be the quantization function , then the loss is as follows, $$L = (f(x) - x) + \lambda |\phi (X)|$$
 
-Where $\phi(X)$ is a count of the unique values that $f(x)$ over the entire interval of,
-$x \in \{x_{min}, x_{max}\}$. 
+Where $\phi(X)$ is a count of the unique values that $f(x)$ over the entire interval of, $x \in \{x_{min}, x_{max}\}$.
 
 ### Issues with finding a solution
-A popular assumption is to assume that the function is a rounding of a linear transformation. The constraint that minimizes $\phi(X)$ is difficult since the function is unbounded. 
-We could solve this if we knew at least two points at which we knew the expected output for the quantization problem, but we do not, since there is no bound on the highest tag we can print.
-If we could impose a bound on the problem, we could evaluate the function at the two bounds and solve it. Thus setting a bound seems to solve both problems. 
+
+A popular assumption is to assume that the function is a rounding of a linear transformation. The constraint that minimizes $\phi(X)$ is difficult since the function is unbounded. We could solve this if we knew at least two points at which we knew the expected output for the quantization problem, but we do not, since there is no bound on the highest tag we can print. If we could impose a bound on the problem, we could evaluate the function at the two bounds and solve it. Thus setting a bound seems to solve both problems.
 
 # Quantization as Bounded Optimization Problem
 
@@ -98,18 +88,12 @@ In the previous section, our goal was to reduce the number of price tags we prin
 |       | 4     | -31.37 |
 
 
+This gives the oft quoted quantization formula, $$x_q = \text{round}(\frac{1}{s}x + z)$$ Similarly, we get reverse the formula to get the dequantization formula i.e. starting from a quantized value we can guess what the original value must have been, $$x = s(x_q -z)$$ This is obviously lossy.
 
-This gives the oft quoted quantization formula,
-$$x_q = \text{round}(\frac{1}{s}x + z)$$
-Similarly, we get reverse the formula to get the dequantization formula i.e. starting from a quantized value we can guess what the original value must have been, 
-$$x = s(x_q -z)$$
-This is obviously lossy. 
 
 # Implication of Quantization
-We have shown that given some prices, we can quantize them to a smaller set of labels. Thus saving on the cost of labels. 
-What if you remembered $s$ and $z$ and then you used the dequantization formula to guess what the original price was and charge the customer that amount? 
-This way you can save on the number of labels, but you can get closer to the original price by just writing down $s$ and $z$ and using the dequantization formula. We can actually do a better job with prices as well as saving on the number of labels. 
-However, this is lossy, and you will lose some money. In this example, we notice that we consider charging more or less than the actual price as a loss both ways, to keep things simple. 
+We have shown that given some prices, we can quantize them to a smaller set of labels. Thus saving on the cost of labels. What if you remembered $s$ and $z$ and then you used the dequantization formula to guess what the original price was and charge the customer that amount? This way you can save on the number of labels, but you can get closer to the original price by just writing down $s$ and $z$ and using the dequantization formula. We can actually do a better job with prices as well as saving on the number of labels. However, this is lossy, and you will lose some money. In this example, we notice that we consider charging more or less than the actual price as a loss both ways, to keep things simple.
+
 
 | Price | Label | Loss  | DeQuant | De-q loss   |
 |-------|-------|-------|---------|-------------|
@@ -122,20 +106,13 @@ However, this is lossy, and you will lose some money. In this example, we notice
 |       | 4     | 31.37 |         | 6.873333333 |
 
 # Quantization of Matrix Multiplication
-Using this we can create a recipe for quantization to help us in the case of neural networks. Recall that the basic unit of a neural network is the operation, 
-$$y = WX$$
+Using this we can create a recipe for quantization to help us in the case of neural networks. Recall that the basic unit of a neural network is the operation, $$y = WX$$
 
-We can apply quantization to the weights and the input ($W_q, X_q$).
-We can then use dequantization to get the output.
+We can apply quantization to the weights and the input ($W_q, X_q$). We can then use dequantization to get the output.
 
-$$y = s_w(W_q-z_w)\cdot s_x(X_q-z_x)$$
-$$y = s_w s_x (W_q-z_w) \cdot (X_q-z_x)$$
+$$y = s_w(W_q-z_w)\cdot s_x(X_q-z_x)$$ $$y = s_w s_x (W_q-z_w) \cdot (X_q-z_x)$$
 
-Our goal of trying to avoid the floating point multiplication between $WX$ can now be achieved by replacing them with their respective quantized values and scaling and subtracting the zero point to get the final output.
-Here, $W_q$ and $X_q$ are quantized matrices and thus the multiplication operation (after multiplying it out) is now not between two floating point matrices $W$ and $X$ but between $W_q$ and $X_q$. 
-Which are both integer matrices. This allows us to save on memory and computation since it is cheaper to multiply integers together than it is to multiple floats. 
-However, in practice since, $z_x, z_w$ are also integers, $(W-z_w) \cdot (X-z_x)$ is also an integer multiplication, so we just use that mulitplication instead of multiplying out the whole thing. 
-
+Our goal of trying to avoid the floating point multiplication between $WX$ can now be achieved by replacing them with their respective quantized values and scaling and subtracting the zero point to get the final output. Here, $W_q$ and $X_q$ are quantized matrices and thus the multiplication operation (after multiplying it out) is now not between two floating point matrices $W$ and $X$ but between $W_q$ and $X_q$. Which are both integer matrices. This allows us to save on memory and computation since it is cheaper to multiply integers together than it is to multiple floats. However, in practice since, $z_x, z_w$ are also integers, $(W-z_w) \cdot (X-z_x)$ is also an integer multiplication, so we just use that mulitplication instead of multiplying out the whole thing.
 
 # Code
 

@@ -1,6 +1,6 @@
 ---
 title: "A Manual Implementation of Quantization in PyTorch"
-date: 2024-05-15
+date: 2024-05-16
 mathjax: true
 tags : 
     - AI
@@ -19,13 +19,15 @@ categories:
 The packaging of extremely complex techniques inside convenient wrappers
 in PyTorch often makes our life very easy and removes the need to
 understand the inner workings of the code. However, this obfuscates the
-theory of why such things work and why they are important to us. In
-embedded systems very often we have to code up certain things \"from
-scratch\" as it were. One of these things is quantization, and in this
-blog post, I will code up a quantization layer for a simple linear layer
-and prove the equivalence.
+theory of why such things work and why they are important to us. For instance, for neither love or money, could 
+I figure out what a QuantStub and a DeQuant Stub really do and how to replicate that using pen and paper. 
+In embedded systems very often we have to code up certain things \"from
+scratch\" as it were and sometimes PyHopper's "convenience" can be a major impediment to understanding the underlying theory.
+In the code below, I will show you how to quantize a single layer of a neural network using PyTorch.
+Explaining the outputs in painful detail. 
 
-# Quantization
+
+# Intuition behind Quantization
 
 The best way to think about quantization is to think of it through an
 example. Let's say you own a store and you are printing labels for the
@@ -88,55 +90,55 @@ money.
 
 Clearly, this calls for an optimization problem, so we can set up the
 following one : let $f(x)$ be the quantization function , then the loss
-is as follows $$L = (f(x) - x)^2 + \lambda |\phi (X)|$$, where $\phi(X)$
-is a count of the unique values that $f(x)$ over the entire interval of
-$x\in \{x_{min}, x_{max}\}$. This last fact is critical as this
-optimization problem is bounded only for values of $x$ in the interval.
-The solution can be arbitrarily bad outside the interval.
+is as follows,
+$$L = (f(x) - x) + \lambda |\phi (X)|$$
 
-A popular assumption is to assume that the function is linear and
-rounded. The second is to start by ignoring the requirement that
-minimizes $\phi(X)$, this ensures the t $$f(x) = [a + bx]$$,
-$$L = ([a+bx] - x)^2$$ This function is not differentiable (due to
-the rounding function not being continuous). We can ignore it (but keep
-it in mind when evaluating the optima). $$2(a+bx-x)(b-1) = 0$$
-$$a+ bx - x = 0$$ Now remember this must be true at $2$ points $x_{min}$
-and $x_{max}$. We can insert the ceiling function back in,
-$$[a+bx_{min}] - x_{min} = 0$$ 
-$$[a+bx_{max}] - x_{max} = 0$$
-$$[a+b0.59] - 0.59 = 0$$ 
-$$a+b0.59  = 1$$ 
-$$a+b12.30 - 12$$
-$$b = (12-1)/(12.30-0.59) = 0.93$$ 
-$$a + 0.93 * 0.59 - 0.59 = 1$$
-$$a = 1.59 - (0.93*0.59) = 1.0413$$
+Where $\phi(X)$ is a count of the unique values that $f(x)$ over the entire interval of
+$x\in \{x_{min}, x_{max}\}$. 
+
+### Issues with finding a solution
+A popular assumption is to assume that the function is a rounding of a linear
+transformation. 
+The constraint that minimizes $\phi(X)$ is difficult since the function is unbounded. 
+We could solve this if we knew at least two points at which we knew the expected output for the quantization problem, but 
+we do not, since there is no bound on the highest tag we can print.
+If we could impose a bound on the problem, we could evaluate the function 
+at the two bounds and solve it since it would solve both these issues. 
 
 # Quantization as Bounded Optimization Problem
 
-In the previous section, we assumed that any price can be matched with
-any price tag. This resulted in no \"distortion\" of prices and their
-price tags i.e. the price tag would be arbitrarily close to any actual
-price. More technically this means that the transformed $x$ and the
-original $x$ are drawn from the same set, in the example above it is all
-$\mathbf{R}$. However, we can restrict this to any subset of
-$\mathbf{R}$ as we want, this will naturally introduce a "distortion" in
-prices that increases with the decrease in size of a subset of
-$\mathbf{R}$.\
-Consider the case where you already bought price tags and want to match
-them as best as you can to existing price tags. For the sake of argument
-lets say you have tags going from $-1$ to $2$. We will comment on this
-choice of number later.
+In the previous section, our goal was to reduce the number of price tags we print, but it was not a bounded problem. 
+In your average grocery story prices could run between $0$ dollars and a $1500$ dollars. Using the scheme above you could certainly print fewer labels. 
+But you could also end up printing a large number of labels in absolute terms. You could do one better by pre-determining the number of labels you want to print.
+Let us then, set some bounds on the number of labels we want to print, consider the labels you want to print as $x = \{-1, 0, 1, 2\}$, this is fairly aggressive. 
+Again we can set up the optimization problem as follows (there is no need to minimze $\phi(X)$, the count of unique labels for now, since we are defining that ourselves),
+$$L = (\text{round}(\frac{1}{s} x + z) - x)$$
+where $s$ is the scale and $z$ is the zero point.
+$$x_q = \text{round}(\frac{1}{s} x + z)$$
+It must be true that, 
+$$\text{round}(\frac{1}{s} x_{min} + z) = x_{q,min}$$
+$$\text{round}(\frac{1}{s} x_{max} + z) = x_{q,max}$$
+Evaluating the above equations gives us the general solution 
+$$\text{round}(\frac{1}{s}*0.59 + z) = -1$$
+$$\text{round}(\frac{1}{s}*12.30 + z) = 2$$
+This gives us the solution,
+$$s = 3.9033$$
+$$z = -1$$
 
-$$[{a+b0.59]- (-1) = 0$$ $$[{a+b12.30}] - 2 = 0$$
+| Price | Label | Loss   |
+|-------|-------|--------|
+| 1.99  | 0     | -1.99  |
+| 2     | 0     | -2     |
+| 0.59  | -1    | -1.59  |
+| 12.3  | 2     | -10.3  |
+| 8.5   | 1     | -7.5   |
+| 8.99  | 1     | -7.99  |
+|       | 4     | -31.37 |
 
-$$b(12.30-0.59) = 3$$ $$b = \frac{255}{12.30-0.59} = 21.77$$.
 
-Similarly,
-$$[{a + 21.77*0.59}] + 128 = 0$$ 
-$$a = [-21.77*0.59] -128$$
 
-This gives the oft quoted formula,
-$$\text{scale} = \frac{255}{x_{max} - x_{min}}$$
+This gives the oft quoted quantization formula,
+$$x_q = \text{round}(\frac{1}{s}x + z$$
+Similarly, we get the dequantization formula, 
+$$x = s(x_q -z)$$
 
-$$\text{zeropoint} = [\text{scale}\cdot x_{min}] -128$$
- 

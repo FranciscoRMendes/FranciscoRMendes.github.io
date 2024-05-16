@@ -172,11 +172,13 @@ We can then use dequantization to get the output.
 $$y = s_w(W_q-z_w)\cdot s_x(X_q-z_x)$$
 $$y = s_w s_x (W-z_w) \cdot (X-z_x)$$
 
-Here, $W_q$ and $X_q$ are quantized matrices and thus the multiplication operation
-is now not between two floating point matrices $W$ and $X$ but between $W_q$ and $X_q$, 
-which are two integer matrices. This allows us to save on memory and computation since it is cheaper to multiply 
-integers together than it is to multiple floats. Notice that since, $z_x, z_w$ are also integers, we can subtract them from 
-the quantized matrices and then multiply them together, this is also an integer operation.
+Our goal of trying to avoid the floating point multiplication between $WX$ can now be achieved by replacing them with their respective quantized values and scaling 
+and subtracting the zero point to get the final output.
+Here, $W_q$ and $X_q$ are quantized matrices and thus the multiplication operation (after multiplying it out) is now not between two floating point matrices $W$ and $X$ but between $W_q$ and $X_q$. 
+Which are both integer matrices. This allows us to save on memory and computation since it is cheaper to multiply integers together than it is to multiple floats. 
+However, in practice since, $z_x, z_w$ are also integers, $(W-z_w) \cdot (X-z_x)$ is also an integer multiplication, so we just use that mulitplication instead of multiplying out the whole thing. 
+
+
 
 # Code
 

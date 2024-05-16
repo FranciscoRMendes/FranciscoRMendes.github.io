@@ -24,8 +24,7 @@ I figure out what a QuantStub and a DeQuant Stub really do and how to replicate 
 In embedded systems very often we have to code up certain things \"from
 scratch\" as it were and sometimes PyHopper's "convenience" can be a major impediment to understanding the underlying theory.
 In the code below, I will show you how to quantize a single layer of a neural network using PyTorch.
-Explaining the outputs in painful detail. 
-
+And explain each step in excruciating detail. But before that we need to understand how or why quantization is important. 
 
 # Intuition behind Quantization
 
@@ -103,7 +102,7 @@ The constraint that minimizes $\phi(X)$ is difficult since the function is unbou
 We could solve this if we knew at least two points at which we knew the expected output for the quantization problem, but 
 we do not, since there is no bound on the highest tag we can print.
 If we could impose a bound on the problem, we could evaluate the function 
-at the two bounds and solve it since it would solve both these issues. 
+at the two bounds and solve it. Thus setting a bound seems to solve both problem. 
 
 # Quantization as Bounded Optimization Problem
 
@@ -138,7 +137,109 @@ $$z = -1$$
 
 
 This gives the oft quoted quantization formula,
-$$x_q = \text{round}(\frac{1}{s}x + z$$
-Similarly, we get the dequantization formula, 
+$$x_q = \text{round}(\frac{1}{s}x + z)$$
+Similarly, we get reverse the formula to get the dequantization formula i.e. starting from a quantized value we can guess 
+what the original value must have been, 
 $$x = s(x_q -z)$$
+This is obviously lossy. 
 
+# Implication of Quantization
+We have shown that given some prices, we can quantize them to a smaller set of labels. Thus saving on the cost of labels. 
+What if you remembered $s$ and $z$ and then you used the dequantization formula to guess what the original price was and charge the customer
+that amount? This way you can save on the number of labels, but you can get closer to the original price by just
+writing down $s$ and $z$ and using the dequantization formula. We can actually do a better job with prices as well as saving on the number
+of labels. However, this is lossy, and you will lose some money. In this example, we notice that we consider charging more or less than 
+the actual price as a loss both ways, to keep things simple. 
+
+| Price | Label | Loss  | DeQuant | De-q loss   |
+|-------|-------|-------|---------|-------------|
+| 1.99  | 0     | 1.99  | 3.903   | 1.913       |
+| 2     | 0     | 2     | 3.903   | 1.903       |
+| 0.59  | -1    | 1.59  | 0.000   | 0.590       |
+| 12.3  | 2     | 10.3  | 11.710  | 0.590       |
+| 8.5   | 1     | 7.5   | 7.807   | 0.693       |
+| 8.99  | 1     | 7.99  | 7.807   | 1.183       |
+|       | 4     | 31.37 |         | 6.873333333 |
+
+# Quantization of Matrix Multiplication
+Using this we can create a recipe for quantization to help us in the case of neural networks. Recall that the basic unit of a 
+neural network is the operation, 
+$$y = WX$$
+
+We can apply quantization to the weights and the input. 
+We can then use dequantization to get the output.
+
+$$y = s_w(W_q-z_w)\cdot s_x(X_q-z_x)$$
+$$y = s_w s_x (W-z_w) \cdot (X-z_x)$$
+
+Here, $W_q$ and $X_q$ are quantized matrices and thus the multiplication operation
+is now not between two floating point matrices $W$ and $X$ but between $W_q$ and $X_q$, 
+which are two integer matrices. With this we are ready to implement quantization in PyTorch.
+
+# Code
+
+Consider the following original,
+
+```python
+class M(torch.nn.Module):
+    def __init__(self):
+        super(M, self).__init__()
+        # QuantStub converts tensors from floating point to quantized
+        self.quant = torch.quantization.QuantStub()
+        self.fc = torch.nn.Linear(2, 2, bias=False)
+        # DeQuantStub converts tensors from quantized to floating point
+        self.dequant = torch.quantization.DeQuantStub()
+
+    def forward(self, X):
+        # manually specify where tensors will be converted from floating
+        # point to quantized in the quantized model
+        X = self.quant(X)
+        x = self.fc(X) # [[124.,  36.]
+        # manually specify where tensors will be converted from quantized
+        # to floating point in the quantized model
+        x = self.dequant(x)
+        return x
+```
+
+Now consider, the manual quantization of the weights and the input. 
+
+```python
+
+def quantize_tensor_unsigned(x, scale, zero_point, num_bits=8):
+    qmin = 0.
+    qmax = 2. ** num_bits - 1.
+
+    q_x = zero_point + x / scale
+    q_x.clamp_(qmin, qmax).round_()
+    q_x = q_x.round().byte()
+
+    return QTensor(tensor=q_x, scale=scale, zero_point=zero_point)
+    
+class QuantM2(torch.nn.Module):
+
+    def __init__(self, model_fp32, input_fp32):
+        super(QuantM2, self).__init__()
+        self.fc = torch.nn.Linear(2, 2, bias=False)
+        self.model_int8 = prepare_model(model_fp32, input_fp32)
+        W_q = self.model_int8.fc.weight().int_repr().double() 
+        z_w = self.model_int8.fc.weight().q_zero_point()
+        self.fc.weight.data = (W_q - z_w)
+
+    @staticmethod
+    def pytorch_result(model_int8, input_fp32):
+        pytorch_res = model_int8.fc(model_int8.quant(input_fp32)).int_repr().float()
+        return pytorch_res
+
+    def forward(self, x):
+            input_fp32 = x
+
+            quant_input_unsigned = quantize_tensor_unsigned(input_fp32, self.model_int8.quant(input_fp32).q_scale(),
+                                                            self.model_int8.quant(input_fp32).q_zero_point())
+            z_x = quant_input_unsigned.zero_point
+            s_x = quant_input_unsigned.scale
+            s_w = self.model_int8.fc.weight().q_scale()
+            x1 = self.fc(quant_input_unsigned.tensor.double() - z_x)
+            x1 = x1 * (s_x * s_w)
+            return x1
+
+```

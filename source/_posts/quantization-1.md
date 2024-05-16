@@ -143,20 +143,20 @@ Now consider, the manual quantization of the weights and the input.
 
 ```python
 
-    def prepare_model(model_fp32, input_fp32):
-        # model must be set to eval mode for static quantization logic to work
-        model_fp32.eval()
-        model_fp32.qconfig = torch.quantization.QConfig(
-            activation=MinMaxObserver.with_args(dtype=torch.quint8),
-            weight=MinMaxObserver.with_args(dtype=torch.qint8)
-        )
-        # Prepare the model for static quantization. This inserts observers in
-        # the model that will observe activation tensors during calibration.
-        model_fp32_prepared = torch.quantization.prepare(model_fp32)
-        model_fp32_prepared(input_fp32)
+def prepare_model(model_fp32, input_fp32):
+    # model must be set to eval mode for static quantization logic to work
+    model_fp32.eval()
+    model_fp32.qconfig = torch.quantization.QConfig(
+        activation=MinMaxObserver.with_args(dtype=torch.quint8),
+        weight=MinMaxObserver.with_args(dtype=torch.qint8)
+    )
+    # Prepare the model for static quantization. This inserts observers in
+    # the model that will observe activation tensors during calibration.
+    model_fp32_prepared = torch.quantization.prepare(model_fp32)
+    model_fp32_prepared(input_fp32)
 
-        model_int8 = torch.quantization.convert(model_fp32_prepared)
-        return model_int8
+    model_int8 = torch.quantization.convert(model_fp32_prepared)
+    return model_int8
 
 
 def quantize_tensor_unsigned(x, scale, zero_point, num_bits=8):

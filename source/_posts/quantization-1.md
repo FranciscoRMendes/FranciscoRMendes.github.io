@@ -18,6 +18,8 @@ categories:
 
 The packaging of extremely complex techniques inside convenient wrappers in PyTorch often makes quick implementations fairly easy, it also removes the need to understand the inner workings of the code. However, this obfuscates the theory of why such things work and why they are important to us. For instance, for neither love or money, could I figure out what a QuantStub and a DeQuant Stub really do and how to replicate that using pen and paper. In embedded systems one often has to code up certain things \"from scratch\" as it were and sometimes PyTorch's "convenience" can be a major impediment to understanding the underlying theory. In the code below, I will show you how to quantize a single layer of a neural network using PyTorch. And explain each step in excruciating detail. But before that we need to understand how or why quantization is important.
 
+# Quantization
+The process of quantization is the process of reducing the number of bits that represent a number. This usually means we want to use an integer instead of a real number, that is, you want to go from using a floating point number to an integer. It is important to note that the reason for this is because of the way we multiply numbers in embedded systems. This has to do with both the physics and the chemistry of a half-adder and a full adder. It just takes longer to multiply two floats together than it does to multiply two integers together. For instance, multiplying $2.55\times 1.28$ is a much more complex operation than multiplying $255 \times 128$. So it is not simply a consequence of reducing the "size" of the number. In the future, I will write a blog post about why physics has a lot to do with why this is. 
 # Intuition behind Quantization
 
 The best way to think about quantization is to think of it through an example. Let's say you own a store, and you are printing labels for the prices of objects, but you want to economize on the number of labels you print. Assume here for simplicity that you can print a label that shows a price lower than the price of the product but not more. If you print tags for 0.20 cents, you get the following table, which shows a loss of 0.97 by printing 6 labels. This obviously didn't save you much as you might as well have printed $6$ labels with the original prices and lost $0$ in sales.
@@ -95,15 +97,15 @@ This gives the oft quoted quantization formula, $$x_q = \text{round}(\frac{1}{s}
 We have shown that given some prices, we can quantize them to a smaller set of labels. Thus saving on the cost of labels. What if you remembered $s$ and $z$ and then you used the dequantization formula to guess what the original price was and charge the customer that amount? This way you can save on the number of labels, but you can get closer to the original price by just writing down $s$ and $z$ and using the dequantization formula. We can actually do a better job with prices as well as saving on the number of labels. However, this is lossy, and you will lose some money. In this example, we notice that we consider charging more or less than the actual price as a loss both ways, to keep things simple.
 
 
-| Price | Label | Loss  | DeQuant | De-q loss   |
-|-------|-------|-------|---------|-------------|
-| 1.99  | 0     | 1.99  | 3.903   | 1.913       |
-| 2     | 0     | 2     | 3.903   | 1.903       |
-| 0.59  | -1    | 1.59  | 0.000   | 0.590       |
-| 12.3  | 2     | 10.3  | 11.710  | 0.590       |
-| 8.5   | 1     | 7.5   | 7.807   | 0.693       |
-| 8.99  | 1     | 7.99  | 7.807   | 1.183       |
-|       | 4     | 31.37 |         | 6.873333333 |
+| Price | Label | Loss  | DeQuant | De-q loss |
+|-------|-------|-------|---------|-----------|
+| 1.99  | 0     | 1.99  | 3.90    | 1.91      |
+| 2.00  | 0     | 2.00  | 3.90    | 1.90      |
+| 0.59  | -1    | 1.59  | 0.00    | 0.59      |
+| 12.30 | 2     | 10.3  | 11.71   | 0.59      |
+| 8.50  | 1     | 7.50  | 7.80    | 0.69      |
+| 8.99  | 1     | 7.99  | 7.80    | 1.18      |
+|       | 4     | 31.37 |         | 6.87      |
 
 # Quantization of Matrix Multiplication
 Using this we can create a recipe for quantization to help us in the case of neural networks. Recall that the basic unit of a neural network is the operation, $$y = WX$$
@@ -139,7 +141,7 @@ class M(torch.nn.Module):
         return x
 ```
 
-Now consider, the manual quantization of the weights and the input. 
+Now consider, the manual quantization of the weights and the input. ```model_int8``` represents the quantized model. The ```QuantM2``` class is the manual quantization of the model. The ```prepare_model``` function uses PyTorch convenience functions for quantization of the weights and the input $( we get W_q, X_q, s_w, s_x, z_w, z_x from this model and compute the other steps, you can calculate these yourself as well)$. The ```quantize_tensor_unsigned``` function is the manual quantization of the input tensor. The ```pytorch_result``` function is that computes the output of the fully connected layer of the PyTorch quantized model. The ```forward``` function is the manual quantization of the forward pass of the model.  
 
 ```python
 
@@ -195,6 +197,12 @@ class QuantM2(torch.nn.Module):
             s_x = quant_input_unsigned.scale
             s_w = self.model_int8.fc.weight().q_scale()
             x1 = self.fc(quant_input_unsigned.tensor.double() - z_x)
+            # this next step is equivalent to dequantizing the output of the fully connected layer
+            # it not exactly equivalent since I already subtracted the two zero points
+            # you can derive a much longer quantization formula that multiplies W_q * X_q and has additional terms
+            # you can then put W_q in the fc layer and X_q in the forward pass
+            # and then use all those additional terms in the below step to requantize
+            # in embedded systems its easy to use the formulation here
             x1 = x1 * (s_x * s_w)
             return x1
 
@@ -208,8 +216,59 @@ model = M()
 # graph mode implementation
 sample_data = torch.randn(1, 2)
 model(sample_data)
-quant_model_2 = QuantM2(model_fp32=model, input_fp32=sample_data)
-quant_model_2(sample_data)
+quant_model= QuantM2(model_fp32=model, input_fp32=sample_data)
+quant_model(sample_data)
 quant_model.model_int8(sample_data) # this is the quantized model, M2 should match it exactly, M is the original non quantized model. For small data sets there is usually no divergence.
 # but in practice, the quantized model will be faster and use less memory, but will lose some accuracy
 ```
+
+Let us start by analyzing the output of a quant layer of our simple model. The output of the int_models quantized layer is (somewhat counter-intuitively) always a float, this does not mean it is not quantized, it simply means you are shown the non-quantized value. If you look at the output, you will notice, it has dtype, quantization_scheme, scale and zero_point. You can view the value that will actually be used when it is called within the context of a quant layer by calling its int representation. 
+
+```python
+#recreate quant layer
+int_model = quant_model.model_int8
+default_pytorch_quant_layer_output = int_model.quant(sample_data)
+# OUTPUT
+# tensor([[0.1916, 0.5428]], size=(1, 2), dtype=torch.quint8,
+#        quantization_scheme=torch.per_tensor_affine, scale=0.0021285151597112417,
+#        zero_point=0)
+
+actual_pytorch_quant_layer_output = int_model.quant(sample_data).int_repr()
+# OUTPUT
+# tensor([[90, 255]], dtype=torch.uint8)
+
+```
+Our manual quantization layer is a bit different, it outputs a QTensor object, which contains the tensor, the scale and the zero point. We get the scale and the zero point from the PyTorch quantized model's quant layer (again, we could easily have done this by ourselves using the sample data).
+```python
+manual_quant_layer_output = quantize_tensor_unsigned(sample_data, int_model.quant(sample_data).q_scale(), int_model.quant(sample_data).q_zero_point())
+# OUTPUT
+# QTensor(tensor=tensor([[ 90, 255]], dtype=torch.uint8), scale=0.0021285151597112417, zero_point=0)
+```
+
+Now let us look at the output of the quant layer AND the fully connected layer.
+
+```python
+#recreate the fully connected layer operation
+pytorch_fc_quant_layer_output = int_model.dequant(int_model.fc(int_model.quant(sample_data)))
+# tensor([[-0.7907,  0.6919]])
+manual_fc_quant_layer_output = quant_model(sample_data)
+# tensor([[-0.7886,  0.6932]], dtype=torch.float64, grad_fn=<MulBackward0>)
+```
+It is worthwhile to point out a few things. First, the following two commands seem to give the same _values_ but are very different. The first is a complete tensor object that gives float values but is actually quantized, look at dtype, it is actually quint.8.
+```python
+int_model.fc(int_model.quant(sample_data))
+# tensor([[-0.7907,  0.6919]], size=(1, 2), dtype=torch.quint8,
+#        quantization_scheme=torch.per_tensor_affine, scale=0.0058139534667134285,
+#        zero_point=136)
+```
+The output of this is a _truly_ a float tensor, it not only shows as float values (same as before) but contains no quantization information.
+```python
+int_model.dequant(int_model.fc(int_model.quant(sample_data)))
+ # tensor([[-0.7907,  0.6919]])
+```
+
+Thus, in order to recreate a quantization operation from PyTorch in any embedded system you do not need to implement a de-quant layer. You can simply multiply and subtract zero points from your weight layers appropriately. Look for the long note inside the forward pass of the manually quantized model for more information. 
+
+### A Word on PyTorch and Quantization
+PyTorch's display in the console is not always indicative of what is happening in the back end, this section should clear up some questions, you may have (since I had them). The fundamental unit of data that goes between layers in PyTorch is always a Tensor, that is always displayed as a float. This is fairly confusing since when we think of a vector/tensor as quantized we see all the data as integers. But PyTorch works differently, when a tensor is quantized it is still displayed as a float, but its quantized data type and quantization scheme to get to that data type is stored as additional attributes to the tensor object. Thus, do not be confused if you still see float values displayed, you must look at the dtype to get a clear understanding of what the values are. In order to view a quantized tensor as a int, you need to call int_repr() on the tensor object. Note, this throws an error if the tensor has not been quantized in the first place. Also, note that when PyTorch encounters a quantized tensor, it will carry out multiplication on the quantized values automatically and thus the benefits of quantization will be realized even if you do not actually see them. When exporting the model this information is packaged as well, no need for anything extra to be done. 
+

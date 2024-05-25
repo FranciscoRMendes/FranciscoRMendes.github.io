@@ -3,12 +3,12 @@ title: " Fixed Points of Many to Many matching"
 date: 2022-01-10
 mathjax: true
 tags : 
-- fixed-point-theorem
-- matching
-- pure-mathematics
-- game-theory
+    - fixed-point-theorem
+    - matching
+    - pure-mathematics
+    - game-theory
 categories:
-    - blog-post
+    - economics
 ---
 
 # The Gale Shapley Algorithm (Deferred Acceptance Algorithm or DAA)

@@ -7,7 +7,7 @@ tags:
   - gravity
   - mathematics
 categories:
-  - blog-post
+  - physics
 ---
 
 # Introduction

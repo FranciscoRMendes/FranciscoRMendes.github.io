@@ -9,11 +9,10 @@ tags :
     - Quantization
     - Neural Networks
     - Optimization
-
 categories:
-    - blog-post
+    - artificial-intelligence
 ---
-
+ 
 # Introduction
 
 The packaging of extremely complex techniques inside convenient wrappers in PyTorch often makes quick implementations fairly easy, it also removes the need to understand the inner workings of the code. However, this obfuscates the theory of why such things work and why they are important to us. For instance, for neither love or money, could I figure out what a QuantStub and a DeQuant Stub really do and how to replicate that using pen and paper. In embedded systems one often has to code up certain things _from scratch_, as it were and sometimes PyTorch's "convenience" can be a major impediment to understanding the underlying theory. In the code below, I will show you how to quantize a single layer of a neural network using PyTorch. And explain each step in excruciating detail. At the end of this article you will be able to implement quantization in PyTorch (or indeed _any_ other library) but crucially, you will be able to do it _without_ using any quantize layers, you can essentially use the usual "vanilla" layers. But before that we need to understand how or why quantization is important.

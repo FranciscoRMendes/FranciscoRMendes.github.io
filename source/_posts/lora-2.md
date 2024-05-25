@@ -13,7 +13,7 @@ tags :
     - LORA
     - Convolutional Neural Networks
 categories:
-    - blog-post
+    - artificial-intelligence
 ---
 
 # Code Follow Along

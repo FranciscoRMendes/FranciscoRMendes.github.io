@@ -1,5 +1,5 @@
 ---
-title: "A Manual Implementation of Quantization in PyTorch"
+title: "A Manual Implementation of Quantization in PyTorch - Single Layer"
 date: 2024-05-16
 mathjax: true
 tags : 

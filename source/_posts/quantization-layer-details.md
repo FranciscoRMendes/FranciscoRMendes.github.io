@@ -43,7 +43,7 @@ $$Y_q = \frac{S_xS_w}{S_Y}((X_q-Z_x)(W_q-Z_w)+b) + Z_Y$$ For the first issue, we
 
 Using the matrix multiplication example before, $W,b$ are the weights and biases of one fully connected layer. A question I often had was, how exactly are values passed between layers. This is because FULL INT8 quantization essentially means you can deploy a neural network on a board that does not support ANY floating point operations. It is in fact the $Y_q$ that is passed between layers when you do INT8 quantization. $$Y_q = M_0((X_q-Z_x)(W_q-Z_w)+b) + Z_Y$$ However, if you just need the weights and the multiplies to be quantized but not the activations, it means that you are getting the benefits of quantization for saving space of the weights and by using integer multiply BUT are choosing to pass values between the layers as floats. For this case, PyTorch and Keras can also spit out the floating point values, to be passed between layers, and it does this by simply omitting the de-quantization step. $$Y = S_xS_w(X_q-Z_x)(W_q-Z_w) + S_b(b_q-Z_b)$$ Here again, we can choose $S_b = S_xS_w$ but I am not sure if this additional assumption is needed, since the board has the ability to do floating point multiplications it does not matter if one or more float multiplies are needed.
 
-IMAGE HERE
+![Convolution Example](quantization-layer-details/QL.png)
 
 To summarize,
 

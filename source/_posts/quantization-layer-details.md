@@ -1,5 +1,5 @@
 ---
-title: "Some Painful Details About Quantization in PyTorch and Matrix Multiplication"
+title: "Are Values Passed Between Layers Float or Int in PyTorch Post Quantization?"
 date: 2024-05-16
 mathjax: true
 tags : 
@@ -12,6 +12,14 @@ tags :
 categories:
     - artificial-intelligence
 ---
+
+# Introduction
+A common question I had when I first started working with quantization was, how exactly are values passed between layers post quantization? Looking at the quantization equations it was not immediately obvious to me how to do away with ALL floating point operations and what values were used exactly in the forward pass operation. 
+In this article, I will address two main questions,
+- How does PyTorch pass values between layers post quantization? And what are the quantization equations used. 
+- What exactly makes floating point operations slower than integer operations?
+
+In short, PyTorch passes integer values between layers when in INT8 only quantization. It does so using a few neat tricks of fixed point and floating point math. When in other quantization modes, values passed between layers can be float. 
 
 # Quantized Matrix Multiplication
 
@@ -49,7 +57,7 @@ To summarize,
 
 -   For full INT8 quantization i.e. when the embedded device does not support any floating point multiplies use $Y_q$
 
--   For partial INT8 quantization i.e. you want the the activations to be in float but weights and integer multiplies to be done in/ saved as INT8 use the equation for $Y$.
+-   For partial INT8 quantization i.e. you want the activations to be in float but weights and integer multiplies to be done in/ saved as INT8 use the equation for $Y$.
 
 # Why Exactly Does Floating Point Slow Things Down?
 
@@ -81,3 +89,10 @@ For contrast, consider a fixed point multiplication, $A = 0.0111 \times 2^2$ and
 
 Even though the re-normalization stage seems the same, it is actually always the same number of steps, whereas for the floating point case it can be arbitrarily long and needs to check whether there is a leading $1$.
 pandoc version 3.2
+
+# Conclusion
+In this article, we discussed how values are passed between layers post quantization in PyTorch. We also discussed why floating point operations are slower than integer operations. I hope this article was helpful in understanding the inner workings of quantization and the differences between floating point and integer operations. Again, PyTorch makes things very simple by doing things for you but if you need to understand the underlying concepts then you need to open things up and verify. 
+
+# References
+https://arxiv.org/pdf/1712.05877
+https://arxiv.org/pdf/1806.08342

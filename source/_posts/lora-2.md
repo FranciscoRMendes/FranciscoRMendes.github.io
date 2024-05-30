@@ -2,6 +2,7 @@
 title: "Part II :  Shrinking Neural Networks for Embedded Systems Using Low Rank Approximations (LoRA)"
 date: 2024-04-24
 mathjax: true
+thumbnail: "lora-2/decomposition_illustration.png"
 tags : 
     - AI
     - Machine Learning

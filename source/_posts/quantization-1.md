@@ -2,6 +2,8 @@
 title: "A Manual Implementation of Quantization in PyTorch - Single Layer"
 date: 2024-05-16
 mathjax: true
+thumbnail: gallery/thumbnails/quantization.png
+cover: gallery/thumbnails/quantization.png
 tags : 
     - AI
     - Machine Learning

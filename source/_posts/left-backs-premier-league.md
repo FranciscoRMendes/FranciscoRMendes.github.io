@@ -3,7 +3,7 @@ title: "Where Have All The Left Backs Gone?"
 date: 2024-05-16
 mathjax: true
 thumbnail: gallery/thumbnails/img.png
-cover: gallery/thumbnails/img.png
+cover: gallery/thumbnails/img_1.png
 tags : 
     - football
 categories:

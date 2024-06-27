@@ -1,9 +1,8 @@
 ---
-title: curriculum
+title: Curriculum Vitae
 date: 2024-06-09 09:29:40
 ---
 # Current Role
-
 
 In my current role at Renesas Electronics America, I am responsible for delivering deployable neural network solutions to our clients through our user-friendly subscription-based software. Our tools allow users to upload sample data, train a neural network, evaluate its accuracy, and deploy it to their embedded systems with just a few clicks.
 

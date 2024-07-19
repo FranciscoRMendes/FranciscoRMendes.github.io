@@ -13,7 +13,7 @@ categories:
     - artificial-intelligence
 ---
 
-
+A friend of mine recently asked me for advice in preparing for an interview that required Bayesian statistics in Consulting. They asked me if I had done anything in Bayesian statistics, I was taken aback, since to me (as a recovering statistician) everything is Bayesian. Having said that, I decided to compile a list of representative projects that encapsulate the general idea of Bayesian statistics in consulting. These projects are rudimentary but could serve as a useful interview guide if needed!
 # Exploring Bayesian Methods: From A/B Testing to Recommendation Engines
 
 Bayesian methods are like the secret sauce of data science. They add a layer of sophistication to measuring the success of machine learning (ML) algorithms and proving their effectiveness. In this post, I’ll walk you through how Bayesian statistics have shaped my approach to A/B testing and recommendation engines. Whether you're a data science enthusiast or a seasoned pro, there’s something here for you!
@@ -35,6 +35,32 @@ $$
 C_c = \text{beta}(\alpha_0, \beta_0) 
 $$
 
+
+```python
+# Bayesian A/B Testing using Beta Distribution
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import beta
+
+# 1. Introduction
+print("Bayesian A/B Testing using Beta Distribution")
+
+# 2. Setting Up the Experiment
+# Let's say that we have two teams inside a marketing company. One of them (A) 
+# uses business intelligence and marketing experience to recommend products to 
+# customers, and the other team (B) uses machine learning to recommend products. 
+# Given a recommendation, a customer can either accept (successes) or reject it. 
+# Each team also gets a sample of customers they can expose their 
+# recommendations to (trials).
+
+# We have a binary outcome (success/failure) for variants A and B
+
+# 3. Generating Synthetic Data
+# Let's assume variant A has 200 trials with 60 successes, and variant B has 180 trials with 90 successes
+data_A = {'successes': 60, 'trials': 200}
+data_B = {'successes': 90, 'trials': 180}
+
+```
 ### Choosing a Prior
 
 Choosing the right prior for our Bayesian model was challenging. We had to match our new campaign against historical campaigns that were similar to ours and come up with appropriate values for $\alpha_0$ and $\beta_0$. This required some convincing, but ultimately, we got the client's approval.
@@ -69,7 +95,7 @@ But Bayesian methods don’t stop at A/B testing. They also play a significant r
 
 ### Online Recommendation Engine
 
-Imagine creating an online recommendation engine for various products using Bayesian methods. Let’s say you have a click-through rate for a free data product, modeled with a beta distribution:
+Imagine creating an online recommendation engine for various products using Bayesian methods. Here the word online should be taken to mean, continuously updating, as opposed to one-shot or static recommendation engines that do not inherently have a mechanism to update to changing data, without re-running the model. Let’s say you have a click-through rate for a free data product, modeled with a beta distribution:
 
 $$
 \text{beta}(\alpha = \text{free data}, \beta = \text{other})

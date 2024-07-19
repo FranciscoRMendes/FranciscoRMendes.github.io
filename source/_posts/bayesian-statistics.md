@@ -380,3 +380,12 @@ This model integrates additional context into the matrix factorization process, 
 ## Conclusion
 
 Bayesian methods offer a versatile toolkit for data scientists, enhancing both A/B testing and recommendation engines. As computational constraints lessen, Bayesian approaches are gaining traction. I’m always eager to explore new use cases and dive deeper into the specifics of applying these methods in different scenarios. If you have a challenging problem or an interesting use case, I’d love to hear about it!
+
+
+# References
+Great Stanford tutorial on Thompson sampling https://web.stanford.edu/~bvr/pubs/TS_Tutorial.pdf
+YouTube Video that formed the basis of my example https://www.youtube.com/watch?v=nRLI_KbvZTQ&t=321s
+Overview of bandits https://eugeneyan.com/writing/bandits/
+Contextual Bandits https://gdmarmerola.github.io/ts-for-contextual-bandits/
+Bayesian Matrix Factorization https://www.cs.toronto.edu/~amnih/papers/bpmf.pdf
+

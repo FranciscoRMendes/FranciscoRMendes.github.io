@@ -2,6 +2,8 @@
 title: "Bayesian Statistics : A/B Testing, Thompson sampling of multi-armed bandits, Recommendation Engines and more from Big Consulting"
 date: 2024-07-19
 mathjax: true
+thumbnail: gallery/thumbnails/bayesian-cover.png
+cover: gallery/thumbnails/bayesian-cover.png
 tags : 
     - AI
     - Machine Learning
@@ -12,7 +14,7 @@ tags :
 categories:
     - artificial-intelligence
 ---
-
+![img.png](img.png)
 A friend of mine recently asked me for advice in preparing for an interview that required Bayesian statistics in Consulting. They asked me if I had done anything in Bayesian statistics. I decided to compile a list of representative projects that encapsulate the general idea of Bayesian statistics in consulting. These projects are rudimentary but could serve as a useful interview guide if needed!
 # Exploring Bayesian Methods: From A/B Testing to Recommendation Engines
 

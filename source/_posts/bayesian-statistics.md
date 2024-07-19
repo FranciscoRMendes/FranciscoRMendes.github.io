@@ -286,7 +286,7 @@ plt.show()
 
 ### Visualizing the Results
 To make our analysis more intuitive, we plot the prior and the posterior distributions for each cuisine. These visualizations help us understand how our beliefs evolve over time and provide a clear picture of the most likely user preferences. 
-![Chinese food had a huge revision in probability](prior-post-bandit.png)
+![Chinese food had a huge revision in probability](bayesian-statistics/prior-post-bandit.png)
 
 ```python
 # Function to plot both prior and posterior distributions
@@ -310,7 +310,7 @@ plt.title("Prior and Posterior Distributions of Cuisines")
 plt.show()
 
 ```
-![Success of each "arm"/ cuisine being chosen on the homepage](bandit-choices.png)
+![Success of each "arm"/ cuisine being chosen on the homepage](bayesian-statistics/bandit-choices.png)
 Through this implementation, we can see how Thompson Sampling dynamically adapts to user behavior, continually refining our recommendations to maximize user satisfaction. 
 
 ### Final Thoughts on Thompson Sampling

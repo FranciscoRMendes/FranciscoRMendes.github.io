@@ -1,5 +1,5 @@
 ---
-title: "Bayesian Statistics : A/B Testing, Recommendation Engines and more from Big Consulting"
+title: "Bayesian Statistics : A/B Testing, Thompson sampling of multi-armed bandits, Recommendation Engines and more from Big Consulting"
 date: 2024-07-19
 mathjax: true
 tags : 

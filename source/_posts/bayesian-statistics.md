@@ -13,7 +13,7 @@ categories:
     - artificial-intelligence
 ---
 
-A friend of mine recently asked me for advice in preparing for an interview that required Bayesian statistics in Consulting. They asked me if I had done anything in Bayesian statistics, I was taken aback, since to me (as a recovering statistician) everything is Bayesian. Having said that, I decided to compile a list of representative projects that encapsulate the general idea of Bayesian statistics in consulting. These projects are rudimentary but could serve as a useful interview guide if needed!
+A friend of mine recently asked me for advice in preparing for an interview that required Bayesian statistics in Consulting. They asked me if I had done anything in Bayesian statistics. I decided to compile a list of representative projects that encapsulate the general idea of Bayesian statistics in consulting. These projects are rudimentary but could serve as a useful interview guide if needed!
 # Exploring Bayesian Methods: From A/B Testing to Recommendation Engines
 
 Bayesian methods are like the secret sauce of data science. They add a layer of sophistication to measuring the success of machine learning (ML) algorithms and proving their effectiveness. In this post, I’ll walk you through how Bayesian statistics have shaped my approach to A/B testing and recommendation engines. Whether you're a data science enthusiast or a seasoned pro, there’s something here for you!
@@ -65,6 +65,17 @@ data_B = {'successes': 90, 'trials': 180}
 
 Choosing the right prior for our Bayesian model was challenging. We had to match our new campaign against historical campaigns that were similar to ours and come up with appropriate values for $\alpha_0$ and $\beta_0$. This required some convincing, but ultimately, we got the client's approval.
 
+
+```python
+# 4. Prior Distribution
+# From prior campaigns we know of a conversion rate that we can expect for 
+# any campaign. This is of course can assumption, but in the marketing world, 
+# conversion rates rarely look different, no matter how good your recommendations
+# are. The industry rates will always look standard. 
+# Use a uniform prior, Beta(10, 190)
+alpha_prior = 85 # Let's say this is 85 conversions, per 285 trials
+beta_prior = 200
+```
 ### Updating Beliefs
 
 Every 15 days, we collect new data and update our prior beliefs. The beta distribution is a conjugate prior, meaning its posterior distribution is also a beta distribution. Updating is straightforward:
@@ -74,6 +85,17 @@ C_i = \text{beta}(\alpha_0 + \text{clicks}\_{t_0+15}, \beta + \text{ignored}_{t_
 $$
 
 This allows us to continuously refine our model as new data comes in.
+
+```python
+# 5. Likelihood and Posterior Distribution
+# Update the posterior distribution with the data
+alpha_post_A = alpha_prior + data_A['successes']
+beta_post_A = beta_prior + data_A['trials'] - data_A['successes']
+
+alpha_post_B = alpha_prior + data_B['successes']
+beta_post_B = beta_prior + data_B['trials'] - data_B['successes']
+```
+
 
 ### Simulating Results
 
@@ -85,10 +107,47 @@ $$
 
 This tells us how frequently our engine's CTR exceeds the traditional method’s CTR.
 
+
+```python
+# 6. Posterior Predictive Checks
+# Generate samples from the posterior distributions
+# since the beta distribution is a conjugate prior, the posterior distribution 
+# is also a beta distribution. We can find its parameters by adding the prior parameters.
+
+samples_A = beta.rvs(alpha_post_A, beta_post_A, size=10000)
+samples_B = beta.rvs(alpha_post_B, beta_post_B, size=10000)
+
+# 7. Decision Making
+# Calculate the probability that variant B is better than variant A
+prob_B_better_than_A = np.mean(samples_B > samples_A)
+print(f"Probability that variant B is better than variant A: {prob_B_better_than_A:.2f}")
+```
 ### Conclusion
 
 While complex measurement campaigns might signal trouble in some machine learning setups, our Bayesian approach showed promising results. Initially, our probability of outperforming the traditional method was 70%, which improved to 76%. This increase, combined with the ability to recommend high-margin products, demonstrated a tangible uplift due to our recommendation engine.
 
+![Prior from marketing, updated with respective posteriors](bayesian-statistics/prior_posterior.png)
+
+```python
+# 8. Visualization
+# Plot the prior and posterior distributions
+x = np.linspace(0, 1, 1000)
+prior = beta.pdf(x, alpha_prior, beta_prior)
+posterior_A = beta.pdf(x, alpha_post_A, beta_post_A)
+posterior_B = beta.pdf(x, alpha_post_B, beta_post_B)
+
+plt.figure(figsize=(12, 6))
+plt.plot(x, prior, label='Prior', linestyle='--')
+plt.plot(x, posterior_A, label='Posterior A')
+plt.plot(x, posterior_B, label='Posterior B')
+plt.fill_between(x, 0, posterior_A, alpha=0.3)
+plt.fill_between(x, 0, posterior_B, alpha=0.3)
+plt.legend()
+plt.xlabel('Conversion Rate')
+plt.ylabel('Density')
+plt.title('Prior and Posterior Distributions')
+plt.show()
+```
 ## Bayesian Recommendation Engines: Beyond A/B Testing
 
 But Bayesian methods don’t stop at A/B testing. They also play a significant role in recommendation engines. Here’s how:

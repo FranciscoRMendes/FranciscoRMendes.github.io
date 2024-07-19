@@ -383,9 +383,10 @@ Bayesian methods offer a versatile toolkit for data scientists, enhancing both A
 
 
 # References
-Great Stanford tutorial on Thompson sampling https://web.stanford.edu/~bvr/pubs/TS_Tutorial.pdf
-YouTube Video that formed the basis of my example https://www.youtube.com/watch?v=nRLI_KbvZTQ&t=321s
-Overview of bandits https://eugeneyan.com/writing/bandits/
-Contextual Bandits https://gdmarmerola.github.io/ts-for-contextual-bandits/
-Bayesian Matrix Factorization https://www.cs.toronto.edu/~amnih/papers/bpmf.pdf
+[Great Stanford tutorial on Thompson sampling] (https://web.stanford.edu/~bvr/pubs/TS_Tutorial.pdf)
+[YouTube Video that formed the basis of my example] (https://www.youtube.com/watch?v=nRLI_KbvZTQ&t=321s)
+[Overview of bandits] (https://eugeneyan.com/writing/bandits/)
+[Contextual Bandits] (https://gdmarmerola.github.io/ts-for-contextual-bandits/)
+[Bayesian Matrix Factorization] (https://www.cs.toronto.edu/~amnih/papers/bpmf.pdf)
+
 

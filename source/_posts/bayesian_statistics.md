@@ -44,7 +44,7 @@ Choosing the right prior for our Bayesian model was challenging. We had to match
 Every 15 days, we collect new data and update our prior beliefs. The beta distribution is a conjugate prior, meaning its posterior distribution is also a beta distribution. Updating is straightforward:
 
 $$ 
-C_i = \text{beta}(\alpha_0 + \text{clicks}_{t_0+15}, \beta + \text{ignored}_{t_0+15}) 
+C_i = \text{beta}(\alpha_0 + \text{clicks}\_{t_0+15}, \beta + \text{ignored}_{t_0+15}) 
 $$
 
 This allows us to continuously refine our model as new data comes in.

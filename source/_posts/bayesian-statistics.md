@@ -148,6 +148,8 @@ plt.ylabel('Density')
 plt.title('Prior and Posterior Distributions')
 plt.show()
 ```
+
+
 ## Bayesian Recommendation Engines: Beyond A/B Testing
 
 But Bayesian methods don’t stop at A/B testing. They also play a significant role in recommendation engines. Most of my work in consulting was in signal processing and recommendation engines. In many cases our clients did not even need very complex recommender systems, they could benefit from relatively simple Bayesian updation based on the users behavior. 
@@ -224,6 +226,95 @@ plt.figure(figsize=(10, 6))
 plot_beta_distributions(alpha, beta_params, title="Prior Distributions of Cuisines")
 plt.show()
 ```
+
+
+### User Interaction Simulation
+We simulate user interactions over a series of trials, where each interaction represents a user choosing a cuisine. Based on the observed choices, we update our Beta distributions to reflect the new data. 
+
+```python
+# Simulate user interactions
+n_trials = 1000
+successes = np.zeros(n_arms)
+failures = np.zeros(n_arms)
+
+# Function to select an arm using Thompson Sampling
+def thompson_sampling(alpha, beta_params):
+    sampled_theta = np.random.beta(alpha, beta_params)
+    return np.argmax(sampled_theta)
+
+# Simulate interactions
+for _ in range(n_trials):
+    chosen_arm = thompson_sampling(alpha, beta_params)
+    reward = np.random.binomial(1, [0.2, 0.6, 0.4][chosen_arm])  # True probabilities
+    if reward == 1:
+        successes[chosen_arm] += 1
+    else:
+        failures[chosen_arm] += 1
+    alpha[chosen_arm] += reward
+    beta_params[chosen_arm] += 1 - reward
+
+# Plot posterior distributions
+plt.figure(figsize=(10, 6))
+plot_beta_distributions(alpha, beta_params, title="Posterior Distributions of Cuisines after User Interactions")
+plt.show()
+```
+
+### Posterior Analysis
+After a number of interactions, we analyze the posterior distributions to determine which cuisine is likely to be popular. We can then use this information to sort and display the cuisines on our app's homepage. 
+
+```python
+# Sort arms based on the highest posterior mean
+posterior_means = alpha / (alpha + beta_params)
+sorted_indices = np.argsort(posterior_means)[::-1]
+
+print("Sorted Cuisines Based on Posterior Means:")
+for idx in sorted_indices:
+    print(f"{arms[idx]}: {posterior_means[idx]:.2f}")
+
+# Visualize sorted cuisines
+sorted_arms = [arms[i] for i in sorted_indices]
+sorted_means = [posterior_means[i] for i in sorted_indices]
+
+plt.figure(figsize=(10, 6))
+plt.bar(sorted_arms, sorted_means, color=['blue', 'orange', 'green'])
+plt.xlabel("Cuisine")
+plt.ylabel("Posterior Mean Probability")
+plt.title("Sorted Cuisines Based on Posterior Means")
+plt.show()
+
+```
+
+### Visualizing the Results
+To make our analysis more intuitive, we plot the prior and the posterior distributions for each cuisine. These visualizations help us understand how our beliefs evolve over time and provide a clear picture of the most likely user preferences. 
+
+```python
+# Function to plot both prior and posterior distributions
+def plot_prior_and_posterior(alpha_prior, beta_prior, alpha_post, beta_post):
+    x = np.linspace(0, 1, 100)
+    for a_prior, b_prior, a_post, b_post, label in zip(alpha_prior, beta_prior, alpha_post, beta_post, arms):
+        y_prior = beta(a_prior, b_prior).pdf(x)
+        y_post = beta(a_post, b_post).pdf(x)
+        plt.plot(x, y_prior, label=f"{label} Prior (alpha={a_prior}, beta={b_prior})", linestyle='--')
+        plt.plot(x, y_post, label=f"{label} Posterior (alpha={a_post}, beta={b_post})")
+    plt.xlabel("Probability")
+    plt.ylabel("Density")
+    plt.legend()
+
+alpha_prior = np.array([1, 3, 2])
+beta_prior = np.array([3, 2, 2])
+
+plt.figure(figsize=(10, 6))
+plot_prior_and_posterior(alpha_prior, beta_prior, alpha, beta_params)
+plt.title("Prior and Posterior Distributions of Cuisines")
+plt.show()
+
+```
+
+Through this implementation, we can see how Thompson Sampling dynamically adapts to user behavior, continually refining our recommendations to maximize user satisfaction. 
+
+### Final Thoughts on Thompson Sampling
+Thompson Sampling offers a powerful, flexible approach to solving the multi-armed bandit problem, particularly in dynamic and uncertain environments like a food delivery app. By leveraging Bayesian inference, it enables us to make data-driven decisions that balance exploration and exploitation effectively. Whether you are managing a food app, an e-commerce platform, or any other recommendation system, Thompson Sampling can help you optimize user engagement and drive better outcomes. So the next time you are faced with the challenge of deciding which options to promote, think of Thompson sampling!
+
 
 ### Bayesian Matrix Factorization with Side Information
 

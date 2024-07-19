@@ -33,7 +33,9 @@ At Renesas Electronics I lead the deployment of our neural network deployment on
 
 **Select Projects**
 
-# Grass level detection for a large lawnmower manufacturer
+Here are a representative list of projects I have worked on in my over 8 year career as a data scientist. I have tried to be brief, but please do reach out for more information. 
+
+**Grass level detection for a large lawnmower manufacturer**
 
 Current electric lawnmowers consume a lot of power and are often curtailed by their battery storage capacity. Our client was interested in adjusting RPM of the cutting blade based on grass length using a camera/ LIDAR sensor to detect grass length, with the goal of using less power for shorter grass lengths. We used a low-quality camera in conjunction with LIDAR data to classify grass into one of many discrete grass lengths. I was responsible for the following:
 
@@ -41,7 +43,7 @@ Current electric lawnmowers consume a lot of power and are often curtailed by th
 
 -   Reducing the memory limits of deploying a CNN based algorithm using both low rank approximation as well as carrying out most matrix multiplies in INT8.
 
-# LENA Wearable device for Parentese detection
+**LENA Wearable device for Parentese detection**
 
 John List and Dana Suskind hypothesized that speaking to children in parentese leads to increased cognitive development and early verbalization. In my role as a grad student with an expertise in cepstral analysis, signal processing and Neural networks I was responsible for the following tasks
 
@@ -57,7 +59,7 @@ John List and Dana Suskind hypothesized that speaking to children in parentese l
 
 -   In addition to ML, I led the design of several experiments to prove our hypothesis (economic experiments are very conceptually like drug trials). This included the creation of treatment and control groups (no parentese) controlling for a variety of factors such as education, language, acoustic features (controlling for naturally lower toned voices), race and tonal languages (Chinese).
 
-# Arc Fault Detection
+**Arc Fault Detection**
 
 Arc faults are a leading driver of cost in the power industry. For this project, I oversaw the development of a new signal processing feature based on sinusoidal wave forms of sensor data, since in "normal" conditions sensors that detect arc fault are almost perfectly sinusoidal but in arc fault condition they are not. In addition to the technical requirements of this role, I was responsible for
 

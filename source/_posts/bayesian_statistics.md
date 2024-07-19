@@ -26,7 +26,7 @@ Imagine you’re working on a project for a large telecommunications company, an
 
 In this scenario, we’re interested in measuring whether our recommendation engine performs better than the traditional method. We use a Bayesian approach to compare the click-through rates (CTR) of both methods. Click-through rate is a common metric that measures how often users click on the recommendations they receive.
 
-We model the CTR using a beta distribution, which is parameterized by \(\alpha\) (the number of clicks) and \(\beta\) (the number of ignored recommendations). For both the new and traditional campaigns, we start with prior distributions:
+We model the CTR using a beta distribution, which is parameterized by $\alpha$ (the number of clicks) and $\beta$ (the number of ignored recommendations). For both the new and traditional campaigns, we start with prior distributions:
 
 $$ 
 C_d = \text{beta}(\alpha_0, \beta_0) 
@@ -37,7 +37,7 @@ $$
 
 ### Choosing a Prior
 
-Choosing the right prior for our Bayesian model was challenging. We had to match our new campaign against historical campaigns that were similar to ours and come up with appropriate values for \(\alpha_0\) and \(\beta_0\). This required some convincing, but ultimately, we got the client's approval.
+Choosing the right prior for our Bayesian model was challenging. We had to match our new campaign against historical campaigns that were similar to ours and come up with appropriate values for $\alpha_0$ and $\beta_0$. This required some convincing, but ultimately, we got the client's approval.
 
 ### Updating Beliefs
 
@@ -89,7 +89,7 @@ $$
 R_{ij} \sim \mathcal{N}(U_i^T V_j, \sigma^2)
 $$
 
-where \( U_i \) and \( V_j \) are latent factor vectors for users and items, respectively.
+where $ U_i $ and $ V_j $ are latent factor vectors for users and items, respectively.
 
 #### Prior Distributions
 

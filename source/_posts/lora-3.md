@@ -37,18 +37,17 @@ cube really represents.
 ![Each channel represents the intensity of one color. And since we have
 already separated out the channels we can revert it to grey-scale. Where
 white means that color is very intense or the value at that pixel is
-high and black means it is very low.](lora-3/image.png){#fig:enter-label
-width="50%"}
+high and black means it is very low.](lora-3/image_parrot.png)
 
 ![Each such image is shaped into a "cube". For an RGB image, the "depth"
 of the image is 3 (one for each
-color).](lora-3/lighthouse.png){#fig:enter-label width="50%"}
+color).](lora-3/lighthouse.png)
 
 Now that we have a working example of the representation, let us try to
 visualize what a convolution is.
 
 ![Basic Convolution, maps a "cube" to a
-number](lora-3/convolution.png){#fig:enter-label width="50%"}
+number](lora-3/convolution.png)
 
 A convolution operation takes a subset of the RGB image across all
 channels and maps it to one number (a scalar), by multiplying the cube
@@ -84,7 +83,7 @@ operation, because even though there are more such operations each
 operations is more complex.
 
 ![Still maps a cube to a number but does so via a sequence of "simpler"
-operations](lora-3/decomp_conv.png){#fig:enter-label width="100%"}
+operations](lora-3/decomp_conv.png)
 
 # Painful Example of Convolution by hand {#painful-example-of-convolution-by-hand .unnumbered}
 

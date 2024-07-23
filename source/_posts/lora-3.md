@@ -255,3 +255,7 @@ $$1 \cdot (6) + 1 \cdot (0) + 1 \cdot (-6) = 6 + 0 - 6 = 0$$
 -   Convolution with Low-Rank Vectors: 0
 
 The results are different due to the simplifications made by the low-rank approximation. But this is part of the problem that we need to optimize for when picking low rank approximations. In practice, we will ALWAYS lose some accuracy
+
+# References
+[Low Rank approximation of CNNs] (https://arxiv.org/pdf/1511.06067)
+[CP Decomposition] (https://arxiv.org/pdf/1412.6553)

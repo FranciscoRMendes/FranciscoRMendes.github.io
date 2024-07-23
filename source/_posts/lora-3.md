@@ -56,30 +56,30 @@ Intuitively, we are still taking the subset "cube" but we have broken it down so
 Consider the input matrix :
 
 $$X = \begin{bmatrix}
-1 & 2 & 3 & 0 & 1 \\
-0 & 1 & 2 & 3 & 0 \\
-3 & 0 & 1 & 2 & 3 \\
-2 & 3 & 0 & 1 & 2 \\
-1 & 2 & 3 & 0 & 1 \\
+1 & 2 & 3 & 0 & 1 \\\\
+0 & 1 & 2 & 3 & 0 \\\\
+3 & 0 & 1 & 2 & 3 \\\\
+2 & 3 & 0 & 1 & 2 \\\\
+1 & 2 & 3 & 0 & 1 \\\\
 \end{bmatrix}$$ Input slice: $$\begin{bmatrix}
-1 & 2 & 3 \\
-0 & 1 & 2 \\
-3 & 0 & 1 \\
+1 & 2 & 3 \\\\
+0 & 1 & 2 \\\\
+3 & 0 & 1 \\\\
 \end{bmatrix}$$
 
 Kernel: $$\begin{bmatrix}
-1 & 0 & -1 \\
-1 & 0 & -1 \\
-1 & 0 & -1 \\
+1 & 0 & -1 \\\\
+1 & 0 & -1 \\\\
+1 & 0 & -1 \\\\
 \end{bmatrix}$$
 
-Element-wise multiplication and sum: $$(1 \cdot 1) + (2 \cdot 0) + (3 \cdot -1) + \\
-(0 \cdot 1) + (1 \cdot 0) + (2 \cdot -1) + \\
+Element-wise multiplication and sum: $$(1 \cdot 1) + (2 \cdot 0) + (3 \cdot -1) + \\\\
+(0 \cdot 1) + (1 \cdot 0) + (2 \cdot -1) + \\\\
 (3 \cdot 1) + (0 \cdot 0) + (1 \cdot -1)$$
 
 $$\implies
-1 + 0 - 3 + \\
-0 + 0 - 2 + \\
+1 + 0 - 3 + \\\\
+0 + 0 - 2 + \\\\
 3 + 0 - 1 = -2$$ Now repeat that by moving the kernel one step over (you can in fact change this with the stride argument for convolution).
 
 # Low Rank Approximation of convolution
@@ -87,67 +87,67 @@ $$\implies
 Now we will painfully do a low rank decomposition of the convolution kernel above. There is a theorem that says that a $2D$ matrix can be approximated by a sum of 2 outer products of two vectors. Say we can express $K$ as, $$K \approx a_1 \times b_1 + a_2\times b_2$$
 
 We can easily guess $a_i, b_i$. Consider, $$a_1 = \begin{bmatrix}
-     1\\
-     1\\
-     1\\
+     1\\\\
+     1\\\\
+     1\\\\
  \end{bmatrix}$$ $$b_1 = \begin{bmatrix}
-     1\\
-     0\\
-     -1\\
+     1\\\\
+     0\\\\
+     -1\\\\
  \end{bmatrix}$$ $$a_2 = \begin{bmatrix}
-     0\\
-     0\\
-     0\\
+     0\\\\
+     0\\\\
+     0\\\\
  \end{bmatrix}$$ $$b_2 = \begin{bmatrix}
-     0\\
-     0\\
-     0\\
+     0\\\\
+     0\\\\
+     0\\\\
  \end{bmatrix}$$
 
 This is easy because I chose values for the kernel that were easy to break down. How to perform this breakdown is the subject of the later sections.
 
 $$K = a_1\times b_1 + a_2 \times b_2 = \begin{bmatrix}
-1 & 0& -1 \\
-1 & 0 & -1 \\
-1 & 0 & -1 \\
+1 & 0& -1 \\\\
+1 & 0 & -1 \\\\
+1 & 0 & -1 \\\\
 \end{bmatrix} +
 \begin{bmatrix}
-0 & 0 & 0 \\
-0 & 0 & 0 \\
-0 & 0 & 0 \\
+0 & 0 & 0 \\\\
+0 & 0 & 0 \\\\
+0 & 0 & 0 \\\\
 \end{bmatrix} = 
 \begin{bmatrix}
-1 & 0 & -1 \\
-1 & 0 & -1 \\
-1 & 0 & -1 \\
+1 & 0 & -1 \\\\
+1 & 0 & -1 \\\\
+1 & 0 & -1 \\\\
 \end{bmatrix}$$
 
 Consider the original kernel matrix $K$ and the low-rank vectors:
 
 $$K = \begin{bmatrix}
-1 & 0 & -1 \\
-1 & 0 & -1 \\
+1 & 0 & -1 \\\\
+1 & 0 & -1 \\\\
 1 & 0 & -1
 \end{bmatrix}$$
 
 $$a_1 = \begin{bmatrix}
-1 \\
-1 \\
+1 \\\\
+1 \\\\
 1
 \end{bmatrix}, \quad
 b_1 = \begin{bmatrix}
-1 \\
-0 \\
+1 \\\\
+0 \\\\
 -1
 \end{bmatrix}$$
 
 The input matrix $M$ is:
 
 $$M = \begin{bmatrix}
-1 & 2 & 3 & 0 & 1 \\
-0 & 1 & 2 & 3 & 0 \\
-3 & 0 & 1 & 2 & 3 \\
-2 & 3 & 0 & 1 & 2 \\
+1 & 2 & 3 & 0 & 1 \\\\
+0 & 1 & 2 & 3 & 0 \\\\
+3 & 0 & 1 & 2 & 3 \\\\
+2 & 3 & 0 & 1 & 2 \\\\
 1 & 2 & 3 & 0 & 1
 \end{bmatrix}$$
 
@@ -156,17 +156,17 @@ $$M = \begin{bmatrix}
 Perform the convolution at the top-left corner of the input matrix:
 
 $$\text{Input slice} = \begin{bmatrix}
-1 & 2 & 3 \\
-0 & 1 & 2 \\
+1 & 2 & 3 \\\\
+0 & 1 & 2 \\\\
 3 & 0 & 1
 \end{bmatrix}$$
 
 $$\text{Element-wise multiplication and sum:}$$
 
 $$\begin{aligned}
-(1 \times 1) + (2 \times 0) + (3 \times -1) + \\
-(0 \times 1) + (1 \times 0) + (2 \times -1) + \\
-(3 \times 1) + (0 \times 0) + (1 \times -1) &= \\
+(1 \times 1) + (2 \times 0) + (3 \times -1) + \\\\
+(0 \times 1) + (1 \times 0) + (2 \times -1) + \\\\
+(3 \times 1) + (0 \times 0) + (1 \times -1) &= \\\\
 1 + 0 - 3 + 0 + 0 - 2 + 3 + 0 - 1 &= -2
 \end{aligned}$$
 
@@ -175,13 +175,13 @@ $$\begin{aligned}
 Using the low-rank vectors:
 
 $$a_1 = \begin{bmatrix}
-1 \\
-1 \\
+1 \\\\
+1 \\\\
 1
 \end{bmatrix}, \quad
 b_1 = \begin{bmatrix}
-1 \\
-0 \\
+1 \\\\
+0 \\\\
 -1
 \end{bmatrix}$$
 
@@ -191,30 +191,30 @@ $$\text{Column-wise operation:}$$
 
 $$\begin{aligned}
 1 \cdot \begin{bmatrix}
-1 \\
-0 \\
+1 \\\\
+0 \\\\
 -1
 \end{bmatrix} &= \begin{bmatrix}
-1 \\
-0 \\
+1 \\\\
+0 \\\\
 -1
-\end{bmatrix} \\
+\end{bmatrix} \\\\
 2 \cdot \begin{bmatrix}
-1 \\
-0 \\
+1 \\\\
+0 \\\\
 -1
 \end{bmatrix} &= \begin{bmatrix}
-2 \\
-0 \\
+2 \\\\
+0 \\\\
 -2
-\end{bmatrix} \\
+\end{bmatrix} \\\\
 3 \cdot \begin{bmatrix}
-1 \\
-0 \\
+1 \\\\
+0 \\\\
 -1
 \end{bmatrix} &= \begin{bmatrix}
-3 \\
-0 \\
+3 \\\\
+0 \\\\
 -3
 \end{bmatrix}
 \end{aligned}$$
@@ -222,23 +222,23 @@ $$\begin{aligned}
 $$\text{Summed result for each column:}$$
 
 $$\begin{bmatrix}
-1 \\
-0 \\
+1 \\\\
+0 \\\\
 -1
 \end{bmatrix} +
 \begin{bmatrix}
-2 \\
-0 \\
+2 \\\\
+0 \\\\
 -2
 \end{bmatrix} +
 \begin{bmatrix}
-3 \\
-0 \\
+3 \\\\
+0 \\\\
 -3
 \end{bmatrix} =
 \begin{bmatrix}
-6 \\
-0 \\
+6 \\\\
+0 \\\\
 -6
 \end{bmatrix}$$
 

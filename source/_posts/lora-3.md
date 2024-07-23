@@ -17,73 +17,39 @@ tags:
 categories:
     - artificial-intelligence
 ---
-
 # Decomposition of a Convolutional layer
 
-In a previous post I described (in some detail) what it means to
-decompose a matrix multiply into a sequence of low rank matrix
-multiplies. We can do something similar for a tensor as well, this is
-somewhat less easy to see since tensors (particularly in higher
-dimensions) are quite hard to visualize.
+In a previous post I described (in some detail) what it means to decompose a matrix multiply into a sequence of low rank matrix multiplies. We can do something similar for a tensor as well, this is somewhat less easy to see since tensors (particularly in higher dimensions) are quite hard to visualize.
 
 # Convolution Operation
 
-At the heart of it, a convolution operation takes a smaller cube subset
-of a "cube" of numbers (also known as the map stack) multiplies each of
-those numbers by a fixed set of numbers (also known as the kernel) and
-gives a single scalar output. Let us start with what each "slice" of the
-cube really represents.
+At the heart of it, a convolution operation takes a smaller cube subset of a "cube" of numbers (also known as the map stack) multiplies each of those numbers by a fixed set of numbers (also known as the kernel) and gives a single scalar output. Let us start with what each "slice" of the cube really represents.
 
-![Each channel represents the intensity of one color. And since we have
-already separated out the channels we can revert it to grey-scale. Where
-white means that color is very intense or the value at that pixel is
-high and black means it is very low.](lora-3/image_parrot.png)
+![Each channel represents the intensity of one color. And since we have already separated out the channels we can revert it to grey-scale. Where white means that color is very intense or the value at that pixel is high and black means it is very low.](lora-3/image_parrot.png)
 
-![Each such image is shaped into a "cube". For an RGB image, the "depth"
-of the image is 3 (one for each
-color).](lora-3/lighthouse.png)
+![Each such image is shaped into a "cube". For an RGB image, the "depth" of the image is 3 (one for each color).](lora-3/lighthouse.png)
 
-Now that we have a working example of the representation, let us try to
-visualize what a convolution is.
+Now that we have a working example of the representation, let us try to visualize what a convolution is.
 
-![Basic Convolution, maps a "cube" to a
-number](lora-3/convolution.png)
+![Basic Convolution, maps a "cube" to a number](lora-3/convolution.png)
 
-A convolution operation takes a subset of the RGB image across all
-channels and maps it to one number (a scalar), by multiplying the cube
-of numbers with a fixed set of numbers (a.k.a kernel, not pictured here)
-and adding them together.A convolution operation multiplies each pixel
-in the image across all $3$ channels with a fixed number and add it all
-up.
+A convolution operation takes a subset of the RGB image across all channels and maps it to one number (a scalar), by multiplying the cube of numbers with a fixed set of numbers (a.k.a kernel, not pictured here) and adding them together.A convolution operation multiplies each pixel in the image across all $3$ channels with a fixed number and add it all up.
 
 # Low Rank Approximation of Convolution
 
-Now that we have a good idea of what a convolution looks like, we can
-now try to visualize what a low rank approximation to a convolution
-might look like. The particular kind of approximation we have chosen
-here does the following 4 operations to approximate the one convolution
-operation being done.
+Now that we have a good idea of what a convolution looks like, we can now try to visualize what a low rank approximation to a convolution might look like. The particular kind of approximation we have chosen here does the following 4 operations to approximate the one convolution operation being done.
 
--   (Green) Takes one pixel from the image across all $3$ channels and
-    maps it to one value
+-   (Green) Takes one pixel from the image across all $3$ channels and maps it to one value
 
--   (Red) Takes one long set of pixels from one channel and maps it to
-    one value
+-   (Red) Takes one long set of pixels from one channel and maps it to one value
 
--   (Blue) Takes one wide set of pixels from one channel and maps it to
-    one value
+-   (Blue) Takes one wide set of pixels from one channel and maps it to one value
 
--   (Green) takes one pixel from all $3$ channels and maps it to one
-    value
+-   (Green) takes one pixel from all $3$ channels and maps it to one value
 
-Intuitively, we are still taking the subset "cube" but we have broken it
-down so that in any given operation only $1$ dimension is not $1$. This
-is really the key to reducing the complexity of the initial convolution
-operation, because even though there are more such operations each
-operations is more complex.
+Intuitively, we are still taking the subset "cube" but we have broken it down so that in any given operation only $1$ dimension is not $1$. This is really the key to reducing the complexity of the initial convolution operation, because even though there are more such operations each operations is more complex.
 
-![Still maps a cube to a number but does so via a sequence of "simpler"
-operations](lora-3/decomp_conv.png)
+![Still maps a cube to a number but does so via a sequence of "simpler" operations](lora-3/decomp_conv.png)
 
 # Painful Example of Convolution by hand {#painful-example-of-convolution-by-hand .unnumbered}
 
@@ -107,23 +73,18 @@ Kernel: $$\begin{bmatrix}
 1 & 0 & -1 \\
 \end{bmatrix}$$
 
-Element-wise multiplication and sum:
-$$(1 \cdot 1) + (2 \cdot 0) + (3 \cdot -1) + \\
+Element-wise multiplication and sum: $$(1 \cdot 1) + (2 \cdot 0) + (3 \cdot -1) + \\
 (0 \cdot 1) + (1 \cdot 0) + (2 \cdot -1) + \\
 (3 \cdot 1) + (0 \cdot 0) + (1 \cdot -1)$$
 
 $$\implies
 1 + 0 - 3 + \\
 0 + 0 - 2 + \\
-3 + 0 - 1 = -2$$ Now repeat that by moving the kernel one step over (you
-can in fact change this with the stride argument for convolution).
+3 + 0 - 1 = -2$$ Now repeat that by moving the kernel one step over (you can in fact change this with the stride argument for convolution).
 
 # Low Rank Approximation of convolution
 
-Now we will painfully do a low rank decomposition of the convolution
-kernel above. There is a theorem that says that a $2D$ matrix can be
-approximated by a sum of 2 outer products of two vectors. Say we can
-express $K$ as, $$K \approx a_1 \times b_1 + a_2\times b_2$$
+Now we will painfully do a low rank decomposition of the convolution kernel above. There is a theorem that says that a $2D$ matrix can be approximated by a sum of 2 outer products of two vectors. Say we can express $K$ as, $$K \approx a_1 \times b_1 + a_2\times b_2$$
 
 We can easily guess $a_i, b_i$. Consider, $$a_1 = \begin{bmatrix}
      1\\
@@ -143,9 +104,7 @@ We can easily guess $a_i, b_i$. Consider, $$a_1 = \begin{bmatrix}
      0\\
  \end{bmatrix}$$
 
-This is easy because I chose values for the kernel that were easy to
-break down. How to perform this breakdown is the subject of the later
-sections.
+This is easy because I chose values for the kernel that were easy to break down. How to perform this breakdown is the subject of the later sections.
 
 $$K = a_1\times b_1 + a_2 \times b_2 = \begin{bmatrix}
 1 & 0& -1 \\
@@ -295,7 +254,4 @@ $$1 \cdot (6) + 1 \cdot (0) + 1 \cdot (-6) = 6 + 0 - 6 = 0$$
 
 -   Convolution with Low-Rank Vectors: 0
 
-The results are different due to the simplifications made by the
-low-rank approximation. But this is part of the problem that we need to
-optimize for when picking low rank approximations. In practice, we will
-ALWAYS lose some accuracy
+The results are different due to the simplifications made by the low-rank approximation. But this is part of the problem that we need to optimize for when picking low rank approximations. In practice, we will ALWAYS lose some accuracy

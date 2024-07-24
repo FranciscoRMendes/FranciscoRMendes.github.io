@@ -39,17 +39,7 @@ A convolution operation takes a subset of the RGB image across all channels and 
 
 Now that we have a good idea of what a convolution looks like, we can now try to visualize what a low rank approximation to a convolution might look like. The particular kind of approximation we have chosen here does the following 4 operations to approximate the one convolution operation being done.
 
--   (Green) Takes one pixel from the image across all $3$ channels and maps it to one value
-
--   (Red) Takes one long set of pixels from one channel and maps it to one value
-
--   (Blue) Takes one wide set of pixels from one channel and maps it to one value
-
--   (Green) takes one pixel from all $3$ channels and maps it to one value
-
-Intuitively, we are still taking the subset "cube" but we have broken it down so that in any given operation only $1$ dimension is not $1$. This is really the key to reducing the complexity of the initial convolution operation, because even though there are more such operations each operations is more complex.
-
-![Still maps a cube to a number but does so via a sequence of "simpler" operations](lora-3/decomp_conv.png)
+![Still maps a cube to a number but does so via a sequence of 2 "simpler" operations](lora-3/2_conv.png)
 
 # Painful Example of Convolution by hand 
 
@@ -256,6 +246,153 @@ $$1 \cdot (6) + 1 \cdot (0) + 1 \cdot (-6) = 6 + 0 - 6 = 0$$
 
 The results are different due to the simplifications made by the low-rank approximation. But this is part of the problem that we need to optimize for when picking low rank approximations. In practice, we will ALWAYS lose some accuracy
 
+# Decomposition into a list of simpler operations
+The examples above are quite simple and are perfectly good for simplifying neural networks. This is still an active area of research. One of the things that researchers try to do is try to further simplify each already simplified operation, of course you pay the price of more operations. The one we will use for this example is one where the operations is broken down into four simpler operations. 
+
+![CP Decomposition shown here, still maps a cube to a number but does so via a sequence of 4 "simpler" operations](lora-3/decomp_conv.png)
+
+-   (Green) Takes one pixel from the image across all $3$ channels and maps it to one value
+
+-   (Red) Takes one long set of pixels from one channel and maps it to one value
+
+-   (Blue) Takes one wide set of pixels from one channel and maps it to one value
+
+-   (Green) takes one pixel from all $3$ channels and maps it to one value
+
+Intuitively, we are still taking the subset "cube" but we have broken it down so that in any given operation only $1$ dimension is not $1$. This is really the key to reducing the complexity of the initial convolution operation, because even though there are more such operations each operations is more complex.
+
+# PyTorch Implementation
+In this section, we will take AlexNet (`Net`), evaluate (`evaluate_model`) it on some data and then decompose the convolutional layers. 
+
+## Declaring both the original and low rank network
+Below you can find the original definition of AlexNet. 
+```python
+class Net(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layers  = nn.ModuleDict()
+        self.layers['conv1'] = nn.Conv2d(3, 6, 5)
+        self.layers['pool'] = nn.MaxPool2d(2, 2)
+        self.layers['conv2'] = nn.Conv2d(6, 16, 5)
+        self.layers['fc1'] = nn.Linear(16 * 5 * 5, 120)
+        self.layers['fc2'] = nn.Linear(120, 84)
+        self.layers['fc3'] = nn.Linear(84, 10)
+
+    def forward(self,x):
+        x = self.layers['pool'](F.relu(self.layers['conv1'](x)))
+        x = self.layers['pool'](F.relu(self.layers['conv2'](x)))
+        x = torch.flatten(x, 1)
+        x = F.relu(self.layers['fc1'](x))
+        x = F.relu(self.layers['fc2'](x))
+        x = self.layers['fc3'](x)
+        return x
+
+def evaluate_model(net):
+    import torchvision.transforms as transforms
+    batch_size = 4 # [4, 3, 32, 32]
+    transform = transforms.Compose(
+        [transforms.ToTensor(),
+         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+    classes = ('plane', 'car', 'bird', 'cat',
+               'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
+    trainset = torchvision.datasets.CIFAR10(root='../data', train=True,
+                                            download=True, transform=transform)
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size,
+                                              shuffle=True, num_workers=2)
+    testset = torchvision.datasets.CIFAR10(root='../data', train=False,
+                                           download=True, transform=transform)
+    testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size,
+                                             shuffle=False, num_workers=2)
+    # prepare to count predictions for each class
+    correct_pred = {classname: 0 for classname in classes}
+    total_pred = {classname: 0 for classname in classes}
+    # again no gradients needed
+    with torch.no_grad():
+        for data in testloader:
+            images, labels = data
+            outputs = net(images)
+            _, predictions = torch.max(outputs, 1)
+            # collect the correct predictions for each class
+            for label, prediction in zip(labels, predictions):
+                if label == prediction:
+                    correct_pred[classes[label]] += 1
+                total_pred[classes[label]] += 1
+    # print accuracy for each class
+    for classname, correct_count in correct_pred.items():
+        accuracy = 100 * float(correct_count) / total_pred[classname]
+        print(f'Original Accuracy for class: {classname:5s} is {accuracy:.1f} %')
+```
+
+Here we will decompose the second convolutional layer, given by the `layer_to_replace` argument. The two important lines to pay attention to are `est_rank` and `cp_decomposition_conv_layer`. The first function estimates the rank of the convolutional layer and the second function decomposes the convolutional layer into a list of simpler operations.
+
+```python
+class lowRankNet(Net):
+
+    def __init__(self, original_network):
+        super().__init__()
+        self.layers = nn.ModuleDict()
+        self.initialize_layers(original_network)
+
+    def initialize_layers(self, original_network):
+        # Make deep copy of the original network so that it doesn't get modified
+        og_network = copy.deepcopy(original_network)
+        # Getting first layer from the original network
+        layer_to_replace = "conv2"
+        # Remove the first layer
+        for i, layer in enumerate(og_network.layers):
+            if layer == layer_to_replace:
+                # decompose that layer
+                rank = est_rank(og_network.layers[layer])
+                decomp_layers = cp_decomposition_conv_layer(og_network.layers[layer], rank)
+                for j, decomp_layer in enumerate(decomp_layers):
+                    self.layers[layer + f"_{j}"] = decomp_layer
+            else:
+                self.layers[layer] = og_network.layers[layer]
+        # Add the decomposed layers at the position of the deleted layer
+
+    def forward(self, x, layer_to_replace="conv2"):
+        x = self.layers['pool'](F.relu(self.layers['conv1'](x)))
+        # x = self.layers['pool'](F.relu(self.laye['conv2'](x)
+        x = self.layers['conv2_0'](x)
+        x = self.layers['conv2_1'](x)
+        x = self.layers['conv2_2'](x)
+        x = self.layers['pool'](F.relu(self.layers['conv2_3'](x)))
+        x = torch.flatten(x, 1)
+        x = F.relu(self.layers['fc1'](x))
+        x = F.relu(self.layers['fc2'](x))
+        x = self.layers['fc3'](x)
+        return x
+
+```
+
+Let us first discuss estimate rank. For a complete discussion see the the references by Nakajima and Shinchi. The basic idea is that we take the tensor, "unfold" it along one axis (basically reduce the tensor into a matrix by collapsing around other axes) and estimate the rank of that matrix.  
+You can find ``est_rank`` below. 
+
+```python
+from TVBMF import EVBMF
+def est_rank(layer):
+    W = layer.weight.data
+    # W = W.detach().numpy() #the weight has to be a numpy array for tl but needs to be a torch tensor for EVBMF
+    mode3 = tl.base.unfold(W.detach().numpy(), 0)
+    mode4 = tl.base.unfold(W.detach().numpy(), 1)
+    diag_0 = EVBMF(torch.tensor(mode3))
+    diag_1 = EVBMF(torch.tensor(mode4))
+
+    # round to multiples of 16
+    multiples_of = 8 # this is done mostly to standardize the rank to a standard set of numbers, so that 
+    # you do not end up with ranks 7, 9 etc. those would both be approximated to 8.
+    # that way you get a sense of the magnitude of ranks across multiple runs and neural networks
+    # return int(np.ceil(max([diag_0.shape[0], diag_1.shape[0]]) / 16) * 16)
+    return int(np.ceil(max([diag_0.shape[0], diag_1.shape[0]]) / multiples_of) * multiples_of)
+
+```
+You can find the EVBMF code on my github page. I do not go into it in detail here. Jacob Gildenblatt's code is a great resource for an in-depth look at this algorithm.
+
+
 # References
-[Low Rank approximation of CNNs] (https://arxiv.org/pdf/1511.06067)
-[CP Decomposition] (https://arxiv.org/pdf/1412.6553)
+- [Low Rank approximation of CNNs] (https://arxiv.org/pdf/1511.06067)
+- [CP Decomposition] (https://arxiv.org/pdf/1412.6553)
+- Kolda & Bader "Tensor Decompositions and Applications"in SIAM REVIEW, 2009
+- [1] Nakajima, Shinichi, et al. "Global analytic solution of fully-observed variational Bayesian matrix factorization." Journal of Machine Learning Research 14.Jan (2013): 1-37.
+- [2] Nakajima, Shinichi, et al. "Perfect dimensionality recovery by variational Bayesian PCA."
+- [Accelerating Deep Neural Networks with Tensor Decompositions - Jacob Gildenblat] (https://jacobgil.github.io/deeplearning/tensor-decompositions-deep-learning) 

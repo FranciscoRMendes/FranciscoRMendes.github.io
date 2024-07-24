@@ -1,6 +1,6 @@
 ---
 title : "Part III :  What does low rank factorization of Convolutional Layer really do?"
-date : 2024-05-16
+date : 2024-07-24
 mathjax : true
 thumbnail : gallery/thumbnails/decomposition_illustration.png
 cover : gallery/thumbnails/decomposition_illustration.png

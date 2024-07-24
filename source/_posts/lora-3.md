@@ -369,7 +369,12 @@ Let us first discuss estimate rank. For a complete discussion see the the refere
 You can find ``est_rank`` below. 
 
 ```python
-from TVBMF import EVBMF
+from __future__ import division
+import torch
+import numpy as np
+# from scipy.sparse.linalg import svds
+from scipy.optimize import minimize_scalar
+
 def est_rank(layer):
     W = layer.weight.data
     # W = W.detach().numpy() #the weight has to be a numpy array for tl but needs to be a torch tensor for EVBMF
@@ -385,6 +390,98 @@ def est_rank(layer):
     # return int(np.ceil(max([diag_0.shape[0], diag_1.shape[0]]) / 16) * 16)
     return int(np.ceil(max([diag_0.shape[0], diag_1.shape[0]]) / multiples_of) * multiples_of)
 
+def EVBMF(Y, sigma2=None, H=None):
+    """Implementation of the analytical solution to Empirical Variational Bayes Matrix Factorization.
+    This function can be used to calculate the analytical solution to empirical VBMF.
+    This is based on the paper and MatLab code by Nakajima et al.:
+    "Global analytic solution of fully-observed variational Bayesian matrix factorization."
+
+    Notes
+    -----
+        If sigma2 is unspecified, it is estimated by minimizing the free energy.
+        If H is unspecified, it is set to the smallest of the sides of the input Y.
+
+    Attributes
+    ----------
+    Y : numpy-array
+        Input matrix that is to be factorized. Y has shape (L,M), where L<=M.
+
+    sigma2 : int or None (default=None)
+        Variance of the noise on Y.
+
+    H : int or None (default = None)
+        Maximum rank of the factorized matrices.
+
+    Returns
+    -------
+    U : numpy-array
+        Left-singular vectors.
+
+    S : numpy-array
+        Diagonal matrix of singular values.
+
+    V : numpy-array
+        Right-singular vectors.
+
+    post : dictionary
+        Dictionary containing the computed posterior values.
+
+
+    References
+    ----------
+    .. [1] Nakajima, Shinichi, et al. "Global analytic solution of fully-observed variational Bayesian matrix factorization." Journal of Machine Learning Research 14.Jan (2013): 1-37.
+
+    .. [2] Nakajima, Shinichi, et al. "Perfect dimensionality recovery by variational Bayesian PCA." Advances in Neural Information Processing Systems. 2012.
+    """
+    L, M = Y.shape  # has to be L<=M
+
+    if H is None:
+        H = L
+
+    alpha = L / M
+    tauubar = 2.5129 * np.sqrt(alpha)
+
+    # SVD of the input matrix, max rank of H
+    U, s, V = torch.svd(Y)
+    U = U[:, :H]
+    s = s[:H]
+    V[:H].t_()
+
+    # Calculate residual
+    residual = 0.
+    if H < L:
+        residual = torch.sum(torch.sum(Y ** 2) - torch.sum(s ** 2))
+
+    # Estimation of the variance when sigma2 is unspecified
+    if sigma2 is None:
+        xubar = (1 + tauubar) * (1 + alpha / tauubar)
+        eH_ub = int(np.min([np.ceil(L / (1 + alpha)) - 1, H])) - 1
+        upper_bound = (torch.sum(s ** 2) + residual) / (L * M)
+        lower_bound = np.max([s[eH_ub + 1] ** 2 / (M * xubar), torch.mean(s[eH_ub + 1:] ** 2) / M])
+
+        scale = 1.  # /lower_bound
+        s = s * np.sqrt(scale)
+        residual = residual * scale
+        lower_bound = float(lower_bound * scale)
+        upper_bound = float(upper_bound * scale)
+
+        sigma2_opt = minimize_scalar(EVBsigma2, args=(L, M, s, residual, xubar), bounds=[lower_bound, upper_bound],
+                                     method='Bounded')
+        sigma2 = sigma2_opt.x
+
+    # Threshold gamma term
+    threshold = np.sqrt(M * sigma2 * (1 + tauubar) * (1 + alpha / tauubar))
+
+    pos = torch.sum(s > threshold)
+    if pos == 0: return np.array([])
+
+    # Formula (15) from [2]
+    d = torch.mul(s[:pos] / 2,
+                  1 - (L + M) * sigma2 / s[:pos] ** 2 + torch.sqrt(
+                      (1 - ((L + M) * sigma2) / s[:pos] ** 2) ** 2 - \
+                      (4 * L * M * sigma2 ** 2) / s[:pos] ** 4))
+
+    return torch.diag(d)
 ```
 You can find the EVBMF code on my github page. I do not go into it in detail here. Jacob Gildenblatt's code is a great resource for an in-depth look at this algorithm.
 
@@ -395,4 +492,5 @@ You can find the EVBMF code on my github page. I do not go into it in detail her
 - Kolda & Bader "Tensor Decompositions and Applications"in SIAM REVIEW, 2009
 - [1] Nakajima, Shinichi, et al. "Global analytic solution of fully-observed variational Bayesian matrix factorization." Journal of Machine Learning Research 14.Jan (2013): 1-37.
 - [2] Nakajima, Shinichi, et al. "Perfect dimensionality recovery by variational Bayesian PCA."
+- [Python implementation of EVBMF] (https://github.com/CasvandenBogaard/VBMF)
 - [Accelerating Deep Neural Networks with Tensor Decompositions - Jacob Gildenblat] (https://jacobgil.github.io/deeplearning/tensor-decompositions-deep-learning) 

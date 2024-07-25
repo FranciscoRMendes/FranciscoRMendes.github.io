@@ -1,5 +1,5 @@
 ---
-title : "Part III :  What does low rank factorization of Convolutional Layer really do?"
+title : "Part III :  What does Low Rank Factorization of a Convolutional Layer really do?"
 date : 2024-07-24
 mathjax : true
 thumbnail : gallery/thumbnails/decomposition_illustration.png
@@ -20,7 +20,11 @@ categories:
 # Decomposition of a Convolutional layer
 
 In a previous post I described (in some detail) what it means to decompose a matrix multiply into a sequence of low rank matrix multiplies. We can do something similar for a tensor as well, this is somewhat less easy to see since tensors (particularly in higher dimensions) are quite hard to visualize.
-
+Recall, the matrix formulation,
+$$Y = XW + b = XUSV' + b$$
+Where $U$ and $V$ are the left and right singular vectors of $W$ respectively. The idea is to approximate $W$ as a sum of outer products of $U$ and $V$ of lower rank. 
+Now instead of a weight matrix multiplication $y = WX + b$ we have a kernel operation, $y = K\circledast X + b$ where $\circledast$ is the convolution operation. The idea is to approximate $K$ as a sum of outer products of $U$ and $V$ of lower rank.
+Interestingly, you can also think about this as a matrix multiplication, by creating a Toplitz matrix version of $K$ , call it $K'$ and then doing $y = K'X + b$. But this comes with issues as $K'$ is much much bigger than $K$. So we just approach it as a convolution operation for now. 
 # Convolution Operation
 
 At the heart of it, a convolution operation takes a smaller cube subset of a "cube" of numbers (also known as the map stack) multiplies each of those numbers by a fixed set of numbers (also known as the kernel) and gives a single scalar output. Let us start with what each "slice" of the cube really represents.
@@ -486,7 +490,9 @@ def EVBMF(Y, sigma2=None, H=None):
 ```
 You can find the EVBMF code on my github page. I do not go into it in detail here. Jacob Gildenblatt's code is a great resource for an in-depth look at this algorithm.
 
-
+# Conclusion
+So why is all this needed? The main reason is that we can reduce the number of operations needed to perform a convolution. This is particularly important in embedded systems where the number of operations is a hard constraint. The other reason is that we can reduce the number of parameters in a neural network, which can help with overfitting. The final reason is that we can reduce the amount of memory needed to store the neural network. This is particularly important in mobile devices where memory is a hard constraint.
+What does this mean mathematically? Fundamentally it means that neural networks are over parameterized i.e. they have far more parameters than the information that they represent. By reducing the rank of the matrices needed carry out a convolution, we are representing the same operation (as closely as possible) with a lot less information. 
 # References
 - [Low Rank approximation of CNNs] (https://arxiv.org/pdf/1511.06067)
 - [CP Decomposition] (https://arxiv.org/pdf/1412.6553)

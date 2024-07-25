@@ -501,3 +501,4 @@ What does this mean mathematically? Fundamentally it means that neural networks 
 - [2] Nakajima, Shinichi, et al. "Perfect dimensionality recovery by variational Bayesian PCA."
 - [Python implementation of EVBMF] (https://github.com/CasvandenBogaard/VBMF)
 - [Accelerating Deep Neural Networks with Tensor Decompositions - Jacob Gildenblat] (https://jacobgil.github.io/deeplearning/tensor-decompositions-deep-learning) 
+- [Python Implementatioon of VBMF] (https://github.com/CasvandenBogaard/VBMF)

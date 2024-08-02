@@ -1,13 +1,11 @@
 ---
-title : "On The Class Struggle"
+title : "On The Class Struggle."
 date : 2024-08-1
 mathjax : true
 tags:
 categories:
     - essay
 ---
-
-# On The Class Struggle. 
 
 My father studied war, sailing (the rough kind) and carpentry that I may study mathematics and politics that my children may study art and literature that their children (my grandchildren) might one day move to Vancouver to study peace, sailing (the genteel kind) and carpentry (is there a kind?). They say the Soviet class struggle is lost, and so is ours, but I say my father fought to a draw. A bloody draw, an armistice that I must protect at all costs. We fought for (upward) social mobility and our reward was the downward social mobility of the intelligentsia (of which I am now part). 
 

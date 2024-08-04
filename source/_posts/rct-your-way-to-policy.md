@@ -44,7 +44,7 @@ Fundamentally, the treatment effect, $Y_i$'s equation is given by, $$Y_i = \beta
 
 # Randomization
 
-Randomization is often looked at as this perfect tool that answers all questions related to variance between the treatment and control group but as we will see this is often not the case in practice. Recall, $$\bar{Y_1} - \bar{Y_0} = \bar{\beta_1} + \sum_{j=1}^J \gamma_j (\bar{x}_{1ij} - \bar{x}_{0ij}) = \bar{\beta_1} + (\bar{S_1} - \bar{S_0})$$
+Randomization is often looked at as this perfect tool that answers all questions related to variance between the treatment and control group but as we will see this is often not the case in practice. Recall, $$\bar{Y_1} - \bar{Y_0} = \bar{\beta_1} + \sum_{j=1}^J \gamma_j (\bar{x}\_{1ij} - \bar{x}\_{0ij}) = \bar{\beta_1} + (\bar{S_1} - \bar{S_0})$$
 
 Usually, the second term on the right is equated to $0$. But there is considerable slight of hand involved here. While un-biasedness guarantees that the second term is $0$ *in expectation*. In any one trial we have no idea about the size of this term. This is referred to in the clinical trials literature as random confounding or realized (as in one realization of a trial) confounding.
 

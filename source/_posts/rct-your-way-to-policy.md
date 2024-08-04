@@ -55,3 +55,8 @@ Exactly what randomization does is lost in popular parlance. There is often a mi
 # Post Mortem
 
 While, I have many misgivings about Bayesian epistemology in general, I think it is a very narrow way of viewing the world. It is also pseudo mathematical for a variety of reasons (see Pollock for a mathematical discussion of why it is not a tractable mathematical theory, but rather a subjective philosophy that appropriates real mathematics). For the reasons mentioned here, I think that RCTs do not often contribute enough signal to update probabilities about hypotheses in a meaningful way. In addition, it has become fashionable to quote a counter intuitive or counter-theoretical result from an RCT to suggest that theory needs to change, rather than requiring more studies or more information about causal pathways to improve the body of scientific evidence in either direction. Finally, the idea that RCTs require little no theory is patently false. Since a good RCT requires a good control which often requires a good theory which in turn is subject to all the shortcomings of the human experience such as political bias and subjectivity. *No causality in, no causality out*. Words to live by indeed.
+
+# References
+
+Critique of Bayesian Epistemology (https://johnpollock.us/ftp/PAPERS/Problems%20for%20Bayesian%20Epistemology.pdf)
+Understanding and misunderstanding randomized controlled trials (https://pubmed.ncbi.nlm.nih.gov/29331519/)

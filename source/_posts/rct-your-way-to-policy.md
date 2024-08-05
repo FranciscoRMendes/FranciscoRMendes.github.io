@@ -5,19 +5,21 @@ mathjax : true
 cover: gallery/token-picture-of-poor.png
 thumbnail: gallery/thumbnails/banerjee-duflo-kramer.png
 tags:
+  - statistics
+  - economics
 categories:
     - economics
     - statistics
     - policy
     - opinion
 ---
-![img.png](img.png)
 
 # The Bayesian Policy Maker 
 ![The Big 3 of RCTs in Economics, Abhijit Banerjee, Esther Duflo and Michael Kramer. Prior to their work in Kenya and India, RCTs were relatively unheard of for policy evaluations in development economics.](rct-your-way-to-policy/banerjee-duflo-kramer.png)
 
-*Ah they say, so here is what you do, you see its very simple. You gather data, you gather all the facts and then you do the statistics you see and then you make your decision. You see, a modern policy maker shouldn't bother with the inconveniences of a ideology and emotions et cetera, that stuff is for amateurs you see.*
+*Ah they say, so here is what you do, you see its very simple. You gather data, you gather all the facts, and then you do the statistics you see, and then you make your decision. You see, a modern policymaker shouldn't bother with the inconveniences of a ideology and emotions et cetera, that stuff is for amateurs you see.*
 
+Also, you attach a token picture of poor people being poor in a 3rd world country on a website for RCTs (the cover image above is taken from one such website, not sure why it is relevant to their study) and you are well on your way to success!
 # Rarefied air of RCTs 
 
 ![Angus Deaton and Nancy Cartwright are outspoken critics of RCTs. Much of this article is a summary of the key statistical issues with RCTs, from their seminal paper, _Understanding and misunderstanding randomized controlled trials_](rct-your-way-to-policy/angus-deaton.png)
@@ -51,7 +53,7 @@ All misunderstandings about probability come from the confidence of individuals 
 Fundamentally, the treatment effect, $Y_i$'s equation is given by, $$Y_i = \beta_iT_i + \sum_{1}^{J} \gamma_jx_{ij}$$ Where $T_i$ the boolean variable is $0$ or $1$ accordingly as whether the $i$th individual is in treatment or control. Ideally we would like to measure $Y_{i0} - Y_{i1}$. That is, we would like to observe the same individual in treatment and control and measure the difference in outcome in the two cases. In absence of this we can only observe $\bar{Y_0} - \bar{Y_1}$ i.e. the difference in population mean between the treated and un-treated population. It is a remarkable theorem from statistical theory that says that, the difference in these means is an *unbiased* estimator of the treatment effect. This is remarkable because it requires very few if any assumptions. Recall, that unbiased-ness buys us relatively little for a study done once as it could be a *completely* random effect we observe in any *one* study. Below, is a measure theoretic proof of why this is the case, $$E(aX+bY) = \int_{\Omega} aX + bY dP$$ $$= a\int_{\Omega}XdP + b\int_{\Omega} YdP$$ $$= aE(X) + bE(Y)$$ Where this last equation follows from the linear nature of the expectation operator. This is another vital weakness of the RCT, you can *only* ever get at the mean effect. You cannot get a meaningful measure of any other statistic. As an economist we are very often concerned with the median and below is a similar proof of why this is not the case, $$M(X) = m_1 ,s.t. \int_{0}^{m_1} f(x) dx = \frac{1}{2}$$ one can immediately see that this is a lot hairier to linearly separate than before, i.e. $$M(aX+bY) \neq a M(X) + b M(Y)$$ This is another critical weakness of an RCT, you can only tell what the treatment effect is in expectation. Though not useless, this is far from usual when a statistician would rather know the entire distribution of outcomes. This is generally the case with other forms of studies.
 
 # Randomization
-![This image is usually ALL you will get when going through an RCT-based paper. That one word does a lot of work, I attempt to break it down in this section.](rct-your-way-to-policy/treatment-control.png)
+![This book does not mention or do justice to several key issues in randomization. This book is so enthusiastic about randomization one could mistake it for propaganda.](rct-your-way-to-policy/randomistas.png)
 Randomization is often looked at as this perfect tool that answers all questions related to variance between the treatment and control group but as we will see this is often not the case in practice. Recall, $$\bar{Y_1} - \bar{Y_0} = \bar{\beta_1} + \sum_{j=1}^J \gamma_j (\bar{x}\_{1ij} - \bar{x}\_{0ij}) = \bar{\beta_1} + (\bar{S_1} - \bar{S_0})$$
 
 Usually, the second term on the right is equated to $0$. But there is considerable slight of hand involved here. While un-biasedness guarantees that the second term is $0$ *in expectation*. In any one trial we have no idea about the size of this term. This is referred to in the clinical trials literature as random confounding or realized (as in one realization of a trial) confounding.

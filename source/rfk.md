@@ -1,5 +1,5 @@
 ---
-title : "Should I vote for RFK?"
+title : "Hey Game Theory Nerd : Should I Vote For RFK?"
 date : 2024-12-4
 mathjax : true
 tags:

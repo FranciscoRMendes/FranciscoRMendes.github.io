@@ -2,6 +2,8 @@
 title : "Hey Game Theory Nerd : Should I Vote For RFK?"
 date : 2024-12-4
 mathjax : true
+thumbnail: gallery/thumbnails/rfk.png
+cover: gallery/thumbnails/rfk.png
 tags:
     - economics
 categories:

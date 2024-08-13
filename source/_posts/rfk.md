@@ -1,5 +1,5 @@
 ---
-title : "Hey Game Theory Nerd : Should I Vote For RFK?"
+title : "What does Game Theory say about voting for RFK?"
 date : 2024-12-4
 mathjax : true
 thumbnail: gallery/thumbnails/rfk.png

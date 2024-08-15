@@ -15,9 +15,9 @@ categories:
 # Introduction
 
 It is perhaps better to start this article off by clarifying what it is **not** rather than what it **is**. First, this is not a comprehensive review of RFK's policies and what he stands for (there are far better places to seek that information). Second, this is not meant to convince you to vote one way or another based on policy and beliefs (again, there are far better places for that too). So then what the *blazes* did I write this for? Well, the motivation for this article comes from multiple conversations with friends and family who want to know more about voting for independents in general and RFK in particular. Addressing issues such as, 
-- 
+
 - "Is it a wasted vote?" 
-- "Do I vote for RFK to make a point?" / "If I do not then no independent will ever win?" 
+- "Do I vote for RFK to make a point?" / "If we do not vote for Independents, then how will they ever win?" 
 
 I believe that these are important questions to ask and I hope to address them in this article. In order to answer those questions I will first explain the voting system in place and various strategies that can be used to _win_ and election,
 
@@ -29,7 +29,8 @@ I believe that these are important questions to ask and I hope to address them i
 
 As a recovering Game Theorist, I love to look at elections as "games" and therefore I will use the word "strategy" a lot. A strategy in this sense is an action (in this context voting for a candidate). In the game theoretic structure, we assume that a player (i.e. YOU) is playing to win. But what does it mean to win? In this context, winning means getting policies you care about enacted. I will also address a little, the issue of voting "to make a point" about the current system and why I feel like that is a bad idea. But for the most part, I assume that the reader, wants to get policies they care about enacted.
 
-Equally as important, I will assume that political parties only care about getting elected.
+Equally important, I will assume that political parties have atleast some motivation to get elected. While getting elected is not the only motivation of political parties, it is certainly a very important one and allows us to separate out our strategies for voting for them.
+
 
 # Differences in Democracy
 
@@ -47,15 +48,15 @@ Consider $3$ candidates with the following vote shares and a $100$ seats in the 
 
 -   RFK : $22%$ ($22$ seats)
 
-In a parliamentary democracy, KH narrowly wins the election. However (and this is a big caveat), every time a decision is needed to be made, any one party would need to form an "alliance" with some or all of the other parties to reach the $50%$ mark. This means that a significant number of independents need to be swayed in order to pass a law (by either side). By the same token, DJT's influence is not insignificant as they need to sway just $4$ more (than KH) independents to pass laws they want. This system comes with a clear message to the voting population's strategy, you can (and should, if you want to) vote for a party that is smaller than the other two and their voice will be heard at every vote. This system also comes with a clear disadvantage, you need to appeal to independents at every voting instance. This is particularly worse when you consider a situation like this,
+In a parliamentary democracy, KH narrowly wins the election. However, (and this is a big caveat), every time a decision is needed to be made, any one party would need to form an "alliance" with some or all of the other parties to reach the $50%$ mark. This means that a significant number of independents need to be swayed in order to pass a law (by either side). By the same token, DJT's influence is not insignificant as they need to sway just $4$ more (than KH) independents to pass laws they want. This system comes with a clear message to the voting population's strategy, you can (and should, if you want to) vote for a party that is smaller than the other two and their voice will be heard at every vote. This system also comes with a clear disadvantage, you need to appeal to independents at every voting instance. This is particularly worse when you consider a situation like this,
 
 -   KH : $49%$ ($49$ seats)
 
 -   DJT : $48%$ ($48$ seats)
 
--   RFK : $3%$ ($22$ seats)
+-   RFK : $3%$ ($3$ seats)
 
-In situations like this, RFK can hold up legislation that almost $49\%$ of the country wants. Bear in mind, that bills in any democracy do not work in isolation, so RFK can hold up a super important bill (Free Childcare) that *even* their $3%$ want in exchange for a bill that **only** their $3%$ want (Bitcoin deregulation). There are two other future implications that are essential to understanding the Parliamentary system.
+In situations like this, RFK can hold up legislation that almost $49%$ of the country wants. Bear in mind, that bills in any democracy do not work in isolation, so RFK can hold up a super important bill (Free Childcare) that *even* their $3%$ want in exchange for a bill that **only** their $3%$ want (Bitcoin deregulation). There are two other future implications that are essential to understanding the Parliamentary system.
 
 -   The first, is that representative democracies encourage a proliferation of independent parties. They do this to the extent that the word independent party loses all meaning, and there are just a large number of parties that cater to ever more niche demographics that can sometimes seem hilariously contradictory (Pro Environment, Pro Socialism) and (Anti Environment, Pro Socialism).
 
@@ -66,6 +67,8 @@ Notice, that voting for more and more independent parties does not lead to more 
 For example, say you voted for a pro-Environment, Pro Socialist party. Since they are a niche party they formed a coalition with a Socialist party and gave up on Environmental regulation. Now had you known the full result of the election in advance, you might not have wanted to give up on Environmentalism, you might have given up on Socialism instead. For instance, you could think, *if I cannot live in a cleaner environment I might as well have free markets*.
 
 This paints a picture of a democracy that is very unstable. It is. Since the resolution or tolerance between conflicting ideas takes place at the parliament it is very difficult to gauge what issues are deal breakers for the voting population. But over time Parliamentary democracies tend to form $2$ major parties with a constellation of smaller parties that reflect minor interest groups. Governments are formed by one of the two major parties and a collection of smaller parties. We now turn to the other case.
+
+To fix the issue of stability and to reduce the outsized influence of smaller parties, another form of democracy has been proposed that addresses these issues directly. 
 
 ## Winner Takes All Democracy
 

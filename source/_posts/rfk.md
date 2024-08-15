@@ -144,7 +144,10 @@ Thus when discussing your voting strategy it is important to remember that a per
 
 -   "Is it a wasted vote?"
 
-Yes it is, for reasons above the American system expects you to reconcile your differences with the major parties and then cast your vote. If not, you will come away with either : - your third choice candidate winning implementing policies that are objectively worse for you. - you vote for an independent but the people telling you to do not (strategic misreporting).
+Yes it is, for reasons above the American system expects you to reconcile your differences with the major parties and then cast your vote. If not, you will come away with either :
+
+    - your third choice candidate winning implementing policies that are objectively worse for you. 
+    - you vote for an independent but the people telling you to do not (strategic misreporting).
 
 -   "Do I vote for RFK to make a point?" / "If I do not then no independent will ever win?"
 

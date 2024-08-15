@@ -111,11 +111,12 @@ Well, one thing is clear, since the US is a Winner Take All system you should re
 # Implications for Reconciling Differences
 
 If you are reading this far it means you are at least considering voting for the major parties. One thing is clear when reconciling your differences, you need to figure out which party you would vote for if your top choice did not exist. Thus two kinds of voters exist,\
-- $RFK \succ KH\succ DJT$\
-- $RFK \succ DJT\succ KH$\
+- $RFK \succ KH\succ DJT$
+- $RFK \succ DJT\succ KH$
+
 Where, $\succ$ means is that if $a\succ b$ you would vote for $a$ over $b$. For instance, if after casting your vote for RFK and seeing he lost you would rather DJT won (had you known RFK would not have won), that means DJT is your second choice. Thus, imagine a world in which RFK lost and think about who you would have preferred. That is who you should vote for. Similarly, if you voted for RFK and DJT won, and you wished that you voted for KH, then your second choice is KH.
 
-There is however, one (and only one) situation in which you should vote for RFK and that is the situation in which you are truly indifferent between DJT and KH. That is, on the day after the election you truly did not care if RFK lost. I think that such candidates are likely to be of two kinds (and I do not think readers of this article are likely to be either).
+There is however, one (and only one) situation in which you should vote for RFK and that is the situation in which you are truly indifferent between DJT and KH. That is,IF, on the day after the election you truly do not care if RFK lost. I think that such candidates are likely to be of two kinds (and I do not think readers of this article are likely to be either).
 
 **Non-voters** : They would probably have not voted any way. If you are going to vote if RFK was not running then this is NOT you.
 
@@ -154,11 +155,11 @@ Yes it is, for reasons above the American system expects you to reconcile your d
 
 -   "Do I vote for RFK to make a point?" / "If I do not then no independent will ever win?"
 
-No you should not. The reason that independents do not win have more to do with the system than the fact that they do not get enough votes. Even if an independent ends up with very very high percentages of vote share they can end up with no representation. The system is inherently Winner-Takes-All, now you could ask, "why not change the system?" and that is a good question. Unfortunately that would need to be done by the major parties and they have no incentive to do so. But guess what, the best way to do that is to vote for a candidate from the major parties who has a policy of changing the voting system. Best of luck with that.
+No you should not. The reason that independents do not win has more to do with the system than the fact that they do not get enough votes. Even if an independent ends up with very very high percentages of vote share they can end up with no representation. The system is inherently Winner-Takes-All, now you could ask, "why not change the system?" and that is a good question. Unfortunately that would need to be done by the major parties and they have no incentive to do so. But guess what, the best way to do that is to vote for a candidate from the major parties who has a policy of changing the voting system. Best of luck with that.
 
-In the past many candidates have been independent and have garnered huge amounts of popular support (at the primary stage), but these candidates have inevitably joined either of the two parties. So what ends up happening
+In the past many candidates have been independent and have garnered huge amounts of popular support (at the primary stage), but these candidates have inevitably joined either of the two parties. So what ends up happening is one of two things, 
 
--   if the major parties think an independent is popular and risks a big chunk of vote share, they offer them a ticket
--   if the major parties do not view them as a risk they ignore them and hope they do not take too much vote share.
+-   if the major parties think an independent is popular and risks a big chunk of vote share, they offer them a ticket.
+-   if the major parties do not view them as a risk they ignore them and hope they do not take too much vote share. If they do take vote share this has the effect of penalizing the candidate who has less fanatical (nationalistic/ personality driven) supporters since they are more open to truly voting based on ideology. 
 
 I think that rank order voting is a good system to implement in the US, and advocating directly for that is a better strategy than voting for an independent. As I said, it is funny that independents do not directly advocate for this system, but it is likely that they are not able to get enough votes to be taken seriously.

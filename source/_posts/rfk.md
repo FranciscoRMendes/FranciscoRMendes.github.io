@@ -19,7 +19,7 @@ It is perhaps better to start this article off by clarifying what it is **not** 
 - "Is it a wasted vote?" 
 - "Do I vote for RFK to make a point?" / "If I do not then no independent will ever win?" 
 
-- I believe that these are important questions to ask and I hope to address them in this article. In order to answer those questions I needed,
+I believe that these are important questions to ask and I hope to address them in this article. In order to answer those questions I will first explain the voting system in place and various strategies that can be used to _win_ and election,
 
 -   Differences between Parliamentary (such as the UK and India) and Winner-Takes-All Democracy (USA).
 
@@ -27,7 +27,7 @@ It is perhaps better to start this article off by clarifying what it is **not** 
 
 -   Strategic Misreporting - why people who say they might vote for RFK might not actually vote for RFK but simply want *you* to vote for him.
 
-As a recovering Game Theorist, I love to look at elections as \"games\" and therefore I will use the word \"strategy\" a lot. A strategy in this sense is an action (in this context voting for a candidate). In the game theoretic structure, we assume that a player (i.e. YOU) is playing to win. But what does it mean to win? In this context, winning means getting policies you care about enacted. I will also address a little, the issue of voting \"to make a point\" about the current system and why I feel like that is a bad idea. But for the most part, I assume that the reader, wants to get policies they care about enacted.
+As a recovering Game Theorist, I love to look at elections as "games" and therefore I will use the word "strategy" a lot. A strategy in this sense is an action (in this context voting for a candidate). In the game theoretic structure, we assume that a player (i.e. YOU) is playing to win. But what does it mean to win? In this context, winning means getting policies you care about enacted. I will also address a little, the issue of voting "to make a point" about the current system and why I feel like that is a bad idea. But for the most part, I assume that the reader, wants to get policies they care about enacted.
 
 Equally as important, I will assume that political parties only care about getting elected.
 

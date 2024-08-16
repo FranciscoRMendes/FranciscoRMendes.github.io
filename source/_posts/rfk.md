@@ -163,3 +163,22 @@ In the past many candidates have been independent and have garnered huge amounts
 -   if the major parties do not view them as a risk they ignore them and hope they do not take too much vote share. If they do take vote share this has the effect of penalizing the candidate who has less fanatical (nationalistic/ personality driven) supporters since they are more open to truly voting based on ideology. 
 
 I think that rank order voting is a good system to implement in the US, and advocating directly for that is a better strategy than voting for an independent. As I said, it is funny that independents do not directly advocate for this system, but it is likely that they are not able to get enough votes to be taken seriously.
+
+Let us conclude with an example of rank order voting. In this voting system, instead of voting for candidates you express your preferences for all the candidates. And the candidate with the least points WINs. That is, not only do you care about how many ballots had your name at the top, but also considers how many people had you at the bottom. 
+KH\succ DJT\succ RFK (1) 
+KH\succ RFK\succ DJT (40)
+DJT\succ KH\succ RFK  (1)
+DJT\succ RFK\succ KH (36)
+RFK\succ KH\succ DJT (15)
+RFK\succ DJT\succ KH (7)
+
+KH points : 41 * 1 + 16 * 2 + 43 * 3 = 1 + 32 + 129 = 162
+DJT points : 37 * 1 + 8 *2 + 55 * 3 = 37 + 16 + 165 = 218
+RFK points : 22 * 1 + 76 * 2 + 2 * 3 = 22 + 152 + 6 = 180
+
+This example proves the benefits of rank order voting since you can notice several things. 
+- KH wins in both systems, if you have enough first place votes you are the winner pure and simple. 
+- DJT's loss was made worse by this system because of the huge number of people who had him at the bottom. This is not surprising for the people who had KH on top of their ballot. But because of the huge number of people who had RFK on the top of their ballot but DJT at the bottom of the ballot. 
+- RFK is not as bad a candidate as it seems, even though he had only 22 first place votes, when considering his second place votes he is actually not a bad candidate. 
+
+In the rank order system you can use your third place vote to essentially veto a bad candidate, it essentially says this is who I prefer at the top (RFK) but I definitely don't want my 3rd place candidate (DJT) I would rather have (KH). This essentially allows the two different kinds of RFK voters to express _both_ their preferences. 

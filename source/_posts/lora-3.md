@@ -250,25 +250,8 @@ $$1 \cdot (6) + 1 \cdot (0) + 1 \cdot (-6) = 6 + 0 - 6 = 0$$
 
 The results are different due to the simplifications made by the low-rank approximation. But this is part of the problem that we need to optimize for when picking low rank approximations. In practice, we will ALWAYS lose some accuracy
 
-# Decomposition into a list of simpler operations
-The examples above are quite simple and are perfectly good for simplifying neural networks. This is still an active area of research. One of the things that researchers try to do is try to further simplify each already simplified operation, of course you pay the price of more operations. The one we will use for this example is one where the operations is broken down into four simpler operations. 
-
-![CP Decomposition shown here, still maps a cube to a number but does so via a sequence of 4 "simpler" operations](lora-3/decomp_conv.png)
-
--   (Green) Takes one pixel from the image across all $3$ channels and maps it to one value
-
--   (Red) Takes one long set of pixels from one channel and maps it to one value
-
--   (Blue) Takes one wide set of pixels from one channel and maps it to one value
-
--   (Green) takes one pixel from all $3$ channels and maps it to one value
-
-Intuitively, we are still taking the subset "cube" but we have broken it down so that in any given operation only $1$ dimension is not $1$. This is really the key to reducing the complexity of the initial convolution operation, because even though there are more such operations each operations is more complex.
-
 # PyTorch Implementation
-In this section, we will take AlexNet (`Net`), evaluate (`evaluate_model`) it on some data and then decompose the convolutional layers. 
 
-## Declaring both the original and low rank network
 Below you can find the original definition of AlexNet. 
 ```python
 class Net(nn.Module):
@@ -326,6 +309,126 @@ def evaluate_model(net):
         accuracy = 100 * float(correct_count) / total_pred[classname]
         print(f'Original Accuracy for class: {classname:5s} is {accuracy:.1f} %')
 ```
+Now let us decompose the first convolutional layer into 3 simpler layers using SVD
+
+```python
+
+def slice_wise_svd(tensor,rank):
+    # tensor is a 4D tensor
+    # rank is the target rank
+    # returns a list of 4D tensors
+    # each tensor is a slice of the input tensor
+    # each slice is decomposed using SVD
+    # and the decomposition is used to approximate the slice
+    # the approximated slice is returned as a 4D tensor
+    # the list of approximated slices is returned
+    num_filters, input_channels, kernel_width, kernel_height = tensor.shape
+    kernel_U = torch.zeros((num_filters, input_channels,kernel_height,rank))
+    kernel_S = torch.zeros((input_channels,num_filters,rank,rank))
+    kernel_V = torch.zeros((num_filters,input_channels,rank,kernel_width))
+    approximated_slices = []
+    reconstructed_tensor = torch.zeros_like(tensor)
+    for i in range(num_filters):
+        for j in range(input_channels):
+            U, S, V = torch.svd(tensor[i, j,:,:])
+            U = U[:,:rank]
+            S = S[:rank]
+            V = V[:,:rank]
+            kernel_U[i,j,:,:] = U
+            kernel_S[j,i,:,:] = torch.diag(S)
+            kernel_V[i,j,:,:] = torch.transpose(V,0,1)
+
+
+    # print the reconstruction error
+    print("Reconstruction error: ",torch.norm(reconstructed_tensor-tensor).item())
+
+    return kernel_U, kernel_S, kernel_V
+
+def svd_decomposition_conv_layer(layer, rank):
+    """ Gets a conv layer and a target rank,
+        returns a nn.Sequential object with the decomposition
+    """
+
+    # Perform SVD decomposition on the layer weight tensorly.
+    
+    layer_weight = layer.weight.data
+    kernel_U, kernel_S, kernel_V = slice_wise_svd(layer_weight,rank)
+    U_layer = nn.Conv2d(in_channels=kernel_U.shape[1],
+                                                out_channels=kernel_U.shape[0], kernel_size=(kernel_U.shape[2], 1), padding=0, stride = 1,
+                                                dilation=layer.dilation, bias=True)
+    S_layer = nn.Conv2d(in_channels=kernel_S.shape[1],
+                                                out_channels=kernel_S.shape[0], kernel_size=1, padding=0, stride = 1,
+                                                dilation=layer.dilation, bias=False)
+    V_layer = nn.Conv2d(in_channels=kernel_V.shape[1],
+                                                out_channels=kernel_V.shape[0], kernel_size=(1, kernel_V.shape[3]), padding=0, stride = 1,
+                                                dilation=layer.dilation, bias=False)
+    # store the bias in U_layer from layer
+    U_layer.bias = layer.bias
+
+    # set weights as the svd decomposition
+    U_layer.weight.data = kernel_U
+    S_layer.weight.data = kernel_S
+    V_layer.weight.data = kernel_V
+
+    return [U_layer, S_layer, V_layer]
+    
+    
+    class lowRankNetSVD(Net):
+    def __init__(self, original_network):
+        super().__init__()
+        self.layers = nn.ModuleDict()
+        self.initialize_layers(original_network)
+
+    def initialize_layers(self, original_network):
+        # Make deep copy of the original network so that it doesn't get modified
+        og_network = copy.deepcopy(original_network)
+        # Getting first layer from the original network
+        layer_to_replace = "conv1"
+        # Remove the first layer
+        for i, layer in enumerate(og_network.layers):
+            if layer == layer_to_replace:
+                # decompose that layer
+                rank = 1
+                kernel = og_network.layers[layer].weight.data
+                decomp_layers = svd_decomposition_conv_layer(og_network.layers[layer], rank)
+                for j, decomp_layer in enumerate(decomp_layers):
+                    self.layers[layer + f"_{j}"] = decomp_layer
+            else:
+                self.layers[layer] = og_network.layers[layer]
+
+    def forward(self, x):
+        x = self.layers['conv1_0'](x)
+        x = self.layers['conv1_1'](x)
+        x = self.layers['conv1_2'](x)
+        x = self.layers['pool'](F.relu(x))
+        x = self.layers['pool'](F.relu(self.layers['conv2'](x)))
+        x = torch.flatten(x, 1)
+        x = F.relu(self.layers['fc1'](x))
+        x = F.relu(self.layers['fc2'](x))
+        x = self.layers['fc3'](x)
+        return x
+```
+
+
+# Decomposition into a list of simpler operations
+The examples above are quite simple and are perfectly good for simplifying neural networks. This is still an active area of research. One of the things that researchers try to do is try to further simplify each already simplified operation, of course you pay the price of more operations. The one we will use for this example is one where the operations is broken down into four simpler operations. 
+
+![CP Decomposition shown here, still maps a cube to a number but does so via a sequence of 4 "simpler" operations](lora-3/decomp_conv.png)
+
+-   (Green) Takes one pixel from the image across all $3$ channels and maps it to one value
+
+-   (Red) Takes one long set of pixels from one channel and maps it to one value
+
+-   (Blue) Takes one wide set of pixels from one channel and maps it to one value
+
+-   (Green) takes one pixel from all $3$ channels and maps it to one value
+
+Intuitively, we are still taking the subset "cube" but we have broken it down so that in any given operation only $1$ dimension is not $1$. This is really the key to reducing the complexity of the initial convolution operation, because even though there are more such operations each operations is more complex.
+
+# PyTorch Implementation
+In this section, we will take AlexNet (`Net`), evaluate (`evaluate_model`) it on some data and then decompose the convolutional layers. 
+
+## Declaring both the original and low rank network
 
 Here we will decompose the second convolutional layer, given by the `layer_to_replace` argument. The two important lines to pay attention to are `est_rank` and `cp_decomposition_conv_layer`. The first function estimates the rank of the convolutional layer and the second function decomposes the convolutional layer into a list of simpler operations.
 

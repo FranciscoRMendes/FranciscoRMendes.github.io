@@ -472,6 +472,35 @@ class lowRankNet(Net):
 
 ```
 
+# Evaluate the Model
+You can evaluate the model by running the following code. This will print the accuracy of the original model and the low rank model. 
+    
+```python
+decomp_alexnet = lowRankNetSVD(net)
+# replicate with original model
+
+correct_pred = {classname: 0 for classname in classes}
+total_pred = {classname: 0 for classname in classes}
+
+# again no gradients needed
+with torch.no_grad():
+    for data in testloader:
+        images, labels = data
+        outputs = decomp_alexnet(images)
+        _, predictions = torch.max(outputs, 1)
+        # collect the correct predictions for each class
+        for label, prediction in zip(labels, predictions):
+            if label == prediction:
+                correct_pred[classes[label]] += 1
+            total_pred[classes[label]] += 1
+
+# print accuracy for each class
+for classname, correct_count in correct_pred.items():
+    accuracy = 100 * float(correct_count) / total_pred[classname]
+    print(f'Lite Accuracy for class: {classname:5s} is {accuracy:.1f} %')
+```
+
+
 Let us first discuss estimate rank. For a complete discussion see the the references by Nakajima and Shinchi. The basic idea is that we take the tensor, "unfold" it along one axis (basically reduce the tensor into a matrix by collapsing around other axes) and estimate the rank of that matrix.  
 You can find ``est_rank`` below. 
 

@@ -373,12 +373,12 @@ def svd_decomposition_conv_layer(layer, rank):
     return [U_layer, S_layer, V_layer]
     
     
-    class lowRankNetSVD(Net):
+class lowRankNetSVD(Net):
     def __init__(self, original_network):
         super().__init__()
         self.layers = nn.ModuleDict()
         self.initialize_layers(original_network)
-
+    
     def initialize_layers(self, original_network):
         # Make deep copy of the original network so that it doesn't get modified
         og_network = copy.deepcopy(original_network)
@@ -395,7 +395,7 @@ def svd_decomposition_conv_layer(layer, rank):
                     self.layers[layer + f"_{j}"] = decomp_layer
             else:
                 self.layers[layer] = og_network.layers[layer]
-
+    
     def forward(self, x):
         x = self.layers['conv1_0'](x)
         x = self.layers['conv1_1'](x)

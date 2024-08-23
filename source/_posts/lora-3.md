@@ -634,3 +634,5 @@ What does this mean mathematically? Fundamentally it means that neural networks 
 - [Python implementation of EVBMF] (https://github.com/CasvandenBogaard/VBMF)
 - [Accelerating Deep Neural Networks with Tensor Decompositions - Jacob Gildenblat] (https://jacobgil.github.io/deeplearning/tensor-decompositions-deep-learning) 
 - [Python Implementatioon of VBMF] (https://github.com/CasvandenBogaard/VBMF)
+- [Similar article that is more high level] (https://medium.com/@anishhilary97/low-rank-approximation-for-4d-kernels-in-convolutional-neural-networks-through-svd-65b30dc55f6b)
+

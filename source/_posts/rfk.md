@@ -1,6 +1,6 @@
 ---
 title : "What does Game Theory say about voting for RFK?"
-date : 2024-12-4
+date : 2024-8-12
 mathjax : true
 thumbnail: gallery/thumbnails/rfk.png
 cover: gallery/thumbnails/rfk.png

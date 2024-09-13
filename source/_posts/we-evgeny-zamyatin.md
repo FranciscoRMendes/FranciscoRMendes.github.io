@@ -6,8 +6,8 @@ thumbnail: gallery/thumbnails/marching-for-one-state.png
 cover: gallery/thumbnails/marching-for-one-state.png
 tags:
     - book review
-categories:
     - politics
+categories:
     - opinion
 ---
 

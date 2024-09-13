@@ -6,9 +6,8 @@ thumbnail: gallery/thumbnails/rfk.png
 cover: gallery/thumbnails/rfk.png
 tags:
     - economics
-categories:
     - politics
-    - policy
+categories:
     - opinion
 ---
 

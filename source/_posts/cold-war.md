@@ -1,8 +1,9 @@
 ---
-title: "Odd Arne Westad: The Cold War, A World History
-Book Review and Reflections"
-date: 2022-1-6
+title: "Book Review (and reflections): The Cold War, A World History by Odd Arne Westad"
+date: 2024-01-06
 mathjax: true
+thumbnail: gallery/thumbnails/child-in-korean-war.png
+cover: gallery/thumbnails/child-in-korean-war.png
 tags : 
     - book review
     - politics
@@ -47,6 +48,8 @@ In Latin America, the US played a vigorous role via the support for various gove
 
 # Reflection Three: The Uniqueness of China 
 
+_“the communist revolution was a kind of cleansing: it might have used methods that were incomprehensible or even inhuman, but the revolution gave them the opportunity to immerse themselves in something bigger than the individual, something meaningful, something that would eventually set China right”_
+
 China and her neighbors deserve an article all to themselves. I do not wish to express any particularly controversial opinion here when I say that, the Cold War in the countries of Vietnam, Cambodia and Laos and the subsequent atrocities and casualties that occurred there were more a face off between China and the West than the USSR. While it is a matter of historical record that the Soviets *did* get involved in the Korean War, it is very clear that they were far more reluctant to expand it into the mess it eventually became than were the Chinese.
 
 While more cursory readings of history often place the Chinese firmly within the camp of Communism. It is my belief that Maoism and the unique cultural circumstances that led to Communism in China merit their own space on the ideological spectrum. It is truly difficult to fairly represent Maoism via a Western lens, the inherent weight-age given to individual freedoms in the West are meaningless when viewed in the context of China's cultural revolution. Nothing exemplifies this more than the fact that China can be simultaneously argued to be both the most powerful Eastern bloc country left (if it can be indeed included in that bloc) while also being the least centralized (and with the largest free market) of any previously existing Communist country. In a beautiful twist of fate, my next book is On China by Henry Kissinger. Hopefully, I will have more insights to share on this then!
@@ -72,4 +75,6 @@ This is a wonderful book, and I highly recommend it. I am sure opinions will var
 2.  The lack of understanding of the BRICS movement in context of the Russia-Ukraine conflict and its future significance. The Non-Aligned movement referred to in Reflection 2, has taken on new relevance in light of the Ukraine conflict. For a short period after the Cold War, economics sanctions by the West almost certainly would mean economic ruin. However, the continued rise of BRICS has led to the formation of a very clear "Third Front". This group of nations does not view the world in as black and white terms as before. And is unwillingly to take sides in battles it no longer views as relevant. It does so wile simultaneously maintaining economic and strategic relationships with both sides (Russia and NATO, in this case). In this way, most economic sanctions are toothless because of the existence of these large trading partners. India and China have both remained large economic and strategic partners for both Russia and the US since the start of the conflict. While India has enjoyed new strategic partnerships with the US due to its proximity to and adverse relationship with, China. While simultaneously buying weapons from Russia.
 
 The us-and-them mentality that was so pervasive in the Cold War was due in large part to the way Western and Eastern Bloc governments spoke about each other. What should have been an ideological war often became a real one, in countries that could least afford it. These countries should have been free to choose their systems of government without outside interference (from either side).
-pandoc version 3.4
+Let me conclude with this final quote that summarizes much of the Western approach to the Cold War, 
+
+_“The moral certainties, the eschewal of dialogue, the faith in purely military solutions ...the doctrinaire belief in free-market messages or the top-down approach to social ills.”_

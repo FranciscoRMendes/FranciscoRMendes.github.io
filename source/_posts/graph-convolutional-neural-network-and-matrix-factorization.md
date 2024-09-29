@@ -129,7 +129,7 @@ The adjacency matrix $A$ can be represented as:
 
 $$A = 
 \begin{bmatrix}
-0 & R \\
+0 & R \\\\
 R^T & 0
 \end{bmatrix}$$
 
@@ -137,7 +137,7 @@ Recall, the matrix factorization $R = UV^T$,
 
 $$A \approx
 \begin{bmatrix}
-0 & UV^T \\
+0 & UV^T \\\\
 VU^T & 0
 \end{bmatrix}$$
 
@@ -151,29 +151,28 @@ For example, if $R$ is the following binary interaction matrix:
 
 $$R = 
 \begin{bmatrix}
-1 & 0 & 1 \\
+1 & 0 & 1 \\\\
 1 & 1 & 0
 \end{bmatrix}$$
 
-Note, here that $R$ could have contained real numbers (such as ratings etc.) but the adjacency matrix is strictly binary. Using the weighted adjacency matrix is perfectly "legal", but has mathematical implications that we will discuss later. Thus, the adjacency matrix $A$ becomes: $$A = 
+Note, here that $R$ could have contained real numbers (such as ratings etc.) but the adjacency matrix is strictly binary. Using the weighted adjacency matrix is perfectly "legal", but has mathematical implications that we will discuss later. Thus, the adjacency matrix $A$ becomes: 
+$$A = 
 \begin{bmatrix}
-0 & 0 & 0 & 1 & 0 & 1 \\
-0 & 0 & 0 & 1 & 1 & 0 \\
-1 & 1 & 0 & 0 & 0 & 0 \\
-0 & 1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 & 1 \\\\
+0 & 0 & 0 & 1 & 1 & 0 \\\\
+1 & 1 & 0 & 0 & 0 & 0 \\\\
+0 & 1 & 0 & 0 & 0 & 0 \\\\
 1 & 0 & 0 & 0 & 0 & 0
 \end{bmatrix}$$
 
 
 ![Bipartite graph of user-items and ratings matrix](graph-convolutional-neural-network-and-matrix-factorization/adjacency_matrix_graph.png)
 
-
-
-## Matrix Factorization of Adjacency Matrix {#matrix-factorization-of-adjacency-matrix .unnumbered}
+## Matrix Factorization of Adjacency Matrix
 
 Now you could use factorize, $$A \approx LM^T$$ And then use the embeddings $L$ and $M$, but now $L$ represents embeddings both for users and items (as does $M$). However, this matrix is much bigger than $R$ since the top left and bottom right block matrix are $0$. You are much better off using the $R = UV^T$ formulation to quickly converge on the optimal embeddings. The key here is that factorizing this matrix is roughly equivalent to factorizing the $R$ matrix. This is important because the adjacency matrix plays a key role in the graphical convolutional network.
 
-# Pros and Cons of Matrix Factorization {#pros-and-cons-of-matrix-factorization .unnumbered}
+# Pros and Cons of Matrix Factorization 
 
 Matrix factorization offers key advantages in a consulting setting by quickly assessing the potential of more advanced methods on a dataset. If the user-item matrix performs well, it indicates useful latent user and item embeddings for predicting interactions. Additionally, regularization terms help estimate the impact of any side information provided by the client. The resulting embeddings, which include both interaction and side information, can be used by marketing teams for tasks like customer segmentation and churn reduction.\
 First, let me clarify some oft quoted misconceptions about matrix factorization disadvantages versus GCNs,
@@ -199,10 +198,77 @@ The biggest problem with MF is that a matrix is simply not a good representation
 Before proceeding to implement a GCN one needs to be cognizant of the exact benefits that such an approach would bring. In my experience, the matrix factorization approach gives reasonably good results quickly. Progressing to GCNs were largely motivated if matrix factorization methods had proven to give good results. Another important consideration is the size of and richness of interactions. Think of the graph representation of the recommendation system, if it is strictly (or closely) bi-partite then it is unlikely that adding in user edges would enrich the information available to your recommender system as a whole. In the retail business sometimes edges represented families and the graphical structure in figure 4 represented families but these graphical structures are too small to be exploited. For instance, if we gave $11$ and $1$ different recommendations it is probably fine because them being a family is not enough to justify that their consumption patterns should be similar. However, recognizing that $13$ and $3$ could be influencers (nodes with high degree with isolated nodes) might make them more likely to get discounted products that they can showcase on their websites or social media profiles.\
 I would be remiss, if I did not add that ALL of these issues with matrix factorization can be fixed by tweaking the factorization in some way. In fact, a recent paper *Unifying Graph Convolutional Networks as Matrix Factorization* by Liu et. al. does exactly this and shows that this approach is even better than a GCN. Which is why I think that the biggest advantage of the GCN is not that it is "better" in some sense, but rather the richness of the graphical structure lends itself naturally to the problem of recommending products, *even if* that graphical structure can then be shown to be equivalent to some rather more complex and less intuitive matrix structure. I recommend the following experiment flow :
 
-1.  start with matrix factorization of the user-item matrix, maybe add in context or time. If it performs well and recommendations line up with non-ML recommendations (using base segmentation analysis), that means the model is at least somewhat sensible.
+1.  Start with matrix factorization of the user-item matrix, maybe add in context or time. If it performs well and recommendations line up with non-ML recommendations (using base segmentation analysis), that means the model is at least somewhat sensible.
 
 2.  Consider doing a GCN next if the performance of MF is decent but not great. Additionally, definitely try GCN if you know (from marketing etc) that the richness of the graph structure actually plays a role in the prediction. For example, in the sale of Milwaukee tools a graph structure is probably not that useful. However, for selling Thursday Boots which is heavily influenced by social media clusters, the graph structure might be much more useful.
 
-3.  Interestingly, the MF matrices tend to be very long and narrow (there are usually thousands of users and most companies have far more users than they have products. This is not true for a company like Amazon (300 million users and 300 million products). But if you have a long narrow matrix that is sparse you are not too concerned with computation since at worst you have $m\times n \approx O(n), m<<n$, it does not matter much whether you do MF or GCN, but $m\times n  = O(mn) when m\approx n$, for such a case the matrix approach will probably give you a faster result.
+3.  Interestingly, the MF matrices tend to be very long and narrow (there are usually thousands of users and most companies have far more users than they have products. This is not true for a company like Amazon (300 million users and 300 million products). But if you have a long narrow matrix that is sparse you are not too concerned with computation since at worst you have $m\times n \approx O(n), m<<n$, it does not matter much whether you do MF or GCN, but $m\times n  = O(mn)$ when $m\approx n$, for such a case the matrix approach will probably give you a faster result.
 
 It is worthwhile in a consulting environment to always start with a simple matrix factorization, the GCN for simplicity of use and understanding but then find a matrix structure that approximates only the most interesting and rich aspects of the graph structure that actually influence the final recommendations.
+
+# A Simple GCN model
+
+Let us continue on from our adjacency matrix $A$ and try to build a simple ML model of an embedding, we could hypothesize that an embedding is linearly dependent on the adjacency matrix.
+
+$$H = f(AWX + I_nWX)$$
+
+The second additive term bears a bit of explaining. Since the adjacency matrix has a $0$ diagonal, a value of $0$ get multiplied with the node's own features $x\in X$. To avoid this we add the node's own feature matrix $X$ using the diagonal matrix.
+
+We need to make another important adjustment to $A$, we need to divide each term in the adjacency matrix by the degree of each node. $$\tilde{A} = A + I_n$$ $$A \equiv \tilde{D}^\frac{1}{2}\tilde{A}\tilde{D}^\frac{1}{2}$$ At the risk of abusing notation, we redefine $A$ as some normalized form of the adjacency matrix after edges connecting each node with itself have been added to the graph. I like this notation because it emphasizes the fact that you do not need to do this, if you suspect that normalizing your nodes by their degree of connectivity is not important then you do not need to do this step (though it costs you nothing to do so). In retail, the degree of a user node refers to the number of products they consume, while the degree of a product node reflects the number of customers it reaches. A product may have millions of consumers, but even the most avid user node typically consumes far fewer, perhaps only hundreds of products.
+
+Here $X = [X_{u}, X_{i}$\]. $$H  = [U V]$$
+
+Here we can split the equations by the subgraphs for which they apply to,
+
+$$H_u = f(A_u W_u X_u)$$ $$H_v = f(A_v W_v X_v)$$
+
+Note the equivalence the matrix case, in the matrix case we have to stack it ourselves because of the way we set up the matrix, but in the case of a GCN $H$ is already $m\times n$ and represents embeddings of both users and items.
+
+The likelihood of an interaction is,
+
+$$\hat y_{ij} = H_u^T H_i$$
+
+The loss function is,
+
+$$L = \sum_{(u, i) \in \mathcal{I}} \left( y_{ui} - \hat{y}_{ui} \right)^2$$
+
+We can substitute the components of $H$ to get a tight expression for optimizing loss,
+
+$$L = \sum_{(u, i) \in \mathcal{I}} \left( y_{ui} - f(A_u W_u X_u)^T f(A_v W_v X_v)\right)^2$$
+
+This is the main "result" of this blog post that you can equally look at this one layer GCN as a matrix factorization problem of the user-item interaction matrix but with the more complex looking low rank matrices on the right. In this sense, you can always create a matrix factorization that equates to the loss function of a GCN.
+
+You can update parameters using SGD or some other technique. I will not get into that too much in this post.
+
+## Understanding the GCN equation
+
+Equations 1 and 2 are the most important equations in the GCN framework. $W$ is some $(m+n) \times d$ set of weights that learn how to embed or encode the information contained in $X$ into $H$. For this one layer model, we are only considering values from the nodes that are one edge away, since the value of $h_i$ is only dependent on all the $x_j$'s that are directly connected to it and its own $x_i$. However, if you then apply this operation again, $H$ now has all the information contained in all the nodes connected to it in its own $h_i$ but also so does every other nodes $h_k$.
+
+$$H^0 = f(AW^0X + I_nW^0X)$$
+
+$$H^1 = f(AW^1H^0 + I_nW^1H^0)$$
+
+More succinctly, $$H^1 = f(AW^1 f(AW^0X + I_nW^0X)+ I_nW^1H^0)$$
+
+## Key Takeaways 
+The differences between MF and GCN really begin to take form when we go into multi-layerd GCNs. In the case of the one layer GCN the embeddings of $H^0$ are only influenced by the nodes connected to it. Thus the features of a customer node will be only influenced by the products that they buy, similarly, the product node will be only influenced by the customers who by them. However, for deeper neural networks :
+
+1.  2 layer: every customer's embedding is influenced by the embeddings of the products they consume and the embeddings of other customers of the products they consume. Similarly, every product is influenced by the customers who consume that product as well as by the products of the customers who consume that product.
+
+2.  3 layer: every customers embedding is influenced by the products they consume, other customers of the products they consume and products consumed by other customers of the products they consume. Similarly, every product is influenced by the consumers of that product, as well as products of consumers of that product as well as products consumed by consumers of that product.
+
+You can see where this is going, in most practical applications, there are only so many levels you need to go to get a good result. In my experience $2$ is the bare minimum (because $1$ is unlikely to do better than an MF, in fact they are equivalent, but the MF is harder) and $3$ is about how deep you can feasibly go without exploding the number of training parameters.
+
+That leads to another critical point when considering GCNs, you really pay a price (in blood, mind you) for every layer deep you go. Consider the one layer case, you really have $n\times d$ and $n\times d'$ parameters to learn, because you have to learn both the weight matrix $W$ and the matrix of embeddings $H$. But the MF case you directly learn $H$. So if you were only going to go one layer deep you might as well use matrix factorization.
+
+Going the other way, if you are considering more than $3$ layers the reality of the problem (in my usual signal processing problems this would be "physical" laws) i.e. the behavioral constraints mean that more than 3 degrees deep of influence (think about what point 3 would mean for a $5$ layer network) is unlikely to be supported by any theoretical evidence of consumer behavior.
+
+# Final Prayer and Blessing
+
+I would like for the reader of this to leave with a better sense of the relationship between matrix factorization and GCNs. Like most neural network based models we tend to think of them as a black box and a black box that are "better". However, in the one layer GCN case we can see that they are equal, with the GCN in fact having more learnable parameters (therefore more cost to train).\
+Therefore, it makes sense to use $2$ layers or more. But when using more, we need to justify them either behaviorally or expert advice.
+
+# References
+https://jonathan-hui.medium.com/graph-convolutional-networks-gcn-pooling-839184205692 
+https://tkipf.github.io/graph-convolutional-networks/ https://openreview.net/forum?id=HJxf53EtDr 
+https://distill.pub/2021/gnn-intro/ https://jonathan-hui.medium.com/graph-convolutional-networks-gcn-pooling-839184205692

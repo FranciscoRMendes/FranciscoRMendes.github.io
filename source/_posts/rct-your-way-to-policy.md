@@ -8,9 +8,6 @@ tags:
   - statistics
   - economics
 categories:
-    - economics
-    - statistics
-    - policy
     - opinion
 ---
 

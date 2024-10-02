@@ -1,5 +1,5 @@
 ---
-title : "Unifying Tensor Factorization and Graph Neural Networks: Review of Mathematical Essentials for Recommender Systems in Management Consulting"
+title : "Unifying Tensor Factorization and Graph Neural Networks: Review of Mathematical Essentials for Recommender Systems"
 date : 2024-09-28
 mathjax : true
 thumbnail : gallery/thumbnails/recommender-cartoon.png
@@ -20,17 +20,26 @@ categories:
 
 # Introduction
 
-_When do I use "old-school" ML models like matrix factorization and when do I use graph neural networks?_ \
-_Can we do something better than matrix factorization?_ \
-_Why can't we use neural networks? What is matrix factorization anyway?_ \
+_When do I use "old-school" ML models like matrix factorization and when do I use graph neural networks?_ 
+
+_Can we do something better than matrix factorization?_ 
+
+_Why can't we use neural networks? What is matrix factorization anyway?_ 
+
 These are just some of the questions, I get asked whenever I start a recommendation engine project. Answering these questions requires a good understanding of both algorithms, which I will try to outline here. The usual way to understand the benefit of one algorithm over the other is by trying to prove that one is a special case of the other.
 
-It can be shown that a Graph Neural Network can be expressed as a matrix factorization problem. However, confusingly, this matrix is not easy to interpret in the usual sense. Contrary to popular belief matrix factorization (MF) is not "simpler" than a Graph Neural Network nor is the reverse true. To make matters worse, the GCN is actually more expensive to train since it takes far for cloud compute than does MF. However, I will try to provide some intuition as to when a GCN might be worthwhile to try out.
+While it can be shown that a Graph Neural Network can be expressed as a matrix factorization problem. This matrix is not easy to interpret in the usual sense. Contrary to popular belief, matrix factorization (MF) is not "simpler" than a Graph Neural Network (nor is the opposite true). To make matters worse, the GCN is actually more expensive to train since it takes far more cloud compute than does MF. The goal of this article is to provide some intuition as to when a GCN might be worthwhile to try out.
 
 This article is primarily aimed at data science managers with some background in linear algebra (or not, see next sentence) who may or may not have used a recommendation engine package before. Having said that, if you are not comfortable with some proofs I have a key takeaways subsection in each section that should form a good basis for decision making that perhaps other team members can dig deep into.
 
-# Tensor Based Methods
+# Key Tenets of Linear Algebra and Graphs in Recommendation Engine design
+The key tenets of design come down to the difference between a graph and a matrix. The linking between graph theory and linear algebra comes from the fact that ALL graphs come with an adjacency matrix. More complex versions of this matrix (degree matrix, random walk graphs) capture more complex properties of the graph. Thus you can usually express any theorem in graph theory in matrix form by use of the appropriate matrix. 
+1. The Matrix Factorization of the interaction matrix (defined below) is the most commonly used form of matrix factorization. Since this matrix is the easiest to interpret.
+2. _Any_ Graph Convolutional Neural Network can be expressed as the factorization of _some_ matrix, this matrix is usually far removed from the interaction matrix and is complex to interpret.
+3. For a given matrix to be factorized, matrix factorization requires fewer parameters and is therefore easier to train. 
+4. Graphical structures are easily interpretable even if matrices expressing their behavior are not.
 
+# Tensor Based Methods
 In this section, I will formulate the recommendation engine problem as a large tensor or matrix that needs to be "factorized".\
 In one of my largest projects in Consulting, I spearheaded the creation of a recommendation engine for a top 5 US retailer. This project presented a unique challenge: the scale of the data we were working with was staggering. The recommendation engine had to operate on a 3D tensor, made up of products × users × time. The sheer size of this tensor required us to think creatively about how to scale and optimize the algorithms.
 
@@ -172,7 +181,7 @@ $$A =
 
 Now you could use factorize, $$A \approx LM^T$$ And then use the embeddings $L$ and $M$, but now $L$ represents embeddings both for users and items (as does $M$). However, this matrix is much bigger than $R$ since the top left and bottom right block matrix are $0$. You are much better off using the $R = UV^T$ formulation to quickly converge on the optimal embeddings. The key here is that factorizing this matrix is roughly equivalent to factorizing the $R$ matrix. This is important because the adjacency matrix plays a key role in the graphical convolutional network.
 
-# Pros and Cons of Matrix Factorization 
+# What are the REAL Cons of Matrix Factorization
 
 Matrix factorization offers key advantages in a consulting setting by quickly assessing the potential of more advanced methods on a dataset. If the user-item matrix performs well, it indicates useful latent user and item embeddings for predicting interactions. Additionally, regularization terms help estimate the impact of any side information provided by the client. The resulting embeddings, which include both interaction and side information, can be used by marketing teams for tasks like customer segmentation and churn reduction.\
 First, let me clarify some oft quoted misconceptions about matrix factorization disadvantages versus GCNs,
@@ -195,16 +204,10 @@ The biggest problem with MF is that a matrix is simply not a good representation
 
 3.  Higher order interactions can be captured more intuitively than in the case of matrix factorization
 
-Before proceeding to implement a GCN one needs to be cognizant of the exact benefits that such an approach would bring. In my experience, the matrix factorization approach gives reasonably good results quickly. Progressing to GCNs were largely motivated if matrix factorization methods had proven to give good results. Another important consideration is the size of and richness of interactions. Think of the graph representation of the recommendation system, if it is strictly (or closely) bi-partite then it is unlikely that adding in user edges would enrich the information available to your recommender system as a whole. In the retail business sometimes edges represented families and the graphical structure in figure 4 represented families but these graphical structures are too small to be exploited. For instance, if we gave $11$ and $1$ different recommendations it is probably fine because them being a family is not enough to justify that their consumption patterns should be similar. However, recognizing that $13$ and $3$ could be influencers (nodes with high degree with isolated nodes) might make them more likely to get discounted products that they can showcase on their websites or social media profiles.\
+Before implementing a GCN, it's important to understand its potential benefits. In my experience, matrix factorization often provides good results quickly, and moving to GCNs makes sense only if matrix factorization has already shown promise. Another key factor is the size and richness of interactions. If the graph representation is primarily bipartite, adding user edges may not significantly enhance the recommender system. In retail, edges sometimes represented families, but these structures were often too small to be useful—giving different recommendations to family members like $11$ and $1$ is acceptable since family ties alone don't imply similar consumption patterns. However, identifying influencers, such as nodes with high degrees connected to isolated nodes, could guide targeted discounts for products they might promote.
+
 I would be remiss, if I did not add that ALL of these issues with matrix factorization can be fixed by tweaking the factorization in some way. In fact, a recent paper *Unifying Graph Convolutional Networks as Matrix Factorization* by Liu et. al. does exactly this and shows that this approach is even better than a GCN. Which is why I think that the biggest advantage of the GCN is not that it is "better" in some sense, but rather the richness of the graphical structure lends itself naturally to the problem of recommending products, *even if* that graphical structure can then be shown to be equivalent to some rather more complex and less intuitive matrix structure. I recommend the following experiment flow :
 
-1.  Start with matrix factorization of the user-item matrix, maybe add in context or time. If it performs well and recommendations line up with non-ML recommendations (using base segmentation analysis), that means the model is at least somewhat sensible.
-
-2.  Consider doing a GCN next if the performance of MF is decent but not great. Additionally, definitely try GCN if you know (from marketing etc) that the richness of the graph structure actually plays a role in the prediction. For example, in the sale of Milwaukee tools a graph structure is probably not that useful. However, for selling Thursday Boots which is heavily influenced by social media clusters, the graph structure might be much more useful.
-
-3.  Interestingly, the MF matrices tend to be very long and narrow (there are usually thousands of users and most companies have far more users than they have products. This is not true for a company like Amazon (300 million users and 300 million products). But if you have a long narrow matrix that is sparse you are not too concerned with computation since at worst you have $m\times n \approx O(n), m<<n$, it does not matter much whether you do MF or GCN, but $m\times n  = O(mn)$ when $m\approx n$, for such a case the matrix approach will probably give you a faster result.
-
-It is worthwhile in a consulting environment to always start with a simple matrix factorization, the GCN for simplicity of use and understanding but then find a matrix structure that approximates only the most interesting and rich aspects of the graph structure that actually influence the final recommendations.
 
 # A Simple GCN model
 
@@ -226,7 +229,7 @@ Note the equivalence the matrix case, in the matrix case we have to stack it our
 
 The likelihood of an interaction is,
 
-$$\hat y_{ij} = H_u^T H_i$$
+$$\hat y_{ij} = H_u^T H_v$$
 
 The loss function is,
 
@@ -250,6 +253,14 @@ $$H^1 = f(AW^1H^0 + I_nW^1H^0)$$
 
 More succinctly, $$H^1 = f(AW^1 f(AW^0X + I_nW^0X)+ I_nW^1H^0)$$
 
+## Equivalence to Matrix Factorization for a one layer GCN
+
+You could just as easily have started with two random matrices $U$ and $V$ and optimize them using your favorite optimization algorithm and end up with the likelihood for interaction function, 
+$$\hat y_{ij} = U^T V \equiv H_u^T H_v$$
+
+So you get the same outcome for a one layer GCN as you would from matrix factorization. Note that, it has been proved that even multi-layer GCNs are equivalent to matrix factorization but the matrix being factorized is not that easy to interpret. 
+
+
 ## Key Takeaways 
 The differences between MF and GCN really begin to take form when we go into multi-layerd GCNs. In the case of the one layer GCN the embeddings of $H^0$ are only influenced by the nodes connected to it. Thus the features of a customer node will be only influenced by the products that they buy, similarly, the product node will be only influenced by the customers who by them. However, for deeper neural networks :
 
@@ -257,7 +268,7 @@ The differences between MF and GCN really begin to take form when we go into mul
 
 2.  3 layer: every customers embedding is influenced by the products they consume, other customers of the products they consume and products consumed by other customers of the products they consume. Similarly, every product is influenced by the consumers of that product, as well as products of consumers of that product as well as products consumed by consumers of that product.
 
-You can see where this is going, in most practical applications, there are only so many levels you need to go to get a good result. In my experience $2$ is the bare minimum (because $1$ is unlikely to do better than an MF, in fact they are equivalent, but the MF is harder) and $3$ is about how deep you can feasibly go without exploding the number of training parameters.
+You can see where this is going, in most practical applications, there are only so many levels you need to go to get a good result. In my experience $2$ is the bare minimum (because $1$ is unlikely to do better than an MF, in fact they are equivalent) and $3$ is about how deep you can feasibly go without exploding the number of training parameters.
 
 That leads to another critical point when considering GCNs, you really pay a price (in blood, mind you) for every layer deep you go. Consider the one layer case, you really have $n\times d$ and $n\times d'$ parameters to learn, because you have to learn both the weight matrix $W$ and the matrix of embeddings $H$. But the MF case you directly learn $H$. So if you were only going to go one layer deep you might as well use matrix factorization.
 
@@ -265,8 +276,17 @@ Going the other way, if you are considering more than $3$ layers the reality of 
 
 # Final Prayer and Blessing
 
-I would like for the reader of this to leave with a better sense of the relationship between matrix factorization and GCNs. Like most neural network based models we tend to think of them as a black box and a black box that are "better". However, in the one layer GCN case we can see that they are equal, with the GCN in fact having more learnable parameters (therefore more cost to train).\
-Therefore, it makes sense to use $2$ layers or more. But when using more, we need to justify them either behaviorally or expert advice.
+I would like for the reader of this to leave with a better sense of the relationship between matrix factorization and GCNs. Like most neural network based models we tend to think of them as a black box and a black box that is "better". However, in the one layer GCN case we can see that they are equal, with the GCN in fact having more learnable parameters (therefore more cost to train).\
+Therefore, it makes sense to use $2$ layers or more. But when using more, we need to justify them either behaviorally or with expert advice.
+
+### How to go from MF to GCNs
+1.  Start with matrix factorization of the user-item matrix, maybe add in context or time. If it performs well and recommendations line up with non-ML recommendations (using base segmentation analysis), that means the model is at least somewhat sensible.
+
+2.  Consider doing a GCN next if the performance of MF is decent but not great. Additionally, definitely try GCN if you know (from marketing etc) that the richness of the graph structure actually plays a role in the prediction. For example, in the sale of Milwaukee tools a graph structure is probably not that useful. However, for selling Thursday Boots which is heavily influenced by social media clusters, the graph structure might be much more useful.
+
+3.  Interestingly, the MF matrices tend to be very long and narrow (there are usually thousands of users and most companies have far more users than they have products. This is not true for a company like Amazon (300 million users and 300 million products). But if you have a long narrow matrix that is sparse you are not too concerned with computation since at worst you have $m\times n \approx O(n), m<<n$, it does not matter much whether you do MF or GCN, but $m\times n  = O(mn)$ when $m\approx n$, for such a case the matrix approach will probably give you a faster result.
+
+It is worthwhile in a consulting environment to always start with a simple matrix factorization, the GCN for simplicity of use and understanding but then find a matrix structure that approximates only the most interesting and rich aspects of the graph structure that actually influence the final recommendations.
 
 # References
 https://jonathan-hui.medium.com/graph-convolutional-networks-gcn-pooling-839184205692 

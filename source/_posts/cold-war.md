@@ -8,7 +8,7 @@ tags :
     - book review
     - politics
 categories:
-    - opinion
+    - book-review
 ---
 
 

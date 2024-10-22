@@ -17,7 +17,7 @@ It is often difficult to speak about things like singularities because of their 
 As always, I will give an exact example of the singularity by means of an equation. 
 # Mathematical Singularities
 
-Example 1: Singularity of $f(x) = \frac{1}{x}$
+Singularity of $f(x) = \frac{1}{x}$
 
 1\. **Behavior of the Function:**
 

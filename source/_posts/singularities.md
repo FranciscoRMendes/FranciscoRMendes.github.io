@@ -14,7 +14,9 @@ categories:
 
 # Introduction
 
-It is often difficult to speak about things like singularities because of their prevalence in pop culture. Oftentimes a concept like this takes a life of its own, forever ingrained in ones imagination as a still from a movie (for me this is that scene from Inception where they encounter Gargantua for the first time). Like many concepts in theoretical physics, popular culture is often better at bringing them into light than it is at bringing them into focus. In this article I will try to explain in simple terms what a singularity is and how that relates to physical reality. As always, I will give an exact example of the singularity by means of an equation. At the end, once the mathematics is clear, I will try to explain what the physical reality of the singularity is. \# Mathematical Singularities
+It is often difficult to speak about things like singularities because of their prevalence in pop culture. Oftentimes a concept like this takes a life of its own, forever ingrained in ones imagination as a still from a movie (for me this is that scene from Inception where they encounter Gargantua for the first time). Like many concepts in theoretical physics, popular culture is often better at bringing them into light than it is at bringing them into focus. In this article I will try to explain in simple terms what a singularity is and how that relates to physical reality. As always, I will give an exact example of the singularity by means of an equation. At the end, once the mathematics is clear, I will try to explain what the physical reality of the singularity is. 
+
+# Mathematical Singularities
 
 Singularity of $f(x) = \frac{1}{x}$
 

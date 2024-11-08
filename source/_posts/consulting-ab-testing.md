@@ -73,3 +73,14 @@ ML).
 
 -   Pick the minimum sample size needed to achieve the desired power
     level of $1-\beta$ given all the test parameters.
+
+# Phase 2: Experiment Design
+
+With the treatment, hypothesis, and metrics established, the next step
+is to define the unit of randomization for the experiment and determine
+when each unit will participate. The chosen unit of randomization should
+allow accurate measurement of the specified metrics, minimize
+interference and network effects, and account for user experience
+considerations.The next couple of sections will dive deeper into certain
+considerations when designing an experiment, and how to statistically
+overcome them.

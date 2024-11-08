@@ -385,3 +385,4 @@ Bayesian methods offer a versatile toolkit for data scientists, enhancing both A
 [Bayesian Matrix Factorization] (https://www.cs.toronto.edu/~amnih/papers/bpmf.pdf)
 
 
+

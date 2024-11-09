@@ -2,8 +2,8 @@
 title : "The Management Consulting Playbook for AB Testing"
 date : 2024-11-08
 mathjax : true
-thumbnail : gallery/thumbnails/ab-testing-cartoon.png.png
-cover : gallery/thumbnails/ab-testing-cartoon.png.png
+thumbnail : gallery/thumbnails/ab-testing-cartoon.png
+cover : gallery/thumbnails/ab-testing-cartoon.png
 tags:
     - statistics   
 categories:
@@ -139,33 +139,33 @@ Under homoscedasticity,
 
 $$\Omega =
 \begin{bmatrix}
-\sigma^2 & 0 & \dots & 0 & 0 \\
-0 & \sigma^2 & \dots & 0 & 0 \\
-\vdots & & \ddots &  & \vdots \\
-0 & 0 & \dots & \sigma^2 & 0 \\
-0 & 0 & \dots & 0 & \sigma^2 \\
+\sigma^2 & 0 & \dots & 0 & 0 \\\\
+0 & \sigma^2 & \dots & 0 & 0 \\\\
+\vdots & & \ddots &  & \vdots \\\\
+0 & 0 & \dots & \sigma^2 & 0 \\\\
+0 & 0 & \dots & 0 & \sigma^2 \\\\
 \end{bmatrix} = \sigma^2 I_n$$
 
 Under heteroscedasticity (Heteroscedastic robust standard errors),
 
 $$\Omega =
 \begin{bmatrix}
-\sigma^2_1 & 0 & \dots & 0 & 0 \\
-0 & \sigma^2_2 &  & 0 & 0 \\
-\vdots & & \ddots &  & \vdots \\
-0 & 0 &  & \sigma^2_{n-1} & 0 \\
-0 & 0 & \dots & 0 & \sigma^2_n \\
+\sigma^2_1 & 0 & \dots & 0 & 0 \\\\
+0 & \sigma^2_2 &  & 0 & 0 \\\\
+\vdots & & \ddots &  & \vdots \\\\
+0 & 0 &  & \sigma^2_{n-1} & 0 \\\\
+0 & 0 & \dots & 0 & \sigma^2_n \\\\
 \end{bmatrix}$$
 
 And finally under clustering, $$\Omega =
 \begin{bmatrix}
-\epsilon_1^2 & \epsilon_1 \epsilon_2 & 0 & 0 & \dots & 0 & 0 \\
-\epsilon_1 \epsilon_2 & \epsilon_2^2 & 0 & 0 & & 0 & 0 \\
-0 & 0 & \epsilon_3^2 & \sigma^2_{34} & & 0 & 0 \\
-0 & 0 & \sigma^2_{34} & \epsilon_3^2 & & 0 & 0 \\
-\vdots & & & & \ddots &  & \vdots \\
-0 & 0 & 0 & 0 &  & \epsilon_{n-1}^2 & \sigma^2_{n-1,n} \\
-0 & 0 & 0 & 0 & \dots & \sigma^2_{n-1,n} & \epsilon_n^2 \\
+\epsilon_1^2 & \epsilon_1 \epsilon_2 & 0 & 0 & \dots & 0 & 0 \\\\
+\epsilon_1 \epsilon_2 & \epsilon_2^2 & 0 & 0 & & 0 & 0 \\\\
+0 & 0 & \epsilon_3^2 & \sigma^2_{34} & & 0 & 0 \\\\
+0 & 0 & \sigma^2_{34} & \epsilon_3^2 & & 0 & 0 \\\\
+\vdots & & & & \ddots &  & \vdots \\\\
+0 & 0 & 0 & 0 &  & \epsilon_{n-1}^2 & \sigma^2_{n-1,n} \\\\
+0 & 0 & 0 & 0 & \dots & \sigma^2_{n-1,n} & \epsilon_n^2 \\\\
 \end{bmatrix}$$
 
 The cookbook, for estimating $\Omega$ is therefore multiplying your
@@ -174,20 +174,20 @@ represents your assumption $C$,
 
 $$\Omega = C\epsilon \epsilon'=
 \begin{bmatrix}
-1 & 1 & 0 & 0 & \dots & 0 & 0 \\
-1 & 1 & 0 & 0 & \dots & 0 & 0 \\
-0 & 0 & 1 & 1 & \dots & 0 & 0 \\
-0 & 0 & 1 & 1 & \dots & 0 & 0 \\
-\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
-0 & 0 & 0 & 0 & \dots & 1 & 1 \\
-0 & 0 & 0 & 0 & \dots & 1 & 1 \\
+1 & 1 & 0 & 0 & \dots & 0 & 0 \\\\
+1 & 1 & 0 & 0 & \dots & 0 & 0 \\\\
+0 & 0 & 1 & 1 & \dots & 0 & 0 \\\\
+0 & 0 & 1 & 1 & \dots & 0 & 0 \\\\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\\\
+0 & 0 & 0 & 0 & \dots & 1 & 1 \\\\
+0 & 0 & 0 & 0 & \dots & 1 & 1 \\\\
 \end{bmatrix}
 \begin{bmatrix}
-\sigma_1^2 & \sigma_{12} & \sigma_{13} & \dots & \sigma_{1n} \\
-\sigma_{12} & \sigma_2^2 & \sigma_{23} & \dots & \sigma_{2n} \\
-\sigma_{13} & \sigma_{23} & \sigma_3^2 & \dots & \sigma_{3n} \\
-\vdots & \vdots & \vdots & \ddots & \vdots \\
-\sigma_{1n} & \sigma_{2n} & \sigma_{3n} & \dots & \sigma_n^2 \\
+\sigma_1^2 & \sigma_{12} & \sigma_{13} & \dots & \sigma_{1n} \\\\
+\sigma_{12} & \sigma_2^2 & \sigma_{23} & \dots & \sigma_{2n} \\\\
+\sigma_{13} & \sigma_{23} & \sigma_3^2 & \dots & \sigma_{3n} \\\\
+\vdots & \vdots & \vdots & \ddots & \vdots \\\\
+\sigma_{1n} & \sigma_{2n} & \sigma_{3n} & \dots & \sigma_n^2 \\\\
 \end{bmatrix}$$
 
 ## Range of Clustered Standard Errors
@@ -244,7 +244,7 @@ feature's costs or improvements. Meaningful effect sizes depend on
 context, domain knowledge, and historical data on expected impacts, and
 this understanding helps allocate testing resources efficiently.
 
-![Power 2](consulting-ab-testing/netflix_power.png){#fig:enter-label width="\\linewidth"}
+![Power 2](consulting-ab-testing/netflix_power.png) 
 
 In an A/B test, the power of a test (the probability of correctly
 detecting a true effect) is influenced by the effect size, sample size,
@@ -272,7 +272,7 @@ Where,
     standard normal distribution, which gives the probability that a
     value is below a given z-score.
 
-## Understanding the Role of Pooled Variance {#understanding-the-role-of-pooled-variance .unnumbered}
+## Understanding the Role of Pooled Variance 
 
 -   **Power decreases** as the **pooled variance**
     ($\sigma_{\text{pooled}}^2$) increases. Higher variance increases
@@ -284,7 +284,7 @@ Where,
     test is more likely to detect even smaller differences. This results
     in **higher power** for a given sample size and effect size.
 
-## Practical Implications {#practical-implications .unnumbered}
+## Practical Implications  
 
 In experimental design:
 
@@ -297,16 +297,14 @@ In experimental design:
     thereby maintaining power.
 
 
-# Difference in Difference {#difference-in-difference .unnumbered}
+# Difference in Difference  
 
 Randomizing by region to solve interference can create a new issue: regional trends may bias results. If, for example, a fast-growing region is assigned to the treatment, any observed gains may simply reflect that region’s natural growth rather than the treatment's effect.
 
 In recommender system tests aiming to boost sales, retention, or engagement, this issue can be problematic. Assigning a growing region to control and a mature one to treatment will almost certainly make the treatment group appear more effective, potentially masking the true impact of the recommendations.
 
-## Linear Regression Example of DiD {#linear-regression-example-of-did .unnumbered}
+## Linear Regression Example of DiD  
 
-![Difference in Difference, note the parallel
-trends](consulting-ab-testing/DiD.png){#fig:enter-label width="50%"}
 
 To understand the impact of a new treatment on a group, let's consider
 an example where everyone in group $G$ receives a treatment at time
@@ -318,7 +316,7 @@ First, we'll introduce some notation:
 Define $\mathbf{1}_A(x)$, which tells us if $x$ belongs to a specific
 set $A$: $$\mathbf{1}_A(x) = 
 \begin{cases} 
-1 & \text{if } x \in A \\
+1 & \text{if } x \in A \\\\
 0 & \text{if } x \notin A 
 \end{cases}$$
 

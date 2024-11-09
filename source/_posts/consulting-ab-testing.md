@@ -346,3 +346,80 @@ assumption*: the control and treatment groups would have followed
 similar paths over time if there had been no treatment. Although the
 initial levels of $y_{it}$ can differ between groups, they should trend
 together in the absence of intervention.
+
+## Testing the Parallel Trends Assumption  
+
+You can always test whether your data satisfies the parallel trends
+assumption by looking at it. In a practical environment, I have never
+really tested this assumption, for two big reasons (it is also why I personally think DiD is not a great method):
+- If you need to test an assumption in your data, you are likely to have a problem with your data. If it is not obvious from some non-statistical argument or plot etc you are unlikely to be able to convince a stakeholder that it is a good assumption. 
+- The data required to test this assumption, usually invalidates its need. If you have data to test this assumption, you likely have enough data to run a more sophisticated model than DiD (like CUPED).
+
+Having said all that, here are some ways you can test the parallel trends assumption:
+-   **Visual Inspection:**
+
+    -   Plot the average outcome variable over time for both the
+        treatment and control groups, focusing on the pre-treatment
+        period. If the trends appear roughly parallel before the
+        intervention, this provides visual evidence supporting the
+        parallel trends assumption.
+
+    -   Make sure any divergence between the groups only occurs after
+        the treatment.
+
+-   **Placebo Test:**
+
+    -   Pretend the treatment occurred at a time prior to the actual
+        intervention and re-run the DiD analysis. If you find a
+        significant "effect" before the true treatment, this suggests
+        that the parallel trends assumption may not hold.
+
+    -   Use a range of pre-treatment cutoff points and check if similar
+        differences are estimated. Consistent non-zero results may
+        indicate underlying trend differences unrelated to the actual
+        treatment.
+
+-   **Event Study Analysis (Dynamic DiD):**
+
+    -   Extend the DiD model by including lead and lag indicators for
+        the treatment. For example:
+        $$y_{it} = \beta_0 + \sum_{k=-K}^{-1} \gamma_k \mathbf{1}_{T+k}(t) \mathbf{1}_G(i) + \beta_1 \mathbf{1}_T(t) + \beta_2 \mathbf{1}_G(i) + \beta_3 \mathbf{1}_T(t) \mathbf{1}_G(i) + \epsilon_{it}$$
+        where $\gamma_k$ captures pre-treatment effects.
+
+    -   If pre-treatment coefficients (leads) are close to zero and
+        non-significant, it supports the parallel trends assumption.
+        Large or statistically significant leads could indicate
+        violations of the assumption.
+
+-   **Formal Statistical Tests:**
+
+    -   Run a regression on only the pre-treatment period, introducing
+        an interaction term between time and group to test for
+        significant differences in trends:
+        $$y_{it} = \alpha_0 + \alpha_1 \mathbf{1}_G(i) + \alpha_2 t + \alpha_3 (\mathbf{1}_G(i) \times t) + \epsilon_{it}$$
+
+    -   If the coefficient $\alpha_3$ on the interaction term is close
+        to zero and statistically insignificant, this supports the
+        parallel trends assumption. A significant $\alpha_3$ would
+        indicate a pre-treatment trend difference, which would challenge
+        the assumption.
+
+-   **Covariate Adjustment (Conditional Parallel Trends):**
+
+    -   If parallel trends don't hold unconditionally, you might adjust
+        for observable characteristics that vary between groups and
+        influence the outcome. This is a more relaxed "conditional
+        parallel trends" assumption, and you could check if trends are
+        parallel after including covariates in the model.
+
+If you can make all this work for you, great, I never have. In the dynamic world of recommendation engines (especially always ''online'' recommendation engines) it is very difficult to find a reasonably good cut-off point for the placebo test. And the event study analysis is usually not very useful since the treatment is usually ongoing.
+
+<div align="center">
+  
+#### Figure \(\ref{fig:sideBySideFigures}\): Effect of Peeking on Experiment Outcomes
+
+| ![Without Peeking](consulting-ab-testing/withoutPeeking.png)                            | ![With Peeking](consulting-ab-testing/withPeekingAfter100rounds.png) |
+|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------|
+| **(a) Without Peeking:** \( \frac{3}{100} \) (\(<\alpha=0.05\)) Experiments reject null | **(b) With Peeking:** \( \frac{29}{100} \) (\(\gg \alpha=0.05\))     |
+
+</div>

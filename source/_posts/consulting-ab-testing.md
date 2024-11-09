@@ -388,7 +388,7 @@ With the stopping rule
 
 $a \approx \log {\frac  {\beta }{1-\alpha }} \quad \text{and} \quad  b \approx \log {\frac  {1-\beta }{\alpha }}$
 
-There is another elegant method outlined in Evan Miller's blog post, which I will not go into here but just state it for brevity. It is a very good read and I highly recommend it. 
+There is another elegant method outlined in Evan Miller's blog post, which I will not go into here but just state it for brevity (it is also used at Etsy, so there is certainly some benefit to it). It is a very good read and I highly recommend it. 
 
 - At the beginning of the experiment, choose a sample size $N$.
 - Assign subjects randomly to the treatment and control, with 50% probability each.
@@ -398,5 +398,80 @@ There is another elegant method outlined in Evan Miller's blog post, which I wil
 - If $T+C$ reaches $N$, stop the test. Declare no winner.
 - If neither of the above conditions is met, continue the test.
 
+Using these techniques you can "peek" at the test data as it comes in and decide to stop as per your requirement. This is very useful as the following simulation using this more complex criteria shows. Note that what you want to verify is two things,
 
-#Refer
+-   Does early stopping under the null hypothesis, accept the null in approximately $\alpha$ fraction of simulations once the stopping criteria is reached and does it do so *fast*.
+
+-   Does early stopping under the alternative reject the null hypothesis in $1-\beta$ fraction of simulations and does it do so *fast*.
+
+The answer to these two questions is not always symmetrical, and it seems that we need more samples to reject the null (case 2) versus accept it case 1. Which is as it should be! But in both cases, as the simulations below show, you need a significantly fewer number of samples than before.
+
+## CUPED and Other Similar Techniques {#cuped-and-other-similar-techniques .unnumbered}
+
+Recall, our diff-in-diff equation, $$Y_{i,t} = \alpha + \beta D_i + \gamma \mathbb I (t=1) + \delta D_i * \mathbb I (t=1) + \varepsilon_{i,t}$$
+
+Diff in Diff is nothing but CUPED for $\theta=1$. I state this without proof. I was not able to find a clear one any where.
+
+Consider the auto-regression with control variates regression equation, $$Y_{i, t=1} = \alpha + \beta D_i + \gamma Y_{i, t=0} + \varepsilon_i$$ This is also NOT equivalent to CUPED, nor is it a special case. Again, I was not able to find a good proof anywhere.
+
+
+
+# Multiple Hypotheses  
+
+In most of the introduction, we set the scene by considering only one hypotheses. However, in real life you may want to test multiple hypotheses at the same time.
+
+-   You may be testing multiple hypotheses even if you did not realize it, such as over time. In the example of early stopping you are actually checking multiple hypotheses. One at every time point.
+
+-   You truly want to test multiple features of your product at the same time and want to run one test to see if the results got better.
+
+## Regression Model Setup  
+
+We consider a regression model with three treatments, $D_1$, $D_2$, and $D_3$, to study their effects on a continuous outcome variable, $Y$. The model is specified as: $$Y = \beta_0 + \beta_1 D_1 + \beta_2 D_2 + \beta_3 D_3 + \epsilon$$ where:
+
+-   $Y$ is the outcome variable,
+
+-   $D_1$, $D_2$, and $D_3$ are binary treatment indicators (1 if the treatment is applied, 0 otherwise),
+
+-   $\beta_0$ is the intercept,
+
+-   $\beta_1$, $\beta_2$, and $\beta_3$ are the coefficients representing the effects of treatments $D_1$, $D_2$, and $D_3$, respectively,
+
+-   $\epsilon$ is the error term, assumed to be normally distributed with mean 0 and variance $\sigma^2$.
+
+## Hypotheses Setup  
+
+We aim to test whether each treatment has a significant effect on the outcome variable $Y$. This involves testing the null hypothesis that each treatment coefficient is zero.
+
+The null hypotheses are formulated as follows: $$H_0^{(1)}: \beta_1 = 0$$ $$H_0^{(2)}: \beta_2 = 0$$ $$H_0^{(3)}: \beta_3 = 0$$
+
+Each null hypothesis represents the assumption that a particular treatment (either $D_1$, $D_2$, or $D_3$) has no effect on the outcome variable $Y$, implying that the treatment coefficient $\beta_i$ for that treatment is zero.
+
+## Multiple Hypothesis Testing  
+
+Since we are testing three hypotheses simultaneously, we need to control for the potential increase in false positives. We can use a multiple hypothesis testing correction method, such as the **Bonferroni correction** or the **Benjamini-Hochberg procedure**.
+
+## Bonferroni Correction  
+
+With the Bonferroni correction, we adjust the significance level $\alpha$ for each hypothesis test by dividing it by the number of tests $m = 3$. If we want an overall significance level of $\alpha = 0.05$, then each individual hypothesis would be tested at: $$\alpha_{\text{adjusted}} = \frac{\alpha}{m} = \frac{0.05}{3} = 0.0167$$
+
+## Benjamini-Hochberg Procedure  
+
+Alternatively, we could apply the Benjamini-Hochberg procedure to control the False Discovery Rate (FDR). The procedure involves sorting the p-values from smallest to largest and comparing each p-value $p_i$ with the threshold: $$p_i \leq \frac{i}{m} \cdot \alpha$$ where $i$ is the rank of the p-value and $m$ is the total number of tests. We declare all hypotheses with p-values meeting this criterion as significant. This framework allows us to assess the individual effects of $D_1$, $D_2$, and $D_3$ while properly accounting for multiple hypothesis testing.
+
+# CUPED {#cuped .unnumbered}
+
+Okay, you've run your experiment now what? What's next? Or you are running your experiment for the second time, is there any way you can optimize your experiment, by using the previous data? The answer is yes, you can.
+
+Consider, the regression form of the treatment equation,
+
+$$Y_{i, t=1} = \alpha + \beta D_i + \varepsilon_i$$
+
+Assume you have run the experiment before, and got values $Y_{i,t=0}$. Where the subscript denoted the $i$ individuals outcome, before the experiment was even run, $t=1$.
+
+$$\hat Y^{cuped}_{t=1} = \bar Y_{t=1} - \theta \bar Y_{t=0} + \theta \mathbb E [Y_{t=0}]$$
+
+This is like running a regression of $Y_{t=1}$ on $Y_{t=0}$. Now, use those residuals in the treatment equation above,
+
+$$\hat Y^{cuped}_{i, t=1} = \alpha + \beta D_i + \varepsilon_i$$
+
+And then estimate the treatment effect.

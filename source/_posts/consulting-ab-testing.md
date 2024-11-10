@@ -252,7 +252,7 @@ the post-treatment period.
 
 Using these indicators, we can build a simple linear regression model:
 
-$$y_{it} = \beta_0 + \beta_1 \mathbf{1}_T(t) + \beta_2 \mathbf{1}_G(i) + \beta_3 \mathbf{1}_T(t) \mathbf{1}_G(i) + \epsilon_{it}$$
+$$y_{it} = \beta_0 + \beta_1 \mathbf{1}_T(t) + \beta_2 \mathbf{1}_G\(i\) + \beta_3 \mathbf{1}_T(t) \mathbf{1}_G\(i\) + \epsilon_{it}$$
 
 In this model, the coefficient $\beta_3$ is the term we're most interested in. It represents the
 difference-in-differences (DiD) effect:
@@ -406,7 +406,7 @@ Using these techniques you can "peek" at the test data as it comes in and decide
 
 The answer to these two questions is not always symmetrical, and it seems that we need more samples to reject the null (case 2) versus accept it case 1. Which is as it should be! But in both cases, as the simulations below show, you need a significantly fewer number of samples than before.
 
-## CUPED and Other Similar Techniques {#cuped-and-other-similar-techniques .unnumbered}
+## CUPED and Other Similar Techniques 
 
 Recall, our diff-in-diff equation, $$Y_{i,t} = \alpha + \beta D_i + \gamma \mathbb I (t=1) + \delta D_i * \mathbb I (t=1) + \varepsilon_{i,t}$$
 
@@ -458,20 +458,100 @@ With the Bonferroni correction, we adjust the significance level $\alpha$ for ea
 
 Alternatively, we could apply the Benjamini-Hochberg procedure to control the False Discovery Rate (FDR). The procedure involves sorting the p-values from smallest to largest and comparing each p-value $p_i$ with the threshold: $$p_i \leq \frac{i}{m} \cdot \alpha$$ where $i$ is the rank of the p-value and $m$ is the total number of tests. We declare all hypotheses with p-values meeting this criterion as significant. This framework allows us to assess the individual effects of $D_1$, $D_2$, and $D_3$ while properly accounting for multiple hypothesis testing.
 
-# CUPED {#cuped .unnumbered}
+# Variance Reduction: CUPED 
 
-Okay, you've run your experiment now what? What's next? Or you are running your experiment for the second time, is there any way you can optimize your experiment, by using the previous data? The answer is yes, you can.
+When analyzing the effectiveness of a recommender system, sometimes your metrics are skewed by high variance in the metric i.e. $Y_i$. One easy way to fix this is by using the usual outlier removal suite of techniques. However, outlier removal is a difficult thing to statistically define, and very often you may be losing "whales". Customers who are truly large consumers of a product. 
+One easy way to do this would be to normalize the metric by its mean, i.e. $Y_i = \frac{Y_i}{\bar Y}$. Any even better way to do this would be to normalize the metric by that users own mean, i.e. $Y_i = \frac{Y_i}{\bar Y_i}$. This is the idea behind CUPED.
 
 Consider, the regression form of the treatment equation,
-
 $$Y_{i, t=1} = \alpha + \beta D_i + \varepsilon_i$$
 
-Assume you have run the experiment before, and got values $Y_{i,t=0}$. Where the subscript denoted the $i$ individuals outcome, before the experiment was even run, $t=1$.
+Assume you have data about the metric from before, and have values $Y_{i,t=0}$. Where the subscript denoted the $i$ individuals outcome, before the experiment was even run, $t=1$.
 
-$$\hat Y^{cuped}_{t=1} = \bar Y_{t=1} - \theta \bar Y_{t=0} + \theta \mathbb E [Y_{t=0}]$$
+$$ 
+\hat Y^{cuped}\_{t=1} = \theta\bar Y_{t=0} + \theta \mathbb E [Y_{t=0} ]
+$$
 
-This is like running a regression of $Y_{t=1}$ on $Y_{t=0}$. Now, use those residuals in the treatment equation above,
+This is like running a regression of $Y_{t=1}$ on $Y_{t=0}$. 
 
-$$\hat Y^{cuped}_{i, t=1} = \alpha + \beta D_i + \varepsilon_i$$
+$$
+Y\_{i, t=1} = \theta Y_{i, t=0} + \hat Y^{cuped}_{i, t=1}
+$$
+Now, use those residuals in the treatment equation above,
+
+$$
+\hat Y^{cuped}_{i, t=1} = \alpha + \beta D_i + \varepsilon_i
+$$
 
 And then estimate the treatment effect.
+
+The statistical theory behind CUPED is fairly simple and setting up the regression equation is not difficult. However, in my experience, choosing the right window for pre-treatment covariates is extremely difficult, choose the right window and you reduce your variance by a lot. The right window depends a lot on your business. 
+Some key considerations, 
+- Sustained purchasing behavior is a key requirement. If the $Y_{t=0}$ is not a good predictor of $Y_{t=1}$ for the interval $t=0$ to $t=1$ then the variance of $Y^{cuped}$ will be high. Defeating the purpose. 
+- Longer windows come with computational costs. 
+- In practice, because companies are testing things all the time you could have noise left over from a previous experiment that you need to randomize/ control for. 
+
+## Simulating CUPED 
+One way you can guess a good pre-treatment window is by simulating the treatment effect for various levels of MDEs (the change you expect to see in $Y_i$) and plot the probability of rejecting the alternative hypothesis if it is true i.e. Power.
+
+![MDE vs Power for 2 Different Metrics](consulting-ab-testing/variance_reduction_vs_Lift.png)
+
+So you read off your hypothesized MDE and Power, and then every point to the left of that is a good window.
+As an example, lets say you know your MDE to be $3\%$ and you want a power of $0.8$, then your only option is the 16 week window. 
+Analogously, if you have an MDE of $5\%$ and you want a power of $0.8$, then the conventional method (with no CUPED) is fine as you can attain an MDE of $4\%$ with a power of $0.8$.
+Finally, if you have an MDE of $4\%$ and you want a power of $0.8$ then a 1 week window is fine. 
+
+Finally, you can check that you have made the right choice by plotting the variance reduction factor against the pre-period (weeks) and see if the variance reduction factor is high.
+
+CUPED is a very powerful technique, but if I could give one word of advice to anyone trying to do it, it would be this: _get the pre-treatment window right_. This has more to do with business intelligence than with statistics. In this specific example longer windows gave higher variance reduction, but I have seen cases where a "sweet spot" exists. 
+
+# Variance Reduction: CUPAC
+As it turns out we can control variance, by other means using the same principle as CUPED. The idea is to use a control variate that is not a function of the treatment.
+Recall, the regression equation we ran for CUPED,
+$$
+Y\_{i, t=1} = \theta Y_{i, t=0} + \hat Y^{cuped}_{i, t=1}
+$$
+Generally speaking, this is often posed as finding some $X$ that is uncorrelated with the treatment but correlated with $Y$. 
+
+$$
+Y\_{i, t=1} = \theta X_{i, t=0} + \hat Y^{cuped}_{i, t=1}
+$$
+
+You could use _any_ $X$ that is uncorrelated with the treatment but correlated with $Y$. An interesting thing to try would be to fit a highly non-linear machine learning model to $Y_t$ (such as random forest, XGBoost)  using a set of observable variables $Z_t$, call it $f(Z_t)$. Then use $f(Z_t)$ as your $X$.
+
+$$
+Y\_{i, t=1} = \theta f(Z_{i,t=1}) + \hat Y^{cuped}_{i, t=1}
+$$
+
+Notice here two things, 
+- that $f(Y)$ is not a function of $D_i$ but is a function of $Y_i$. 
+- that $f(Z)$ does not (necessarily) need any data from $t=0$ to be calculated, so it is okay, if _no pre-treatment data exists_!
+- if pre-treatment data exists then you can use it to fit $f(Z)$ and then use it to predict $Y$ at $t=1$ as well, so it can only enhance the performance of your fit and thereby reduce variance even more. 
+
+If you really think about it, any process to create pre-treatment covariates inevitably involves finding some $X$ highly correlated with outcome and uncorrelated with treatment and controlling for that. In CUPAC we just dump all of that into one ML model and let the model figure out the best way to control for variance using all the variables we threw in it. 
+
+I highly recommend CUPAC over CUPED, it is a more general technique and can be used in a wider variety of situations. If you really want to, you can throw $Y_{t=0}$ into the mix as well!
+
+## A Key Insight: Recommendation Engines and CUPAC/ CUPED
+
+Take a step back and think about what $f(Z)$ is _really_ saying in context of a recommender system, it is saying given some $Z$ can I predict my outcome metric. Let us say the outcome metric is some $G(Y)$, where $Y$ is sales. 
+
+$$
+G(Y) = G(f(Z)) + \varepsilon
+$$
+
+What is a recommender system? It takes some $Z$ and predicts $Y$. 
+
+$$
+\hat Y = r(Z) + \varepsilon'
+$$
+
+$$
+G(\hat Y) = G(r(Z)) + \varepsilon''
+$$
+
+This basically means that a pretty good function to control for variance is a recommender system itself!
+Now you can see why CUPAC is so powerful, it is a way to control for variance using a recommender system itself. You have all the pieces ready for you. 
+HOWEVER! You cannot use the recommender system you are currently testing as your $f(Z)$, that would be mean that $D_i$ is correlated with $f(Z)$ and that would violate the assumption of uncorrelatedness.
+Usually, the existing recommender system (the pre-treatment one) can be used for this purpose. The finally variable $Y^{cupac}$ then has a nice interpretation it is not the difference between what people _truly_ did and the recommended value, but rather the difference between the two recommender systems!
+Any model is a variance reduction model, it is just a question of how much variance it reduces. Since the existing recommender system is good enough it is likely to reduce a lot of variance. If it is terrible (which is why they hired you in the first place) then this approach is unlikely to work. But in my experience, existing recommendations are always pretty good in the industry it is a question of finding those last few drops of performance increase.

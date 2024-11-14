@@ -108,7 +108,7 @@ Where:
 
 ## Friedmann Equations Recap
 
-The **Big Bang** is represented in the **Friedmann equations** as a **singularity** at the beginning of time when the scale factor \$ a(t) \$ approaches zero. This signifies an initial state of infinite density, temperature, and curvature.
+The **Big Bang** is represented in the **Friedmann equations** as a **singularity** at the beginning of time when the scale factor $a(t) $approaches zero. This signifies an initial state of infinite density, temperature, and curvature.
 
 The **Friedmann equations** in cosmology are derived from Einstein's field equations for a **homogeneous and isotropic** universe. Assuming zero cosmological constant ($\lambda = 0$), they are:
 
@@ -124,11 +124,11 @@ The **Friedmann equations** in cosmology are derived from Einstein's field equat
     \dot{\rho} + 3 \frac{\dot{a}}{a} \left( \rho + \frac{p}{c^2} \right) = 0
     $$
 
-where: - \$ a(t) \$ is the **scale factor** (the "size" of the universe at a given time \$ t \$), - \$ `\rho `{=tex}\$ is the **energy density**, - \$ p \$ is the **pressure**, - \$ G \$ is the gravitational constant, - \$ k \$ is the **curvature parameter** (\$ k = 0 \$ for a flat universe, \$ k = +1 \$ for closed, and \$ k = -1 \$ for open).
+where: - $a(t) $is the **scale factor** (the "size" of the universe at a given time $t $), - $\rho $is the **energy density**, - $p $is the **pressure**, - $G $is the gravitational constant, - $k $is the **curvature parameter** ($k = 0 $for a flat universe, $k = +1 $for closed, and $k = -1 $for open).
 
 ## Representation of the Big Bang Singularity
 
-In the context of the Friedmann equations, the **Big Bang** is identified by the conditions: - \$ a(t) `\to 0`{=tex} \$ as \$ t `\to 0`{=tex} \$, - \$ `\rho `{=tex}`\to `{=tex}`\infty `{=tex}\$ as \$ a(t) `\to 0`{=tex} \$ (implying infinite density and temperature), - **Curvature** becomes infinite, signaling a physical singularity.
+In the context of the Friedmann equations, the **Big Bang** is identified by the conditions: - $a(t) \to 0$as $t \to 0$, - $\rho \to \infty $as $a(t) \to 0$(implying infinite density and temperature), - **Curvature** becomes infinite, signaling a physical singularity.
 
 ### Explanation Using the First Friedmann Equation
 
@@ -136,9 +136,9 @@ In the **first Friedmann equation**: $$
 \left( \frac{\dot{a}}{a} \right)^2 = \frac{8 \pi G}{3} \rho - \frac{k}{a^2}
 $$
 
-As \$ t `\to 0`{=tex} \$: - The **scale factor** \$ a(t) \$ approaches zero. - For a positive energy density \$ `\rho `{=tex}\$, the term \$ `\frac{\dot{a}}{a}`{=tex} \$ (known as the **Hubble parameter**) goes to infinity, meaning the rate of expansion is initially unbounded. - If \$ a `\to 0`{=tex} \$, then the energy density \$ `\rho `{=tex}`\to `{=tex}`\infty `{=tex}\$ since \$ `\rho `{=tex}\$ is inversely related to the volume of the universe.
+As $t \to 0 $: - The **scale factor** $a(t) $approaches zero. - For a positive energy density $\rho$, the term $\frac{\dot{a}}{a}$(known as the **Hubble parameter**) goes to infinity, meaning the rate of expansion is initially unbounded. - If $a \to 0$, then the energy density $\rho \to \infty $since $\rho $is inversely related to the volume of the universe.
 
-Thus, at \$ a = 0 \$, the universe is in a state of **infinite density** and **infinite curvature**, which we identify as the Big Bang singularity.
+Thus, at $a = 0 $, the universe is in a state of **infinite density** and **infinite curvature**, which we identify as the Big Bang singularity.
 
 ### Continuity Equation and Energy Conservation
 
@@ -146,13 +146,13 @@ The **continuity equation**: $$
 \dot{\rho} + 3 \frac{\dot{a}}{a} \left( \rho + \frac{p}{c^2} \right) = 0
 $$
 
-implies that as \$ a(t) \$ approaches zero, the rapid change in the scale factor causes the energy density \$ `\rho `{=tex}\$ to increase sharply, reinforcing the singularity concept.
+implies that as $a(t) $approaches zero, the rapid change in the scale factor causes the energy density $\rho $to increase sharply, reinforcing the singularity concept.
 
 ## Physical Interpretation
 
-At \$ t = 0 \$, when the scale factor \$ a(t) = 0 \$, the energy density \$ `\rho `{=tex}\$ theoretically becomes infinite, meaning all mass, energy, and curvature are compressed into a single point. This condition marks the **beginning of the universe**, as described by the Big Bang theory, before which classical descriptions of time and space may no longer apply due to quantum gravitational effects.
+At $t = 0 $, when the scale factor $a(t) = 0 $, the energy density $\rho $theoretically becomes infinite, meaning all mass, energy, and curvature are compressed into a single point. This condition marks the **beginning of the universe**, as described by the Big Bang theory, before which classical descriptions of time and space may no longer apply due to quantum gravitational effects.
 
-In short, the **Big Bang singularity** in the Friedmann equations marks the initial state of the universe at \$ t = 0 \$, where \$ a = 0 \$, density and temperature are infinite, and classical general relativity predicts a breakdown in spacetime structure.
+In short, the **Big Bang singularity** in the Friedmann equations marks the initial state of the universe at $t = 0 $, where $a = 0 $, density and temperature are infinite, and classical general relativity predicts a breakdown in spacetime structure.
 
 # Connection to Reality
 

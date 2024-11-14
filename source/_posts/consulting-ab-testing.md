@@ -505,6 +505,8 @@ Finally, you can check that you have made the right choice by plotting the varia
 
 CUPED is a very powerful technique, but if I could give one word of advice to anyone trying to do it, it would be this: _get the pre-treatment window right_. This has more to do with business intelligence than with statistics. In this specific example longer windows gave higher variance reduction, but I have seen cases where a "sweet spot" exists. 
 
+<div align="justify">
+
 # Variance Reduction: CUPAC
 
 As it turns out we can control variance, by other means using the same principle as CUPED. The idea is to use a control variate that is not a function of the treatment. Recall, the regression equation we ran for CUPED, $$
@@ -525,7 +527,8 @@ Notice here two things, - that $f(Y)$ is not a function of $D_i$ but is a functi
 
 If you really think about it, any process to create pre-treatment covariates inevitably involves finding some $X$ highly correlated with outcome and uncorrelated with treatment and controlling for that. In CUPAC we just dump all of that into one ML model and let the model figure out the best way to control for variance using all the variables we threw in it.
 
-I highly recommend CUPAC over CUPED, it is a more general technique and can be used in a wider variety of situations. If you really want to, you can throw $Y_{t=0}$ into the mix as well!
+I highly recommend CUPAC over CUPED, it is a more general technique and can be used in a wider variety of situations. 
+If you really want to, you can throw $Y_{t=0}$ into the mix as well!
 
 ## A Key Insight: Recommendation Engines and CUPAC/ CUPED
 
@@ -546,4 +549,7 @@ G(\hat Y) = G(r(Z)) + \varepsilon''
 $$
 
 This basically means that a pretty good function to control for variance is a recommender system itself! Now you can see why CUPAC is so powerful, it is a way to control for variance using a recommender system itself. You have all the pieces ready for you. HOWEVER! You cannot use the recommender system you are currently testing as your $f(Z)$, that would be mean that $D_i$ is correlated with $f(Z)$ and that would violate the assumption of uncorrelatedness. Usually, the existing recommender system (the pre-treatment one) can be used for this purpose. The finally variable $Y^{cupac}$ then has a nice interpretation it is not the difference between what people *truly* did and the recommended value, but rather the difference between the two recommender systems! Any model is a variance reduction model, it is just a question of how much variance it reduces. Since the existing recommender system is good enough it is likely to reduce a lot of variance. If it is terrible (which is why they hired you in the first place) then this approach is unlikely to work. But in my experience, existing recommendations are always pretty good in the industry it is a question of finding those last few drops of performance increase.
-pandoc version 3.5
+<div align="left">
+
+# Conclusion
+The above are pretty much all you can expect to find 

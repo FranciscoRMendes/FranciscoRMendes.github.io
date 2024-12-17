@@ -1,5 +1,5 @@
 ---
-title : "The Management Consulting Playbook for AB Testing"
+title : "The Management Consulting Playbook for AB Testing (with an emphasis on Recommender Systems)"
 date : 2024-11-08
 mathjax : true
 thumbnail : gallery/thumbnails/ab-testing-cartoon.png
@@ -13,7 +13,7 @@ categories:
 
 # Introduction
 
-Although I've focused much more on the ML side of consulting projects—and I really enjoy it—I've often had to dust off my statistician hat to measure how well the algorithms I build actually perform. Most of my experience in this area has been in verifying that recommendation engines, once deployed, truly deliver value. In this article, I'll explore some key themes in AB Testing, though I'll leave out the specifics of assessing recommendation engines.
+Although I've focused much more on the ML side of consulting projects—and I really enjoy it—I've often had to dust off my statistician hat to measure how well the algorithms I build actually perform. Most of my experience in this area has been in verifying that recommendation engines, once deployed, truly deliver value. In this article, I'll explore some key themes in AB Testing. While, I tried to be as general as possible, I did drill down on specific concepts that are particularly salient to recommender systems. 
 
 I thoroughly enjoy the "measurement science" behind these challenges; it's a great reminder that classic statistics is far from obsolete. In practice, it also lets us make informed claims based on simulations, even if formal proofs aren't immediately available. I've also included some helpful simulations.
 
@@ -45,15 +45,15 @@ Before proceeding, it’s crucial to recognize that many choices, like those for
 
 # Phase 2: Experiment Design
 
-With the treatment, hypothesis, and metrics established, the next step is to define the unit of randomization for the experiment and determine when each unit will participate. The chosen unit of randomization should allow accurate measurement of the specified metrics, minimize interference and network effects, and account for user experience considerations.The next couple of sections will dive deeper into certain considerations when designing an experiment, and how to statistically overcome them. In a recommendation engine context, this can be quite complex, since both treatment and control groups share the pool of products, it is possible that increased purchases from the online recommendation can cause the stock to run out for in person users. So control group purchases of competitor products could simply be because the product was not available and the treatment was much more effective than it seemed.
+With the treatment, hypothesis, and metrics established, the next step is to define the unit of randomization for the experiment and determine when each unit will participate. The chosen unit of randomization should allow accurate measurement of the specified metrics, minimize interference and network effects, and account for user experience considerations.The next couple of sections will dive deeper into certain considerations when designing an experiment, and how to statistically overcome them. In a recommendation engine context, this can be quite complex, since both treatment and control groups share the pool of products, it is possible that increased purchases from the online recommendation can cause the stock to run out for people who physically visit the store. So if we see the control group (i.e. the group not exposed to the new recommender system) buying more competitor products (competitors to the products you are recommending) this could simply be because the product was not available and the treatment was much more effective than it seemed!
 
 # Unit of Randomization and Interference
 
-Now that you have approval to run your experiment, you need to define the unit of randomization. This can be tricky because often there are multiple levels at which randomization can be carried out for example, you can randomize your app experience by session, you could also randomize it by user. This leads to our first big problem in AB testing. What is the best unit of randomization and what are the pitfalls of picking the wrong unit.
+Now that you have approval to run your experiment, you need to define the unit of randomization. This can be tricky because often there are multiple levels at which randomization can be carried out for example, you can randomize your app experience by session, you could also randomize it by user. This leads to our first big problem in AB testing. What is the best unit of randomization? And what are the pitfalls of picking the wrong unit? Sometimes, the unit is picked for you, you simply may not have recommendation engine data at the exact level you want. A unit is often hard to conceptualize, it is easy to think that it is one user. But one user at different points in their journey through the app can be treated as different units.
 
 ## Example of Interference
 
-Interference is a huge problem in recommendation engines for most retail problems. Let me walk you through an interesting example we saw for a large US retailer. We were testing whether a certain (high margin product) was being recommended to users. The treatment group was shown the product and the control group was not. The metric of interest was the number of purchases of a basket of high margin products. The control group purchased the product at a rate of $\tau_0\%$ and the treatment group purchased the product at a rate of $\tau_t\%$. The experiment was significant at the $0.05$ level. However, after the experiment we noticed that the difference in sales closed up to $\tau_t - \tau_0 = \delta\%$. This was because the treatment group was buying up the stock of the product and the control group was not, because the act of being recommended the product was kind of treatment in itself. This is a classic example of interference. This is a good reason to use a formal causal inference framework to measure the effect of the treatment. One way to do this is DAGs, which I will discuss later. The best way to run an experiment like this is to randomize by region. However, this is not always possible since regions share the same stock. But I think you get the idea.
+Interference is a huge problem in recommendation engines for most retail problems. Let me walk you through an interesting example we saw for a large US retailer. We were testing whether a certain product (high margin obviously!) was being recommended to users. The treatment group was shown the product and the control group was not. The metric of interest was the number of purchases of a basket of high margin products. The control group purchased the product at a rate of $\tau_0\%$ and the treatment group purchased the product at a rate of $\tau_t\%$. The experiment was significant at the $0.05$ level. However, after the experiment we noticed that the difference in sales closed up to $\tau_t - \tau_0 = \delta\%$. This was because the treatment group was buying up the stock of the product and the control group was not because they _could not_. Sometimes the act of being recommended a product was a kind of treatment in itself. This is a non-classical example of interference. This is a good reason to use a formal causal inference framework to measure the effect of the treatment. One way to do this is DAGs, which I will discuss later. The best way to run an experiment like this is to randomize by region. However, this is not always possible since regions share the same stock. But I think you get the idea.
 
 ## Robust Standard Errors in AB Tests
 
@@ -89,7 +89,7 @@ Where the left boundary is where no clustering occurs and all errors are indepen
 
 # Power Analysis
 
-I have found that power analysis is an overlooked part of AB Testing, in Consulting you will probably have to work with the existing experimentation team to make sure the experiment is powered correctly. There is usually some amount of haggling and your tests are likely to be underpowered. There is a good argument to be made about overpowering your tests (such a term does not exist in statistics, who would complain about that), but this usually comes with some risk to guardrail metrics, thus you are likely to under power your tests when considering a guardrail metric. This is OKAY, because remember the $0.05$ level is a convention, and the $0.8$ power level is also a convention that by definition err on the side of NOT rejecting the null. So if you see an effect with an underpowered test you do have some latitude to make a claim while reduce the significance level of your test.
+I have found that power analysis is an overlooked part of AB Testing, in Consulting you will probably have to work with the existing experimentation team to make sure the experiment is powered correctly. There is usually some amount of haggling and your tests are likely to be underpowered. There is a good argument to be made about overpowering your tests (such a term does not exist in statistics, who would complain about that), but this usually comes with some risk to guardrail metrics, thus you are likely to under power your tests when considering a guardrail metric. This is OKAY, because remember the $0.05$ level is a convention, and the $0.8$ power level is also a convention that by definition err on the side of NOT rejecting the null. So if you see an effect with an underpowered test you do have some latitude to make a claim while reducing the significance level of your test.
 
 Power analysis focuses on reducing the probability of accepting the null hypothesis when the alternative is true. To increase the power of an A/B test and reduce false negatives, three key strategies can be applied:
 
@@ -127,12 +127,9 @@ Where,
 
 ## Understanding the Role of Pooled Variance
 
-- **Power decreases** as the **pooled variance**
-  ($\sigma_{\text{pooled}}^2$) increases. Higher variance increases the \"noise\" in the data, making it more challenging to detect the effect (MDE) relative to the variation.
+- **Power decreases** as the **pooled variance** ($\sigma_{\text{pooled}}^2$) increases. Higher variance increases the \"noise\" in the data, making it more challenging to detect the effect (MDE) relative to the variation.
 
-- When **pooled variance is low
-  **, the test statistic (difference between groups) is less likely to be drowned out by noise, so the test is more likely to detect even smaller differences. This results in
-  **higher power** for a given sample size and effect size.
+- When **pooled variance is low**, the test statistic (difference between groups) is less likely to be drowned out by noise, so the test is more likely to detect even smaller differences. This results in **higher power** for a given sample size and effect size.
 
 ## Practical Implications
 
@@ -441,7 +438,6 @@ $$
 This basically means that a pretty good function to control for variance is a recommender system itself! Now you can see why CUPAC is so powerful, it is a way to control for variance using a recommender system itself. You have all the pieces ready for you. HOWEVER! You cannot use the recommender system you are currently testing as your $f(Z)$, that would be mean that $D_i$ is correlated with $f(Z)$ and that would violate the assumption of uncorrelatedness. Usually, the existing recommender system (the pre-treatment one) can be used for this purpose. The finally variable $Y^{cupac}$ then has a nice interpretation it is not the difference between what people
 *truly* did and the recommended value, but rather the difference between the two recommender systems! Any model is a variance reduction model, it is just a question of how much variance it reduces. Since the existing recommender system is good enough it is likely to reduce a lot of variance. If it is terrible (which is why they hired you in the first place) then this approach is unlikely to work. But in my experience, existing recommendations are always pretty good in the industry it is a question of finding those last few drops of performance increase.
 
-
 # Conclusion
 
-The above are pretty much all you can expect to find 
+The above are pretty much all you can expect to find in terms of evaluating models in Consulting. In my experience considering all the possibilities that would undermine your test are worth thinking about _before_ embarking on the AB test. 

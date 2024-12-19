@@ -11,9 +11,7 @@ categories:
 ---
 
 # Matching MATLAB's resample function in Python
-It is rather annoying that a fast implementation of MATLAB's resample function does not exist in Python with minimal theoretical knowledge of signal processing. This post aims to provide a simple implementation of MATLAB's resample function in Python.
-With, you guessed it, zero context and therefore no theoretical knowledge of signal processing. The function ha been tested against MATLAB's resample function using a simple example.
-I might include that later. I had originally answered this on StackExchange, but it is lost because the question was deleted. 
+It is rather annoying that a fast implementation of MATLAB's resample function does not exist in Python with minimal theoretical knowledge of signal processing. This post aims to provide a simple implementation of MATLAB's resample function in Python. With, you guessed it, zero context and therefore no theoretical knowledge of signal processing. The function ha been tested against MATLAB's resample function using a simple example. I might include that later. I had originally answered this on StackExchange, but it is lost because the question was deleted. 
 
 ```python
 import numpy as np

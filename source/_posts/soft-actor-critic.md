@@ -6,14 +6,13 @@ tags:
     - statistics   
     - signal processing
 categories:
-    - statistics
+    - artificial-intelligence
     - machine learning
 ---
 
 # Introduction
 
-In this post, I will implement the Soft Actor Critic (SAC) algorithm from scratch in PyTorch. 
-I will use the OpenAI Gym environment for the Inverted Pendulum task.
+In this post, I will implement the Soft Actor Critic (SAC) algorithm from scratch in PyTorch. I will use the OpenAI Gym environment for the Inverted Pendulum task.
 The goal of this post is to provide a Torch code follow along for the original paper by Haarnoja et al. (2018) [1].
 Put code link here. 
 
@@ -65,7 +64,8 @@ Couple of asides here,
 
 # Re-parameterization Trick
 
-One of the most confusing things to implement in python. You can skip this section if you are just starting out but its use will become clear later. Adding the details here for completeness. 
+One of the most confusing things to implement in python. **You can skip this section if you are just starting out** but its use will become clear later. Adding the details here for completeness. 
+
 The main problem we are trying to solve here is that Torch requires a computational graph to perform backpropagation of the gradients. ``rsample()`` preserves the graph information whereas ``sample()`` does not. This is because ``rsample()`` uses the reparameterization trick to sample from the distribution. The reparameterization trick is a way to sample from a distribution while preserving the gradient information. It is done by expressing the random variable as a deterministic function of a parameter and a noise variable. In this case, we are using the reparameterization trick to sample from the normal distribution. The normal distribution is parameterized by its mean and standard deviation. We can express the random variable as a deterministic function of the mean, standard deviation, and a noise variable. This allows us to sample from the distribution while preserving the gradient information. 
 1. ``sample()``: Performs random sampling, cutting off the computation graph (i.e., no backpropagation). Uses torch.normal within torch.no_grad(), ensuring the result is detached.
 2. ``rsample()``: Enables backpropagation using the reparameterization trick, separating randomness into an independent variable (eps). The computation graph remains intact as the transformation (loc + eps * scale) is differentiable.
@@ -199,3 +199,29 @@ self.Q_theta_1.optimizer.step()
 self.Q_theta_2.optimizer.step()
 ```
 
+# Learning the target value network
+The final piece of this puzzle is learning of the target value network. Now, there is no actual "learning" taking place in this network. 
+This network is simply a weighted lagged duplicate of the current value network. Thus, it does not actually ever "learn" but simply updates it weights through a weighted average between the latest weights from the value network and its own weights, this is given by the parameter $\tau$ in the code. This is done to stabilize the learning process. 
+This takes place in the line ``self.update_psi_bar_using_psi(tau=None)`` of the learn function.  
+The parameter tau is used to weight the copying, with tau = 1 being a complete copy and tau = 0 being no copy. Obviously for the learning to take place tau>0 but usually a vale of $0.005$ is used. 
+This function corresponds to the last line in the algorithm, 
+$$\bar{\psi} \leftarrow \tau \psi + (1-\tau)\bar\psi$$
+```python
+ def update_psi_bar_using_psi(self, tau=None):
+     # This function corresponds to the update step inside algorithm 1
+     # this is the last line in the algorithm
+     # psi_bar = tau* psi + (1-tau)*psi_bar
+     if tau is None:
+         tau = self.tau
+
+     psi_bar = self.V_psi_bar.named_parameters()
+     psi = self.V_psi.named_parameters()
+
+     target_value_state_dict = dict(psi_bar)
+     value_state_dict = dict(psi)
+
+     for name in value_state_dict:
+         value_state_dict[name] = tau*value_state_dict[name].clone() + (1-tau)*target_value_state_dict[name].clone()
+
+     self.V_psi_bar.load_state_dict(value_state_dict)
+```

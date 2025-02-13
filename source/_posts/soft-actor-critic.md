@@ -1,6 +1,6 @@
 ---
 title : "Soft Actor Critic : From Scratch in Torch for Inverted Pendulum"
-date : 2024-12-08
+date : 2025-02-17
 mathjax : true
 tags:
     - statistics   

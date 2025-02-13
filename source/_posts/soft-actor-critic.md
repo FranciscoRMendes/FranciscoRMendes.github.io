@@ -19,16 +19,16 @@ Put code link here.
 
 # Neural Networks
 
-The main object in the code is the object called SoftActorCritic.py. It consists of the neural networks and all the hyperparameters that potentially need tuning. As pe the paper the most important one is reward scale. This is a hyperparameter that balances the explore-exploit tradeoff. Higher values of the reward will make the agent exploit more. 
+The main object in the code is the object called SoftActorCritic.py. It consists of the neural networks and all the hyperparameters that potentially need tuning. As per the paper the most important one is reward scale. This is a hyperparameter that balances the explore-exploit tradeoff. Higher values of the reward will make the agent exploit more. 
 
 This class contains the following Neural Networks:
-1. self.pi_phi : The actor network, which outputs the action given the state. In the paper this is denoted by the function $\pi_\phi(a_t|s_t)$, where $\pi$ is the policy, $\phi$ are the parameters of the policy, $a_t$ is the action at time $t$, and $s_t$ is the state at time $t$. This neural network will take in the state vector in this case the $5$ dimensional state vector, it can output two things 
+1. ``self.pi_phi``: The actor network, which outputs the action given the state. In the paper this is denoted by the function $\pi_\phi(a_t|s_t)$, where $\pi$ is the policy, $\phi$ are the parameters of the policy, $a_t$ is the action at time $t$, and $s_t$ is the state at time $t$. This neural network will take in the state vector in this case the $5$ dimensional state vector, it can output two things 
     - action $a_t$ : a continuous vector of size $1$ to take in the environment (no re-parameterization trick)
     - The mean and variance of the action to take in the environment, $\mu$ and $\sigma$ respectively (re-parameterization trick)
-2. self.Q_theta_1 : The first Q-network, this is also known as the critic network. It takes in the state and action as input and outputs the Q-value. In the paper this is denoted by the function $Q_{\theta_1}(s_t, a_t)$, where $Q$ is the Q-function, $\theta_1$ are the parameters of the first Q-network, $s_t$ is the state at time $t$, and $a_t$ is the action at time $t$.
-3. self.Q_theta_2 : The second Q-network, this is also known as the critic network. It takes in the state and action as input and outputs the Q-value. In the paper this is denoted by the function $Q_{\theta_2}(s_t, a_t)$, where $Q$ is the Q-function, $\theta_2$ are the parameters of the second Q-network, $s_t$ is the state at time $t$, and $a_t$ is the action at time $t$.
-4. self.V_psi : The Value network parameterized by $\psi$ in the paper. It takes in the state as input and outputs the value of the state. In the paper this is denoted by the function $V_\psi(s_t)$, where $V$ is the value function, $\psi$ are the parameters of the value network, and $s_t$ is the state at time $t$.
-5. self.V_psi_bar : The target value parameterized by $\bar{psi}$ in the paper. It takes in the state as input and outputs the value of the state. In the paper this is denoted by the function $V_{\bar{\psi}}(s_t)$, where $V$ is the value function, $\bar{\psi}$ are the parameters of the target value network, and $s_t$ is the state at time $t$.
+2. ``self.Q_theta_1`` : The first Q-network, this is also known as the critic network. It takes in the state and action as input and outputs the Q-value. In the paper this is denoted by the function $Q_{\theta_1}(s_t, a_t)$, where $Q$ is the Q-function, $\theta_1$ are the parameters of the first Q-network, $s_t$ is the state at time $t$, and $a_t$ is the action at time $t$.
+3. ``self.Q_theta_2`` : The second Q-network, this is also known as the critic network. It takes in the state and action as input and outputs the Q-value. In the paper this is denoted by the function $Q_{\theta_2}(s_t, a_t)$, where $Q$ is the Q-function, $\theta_2$ are the parameters of the second Q-network, $s_t$ is the state at time $t$, and $a_t$ is the action at time $t$.
+4. ``self.V_psi`` : The Value network parameterized by $\psi$ in the paper. It takes in the state as input and outputs the value of the state. In the paper this is denoted by the function $V_\psi(s_t)$, where $V$ is the value function, $\psi$ are the parameters of the value network, and $s_t$ is the state at time $t$.
+5. ``self.V_psi_bar`` : The target value parameterized by $\bar{psi}$ in the paper. It takes in the state as input and outputs the value of the state. In the paper this is denoted by the function $V_{\bar{\psi}}(s_t)$, where $V$ is the value function, $\bar{\psi}$ are the parameters of the target value network, and $s_t$ is the state at time $t$.
 
 ```python
 class SoftActorCritic:
@@ -61,15 +61,16 @@ Couple of asides here,
 2. The Value Networks and Policy Networks are dependent on the current state of the Q network. Only after these are updated can we update the Q network.
 3. All loss functions are denoted by $J_{\text{network we are trying to optimize}}$ in the paper. The subscript denotes the network that is being optimized. For example, $J_{\psi}$ is the loss function for the Value Network, $J_{\phi}$ is the loss function for the Policy Network, and $J_{\theta}$ is the loss function for the Q Network.
 4. The Target Network is simply a lagged duplicate of the current Value Network. Thus, it does not actually ever "learn" but simply updates it weights through a weighted average between the latest weights from the value network and its own weights, this is given by the parameter $\tau$ in the code. This is done to stabilize the learning process. 
-5. Variable names can be read as one would read the variable from the paper for instance $V_{\bar{{\psi}}}(s_{t+1})$ is given by ``V_psi_bar_s_t_plus_1``. It is unfortunate that python does not allow for more scientific notation, but this is the best I could do.
+5. Variable names can be read as one would read the variable from the paper for instance $V_{\bar{\psi}}(s_{t+1})$ is given by ``V_psi_bar_s_t_plus_1``. It is unfortunate that python does not allow for more scientific notation, but this is the best I could do.
 
 # Re-parameterization Trick
 
 One of the most confusing things to implement in python. You can skip this section if you are just starting out but its use will become clear later. Adding the details here for completeness. 
 The main problem we are trying to solve here is that Torch requires a computational graph to perform backpropagation of the gradients. ``rsample()`` preserves the graph information whereas ``sample()`` does not. This is because ``rsample()`` uses the reparameterization trick to sample from the distribution. The reparameterization trick is a way to sample from a distribution while preserving the gradient information. It is done by expressing the random variable as a deterministic function of a parameter and a noise variable. In this case, we are using the reparameterization trick to sample from the normal distribution. The normal distribution is parameterized by its mean and standard deviation. We can express the random variable as a deterministic function of the mean, standard deviation, and a noise variable. This allows us to sample from the distribution while preserving the gradient information. 
-sample(): Performs random sampling, cutting off the computation graph (i.e., no backpropagation). Uses torch.normal within torch.no_grad(), ensuring the result is detached.
-rsample(): Enables backpropagation using the reparameterization trick, separating randomness into an independent variable (eps). The computation graph remains intact as the transformation (loc + eps * scale) is differentiable.
-Key Idea: eps is sampled once and remains fixed, while loc and scale change during optimization, allowing gradients to flow. Used in algorithms like SAC (Soft Actor-Critic) for reinforcement learning.
+1. ``sample()``: Performs random sampling, cutting off the computation graph (i.e., no backpropagation). Uses torch.normal within torch.no_grad(), ensuring the result is detached.
+2. ``rsample()``: Enables backpropagation using the reparameterization trick, separating randomness into an independent variable (eps). The computation graph remains intact as the transformation (loc + eps * scale) is differentiable.
+
+**Key Idea**: eps is sampled once and remains fixed, while loc and scale change during optimization, allowing gradients to flow. Used in algorithms like SAC (Soft Actor-Critic) for reinforcement learning.
 If you want to sample both the values and plot their distributions they will be identical (or as identical as two samples sampled from the same distribution can be).
 
 A good explanation can be found here : https://stackoverflow.com/questions/60533150/what-is-the-difference-between-sample-and-rsample
@@ -101,7 +102,7 @@ s_t, a_t_rb, r_t, s_t_plus_1, done = self.process_sample(sample, self.pi_phi.dev
 ```
 Let us first state the loss function of the value function. This is equation 5 of the Haarnoja et al. (2018) paper. 
 
-$$J_V(\psi) = \mathbb{E}_{s_t \sim D} [ \frac{1}{2} ( V_\psi(s_t) - \mathbb{E}_{a_t\sim\pi_{\phi}}[Q_\theta(s_t,a_t) - \log \pi_\phi(a_t|s_t)])^2  ]$$
+$$J_V(\psi) = \mathbb{E}\_{s_t  \sim D} \[ \frac{1}{2} ( V_\psi(s_t) - \mathbb{E}\_{a_t\sim\pi_{\phi}}[Q\_\theta(s_t,a_t) - \log \pi_\phi(a_t|s_t)])^2 \]$$
 
 Comments, 
 1. $V_\psi(s_t)$ is the output of the value function, which would just be a forward pass through the value neural network denoted by ``self.V_psi(s_t)`` in the code.
@@ -136,7 +137,7 @@ self.V_psi.optimizer.step() # Update the value network
 
 # Learning the Policy Function
 The policy function is learned using the policy gradient. This is equation 12 of the Haarnoja et al. (2018) paper.
-$$J_{\pi}(\phi)= \mathbb{E}_{s_t\sim \mathcal{D}, \epsilon_t\sim \mathcal{N}} [\log _{\phi}(f_{\phi}(\epsilon_t;s_t)|s_t)|) - Q_\theta(s_t,f_{\phi}(\epsilon_t;s_t)]$$
+$$J_{\pi}(\phi)= \mathbb{E}\_{s_t\sim \mathcal{D}, \epsilon_t\sim \mathcal{N}} [\log \pi\_{\phi}(f_{\phi}(\epsilon_t;s_t)|s_t)|) - Q_\theta(s_t,f_{\phi}(\epsilon_t;s_t)]$$
 The expectation means that we can use the mean of the observed values to approximate the expectation. 
 For performing the optimization on the policy network we need to do two things to get a prediction, 
 1. Perform a forward pass through the network to get $\mu$ and $\sigma$.
@@ -165,11 +166,11 @@ self.pi_phi.optimizer.step()
 # Learning the Q-Network
 In this section we will optimize the critic network. This would correspond to equation 7 in the paper. 
 
-$$J_Q(\theta) = \mathbb{E}_{(s_t,a_t) \sim \mathcal{D}} \left[ \frac{1}{2} \left( Q_{\theta}(s_t, a_t) - \hat{Q}(s_t, a_t) \right)^2 \right] $$
+$$J_Q(\theta) = \mathbb{E}\_{(s_t,a_t) \sim \mathcal{D}} \left[ \frac{1}{2} \left( Q\_{\theta}(s_t, a_t) - \hat{Q}(s_t, a_t) \right)^2 \right] $$
 
 Noting that, 
 $$
-\hat{Q}(s_t, a_t) = r_t + \gamma \mathbb{E}_{s_{t+1}\sim p}V_{\bar{\psi}}(s_{t+1})
+\hat{Q}(s_t, a_t) = r_t + \gamma \mathbb{E}\_{s_{t+1}\sim p}V_{\bar{\psi}}(s_{t+1})
 $$
 
 This is somewhat different from equation 7 in the paper,

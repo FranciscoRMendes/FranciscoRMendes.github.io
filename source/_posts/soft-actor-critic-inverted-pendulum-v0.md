@@ -18,6 +18,43 @@ The goal of this post is to provide a Torch code follow along for the original p
 You can follow along by starting from ```main_sac.py``` at the following link:
 https://github.com/FranciscoRMendes/soft-actor-critic
 
+# Inverted Pendulum v0 Environment Set Up
+## Environment Set Up
+Link to the environment here : https://github.com/bulletphysics/bullet3/blob/master/examples/pybullet/gym/pybullet_envs/gym_pendulum_envs.py
+
+## Example Data 
+The data from playing the game looks something like this, with each instant of game play denoted by a row. Note this data is sampled from many different games, so it is not ordered as if coming from one game.
+The dashes in the column name denote the next state, for example, Position' is the position at the next time step.
+
+| Position | Velocity | Cos Pole Angle | Sine Pole Angle | Pole Angle | Time Step | Force L/R | Position' | Velocity' | Cos Pole Angle' | Sine Pole Angle' | Pole Angle' | Done  |
+|----------|----------|----------------|----------------|------------|------------|-----------|----------|----------|----------------|----------------|------------|-------|
+| 0.0002   | 0.0085   | 0.9974         | -0.0722        | -0.0647    | 1          | 0.0137    | 0.0004   | 0.0133   | 0.9973         | -0.0738        | -0.0985    | FALSE |
+| 0.0174   | 0.0954   | 0.9964         | -0.0842        | -0.4624    | 1          | 0.0389    | 0.0191   | 0.1039   | 0.9957         | -0.0926        | -0.5079    | FALSE |
+| 0.0031   | 0.0427   | 0.9969         | -0.0785        | -0.2768    | 1          | 0.0290    | 0.0040   | 0.0497   | 0.9965         | -0.0837        | -0.3173    | FALSE |
+| 0.0046   | 0.0540   | 0.9965         | -0.0840        | -0.3380    | 1          | 0.0327    | 0.0056   | 0.0617   | 0.9959         | -0.0902        | -0.3818    | FALSE |
+| 0.0008   | 0.0195   | 0.9967         | -0.0813        | -0.1428    | 1          | 0.0203    | 0.0012   | 0.0255   | 0.9964         | -0.0843        | -0.1822    | FALSE |
+| 0.0071   | 0.0438   | 0.9994         | -0.0359        | -0.1959    | 1          | 0.0196    | 0.0079   | 0.0478   | 0.9992         | -0.0395        | -0.2158    | FALSE |
+| 0.0133   | 0.1056   | 0.9928         | -0.1194        | -0.6067    | 1          | 0.0512    | 0.0153   | 0.1171   | 0.9915         | -0.1304        | -0.6702    | FALSE |
+
+## State Description in `InvertedPendulumBulletEnv-v0`
+1. **Cart Position** – The horizontal position of the cart.  
+2. **Cart Velocity** – The speed of the cart.  
+3. **Cosine of Pendulum Angle** – $\cos(\theta)$, where $\theta$ is the angle relative to the vertical. It equals 1 when upright and decreases as it tilts.  
+4. **Sine of Pendulum Angle** – $\sin(\theta)$ complements $\cos(\theta)$, providing a full representation of the angle.  
+5. **Pendulum Angular Velocity** – The rate of change of $\theta$.  
+
+## Action 
+The action space is continuous and consists of a single action that can be applied to the cart. The action is a force that can be applied to the cart in the left or right direction. The force can be any value between $-1$ and $1$.
+
+## Reward & Termination 
+The reward is $1$ for every time step the pole is upright. The episode ends (Done is ```TRUE```) when the pole is more than $15$ degrees from the vertical axis or the cart moves more than $2.4$ units from the center.
+
+## Game play GIF
+An example of game play would look like this, not the most exciting thing in the world, I know.
+
+![Example Game Play](https://mgoulao.github.io/gym-docs/_images/inverted_pendulum.gif)
+
+
 # The Neural Networks in Soft Actor Critic Network
 The Lucid chart below encapsulates the major neural networks in the code and their relationships. Forward relationships (i.e. forward pass) are given by solid arrows. While backward relationships (i.e. backpropagation) are given by dashed arrows.
 I recommend using this chart to keep a track of which outputs train which networks. Note however, that these backward arrows describe merely that _some_ relationship exists. There are differences in the backpropagation used to train the policy network itself (uses the reparameterization trick) and the Value networks (does not).

@@ -271,3 +271,10 @@ $$\bar{\psi} \leftarrow \tau \psi + (1-\tau)\bar\psi$$
 
      self.V_psi_bar.load_state_dict(value_state_dict)
 ```
+
+# Conclusion 
+This post has been a detailed walk through of the Soft Actor Critic algorithm using inverted pendulum as an example. Other implementations of this algorithm exist. The best one I have found is Phil Tabor's implementation. 
+However, there was not a very good connection between the code and the paper. This post was an attempt to bridge that gap by using notation that exactly matches the paper, while keeping the overall structure simple to understand. 
+In my next post, I will implement the Soft Actor Critic Algorithm on the Lunar Lander game, this will hopefully make for a more interesting visualization of how the algorithm learns better. 
+
+

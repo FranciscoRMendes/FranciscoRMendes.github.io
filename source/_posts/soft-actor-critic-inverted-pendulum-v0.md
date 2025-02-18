@@ -9,7 +9,7 @@ tags:
     - signal processing
 categories:
     - artificial-intelligence
-    - machine learning
+    - reinforcement-learning
 ---
 
 # Introduction

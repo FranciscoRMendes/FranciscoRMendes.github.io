@@ -1,7 +1,9 @@
 ---
-title : "Soft Actor Critic : From Scratch in Torch for Inverted Pendulum"
+title : "Soft Actor Critic (Visualized) : From Scratch in Torch for Inverted Pendulum"
 date : 2025-02-17
 mathjax : true
+thumbnail : gallery/thumbnails/inverted_cart_pole.png
+cover : gallery/thumbnails/inverted_cart_pole.png
 tags:
     - statistics   
     - signal processing
@@ -11,24 +13,31 @@ categories:
 ---
 
 # Introduction
-
 In this post, I will implement the Soft Actor Critic (SAC) algorithm from scratch in PyTorch. I will use the OpenAI Gym environment for the Inverted Pendulum task.
-The goal of this post is to provide a Torch code follow along for the original paper by Haarnoja et al. (2018) [1].
-Put code link here. 
+The goal of this post is to provide a Torch code follow along for the original paper by Haarnoja et al. (2018) [1]. Many implementations of Soft Actor Critic exist, in this code we implement the one outlines in the paper.
+You can follow along by starting from ```main_sac.py``` at the following link:
+https://github.com/FranciscoRMendes/soft-actor-critic
 
-# Neural Networks
+# The Neural Networks in Soft Actor Critic Network
+The Lucid chart below encapsulates the major neural networks in the code and their relationships. Forward relationships (i.e. forward pass) are given by solid arrows. While backward relationships (i.e. backpropagation) are given by dashed arrows.
+I recommend using this chart to keep a track of which outputs train which networks. Note however, that these backward arrows describe merely that _some_ relationship exists. There are differences in the backpropagation used to train the policy network itself (uses the reparameterization trick) and the Value networks (does not).
+<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/68197b45-adf1-477b-a3ad-68d468196d7b" id="QO7TleQdXSdp"></iframe></div>
 
-The main object in the code is the object called SoftActorCritic.py. It consists of the neural networks and all the hyperparameters that potentially need tuning. As per the paper the most important one is reward scale. This is a hyperparameter that balances the explore-exploit tradeoff. Higher values of the reward will make the agent exploit more. 
+The main object in the code is the object called ```SoftActorCritic.py```. It consists of the neural networks and all the hyperparameters that potentially need tuning. As per the paper the most important one is reward scale. This is a hyperparameter that balances the explore-exploit tradeoff. Higher values of the reward will make the agent exploit more. 
 
-This class contains the following Neural Networks:
+This class contains the following Neural Networks, their relationships are illustrated in the Lucid Chart above:
 1. ``self.pi_phi``: The actor network, which outputs the action given the state. In the paper this is denoted by the function $\pi_\phi(a_t|s_t)$, where $\pi$ is the policy, $\phi$ are the parameters of the policy, $a_t$ is the action at time $t$, and $s_t$ is the state at time $t$. This neural network will take in the state vector in this case the $5$ dimensional state vector, it can output two things 
     - action $a_t$ : a continuous vector of size $1$ to take in the environment (no re-parameterization trick)
     - The mean and variance of the action to take in the environment, $\mu$ and $\sigma$ respectively (re-parameterization trick)
 2. ``self.Q_theta_1`` : The first Q-network, this is also known as the critic network. It takes in the state and action as input and outputs the Q-value. In the paper this is denoted by the function $Q_{\theta_1}(s_t, a_t)$, where $Q$ is the Q-function, $\theta_1$ are the parameters of the first Q-network, $s_t$ is the state at time $t$, and $a_t$ is the action at time $t$.
 3. ``self.Q_theta_2`` : The second Q-network, this is also known as the critic network. It takes in the state and action as input and outputs the Q-value. In the paper this is denoted by the function $Q_{\theta_2}(s_t, a_t)$, where $Q$ is the Q-function, $\theta_2$ are the parameters of the second Q-network, $s_t$ is the state at time $t$, and $a_t$ is the action at time $t$.
 4. ``self.V_psi`` : The Value network parameterized by $\psi$ in the paper. It takes in the state as input and outputs the value of the state. In the paper this is denoted by the function $V_\psi(s_t)$, where $V$ is the value function, $\psi$ are the parameters of the value network, and $s_t$ is the state at time $t$.
-5. ``self.V_psi_bar`` : The target value parameterized by $\bar{psi}$ in the paper. It takes in the state as input and outputs the value of the state. In the paper this is denoted by the function $V_{\bar{\psi}}(s_t)$, where $V$ is the value function, $\bar{\psi}$ are the parameters of the target value network, and $s_t$ is the state at time $t$.
+5. ``self.V_psi_bar`` : The target value parameterized by $\bar{\psi}$ in the paper. It takes in the state as input and outputs the value of the state. In the paper this is denoted by the function $V_{\bar{\psi}}(s_t)$, where $V$ is the value function, $\bar{\psi}$ are the parameters of the target value network, and $s_t$ is the state at time $t$.
 
+Couple of things to watch out for in these neural networks that can be quite different from the usual classification use,
+1. Forward pass and inference (i.e. using the SoftActorCritic Network) are different, in the forward pass you are still using outputs to improve the policy network so that it plays better. However, to play the game you only ever need the policy network. In the classification case, the forward pass and inference are the same and hence used interchangeably. 
+2. The backward dashed arrows for backpropagation are important because it is not always clear what the "target" to train one of these neural networks is. The "target" is often from a combination of outputs from different networks and the rewards. 
+3. The top row of nodes, States, Actions, Rewards and Next States are the "data" on which the neural networks are to be trained.
 ```python
 class SoftActorCritic:
     def __init__(self, alpha=0.0003, beta=0.0003, input_dims=[8],

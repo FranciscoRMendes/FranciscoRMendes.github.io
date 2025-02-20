@@ -278,3 +278,10 @@ However, there was not a very good connection between the code and the paper. Th
 In my next post, I will implement the Soft Actor Critic Algorithm on the Lunar Lander game, this will hopefully make for a more interesting visualization of how the algorithm learns better. 
 
 
+# References 
+1. Haarnoja, T., Zhou, A., Abbeel, P., & Levine, S. (2018). Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor. arXiv preprint arXiv:1801.01290.
+2. https://github.com/philtabor/Youtube-Code-Repository/tree/master/ReinforcementLearning/PolicyGradient/SAC
+3. Phil's Youtube video https://www.youtube.com/watch?v=ioidsRlf79o
+4. Oliver Sigaud's video https://www.youtube.com/watch?v=_nFXOZpo50U (check out his channel and research for more)
+5. https://youtube.com/playlist?list=PLYpLNGpDoiMSMrvgVhgNRwOHTVYbX2lOa&si=unvWxJsJm_w4OcD-
+6. https://www.youtube.com/watch?v=kJ9CL7asR94&list=LL&index=22&t=41s (accent might be unclear, but trust me one of the best videos)

@@ -1,6 +1,6 @@
 ---
 title: "Book Review: East of Eden by John Steinbeck"
-date: 2024-02-09
+date: 2025-02-09
 mathjax: true
 thumbnail: gallery/thumbnails/east-eden-cover.png
 cover: gallery/thumbnails/east-eden-cover.png

@@ -3,7 +3,7 @@ menu:
   Home: /
   About: /about
   Contact: /contact
-  Posts: /posts
+  Posts: /source/_posts
 
 # Favicon
 favicon_url:

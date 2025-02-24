@@ -4,12 +4,15 @@ date : 2025-02-17
 mathjax : true
 thumbnail : gallery/thumbnails/inverted_cart_pole.png
 cover : gallery/thumbnails/inverted_cart_pole.png
-tags:
-    - statistics   
-    - signal processing
+tags : 
+    - AI
+    - Machine Learning
+    - Deep Learning
+    - Neural Networks
+    - Reinforcement Learning
+
 categories:
     - artificial-intelligence
-    - reinforcement-learning
 ---
 
 # Introduction

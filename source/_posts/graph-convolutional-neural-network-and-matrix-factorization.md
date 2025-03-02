@@ -16,6 +16,7 @@ tags:
     - Graph Convolutional Neural Networks
 categories:
     - artificial-intelligence
+excerpt: "A review of the mathematical essentials for recommender systems, comparing matrix factorization and graph neural networks."
 ---
 
 # Introduction

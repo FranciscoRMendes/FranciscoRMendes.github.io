@@ -9,6 +9,7 @@ tags :
     - politics
 categories:
     - book-review
+excerpt: "A review of The Cold War: A World History by Odd Arne Westad and reflections on the Cold War."
 ---
 
 

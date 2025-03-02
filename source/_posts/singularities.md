@@ -10,6 +10,7 @@ tags:
 categories:
     - physics
     - mathematics
+excerpt: "A short note on singularities in physics and mathematics."
 ---
 
 # Introduction

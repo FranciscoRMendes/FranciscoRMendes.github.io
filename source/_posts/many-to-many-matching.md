@@ -9,6 +9,7 @@ tags :
     - game-theory
 categories:
     - economics
+excerpt: "A discussion of the fixed points of many to many matching."
 ---
 
 # The Gale Shapley Algorithm (Deferred Acceptance Algorithm or DAA)

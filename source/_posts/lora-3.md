@@ -16,6 +16,7 @@ tags:
     - Convolutional Neural Networks
 categories:
     - artificial-intelligence
+excerpt: "In this post, we will explore the Low Rank Approximation (LoRA) technique for shrinking neural networks for embedded systems. We will focus on the Convolutional Neural Network (CNN) case and discuss the rank selection process."
 ---
 # Decomposition of a Convolutional layer
 

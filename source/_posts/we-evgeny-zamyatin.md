@@ -9,6 +9,7 @@ tags:
     - politics
 categories:
     - book-review
+excerpt: "A book review of We by Evgeny Zamyatin."
 ---
 
 It is hard to write this book review without overusing superlatives. Widely regarded as the inspiration for both 1984 and Brave New World, this book serves as the template for revolution in a dystopian world ruled by an all-encompassing police state. Written during the early years of the Soviet Union, it holds the dubious distinction of being one of the first (if not the first) books to be banned by the Communist Party.

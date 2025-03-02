@@ -9,6 +9,7 @@ tags :
     - fiction
 categories:
     - book-review
+excerpt: "Book review of John Steinbeck's East of Eden."
 ---
 
 

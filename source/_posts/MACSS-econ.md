@@ -7,6 +7,7 @@ tags :
     - career
 categories:
     - opinion
+excerpt: "An interview with a UChicago Economics grad school alumni."
 ---
 
 

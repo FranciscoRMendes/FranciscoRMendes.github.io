@@ -9,6 +9,7 @@ tags:
     - politics
 categories:
     - opinion
+excerpt: "A non-opinion piece on the strategic implications of voting for RFK."
 ---
 
 # Introduction

@@ -8,6 +8,7 @@ tags :
     - Bayesian Statistics
 categories:
     - statistics
+excerpt: "A comprehensive guide to Bayesian statistics in consulting, from A/B testing to recommendation engines."
 ---
 
 A friend of mine recently asked me for advice in preparing for an interview that required Bayesian statistics in Consulting. They asked me if I had done anything in Bayesian statistics. I decided to compile a list of representative projects that encapsulate the general idea of Bayesian statistics in consulting. These projects are rudimentary but could serve as a useful interview guide if needed!

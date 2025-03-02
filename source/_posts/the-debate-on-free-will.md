@@ -6,6 +6,7 @@ tags:
     - philosophy
 categories:
     - opinion
+excerpt: "This essay delves into the intricate tapestry of debate surrounding the concept of free will, examining the perspectives of determinism, the enigma encapsulated by the 'hard problem' of consciousness, the role of randomness, and the computational attributes characterizing the human mind."
 ---
 
 

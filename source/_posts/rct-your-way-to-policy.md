@@ -9,6 +9,7 @@ tags:
   - economics
 categories:
     - opinion
+excerpt: "A critique of the Randomized Controlled Trial (RCT) in economics."
 ---
 
 # The Bayesian Policy Maker 

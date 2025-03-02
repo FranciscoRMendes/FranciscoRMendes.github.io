@@ -9,6 +9,7 @@ tags:
 categories:
     - statistics
     - machine learning
+excerpt: "A comprehensive guide to AB Testing in the context of management consulting, with a special focus on recommender systems."
 ---
 
 # Introduction

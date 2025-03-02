@@ -8,6 +8,7 @@ tags:
 categories:
     - statistics
     - machine learning
+excerpt: "Matching MATLAB's resample function in Python."
 ---
 
 # Matching MATLAB's resample function in Python

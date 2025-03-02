@@ -2,8 +2,8 @@
 title : "Soft Actor Critic (Visualized) Part 2: Lunar Lander Example from Scratch in Torch"
 date : 2025-02-28
 mathjax : true
-thumbnail : gallery/thumbnails/lunar-lander.png
-cover : gallery/thumbnails/lunar-lander.png
+thumbnail : gallery/thumbnails/lunar-lander-2.png
+cover : gallery/thumbnails/lunar-lander-2.png
 tags : 
     - AI
     - Machine Learning
@@ -188,8 +188,8 @@ This dataset captures the experience of an agent in the **Lunar Lander** environ
 3. **State**
    - `x, y`: Position coordinates.
    - `v_x, v_y`: Velocity components.
-   - `angle`: The lander’s rotation angle.
-   - `angular velocity`: The rate of change of the angle.
+   - `theta`: The lander’s rotation angle.
+   - `omega`: The rate of change of the angle.
    - `left contact, right contact`: Binary indicators (0 or 1) showing whether the lander has made contact with the ground.
 
 4. **Done**
@@ -201,6 +201,8 @@ This dataset captures the experience of an agent in the **Lunar Lander** environ
 
 
 
+# Sample Game Play 
+![Sample game play from the OpenAI website](https://gymnasium.farama.org/_images/lunar_lander.gif)
 # Game play 500 games 
 YouTube video embedded 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/pSSxC84vXCw?si=VFDUhuxb4C8jn8Be" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

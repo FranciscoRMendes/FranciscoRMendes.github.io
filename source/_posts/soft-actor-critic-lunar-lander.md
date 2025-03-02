@@ -12,6 +12,7 @@ tags :
     - Reinforcement Learning
 categories:
     - artificial-intelligence
+excerpt: "From scratch implementation of the SAC algorithm in PyTorch for Lunar Lander."
 ---
 
 # Introduction
@@ -20,6 +21,7 @@ Like before, I will be using notation that matches the original paper (Haarnoja 
 Since the paper's notation is critical to the understanding of the code, I highly recommend reading that alongside (or before) diving into the code.
 Part 1 of this series provides extensive details linking the theory to the code. In this part, we will focus on the implementation of the SAC algorithm in PyTorch for Lunar Lander. 
 
+https://github.com/FranciscoRMendes/soft-actor-critic/blob/main/lunar-lander/LL_main_sac.py
 
 
 # Example Data

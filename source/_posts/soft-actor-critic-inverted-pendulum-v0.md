@@ -13,6 +13,8 @@ tags :
 
 categories:
     - artificial-intelligence
+
+excerpt: "From scratch implementation of the SAC algorithm in PyTorch for Inverted Pendulum."
 ---
 
 # Introduction

@@ -13,6 +13,7 @@ tags :
     - LORA
 categories:
     - - artificial-intelligence
+excerpt: "An elementary explanation of the problem with full rank matrices in neural networks and their solution via low rank approximations. Detailed explanation on how to set up the optimization problem and how to solve it, in possibly linear time."
 ---
 
 # Motivation

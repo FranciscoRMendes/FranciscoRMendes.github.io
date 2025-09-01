@@ -2,8 +2,8 @@
 title: "Book Review: Kafka On The Shore: Haruki Murakami"
 date: 2025-08-03
 mathjax: true
-thumbnail: gallery/thumbnails/child-in-korean-war.png
-cover: gallery/thumbnails/child-in-korean-war.png
+thumbnail: gallery/thumbnails/kafka_on_the_shore.jpeg
+cover: gallery/thumbnails/kafka_on_the_shore.jpeg
 tags : 
     - book review
 categories:
@@ -12,36 +12,35 @@ excerpt: "A review of Haruki Murakami's Kafka On The Shore"
 ---
 
 # Introduction
-A while ago I came across a collection of Murakami's short stories in a quaint New York bookstore (that was going out of business, no less). This was my first experience with a Murakami novel. For the unininitiaed
-(like I was) Murakami's style is a blend of magical realism, surrealism and a heavy dose of the every day banality that makes up a large chunk of the human lived experience. 
-Overall the experience was good enough for me to grab a Murakami novel off my aunt's bookstand and read my way through it over the 4th of July holiday. What follows are some of my thoughts about 
-_Kafka on the Shore_. 
+A while ago, I stumbled upon a collection of Murakami’s short stories in a quaint New York bookstore (that was going out of business, no less). That was my first real encounter with Murakami. For the uninitiated (as I was then), his style is a blend of magical realism, surrealism, and a heavy dose of everyday banality—the stuff that quietly makes up much of human existence.  
 
-# Plot 
+That experience was good enough to push me towards picking up a Murakami novel from my aunt’s bookshelf, which I ended up reading over the 4th of July holiday. What follows are some of my thoughts on _Kafka on the Shore_.  
 
-The book has two interrelated plots, one of Kafka Tamura the titular and main character. The other is Saturo Nakata. The story opens with Kafka running away from home and changing his name (he changes his name to Kafka and we never really learn his real name). 
-What follows are his adventures after leaving home, we are informed of a troubled past wherein his mother left with his sister thereby abandoning Kafka. 
-Each chapter of Kafka's adventure is interleaved with the experience of Nakata, an old man who has the strange ability to speak with cats. The result of a childhood affliction following a strange celestial event. 
-The two stories are on a collision course throughout the novel. We learn just enough of both stories to learn how they might be connected, and indeed Nakata is inexorably drawn to Kafka and spends much of the novel trying to reach him (even as Kafka tries to run away).
+# Plot  
+The book follows two interwoven stories: that of Kafka Tamura, the titular main character, and Satoru Nakata.  
 
-# Analysis 
+Kafka, who has renamed himself (we never learn his given name), runs away from home, carrying the scars of a troubled past in which his mother abandoned him and his sister. His chapters are interleaved with those of Nakata, an elderly man who lost much of his mental faculties after a strange celestial incident in childhood but gained the uncanny ability to speak with cats.  
 
-Here, I must confess that I had several issues with Murakami's style. While the blend of magical realism and surrealism make for quite compelling reading, I fear that the page turning nature of the book was rather more due to the pace and unanswered questions of the story rather that the style of writing itself. 
-Murakami gives the reader multiple blank checks, for instance. 
-1. The mysterious event in the Yamanashi Prefecture that inexplicably leads to Nakata's ability to speak to cats 
-2. The entrace stone that draws Nakata to it and the creature that crawls out of it
-3. The multitude of garishly outlandish characters such as Colonel Sanders (whom you may know from KFC) and Johnnie Walker (another rather well known figure, I am told. I wouldn't know).
-4. The connection between Kafka and Nakata 
+These parallel stories unfold with the sense that they are on a collision course. We’re given hints of how the two might connect, but the real narrative pull comes from watching Kafka try to run from his fate, while Nakata, inexorably, is drawn toward him.  
 
-For 1,2 and 3 we are given no explanation, sadly these checks could not be cashed, so to speak. While magical realism and surrealism are Murakami's metiere, it felt almost like the story was not believable even unto itself. To me this is an invoiolable rule of story telling. 
-A story must be real to itself, if not necessarily to its readers. One must acknowledge that these literary elements are all part of some mystical whole. Unfortunately, this missed me by some margin. 
-In effect, it felt like a surrealist drama that played out in front of an audience and then abruptly ended. As the book does, with the last couple of chapters a hurried conclusion. To be honest, had it not been for the introduction of the worm like creature that exited the entrance stone, I probably would have forgiven the book its (many) faults. 
-However, the sudden introduction of that creature along with the lack of explanation for many other plot points led me to almost fling the book down in disgust. 
-Magical realism was meant to use fantastical settings to explore deeper themes, however, Murakami uses them as a device to advance the plot without reconciling them together. In the absence of such an effort, it became difficult for me as the reader to accept the "magical" elements as "real", even in the context of the book. 
+# Analysis  
+I must confess: I had several issues with Murakami’s style here. The blend of magical realism and surrealism certainly makes for compelling reading, but I often felt that the page-turning quality of the book came more from its pacing and unanswered questions than from the writing itself.  
 
-Things were not all bad however, for the first three quarters of the book, the magic _felt real_. 
+Murakami hands the reader multiple blank checks, for example:  
+1. The mysterious event in Yamanashi Prefecture that gives Nakata his ability to talk to cats.  
+2. The entrance stone and the creature that crawls out of it.  
+3. A parade of outlandish characters—Colonel Sanders (yes, that Colonel Sanders) and Johnnie Walker (who I’m told is another well-known figure, though I wouldn’t know).  
+4. The nature of the connection between Kafka and Nakata.  
 
-# Conclusion 
+For items 1–3 in particular, no explanations are offered. Sadly, these checks could not be cashed. While magical realism and surrealism are Murakami’s métier, it sometimes felt as if the story wasn’t believable even on its own terms. For me, this is an inviolate rule of storytelling: a narrative must be real to itself, if not to the reader.  
 
-All in all a good book, if lacking in some real substance. Maybe this is the point of magical realism. I dont know. 
-While I love philosophizing about books, there is a point at which one engages in such activity too much. 
+Instead, the novel felt like a surrealist play staged before an audience, only to end abruptly. The hurried conclusion didn’t help. Had it not been for the sudden appearance of that worm-like creature from the entrance stone, I might have forgiven the book its faults. But the introduction of that element, piled on top of so many other loose threads, nearly had me fling the book down in frustration.  
+
+Magical realism is supposed to use the fantastical as a way to probe deeper themes. Murakami, however, often uses the fantastical simply as a plot device, without stitching the pieces together. Without that reconciliation, I found it difficult to accept the “magical” as truly real, even within the novel’s own world.  
+
+That said, for the first three-quarters of the book, the magic did feel real—and that counts for something.  
+
+# Conclusion  
+All in all, a good book, if lacking in real substance. Perhaps that’s the very point of magical realism—I don’t know.  
+
+While I do enjoy philosophizing about books, there comes a point where one risks overdoing it. This one, for me, sat uncomfortably on that line.  

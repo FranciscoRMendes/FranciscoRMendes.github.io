@@ -40,3 +40,8 @@ However, the sudden introduction of that creature along with the lack of explana
 Magical realism was meant to use fantastical settings to explore deeper themes, however, Murakami uses them as a device to advance the plot without reconciling them together. In the absence of such an effort, it became difficult for me as the reader to accept the "magical" elements as "real", even in the context of the book. 
 
 Things were not all bad however, for the first three quarters of the book, the magic _felt real_. 
+
+# Conclusion 
+
+All in all a good book, if lacking in some real substance. Maybe this is the point of magical realism. I dont know. 
+While I love philosophizing about books, there is a point at which one engages in such activity too much. 

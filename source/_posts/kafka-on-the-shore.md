@@ -1,6 +1,6 @@
 ---
 title: "Book Review: Kafka On The Shore: Haruki Murakami"
-date: 2023-08-03
+date: 2025-08-03
 mathjax: true
 thumbnail: gallery/thumbnails/child-in-korean-war.png
 cover: gallery/thumbnails/child-in-korean-war.png

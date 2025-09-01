@@ -1,6 +1,6 @@
 ---
 title: "Book Review: Kafka On The Shore: Haruki Murakami"
-date: 2025-08-03
+date: 2025-09-01
 mathjax: true
 thumbnail: gallery/thumbnails/kafka_on_the_shore.jpeg
 cover: gallery/thumbnails/kafka_on_the_shore.jpeg

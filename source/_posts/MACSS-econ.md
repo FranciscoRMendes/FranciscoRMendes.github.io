@@ -3,12 +3,11 @@ title: "UChicago Economics Grad School Alumni Interview"
 date: 2024-05-09
 mathjax: true
 tags : 
-    - AI
-    - Machine Learning
     - economics
     - career
 categories:
     - opinion
+excerpt: "An interview with a UChicago Economics grad school alumni."
 ---
 
 

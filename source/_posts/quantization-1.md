@@ -13,6 +13,7 @@ tags :
     - Optimization
 categories:
     - artificial-intelligence
+excerpt: "A manual implementation of quantization in PyTorch."
 ---
  
 # Introduction

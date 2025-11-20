@@ -11,6 +11,8 @@ tags :
     - Optimization
 categories:
     - artificial-intelligence
+excerpt: "In this article, we will discuss how values are passed between layers post quantization in PyTorch. We will also discuss why floating point operations are slower than integer operations."
+
 ---
 
 # Introduction

@@ -8,7 +8,7 @@ tags :
     - football
 categories:
     - opinion
-    - football
+excerpt: "A lament for the left back in modern football."
 ---
 
 As the season draws to a close, no matter whether we win the league or not, I’m happy with where Arsenal are as a club. Although, I’d better get my feelings off my chest before Championship Sunday. 

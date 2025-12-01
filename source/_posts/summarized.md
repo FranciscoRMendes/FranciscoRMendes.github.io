@@ -2,8 +2,8 @@
 title: "Summarized"
 date: 2025-11-20
 mathjax: true
-thumbnail: gallery/thumbnails/Pierre_Puvis_de_Chavannes_-_The_Poor_Fisherman_-_(MeisterDrucke-898123).png
-cover: gallery/thumbnails/Pierre_Puvis_de_Chavannes_-_The_Poor_Fisherman_-_(MeisterDrucke-898123).png
+thumbnail: gallery/thumbnails/Poor_Fisherman.jpg
+cover: gallery/thumbnails/Poor_Fisherman.jpg
 tags:
     - essay
 categories:

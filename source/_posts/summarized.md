@@ -5,9 +5,9 @@ mathjax: true
 thumbnail: gallery/thumbnails/Poor_Fisherman.jpg
 cover: gallery/thumbnails/Poor_Fisherman.jpg
 tags:
-    - essay
-categories:
     - artificial-intelligence
+categories:
+    - essay
 excerpt: "Thoughts on beauty and its relationship with AI"
 ---
 

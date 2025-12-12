@@ -2,8 +2,8 @@
 title: "Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain"
 date: 2025-12-06
 mathjax: true
-thumbnail: gallery/thumbnails/frequency_decomposition.png
-cover: gallery/thumbnails/frequency_decomposition.png
+thumbnail: gallery/thumbnails/2D Fourier Transform.jpg
+cover: gallery/thumbnails/2D Fourier Transform.jpg
 tags:
     - AI
     - Machine Learning

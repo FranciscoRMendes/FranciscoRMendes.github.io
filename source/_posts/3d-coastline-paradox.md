@@ -29,6 +29,8 @@ Point 4 turned out to be particularly enlightening. In researching this post, I 
 
 ![Coastline Paradox of Great Britain](3d-coastline-paradox/greatbritainislandcoastlineparadox-gb.webp)
 
+Complete follow along notebook can be found [here](https://github.com/FranciscoRMendes/coastline-paradox-3d):
+
 # 2D Coastline Paradox 
 The figure above illustrates the coastline paradox using a Koch curve, a classic fractal curve. As the ruler size decreases, the measured length of the curve increases dramatically, highlighting that the “true” length of a jagged, self-similar shape is not well-defined. In the top plot, we visualise the Koch curve after six iterations, showing its intricate zig-zag pattern. The bottom plot demonstrates the paradox quantitatively: on a log–log scale, smaller ruler sizes (on the right) capture finer details, resulting in a rapidly increasing measured length. This simple experiment illustrates why fractal curves require a scale-invariant descriptor—the Minkowski or box-counting dimension—to characterise their complexity, rather than relying on a single length measurement.
 

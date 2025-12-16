@@ -1,6 +1,6 @@
 ---
 title: "Telegraph Hill and the Coastline Paradox: Measuring a City in Fractional Dimensions"
-date: 2024-12-12
+date: 2025-12-16
 mathjax: true
 thumbnail: gallery/thumbnails/telegraph-hill.webp
 cover: gallery/thumbnails/telegraph-hill.webp

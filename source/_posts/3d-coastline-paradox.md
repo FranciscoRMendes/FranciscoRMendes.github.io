@@ -156,19 +156,19 @@ where $D_1$ is the fractal dimension of the curve. By plotting $\log L(\varepsil
 
 ### 3D Case: Simulated Fractal Surface
 
-For a fractal surface, the measured area (A(\varepsilon)) scales with ruler size (\varepsilon) as:
+For a fractal surface, the measured area $A(\varepsilon)$ scales with ruler size $\varepsilon$ as:
 
 $$
 A(\varepsilon) \sim \varepsilon^{2-D_2} = 2.00002
 $$
 
-where (D_2) is the surface’s fractal dimension (with (2 < D_2 < 3)). A log–log plot of (A(\varepsilon)) versus (\varepsilon) gives a slope of (2-D_2), allowing us to solve for (D_2). In practice, simulated terrains often have (D_2 \approx 2.3{-}2.5), meaning the surface is rougher than a plane but still does not fill 3D space.
+where (D_2) is the surface’s fractal dimension (with $2 < D_2 < 3$). A log–log plot of $A(\varepsilon)$ versus $\varepsilon$ gives a slope of $2-D_2$, allowing us to solve for $D_2$. In practice, simulated terrains often have $D_2 \approx 2.3{-}2.5$, meaning the surface is rougher than a plane but still does not fill 3D space.
 
 ![Fitting a line to estimate dimension in the 3D case](3d-coastline-paradox/dim-est-3D.png)
 
 ### Real-World Case: Telegraph Hill
 
-Finally, we can apply the same method to **elevation data from Telegraph Hill**. Using square rulers of decreasing size, we measure the terrain’s surface area at each scale. A log–log plot of measured area versus ruler size produces a slope that corresponds to (2-D_{TH}).
+Finally, we can apply the same method to **elevation data from Telegraph Hill**. Using square rulers of decreasing size, we measure the terrain’s surface area at each scale. A log–log plot of measured area versus ruler size produces a slope that corresponds to $2-D_{TH}$.
 
 $$
 D_{TH} = 2 - \frac{d \log A(\varepsilon)}{d \log \varepsilon} = 2.00084

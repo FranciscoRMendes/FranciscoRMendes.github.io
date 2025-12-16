@@ -182,7 +182,7 @@ The resulting fractional dimension (D_{TH}) captures the **true roughness of the
 
 The most interesting region of hyperparameter space is not where training clearly succeeds or clearly fails, but the boundary between the two. This is where learning rates are just stable enough, regularisation is just sufficient, and optimisation teeters on the edge of divergence.
 
-![The boundary of neural network trainability is fractal](3d-coastline-paradox/Neural Network Parameters is fractal.png)
+![The boundary of neural network trainability is fractal](3d-coastline-paradox/nn_fractal.png)
 
 When we zoom into this boundary between convergent (blue) and divergent (red) training regimes, something remarkable happens: structure appears at every scale. Regions that look smooth at coarse resolution reveal increasingly intricate patterns as we zoom in. No matter how closely we examine it, the boundary never simplifies.
 
@@ -217,3 +217,5 @@ In the end, the coastline paradox is more than a curiosity: it offers a window i
 - [Jascha Sohl-Dickstein's Blog on Fractal Boundaries](https://sohl-dickstein.github.io/2024/02/12/fractal.html)
 
 - [Original Paper by Sohl-Dickstein](https://arxiv.org/pdf/2402.06184)
+
+- [The infinite coastline paradox](https://www.infinitelymore.xyz/p/the-infinite-coastline-paradox)

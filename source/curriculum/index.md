@@ -1,86 +1,132 @@
 ---
 title: Curriculum Vitae
-date: 2024-06-09 09:29:40
+date: 2024-06-09
 ---
 
-**Overall Experience Summary**
+## Overall Experience Summary
 
-Experienced Data Scientist/ ML Engineer (8+ years) with subject expertise in building and deploying ML Algorithms built on sensor data for various use cases using advanced signal processing techniques (spectral analysis, cepstral analysis etc.). I have extensive experience building classifiers and regression models on all kinds of sensor data, most of my project experience has involved the 5 steps below:
+Senior Machine Learning Engineer and Applied Statistician with 8+ years of experience designing, analysing, and deploying production-grade ML systems across large-scale mobility data, autonomous vehicle (AV) analytics, and embedded sensor platforms.
 
-1.  **\[Engineering Context\]** Gaining an understanding of the physics, chemistry or biology of the problem
+My expertise spans rare-event detection, statistical efficiency, signal processing, and hardware-constrained deployment. I have built and shipped models operating under severe class imbalance, tight latency/memory constraints, and safety-sensitive environments. My work consistently integrates:
 
-2.  **\[Sensors\]** Understanding the nature of the sensors deployed to estimate various features that are predictive of the problem, their sample rates, short comings and power consumption.
+1. **Problem Formalization**  
+   Translating ambiguous real-world objectives (business, safety, physics-driven constraints) into precise statistical learning problems.
 
-3.  **\[Modeling\]** Iteratively building signal processing features that differentiate classes (or are statistically significant in predicting a scalar value) that help solve the problem
+2. **Signal & Sensor Analysis**  
+   Understanding the physical and statistical properties of signals (spectral structure, stationarity, noise characteristics, sampling rates, hardware limitations).
 
-4.  **\[Model Refinement\]** Taking client feedback from the real world (either business, unit economics, physics), translating that to the ML model and fine tuning it (capture more TPR at the expense of FPs, find profitable points on the ROC curve).
+3. **Statistical Modeling & Feature Design**  
+   Designing discriminative features using spectral analysis, cepstral analysis, and domain-specific transforms; developing calibrated classifiers and regression systems.
 
-5.  **\[Model Deployment\]** Once client is happy with the solution I assist in model deployment, this includes implementing mathematical techniques to reduce model size (low rank optimization in case of linear transforms), reduce latency using numerical representations (FP32 to INT8) and studying the tradeoffs between size, accuracy and latency for a given problem
+4. **Rare-Event & Long-Tail Optimization**  
+   Building importance-weighted and variance-aware modeling pipelines; tuning decision thresholds along ROC and PR curves to optimize for asymmetric cost structures.
 
-**Project Experience**
+5. **Production Deployment & Efficiency Engineering**  
+   Deploying models in Python, C++, and embedded environments; applying low-rank approximations, quantization (FP32 → INT8), and architectural compression while studying tradeoffs between accuracy, latency, and memory footprint.
 
-At Renesas Electronics I lead the deployment of our neural network deployment on our own micro-controllers. This involves the creation and maintenance of an optimized ML pipeline that can ingest client sensor data, extract features (including our own proprietary signal processing features), build/ optimize a model and deploy the model. The following are some interesting technical things that I work on day to day:
+---
 
--   Finding FNNs, CNNs, DNNs that are small enough to fit on our smallest MCUs but complex enough to learn highly non-linear and complex patterns that differentiate classes.
+## Professional Experience
 
--   Using the client's domain knowledge, to build features that translate the physics to the signal processing/ statistical domain. Sometimes this is a simple peak detector (turbine failure) but can be more complex such as differentiating two out of phase noisy sine waves (arc fault detection).
+### Lyft — Senior Machine Learning Engineer / Data Scientist  
+2023 – Present  
 
--   Many of our feature extraction techniques are simply linear transforms of the form Ax + b, which is the same as a fully connected neural network layer, I spend a lot of time optimizing these linear operations so that they can be done faster or so that the matrix A can use less space
+Design and deployment of large-scale, production ML systems for anomaly detection, safety analytics, and statistical efficiency in high-volume mobility data.
 
-    -   Either by moving these operations from FP32 to INT8
+**Rare-Event Detection & Statistical Efficiency**
+- Architected and led development of a ghost ride detection system, an inherently low-base-rate classification problem operating on highly imbalanced datasets.
+- Applied importance sampling, probability calibration, and variance-aware modeling techniques to extract weak signals from large-scale positioning and behavioral data.
+- Achieved ~60.41% prevention of ghost rides while maintaining operational precision constraints.
+- Designed normalized risk scoring frameworks to ensure comparability across heterogeneous traffic environments.
 
-    -   Or approximating a series of matrix or tensor multiplies by a series of lower rank matrix multiplies
+**AV Safety & Operational Analytics**
+- Worked with autonomous vehicle operational logs and telemetry to derive structured accident and safety detection features.
+- Built large-scale Python and SQL pipelines to mine long-tail safety-relevant events from high-volume logs.
+- Designed statistically rigorous evaluation frameworks to prioritize rare but high-impact safety signals under resource constraints.
+- Contributed to production codebases in Python and C++, maintaining code health and reproducibility standards.
 
-**Select Projects**
+---
 
-Here are a representative list of projects I have worked on in my over 8 year career as a data scientist. I have tried to be brief, but please do reach out for more information. 
+### Renesas Electronics / Reality AI — Senior AI Engineer, Hardware ML  
+2020 – 2023  
 
-**Grass level detection for a large lawnmower manufacturer**
+Led development and deployment of neural network pipelines for automotive and industrial sensor platforms.
 
-Current electric lawnmowers consume a lot of power and are often curtailed by their battery storage capacity. Our client was interested in adjusting RPM of the cutting blade based on grass length using a camera/ LIDAR sensor to detect grass length, with the goal of using less power for shorter grass lengths. We used a low-quality camera in conjunction with LIDAR data to classify grass into one of many discrete grass lengths. I was responsible for the following:
+- Designed and deployed ML models across accelerometer, acoustic, voltage, temperature, pressure, and LIDAR signals.
+- Built end-to-end optimized pipelines that ingest client sensor data, extract proprietary signal-processing features, train models, and deploy to MCUs.
+- Implemented memory- and latency-constrained inference on DRP-AI accelerators and microcontrollers.
+- Optimized linear transforms of the form Ax + b (equivalent to fully connected layers) through:
+  - INT8 quantization of matrix multiplications
+  - Low-rank matrix approximations
+  - Numerical representation optimization
+- Developed multi-objective reinforcement learning systems (Soft Actor-Critic) for energy optimization under physical constraints.
+- Led and mentored a team of four engineers; enforced CI/CD, unit testing, regression testing, and structured code review processes.
 
--   Understanding the limits imposed by various sensor suites, since the goal was to save power, high quality sensors would solve the problem with high accuracy but would also consume more power
+---
 
--   Reducing the memory limits of deploying a CNN based algorithm using both low rank approximation as well as carrying out most matrix multiplies in INT8.
+### Boston Consulting Group (BCG X / BCG GAMMA) — Senior Data Scientist  
+2022 – 2023  
 
-**LENA Wearable device for Parentese detection**
+- Designed statistically rigorous ML and optimization systems for industrial and retail clients.
+- Built high-performance C++ and Python production pipelines.
+- Developed cost-sensitive classification and regression models aligned to client unit economics.
+- Presented technical findings to executive stakeholders in high-stakes competitive settings.
 
-John List and Dana Suskind hypothesized that speaking to children in parentese leads to increased cognitive development and early verbalization. In my role as a grad student with an expertise in cepstral analysis, signal processing and Neural networks I was responsible for the following tasks
+---
 
--   Building a neural network that was capable of identifying parentese so that parents would receive a parentese score when using the device. In order to do this I had to build the following detectors
+### University of Chicago — Research Assistant  
+Kenneth C. Griffin Department of Economics  
+2020 – 2022  
 
-    -   Trigger/ wake point detection so that the device begins recording only when the parent is speaking
+- Designed and deployed an embedded audio ML pipeline (<512kB) for parentese detection on LENA devices.
+- Implemented wake detection, gender classification, and acoustic feature extraction using cepstral and spectral methods.
+- Translated subjective behavioral definitions into measurable signal-processing features (pitch shifts, syllable rates, vowel elongation).
+- Led experimental design and statistical validation of treatment-control interventions.
 
-    -   Gender identification, since parentese characteristics differ in men and women
+---
 
-    -   Translating subjective definitions of parentese (sweeter sounding, baby talk sounding) into signal processing features, such as low rate of syllable generation, higher tones (relative to gender) and vowel elongation
+### Deloitte Consulting LLP — Senior Data Scientist  
+2016 – 2020  
 
-    -   Working with the embedded product team to deploy the neural network on an embedded solution in a cost-effective manner (on Arduino in this case)
+- Developed real-time anomaly detection and signal analytics pipelines for oil & gas, medical, and industrial clients.
+- Modeled non-stationary time-series processes and optimized cost-sensitive decision thresholds.
+- Delivered production-grade ML systems in collaboration with engineering and operations teams.
 
--   In addition to ML, I led the design of several experiments to prove our hypothesis (economic experiments are very conceptually like drug trials). This included the creation of treatment and control groups (no parentese) controlling for a variety of factors such as education, language, acoustic features (controlling for naturally lower toned voices), race and tonal languages (Chinese).
+---
 
-**Arc Fault Detection**
+## Select Technical Projects
 
-Arc faults are a leading driver of cost in the power industry. For this project, I oversaw the development of a new signal processing feature based on sinusoidal wave forms of sensor data, since in "normal" conditions sensors that detect arc fault are almost perfectly sinusoidal but in arc fault condition they are not. In addition to the technical requirements of this role, I was responsible for
+### Rare-Event Ghost Ride Detection (Lyft)
+- Importance-sampled anomaly detection in large-scale mobility data.
+- Calibrated probability outputs and cost-sensitive threshold optimization.
+- Achieved ~60% rare-event prevention under strict operational constraints.
 
--   Presenting results to the client in a very competitive environment (we were pitted against a competitor in a bake off)
+### AV Accident & Safety Scenario Extraction
+- Long-tail event mining from AV operational logs.
+- Structured feature extraction for accident and safety detection analytics.
+- High-volume log processing in Python and SQL.
 
--   Since false positives in arc fault involve a fairly high cost, I was responsible for inferring and tuning our model to optimize for the clients exact costs (this ended up differentiating us from our competitors).
+### Grass-Level Detection (Computer Vision + LIDAR)
+- CNN-based classification of grass length for power optimization in electric lawnmowers.
+- Memory reduction via low-rank approximations and INT8 quantization.
+- Sensor tradeoff analysis balancing power consumption and predictive accuracy.
 
-**Skills**
+### Arc Fault Detection
+- Designed sinusoidal deviation-based features for anomaly detection in electrical signals.
+- Optimized model performance under asymmetric false-positive cost constraints.
+- Won competitive bake-off based on cost-sensitive optimization.
 
-My primary skills are mathematics, statistics and python (with C++ for embedded side). I am adept at reading through and understanding mathematical concepts and then translating them into python code (that resembles mathematics in an elegant way). My mathematical skills allow me to customize and troubleshoot the inner workings of any pre-made python package as well as code up an algorithm from scratch from a research paper.
+---
 
-On the python side, I am adept at the following key skills that I believe are necessary to support any ML effort
+## Skills
 
--   Creating a positive and happy environment that is conducive to learning (and making mistakes).
+**Programming:** Python, C++, SQL, MATLAB, R, Julia  
+**ML Frameworks:** PyTorch, JAX, TensorFlow, scikit-learn  
+**Deployment:** ONNX, embedded toolchains, C++ inference pipelines  
+**Statistical Methods:** Rare-event modeling, importance sampling, probability calibration, cost-sensitive classification, experimental design  
+**Signal Processing:** Spectral analysis, cepstral analysis, time-frequency transforms  
+**Systems Engineering:** CI/CD, unit testing, regression testing, code review, large multi-language codebases  
 
--   Writing clean, object oriented, modular code that can be tested
+---
 
--   Implementing extensive unit testing for code maintenance
-
--   Implementing extensive regression testing to maintain accuracy, size and latency benchmarks on previously used data sets
-
--   CI/CD tasks
-
--   Project management tasks such as Jira, GitHub Issues, closing PRs, working with stakeholders.
+I combine mathematical rigor with production engineering discipline. I am comfortable deriving algorithms from first principles, implementing them from scratch, and deploying them in real-world systems under safety, latency, and resource constraints.

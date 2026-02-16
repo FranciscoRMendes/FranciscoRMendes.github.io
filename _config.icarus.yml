@@ -414,3 +414,9 @@ providers:
     fontcdn: google
     # Name or URL of the fontawesome icon font CDN provider
     iconcdn: fontawesome
+
+font:
+  body:
+    family: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+  code:
+    family: "JetBrains Mono, monospace"

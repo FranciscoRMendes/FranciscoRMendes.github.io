@@ -5,7 +5,7 @@ keywords: null
 author: Francisco Romaldo Fernandes Mendes
 language: en
 timezone: ''
-url: http://example.com
+url: https://franciscormendes.github.io/
 permalink: ':year/:month/:day/:title/'
 permalink_defaults: null
 pretty_urls:
@@ -63,3 +63,15 @@ deploy:
   type: git
   repo: https://github.com/FranciscoRMendes/FranciscoRMendes.github.io
   branch: gh-pages
+
+inject:
+  head:
+    - '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">'
+
+icarus:
+  font:
+    body:
+      family: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    code:
+      family: "JetBrains Mono, monospace"
+

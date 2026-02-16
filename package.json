@@ -12,6 +12,7 @@
     "version": "7.3.0"
   },
   "dependencies": {
+    "bulma-stylus": "^0.9.2-rc.1",
     "hexo": "^7.3.0",
     "hexo-asset-link": "^2.2.3",
     "hexo-deployer-git": "^4.0.0",
@@ -26,7 +27,6 @@
     "hexo-renderer-marked": "^6.0.0",
     "hexo-renderer-stylus": "^3.0.0",
     "hexo-server": "^3.0.0",
-    "hexo-theme-icarus": "^6.1.0",
     "hexo-theme-landscape": "^1.0.0"
   }
 }

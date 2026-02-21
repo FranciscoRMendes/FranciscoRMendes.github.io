@@ -66,3 +66,13 @@ function updateBlochFrame(value) {
 </div>
 
 {% endraw %}
+
+# embed 
+
+
+<iframe 
+  src="https://yourusername.github.io/quantum-fourier-slider/" 
+  width="500" 
+  height="600" 
+  style="border:none;">
+</iframe>

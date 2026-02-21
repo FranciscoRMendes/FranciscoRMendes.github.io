@@ -8,6 +8,10 @@
       font-family: sans-serif;
       text-align: center;
       margin: 40px;
+      background-color: #f9f9f9;
+    }
+    h2 {
+      margin-bottom: 30px;
     }
     img {
       margin-top: 20px;
@@ -23,26 +27,38 @@
     #frameLabel {
       margin-top: 15px;
       font-weight: bold;
+      font-size: 1.1em;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h2>Quantum Fourier Transform - Bloch Sphere Slider</h2>
 
-  <h2>Quantum Fourier Transform - Bloch Sphere Slider</h2>
+    <p>
+      This slider lets you step through the Bloch sphere representations of qubit states.
+      Each frame corresponds to a binary number from 0000 to 0111. Observe the "clock hand" rotations of each qubit.
+    </p>
 
-  <input
-    type="range"
-    id="blochSlider"
-    min="0"
-    max="7"
-    step="1"
-    value="0"
-    oninput="updateBlochFrame(this.value)"
-  >
+    <input
+      type="range"
+      id="blochSlider"
+      min="0"
+      max="7"
+      step="1"
+      value="0"
+      oninput="updateBlochFrame(this.value)"
+    >
 
-  <p id="frameLabel">Binary: 0000</p>
+    <p id="frameLabel">Binary: 0000</p>
 
-  <img id="blochImage" src="bloch_frames/0.png" alt="Bloch sphere frame">
+    <img id="blochImage" src="bloch_frames/0.png" alt="Bloch sphere frame">
+  </div>
 
   <script>
     // Convert integer to 4-bit binary
@@ -53,11 +69,16 @@
     // Update image and label when slider moves
     function updateBlochFrame(value) {
       document.getElementById("blochImage").src =
-        "bloch_frames/" + value + ".png";  // Path relative to this HTML file
+        "bloch_frames/" + value + ".png"; // relative to this HTML file
       document.getElementById("frameLabel").textContent =
         "Binary: " + toBinary(value);
     }
-  </script>
 
+    // Optional: preload images for smooth slider
+    for (let i=0; i<=7; i++) {
+      const img = new Image();
+      img.src = "bloch_frames/" + i + ".png";
+    }
+  </script>
 </body>
 </html>

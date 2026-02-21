@@ -63,6 +63,7 @@ An example of game play would look like this, not the most exciting thing in the
 # The Neural Networks in Soft Actor Critic Network
 The Lucid chart below encapsulates the major neural networks in the code and their relationships. Forward relationships (i.e. forward pass) are given by solid arrows. While backward relationships (i.e. backpropagation) are given by dashed arrows.
 I recommend using this chart to keep a track of which outputs train which networks. Note however, that these backward arrows describe merely that _some_ relationship exists. There are differences in the backpropagation used to train the policy network itself (uses the reparameterization trick) and the Value networks (does not).
+
 <div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/68197b45-adf1-477b-a3ad-68d468196d7b" id="QO7TleQdXSdp"></iframe></div>
 
 The main object in the code is the object called ```SoftActorCritic.py```. It consists of the neural networks and all the hyperparameters that potentially need tuning. As per the paper the most important one is reward scale. This is a hyperparameter that balances the explore-exploit tradeoff. Higher values of the reward will make the agent exploit more. 

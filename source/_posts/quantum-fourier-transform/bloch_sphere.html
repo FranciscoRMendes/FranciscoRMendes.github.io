@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quantum Fourier Transform - Bloch Sphere Slider</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin: 40px;
+    }
+    img {
+      margin-top: 20px;
+      max-width: 90%;
+      height: auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    input[type=range] {
+      width: 60%;
+      margin-top: 30px;
+    }
+    #frameLabel {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Quantum Fourier Transform - Bloch Sphere Slider</h2>
+
+  <input
+    type="range"
+    id="blochSlider"
+    min="0"
+    max="7"
+    step="1"
+    value="0"
+    oninput="updateBlochFrame(this.value)"
+  >
+
+  <p id="frameLabel">Binary: 0000</p>
+
+  <img id="blochImage" src="bloch_frames/0.png" alt="Bloch sphere frame">
+
+  <script>
+    // Convert integer to 4-bit binary
+    function toBinary(n) {
+      return Number(n).toString(2).padStart(4, '0');
+    }
+
+    // Update image and label when slider moves
+    function updateBlochFrame(value) {
+      document.getElementById("blochImage").src =
+        "bloch_frames/" + value + ".png";  // Path relative to this HTML file
+      document.getElementById("frameLabel").textContent =
+        "Binary: " + toBinary(value);
+    }
+  </script>
+
+</body>
+</html>

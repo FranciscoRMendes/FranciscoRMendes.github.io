@@ -71,7 +71,7 @@ function updateBlochFrame(value) {
 
 
 <iframe 
-  src="https://yourusername.github.io/quantum-fourier-slider/" 
+  src="https://github.com/FranciscoRMendes/FranciscoRMendes.github.io/tree/master/source/_posts/quantum-fourier-transform/bloch-sphere-slider"
   width="500" 
   height="600" 
   style="border:none;">

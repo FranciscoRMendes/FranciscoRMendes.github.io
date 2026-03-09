@@ -14,3 +14,9 @@ I love mathematics, probability, and algorithms, and I use this blog to share th
 
 
 In my free time I play a lot of basketball and football (soccer), and you can usually find me in rec leagues across the city.
+
+<!-- <div align="center">
+  <img src="/source/gallery/franco-benfica.jpeg" width="400">
+</div> -->
+
+<!-- gallery/franco-benfica.jpeg -->

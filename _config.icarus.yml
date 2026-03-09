@@ -235,11 +235,11 @@ widgets:
         # Author name
         author: Francisco Romaldo Mendes
         # Author title
-        author_title: Senior Embedded AI Engineer
+        author_title: Senior ML Engineer
         # Author's current location
         location: Chicago, Illinois
         # URL or path to the avatar image
-        avatar: /gallery/franco.JPG
+        avatar: /gallery/DSC00878.jpg
         # Whether show the rounded avatar image
         avatar_rounded: false
         # Email address for the Gravatar

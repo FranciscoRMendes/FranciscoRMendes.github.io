@@ -29,7 +29,7 @@ Marketplace data scientist with experience in autonomous technology and hardware
 
 <div class="cv-entry">
   <div class="cv-entry-header">
-    <strong>Senior Applied Scientist / ML Engineer</strong>, Lyft Business
+    <strong>Staff ML Engineer</strong>, Lyft Business
     <span class="cv-date">2025 – Present</span>
   </div>
   <ul>

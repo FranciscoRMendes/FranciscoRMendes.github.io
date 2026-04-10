@@ -9,7 +9,7 @@ tags:
     - sports
 categories:
     - opinion
-excerpt: "A lament for the left back in modern football."
+excerpt: "Arsenal's left-back crisis as a mirror of a league-wide problem: why the position has declined since the wing-back era, and why only Robertson and Davies remain true exceptions."
 ---
 
 As the season draws to a close, no matter whether we win the league or not, I’m happy with where Arsenal are as a club. Although, I’d better get my feelings off my chest before Championship Sunday. 

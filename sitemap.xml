@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://franciscormendes.github.io/2026/04/10/bayesian-vs-frequentist-sample-size/</loc>
+    
+    <lastmod>2026-04-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.github.io/curriculum/index.html</loc>
+    
+    <lastmod>2026-04-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://franciscormendes.github.io/2024/09/07/we-evgeny-zamyatin/</loc>
     
     <lastmod>2026-04-10</lastmod>
@@ -272,25 +290,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2026/04/10/bayesian-vs-frequentist-sample-size/</loc>
-    
-    <lastmod>2026-04-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://franciscormendes.github.io/2026/01/15/on-murakami/</loc>
-    
-    <lastmod>2026-04-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.github.io/curriculum/index.html</loc>
     
     <lastmod>2026-04-10</lastmod>
     

@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Hot &amp; Cold Spectral GCNs: How Graph Fourier Transforms Connect Heat Flow and Cold-Start Recommendations - Hexo</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Hexo"><meta name="msapplication-TileImage" content="/gallery/logo.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Hexo"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Explore how Fourier transforms on graphs power spectral GCNs, from modeling heat flow to solving cold-start recommendations."><meta property="og:type" content="blog"><meta property="og:title" content="Hot &amp; Cold Spectral GCNs: How Graph Fourier Transforms Connect Heat Flow and Cold-Start Recommendations"><meta property="og:url" content="http://example.com/2025/11/22/hot-cold-gcns/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="Explore how Fourier transforms on graphs power spectral GCNs, from modeling heat flow to solving cold-start recommendations."><meta property="og:locale" content="en_US"><meta property="og:image" content="http://example.com/gallery/thumbnails/frequency_decomposition.png"><meta property="article:published_time" content="2025-11-22T00:00:00.000Z"><meta property="article:modified_time" content="2026-04-10T11:52:56.831Z"><meta property="article:author" content="Francisco Romaldo Fernandes Mendes"><meta property="article:tag" content="signal-processing"><meta property="article:tag" content="machine-learning"><meta property="article:tag" content="recommender-systems"><meta property="article:tag" content="graph-neural-networks"><meta property="article:tag" content="spectral-methods"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="http://example.com/gallery/thumbnails/frequency_decomposition.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/11/22/hot-cold-gcns/"},"headline":"Hot & Cold Spectral GCNs: How Graph Fourier Transforms Connect Heat Flow and Cold-Start Recommendations","image":["http://example.com/gallery/thumbnails/frequency_decomposition.png"],"datePublished":"2025-11-22T00:00:00.000Z","dateModified":"2026-04-10T11:52:56.831Z","author":{"@type":"Person","name":"Francisco Romaldo Fernandes Mendes"},"publisher":{"@type":"Organization","name":"Hexo","logo":{"@type":"ImageObject","url":"http://example.com/gallery/favicon-32x32.png"}},"description":"Explore how Fourier transforms on graphs power spectral GCNs, from modeling heat flow to solving cold-start recommendations."}</script><link rel="canonical" href="http://example.com/2025/11/22/hot-cold-gcns/"><link rel="icon" href="/gallery/logo.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link data-pjax rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-N4MSXT4WL6" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-N4MSXT4WL6');</script><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/custom.css"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/gallery/favicon-32x32.png" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a><a class="navbar-item" href="/curriculum">Curriculum</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/FranciscoRMendes"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/gallery/thumbnails/frequency_decomposition.png" alt="Hot &amp; Cold Spectral GCNs: How Graph Fourier Transforms Connect Heat Flow and Cold-Start Recommendations"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2025-11-22T00:00:00.000Z" title="11/22/2025, 12:00:00 AM">2025-11-22</time></span><span class="level-item">Updated&nbsp;<time dateTime="2026-04-10T11:52:56.831Z" title="4/10/2026, 11:52:56 AM">2026-04-10</time></span><span class="level-item"><a class="link-muted" href="/categories/machine-learning/">machine-learning</a></span><span class="level-item">29 minutes read (About 4415 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">Hot &amp; Cold Spectral GCNs: How Graph Fourier Transforms Connect Heat Flow and Cold-Start Recommendations</h1><div class="content"><h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>I have always been obsessed with the Fourier Transform, it is in my opinion the single greatest invention in the history of mathematics. Check out this <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=nmgFG7PUHfo">Veritasium video</a> on it! Part of what makes the Fourier Transform so ubiquitous is that any function can be broken down into its component frequencies. What is less well known is that the definition of &quot;frequency&quot; is purely mathematical and applies to a broader class of mathematical objects than just functions! In this post I will try to provide some intuition and visualizations that expand the Fourier Transform to graphs, called the Graph Fourier Transform. Hopefully once that is clear, we will apply the Graph Fourier Transform in a Spectral Graph Convolution Network to model heat propagation in a toroidal surface.</p>
+<p>Repo:<br><a target="_blank" rel="noopener" href="https://github.com/FranciscoRMendes/graph_networks/tree/main">https://github.com/FranciscoRMendes/graph_networks/tree/main</a></p>
+<p>Colab Notebook:<br><a target="_blank" rel="noopener" href="https://github.com/FranciscoRMendes/graph_networks/blob/main/GCN.ipynb">https://github.com/FranciscoRMendes/graph_networks/blob/main/GCN.ipynb</a></p>
+<h1 id="Classical-Fourier-Transform-As-A-Special-Case-Of-The-Graph-Fourier-Transform"><a href="#Classical-Fourier-Transform-As-A-Special-Case-Of-The-Graph-Fourier-Transform" class="headerlink" title="Classical Fourier Transform As A Special Case Of The Graph Fourier Transform"></a>Classical Fourier Transform As A Special Case Of The Graph Fourier Transform</h1><p>While there are many ways to view the Fourier Transform, the most revealing perspective is to regard it as multiplication of a discrete signal by a special matrix. This viewpoint is useful for several reasons.</p>
+<ol>
+<li><p>Once a signal is discretised, it becomes a vector, and any linear operation on it can be represented as multiplication by a matrix.</p>
+</li>
+<li><p>A transform is therefore a change of basis: multiplying a vector by a matrix produces a new representation of the same data.</p>
+</li>
+<li><p>However, only a very small number of matrices yield transformed coordinates that are interpretable. The Fourier matrix $F$ is special because its columns correspond to pure oscillations, which are the eigenvectors of every shift-invariant operator.</p>
+</li>
+<li><p>A useful transform must also be invertible. After performing operations in the transformed domain, one should be able to recover the original signal exactly. The Fourier matrix satisfies $F^\ast F = N I$, which gives a simple inverse and perfect reconstruction.</p>
+</li>
+</ol>
+<p>Every transform follows the same general recipe:</p>
+<ul>
+<li><p>choose a matrix whose columns represent meaningful basis vectors,</p>
+</li>
+<li><p>multiply the signal by this matrix,</p>
+</li>
+<li><p>interpret the transformed coefficients,</p>
+</li>
+<li><p>use the inverse matrix to return to the original domain.</p>
+</li>
+</ul>
+<h2 id="DFT-via-the-Discrete-Laplacian-Matrix"><a href="#DFT-via-the-Discrete-Laplacian-Matrix" class="headerlink" title="DFT via the Discrete Laplacian Matrix"></a>DFT via the Discrete Laplacian Matrix</h2><p>We start by deriving the DFT in matrix form for a discrete signal. We will use this as a basis to then derive the Graph Fourier Transform.<br>Consider a 1-D signal sampled at $n$ evenly spaced points: $$x = (x_0, x_1, \dots, x_{n-1})^\top.$$</p>
+<p>The continuous Laplacian operator $-\frac{d^2}{dx^2}$ is approximated on a uniform grid by the finite-difference stencil $$f''(i) \approx f(i+1) - 2 f(i) + f(i-1).$$</p>
+<p>With periodic boundary conditions, the discrete Laplacian becomes the circulant matrix (keep this in mind when we go to the graph case, we shall see later that this is exactly the Laplacian of a cycle graph): </p>
+$$L =
+\begin{bmatrix}
+ 2 & -1 &  0 & \cdots & 0 & -1 \\
+ -1 & 2 & -1 & \cdots & 0 & 0 \\
+ 0 & -1 & 2 & \cdots & 0 & 0 \\
+ \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+ 0 & 0 & 0 & \cdots & 2 & -1 \\
+ -1 & 0 & 0 & \cdots & -1 & 2
+\end{bmatrix}$$
+
+<p>This matrix discretises the second derivative, $-\frac{d^2}{dx^2}$ on a circle. </p>
+<h2 id="Eigenvectors-of-the-Discrete-Laplacian"><a href="#Eigenvectors-of-the-Discrete-Laplacian" class="headerlink" title="Eigenvectors of the Discrete Laplacian"></a>Eigenvectors of the Discrete Laplacian</h2><p>The eigenvectors of $L$ are the complex exponentials $$u_k(j) = \frac{1}{\sqrt{n}} e^{-2\pi i k j / n}, 
+\qquad k = 0, \dots, n-1.$$</p>
+<p>These form the DFT basis. Their corresponding eigenvalues are $$\lambda_k = 4 \sin^2\!\left( \frac{\pi k}{n} \right).$$</p>
+<p>Thus the discrete Laplacian admits the decomposition $$L = F^\ast \Lambda F,$$ where $F$ is the DFT matrix and $\Lambda = \operatorname{diag}(\lambda_k)$.</p>
+<h2 id="Fourier-Transform-in-Matrix-Form"><a href="#Fourier-Transform-in-Matrix-Form" class="headerlink" title="Fourier Transform in Matrix Form"></a>Fourier Transform in Matrix Form</h2><p>Define the DFT matrix $$F_{k,j} 
+= \frac{1}{\sqrt{n}} e^{- 2\pi i k j / n}.$$</p>
+<p>The discrete Fourier transform of $x$ is the unitary matrix–vector product $$\hat{x} = F x$$ and the inverse transform is $$x = F^\ast \hat{x}$$.</p>
+<h2 id="Interpretation"><a href="#Interpretation" class="headerlink" title="Interpretation"></a>Interpretation</h2><p>The classical Fourier transform is therefore the spectral decomposition of the discrete Laplacian on a 1-D grid. Its eigenvectors (complex exponentials) play the role of “frequencies,” and its eigenvalues correspond to squared frequencies: $$L u_k = \lambda_k u_k.$$</p>
+<h3 id="So-what-the-heck-was-the-convolution"><a href="#So-what-the-heck-was-the-convolution" class="headerlink" title="So what the heck was the convolution?"></a>So what the heck was the convolution?</h3><p>Convolution is a local, weighted sum operation over neighbouring inputs. On a 1D signal you would need to use windows and slide them over the signal using the weighted sum operation over all signals in the window. </p>
+<p>However, by moving to the spectral domain using the graph Fourier transform, convolution reduces to a simple multiplication: $$\hat{x} = F x,$$ where $F$ is the matrix of eigenvectors of the graph Laplacian and $x$ is the signal on the nodes.</p>
+<p>This is crucial because it allows us to <em>avoid explicitly defining a complicated convolution operator</em>. Instead, we can learn filters in the spectral domain that act directly on the eigencomponents of the signal, greatly simplifying the operation while retaining expressive power.</p>
+<p>On a graph, performing such a convolution directly is highly nontrivial because the neighbourhoods are irregular. But what if we could mathematically transform the graph to another domain where the operation is a simple multiplcation?</p>
+<!-- ## Graph Fourier Transform
+This viewpoint connects directly to the Graph Fourier Transform (GFT). _The discrete Fourier transform corresponds to the special case where the underlying structure is a cycle graph. In this case the transformation matrix is the Fourier matrix $F$, whose columns are the eigenvectors of the discrete Laplacian on the cycle._
+
+<p>For a general graph the same idea applies: the meaningful basis vectors are the eigenvectors of the graph Laplacian. If $$L = U \Lambda U^{\top},$$ then multiplication by $U^{\top}$ defines the Graph Fourier Transform. Thus the <em>DFT is the simplest instance of a Laplacian-eigenvector transform</em>, and the GFT extends this construction to arbitrary graphs. –&gt;</p>
+<h1 id="General-Recipe-For-Transforms"><a href="#General-Recipe-For-Transforms" class="headerlink" title="General Recipe For Transforms"></a>General Recipe For Transforms</h1><p>Diagonalizing an operator of interest is all a transform really does. Thus, the general recipe for a transform is,</p>
+<ul>
+<li><p>Choose an operator $T$ that captures the structure of your data</p>
+</li>
+<li><p>Compute its eigen vectors $T u_k = \lambda_k u_k$ (under some nice conditions these form a basis)</p>
+</li>
+<li><p>Assemble them into a matrix $U$</p>
+</li>
+<li><p>Project your data into this basic $\hat{x} = U^T x$</p>
+</li>
+</ul>
+<h2 id="Computational-Issues"><a href="#Computational-Issues" class="headerlink" title="Computational Issues"></a>Computational Issues</h2><p>In many cases, an operation becomes substantially cheaper once we move to an appropriate transform domain. Suppose an operator $T$ acting on data $x$ admits the decomposition $$T = U D U^{-1},$$ where $U$ contains the eigenvectors of $T$ and $D$ is diagonal. Then applying $T$ to $x$ can be written as $$Tx = U D U^{-1} x.$$</p>
+<p>This is advantageous because:</p>
+<ul>
+<li><p>Multiplication by the diagonal matrix $D$ reduces to simple elementwise scaling.</p>
+</li>
+<li><p>Both $U^{-1}x$ and $U(\cdot)$ correspond to structured transforms (see my post on the computational benefits of low-rank factorizations), which can often be carried out efficiently.</p>
+</li>
+</ul>
+<p>However, these gains come with an important caveat: <strong>computing the eigen-decomposition itself is expensive</strong>. For both dense and sparse matrices, a full eigen-decomposition typically costs $O(n^3)$. If the decomposition is computed once and reused, the transform offers real computational savings. But if the eigenvectors must be recomputed repeatedly, the cost of the decomposition can outweigh the benefits of faster multiplication in the transform domain.</p>
+<h1 id="Graph-Fourier-Transform"><a href="#Graph-Fourier-Transform" class="headerlink" title="Graph Fourier Transform"></a>Graph Fourier Transform</h1><p>Using the general formulation of the Transform, we can kind of get a sense of what we need in order to create a recipe for a transform. As it turns out we can define a Laplacian operator for the graph as well! And once we have that, we can use the general recipe for a transform and get to work.</p>
+<h1 id="The-Laplacian"><a href="#The-Laplacian" class="headerlink" title="The Laplacian"></a>The Laplacian</h1><p>Take an undirected weighted graph $G = (V, E, W)$. The normalised Laplacian is defined as:</p>
+$$L = I - D^{-1/2} A D^{-1/2},$$
+
+<p>where $A$ is the adjacency matrix and $D$ the degree matrix. Write more about why this is important and a good choice.</p>
+<h2 id="Sidebar-on"><a href="#Sidebar-on" class="headerlink" title="Sidebar on "></a>Sidebar on $L$</h2><p>In our general framework of transforms, you could conceivably use any linear operator and transform it. What is important is that the operator means something in your use case. The Laplacian has a meaning (from the classical case above). There are two other operators you could think of using</p>
+<ul>
+<li><p>The adjacency matrix - perfectly okay to use. But what would the eigen values and vectors mean? (the matrix is also not PSD, which is important but we wont go into that here).</p>
+</li>
+<li><p>Degree matrix - this already a diagonalized matrix, thus the decomposition would be trivial i.e. $D = I^T D I$. The transform would be $Ix = x$.</p>
+</li>
+</ul>
+<p>Two key facts:</p>
+<ol>
+<li><p>Laplacian eigenvectors are the “graph sinusoids” - They generalize the sine waves used in classical Fourier analysis.</p>
+</li>
+<li><p>Laplacian eigenvalues represent graph frequencies - Small eigenvalues correspond to smooth variation across the graph; large eigenvalues correspond to high-frequency, rapidly changing signals across edges.</p>
+</li>
+</ol>
+<p>Connection to the 1D case:</p>
+<p>The Laplacian for a cycle graph is identical to the Laplacian for the 1D case. </p>
+<h2 id="Sidebar-on-the-Signal"><a href="#Sidebar-on-the-Signal" class="headerlink" title="Sidebar on the Signal "></a>Sidebar on the Signal $x$</h2><p>In the graph setting, the vector $x$ is not part of the graph’s structure but rather a <em>signal</em> defined on its vertices. Formally, it is a function $$x : V \to \mathbb{R},$$ assigning a real value to each node. Examples include the temperature at each location in a sensor network, the concentration of a diffusing substance, or any node-level feature such as degree, label, or an embedding. In all cases, the graph provides the geometric structure, while $x$ provides the data living on top of it.</p>
+<h1 id="The-Graph-Fourier-Transform-GFT"><a href="#The-Graph-Fourier-Transform-GFT" class="headerlink" title="The Graph Fourier Transform (GFT)"></a>The Graph Fourier Transform (GFT)</h1><p>Given the eigendecomposition of the Laplacian:</p>
+$$
+L = U \Lambda U^{\top}
+$$
+
+<p>we can write the matrices in fully expanded form as</p>
+$$ U =
+\begin{bmatrix}
+u_{1,1} & u_{1,2} & \cdots & u_{1,n} \\
+u_{2,1} & u_{2,2} & \cdots & u_{2,n} \\
+\vdots  & \vdots  & \ddots & \vdots  \\
+u_{n,1} & u_{n,2} & \cdots & u_{n,n}\\
+\end{bmatrix}
+\qquad
+$$
+
+$$
+\Lambda =
+\begin{bmatrix}
+\lambda_1 & 0         & \cdots & 0 \\
+0         & \lambda_2 & \cdots & 0 \\
+\vdots    & \vdots    & \ddots & \vdots \\
+0         & 0         & \cdots & \lambda_n\\
+\end{bmatrix},
+$$
+
+$$
+U^{\top} =
+\begin{bmatrix}
+u_{1,1} & u_{2,1} & \cdots & u_{n,1} \\
+u_{1,2} & u_{2,2} & \cdots & u_{n,2} \\
+\vdots  & \vdots  & \ddots & \vdots  \\
+u_{1,n} & u_{2,n} & \cdots & u_{n,n}\\
+\end{bmatrix}.
+$$
+
+<p>Therefore,</p>
+$$
+L = 
+\begin{bmatrix}
+u_{1,1} & u_{1,2} & \cdots & u_{1,n} \\
+u_{2,1} & u_{2,2} & \cdots & u_{2,n} \\
+\vdots  & \vdots  & \ddots & \vdots  \\
+u_{n,1} & u_{n,2} & \cdots & u_{n,n}\\
+\end{bmatrix}
+\begin{bmatrix}
+\lambda_1 & 0         & \cdots & 0 \\
+0         & \lambda_2 & \cdots & 0 \\
+\vdots    & \vdots    & \ddots & \vdots \\
+0         & 0         & \cdots & \lambda_n\\
+\end{bmatrix}
+\begin{bmatrix}
+u_{1,1} & u_{2,1} & \cdots & u_{n,1} \\
+u_{1,2} & u_{2,2} & \cdots & u_{n,2} \\
+\vdots  & \vdots  & \ddots & \vdots  \\
+u_{1,n} & u_{2,n} & \cdots & u_{n,n}\\
+\end{bmatrix}.
+$$
+
+<p>Equivalently,</p>
+$$
+U = [U_1\; U_2\; \cdots\; U_n], \qquad
+$$
+
+$$
+U_i = 
+\begin{bmatrix}
+u_{1,i} \\
+u_{2,i} \\
+\vdots  \\
+u_{n,i}\\
+\end{bmatrix},
+\quad\text{where } L U_i = \lambda_i U_i
+$$
+
+<p>Each column $U_i$ is an eigenvector of $L$, and its entries $(u_{1,i}, \dots, u_{n,i})$ give the value of the $i$-th <strong>graph frequency mode</strong> at every node of the graph.</p>
+<p>the <strong>Graph Fourier Transform</strong> (GFT) of a graph signal $x$ is:</p>
+$$\hat{x} = U^{\top} x,$$
+
+<p>and the inverse transform is:</p>
+$$x = U \hat{x}.$$
+
+<p>Interpretation:</p>
+<ul>
+<li>$x$ is an item signal (e.g., a rating vector, an embedding dimension, or item popularity).
+</li>
+<li>$U$ is the graph Fourier basis (the eigenvectors of the Laplacian).
+</li>
+<li>$\hat{x}$ decomposes the signal into frequencies over the item graph.</li>
+</ul>
+<h1 id="One-Layer-Spectral-GCN"><a href="#One-Layer-Spectral-GCN" class="headerlink" title="One-Layer Spectral GCN"></a>One-Layer Spectral GCN</h1><p>Now that we understand the Graph Fourier Transform (GFT), we can place it in the context of learning on graphs. Recall the eigen decomposition of the (combinatorial or normalized) graph Laplacian: $$L = U \Lambda U^{\top},$$ where $U$ contains the eigenvectors and $\Lambda$ contains the corresponding eigenvalues. Since the columns of $U$ form the graph Fourier basis, the GFT of a signal $x$ is simply $U^{\top}x$, and the inverse GFT is $Ux$.</p>
+<p>The key observation behind spectral graph neural networks is that <em>any linear, shift-invariant operator on the graph</em> must commute with $L$, and hence can be written as a function of $L$. In the spectral domain this means: </p>
+$$T = g(L) = Ug(\Lambda)U^{\top}$$ where $g(\Lambda)$ 
+
+<p>is a diagonal matrix whose entries are the spectral response $g(\lambda_i)$. This is the exact analogue of designing filters in classical Fourier analysis: multiplication by a diagonal spectral filter.</p>
+<p>Applying this filter to a graph signal $x$ gives $$Tx = Ug(\Lambda)U^{\top}x$$ which mirrors the familiar “transform–scale–inverse transform’’ pipeline.</p>
+<p>A useful intuition comes from the spectral perspective: if we apply the trivial spectral filter $$g(\Lambda) = I,$$ i.e., leave all eigenvalues unchanged, then $$T x = U g(\Lambda) U^\top x = U I U^\top x = x$$. In other words, doing nothing in the spectral domain reproduces the original signal exactly. The graph Fourier transform framework therefore generalises the idea of filtering: by modifying $g(\Lambda)$, we can amplify, attenuate, or smooth different frequency components of $x$.</p>
+<p>This structure leads directly to the formulation of a one-layer spectral GCN. Suppose we have input features $X \in \mathbb{R}^{n \times d_{\text{in}}}$ and we want to learn $d_{\text{out}}$ output features. For each output channel, we learn a spectral filter $g_\theta(\Lambda)$ parameterised by a set of trainable weights $\theta$. The spectral GCN layer becomes: $$H = U\ g_\theta(\Lambda)\ U^{\top} x$$ where $H \in \mathbb{R}^{n \times d_{\text{out}}}$ is the output feature matrix.</p>
+<p>In other words:</p>
+<ul>
+<li>$U^{\top} X$ transforms node features into the spectral domain (i.e., the GFT applied column-wise),
+</li>
+<li>$g_\theta(\Lambda)$ performs learned, elementwise spectral filtering,
+</li>
+<li>$U(\cdot)$ transforms the filtered signals back to the vertex domain.</li>
+</ul>
+<h2 id="Sidebar-on-1"><a href="#Sidebar-on-1" class="headerlink" title="Sidebar on "></a>Sidebar on $g_{\theta}(\Lambda)$</h2><p>It is always good to have a good understanding of the exact matrix or vector that we need to &quot;learn&quot; so that we can represent it in PyTorch exactly! We start with the Laplacian eigendecomposition </p>
+$$L = U \Lambda U^{\top},
+\qquad 
+\Lambda = 
+\begin{bmatrix}
+\lambda_1 & 0        & \cdots & 0 \\
+0         & \lambda_2 & \cdots & 0 \\
+\vdots    & \vdots    & \ddots & \vdots \\
+0         & 0         & \cdots & \lambda_n\\
+\end{bmatrix}.$$
+
+<p>To construct a spectral filter we introduce a learnable vector,</p>
+$$\theta = (\theta_1, \theta_2, \dots, \theta_n)$$ 
+
+<p>Thus, </p>
+$$
+g_{\theta}(\Lambda) =
+\begin{bmatrix}
+\theta_1 \lambda_1 & 0                  & \cdots & 0 \\
+0                  & \theta_2 \lambda_2 & \cdots & 0 \\
+\vdots             & \vdots             & \ddots & \vdots \\
+0                  & 0                  & \cdots & \theta_n \lambda_n\\
+\end{bmatrix}
+$$
+
+<p>This makes it clear that each frequency component is scaled independently: </p>
+$$
+g_{\theta}(L)x = U g_{\theta}(\Lambda) U^{\top} x 
+$$ 
+
+<p>and the operation modifies the contribution of each eigenvalue individually before transforming the signal back to the graph domain. Additionally, it might be worthwhile to squash the values after multiplying to make sure they are between 0 and 1. We can do this by introducing an activation function. </p>
+$$
+g_{\theta}(\Lambda) =
+\begin{bmatrix}
+\sigma(\theta_1 \lambda_1) & 0                       & \cdots & 0 \\
+0                          & \sigma(\theta_2 \lambda_2) & \cdots & 0 \\
+\vdots                     & \vdots                    & \ddots & \vdots \\
+0                          & 0                         & \cdots & \sigma(\theta_n \lambda_n)\\
+\end{bmatrix}
+$$
+
+<p>This is the original “spectral GCN’’ formulation of Bruna et al., and it explicitly relies on the GFT. Later work (e.g. Kipf &amp; Welling) replaces $g_\theta(\Lambda)$ with a polynomial approximation to avoid the $O(n^3)$ eigen-decomposition, but the conceptual core remains the same: <strong>GCNs perform convolution by filtering in the GFT domain</strong>.</p>
+<h1 id="Application-of-Spectral-GCN-Heat-Propagation"><a href="#Application-of-Spectral-GCN-Heat-Propagation" class="headerlink" title="Application of Spectral GCN: Heat Propagation"></a>Application of Spectral GCN: Heat Propagation</h1><p><img src="/2025/11/22/hot-cold-gcns/ground_truth.png" alt="Heat Propagation on a uniform torus"></p>
+<p>In this section, we investigate a simple setting where a Spectral Graph Convolutional Network (GCN) performs surprisingly well: predicting heat diffusion across a toroidal mesh. Although the spectral approach is elegant and effective in the right circumstances, it also highlights several structural limitations inherent to spectral methods.</p>
+<h1 id="Graph-Model-of-Heat-Propagation"><a href="#Graph-Model-of-Heat-Propagation" class="headerlink" title="Graph Model of Heat Propagation"></a>Graph Model of Heat Propagation</h1><p>When we zoom into a small patch of the torus and add the connecting edges, the mesh suddenly looks like a familiar graph. This makes the role of the graph Laplacian immediately intuitive.</p>
+<div align="center">
+  <img src="/2025/11/22/hot-cold-gcns/heat_as_graph_crop.png"  width="400">
+  <figcaption style="text-align:left;"> We zoom in on the hottest point on the mesh and plot it as a graph by explicitly showing edges. </figcaption>
+</div>
+
+
+<p>We simulate heat diffusion on the graph using the discrete heat equation:</p>
+$$\frac{dx}{dt} = -L x$$
+
+<p>where $x \in \mathbb{R}^N$ is the heat at each node and $L$ is the graph Laplacian. Starting from two random vertices with initial heat, we update the heat iteratively using a simple forward Euler scheme:</p>
+$$x_{t+1} = x_t - \alpha L x_t$$
+
+<p>storing the state at each timestep to visualize how heat spreads across the mesh. Low-frequency modes of $L$ correspond to smooth, global patterns of heat, while high-frequency modes produce rapid, local variations.</p>
+<h2 id="Graph-Fourier-Transform-of-Heat-Propagation"><a href="#Graph-Fourier-Transform-of-Heat-Propagation" class="headerlink" title="Graph Fourier Transform of Heat Propagation"></a>Graph Fourier Transform of Heat Propagation</h2><p>In order to get intuition for how the Fourier transform behaves on a graph, consider the distribution of heat on the graph surface.</p>
+<ul>
+<li><p>The heat on the graph is represented by a real number for each node (temperature or heat energy in joules), so the signal is a vector $$x \in \mathbb{R}^{N},$$ where $N$ is the number of nodes.</p>
+</li>
+<li><p>If there are $N$ nodes in the graph the (combinatorial or normalized) Laplacian is an $N\times N$ matrix $$L \in \mathbb{R}^{N\times N}$$.</p>
+</li>
+</ul>
+<p>We use the eigendecomposition of the Laplacian to move between the vertex domain and the spectral (frequency) domain: $$L = U \Lambda U^{\top}, \qquad
+\Lambda = \operatorname{diag}(\lambda_1,\ldots,\lambda_N), \qquad
+U = [U_1\; U_2\; \cdots\; U_N],$$ with the eigenvalues ordered $0=\lambda_1 \le \lambda_2 \le \cdots \le \lambda_N$. The graph Fourier transform (GFT) and inverse GFT are $$\widehat{x} = U^{\top} x, \qquad x = U \widehat{x}$$.</p>
+<p>To visualise single-frequency modes we simply pick individual eigenvectors $U_k$: $$\text{low-frequency mode: } x_{\text{low}} = U_{k_{\text{low}}}, \qquad
+\text{high-frequency mode: } x_{\text{high}} = U_{k_{\text{high}}},$$ where a natural choice is $k_{\text{low}}=2$ (the first nontrivial eigenvector) and $k_{\text{high}}=N$ (one of the largest-eigenvalue modes). Each vector $U_k$ assigns one scalar value to every vertex; plotting those values on the torus surface gives the heat-colour visualisation.</p>
+<h4 id="Practical-steps-used-to-create-the-figure"><a href="#Practical-steps-used-to-create-the-figure" class="headerlink" title="Practical steps used to create the figure"></a>Practical steps used to create the figure</h4><ol>
+<li><p>Build a uniform torus mesh and assemble adjacency and Laplacian $L$.</p>
+</li>
+<li><p>Compute the eigendecomposition $L=U\Lambda U^\top$ (for small &#x2F; moderate meshes) or compute a selection of eigenpairs (Lanczos) for large meshes.</p>
+</li>
+<li><p>Select a low-frequency eigenvector $U_{k_{\text{low}}}$ and a high-frequency eigenvector $U_{k_{\text{high}}}$.</p>
+</li>
+<li><p>[Optional; not done here; to show smaller values in absolute terms]Normalize each eigenvector for display: $$\tilde{x} = \frac{x - \min(x)}{\max(x)-\min(x)} \quad\text{or}\quad
+        \tilde{x} = \frac{x}{\max(|x|)},$$ so colours are comparable across panels.</p>
+</li>
+<li><p>Render the torus surface and colour each vertex by the value $\tilde{x}$ using a diverging colormap (e.g. <code>heat</code>) and add a colourbar showing the mapping from value to colour.</p>
+</li>
+</ol>
+<p><img src="/2025/11/22/hot-cold-gcns/frequency_decomposition.png" alt="Visualizing the Graph Fourier Transform of heat on the torus"></p>
+<h4 id="Interpreting-the-GFT-on-the-torus"><a href="#Interpreting-the-GFT-on-the-torus" class="headerlink" title="Interpreting the GFT on the torus"></a>Interpreting the GFT on the torus</h4><ul>
+<li><p><strong>Low-frequency mode.</strong> The plotted heat corresponds to $U_{k_{\text{low}}}$ (small eigenvalue). The signal varies smoothly over the torus: neighbouring vertices have similar values, representing broad, global patterns of heat. </p>
+</li>
+<li><p><strong>High-frequency mode.</strong> The plotted heat corresponds to $U_{k_{\text{high}}}$ (large eigenvalue). The signal alternates rapidly across nearby vertices, producing fine-scale oscillations around the torus that represent high-frequency, localised variations.</p>
+</li>
+</ul>
+<h4 id="Spectral-intuition"><a href="#Spectral-intuition" class="headerlink" title="Spectral intuition"></a>Spectral intuition</h4><p>Recall, we expressed discrete heat propagation on a graph as,</p>
+$$
+x_{t+1} = (I - \alpha L) x_t
+$$
+<p>where $L$ is the graph Laplacian and $\alpha$ is a small step size.  </p>
+<p>Using the eigendecomposition of $L$,</p>
+$$
+L = U \Lambda U^\top,
+$$
+<p>we can rewrite the propagation as</p>
+$$
+x_{t+1} = \big(I - \alpha U \Lambda U^\top\big) x_t
+         = U (I - \alpha \Lambda) U^\top x_t.
+$$
+
+<p>Comparing with the spectral graph filtering form,</p>
+$$
+x_{t+1} = U g(\Lambda) U^\top x_t,
+$$
+<p>we can identify the corresponding filter as</p>
+$$
+g(\Lambda) \equiv I - \alpha \Lambda.
+$$
+
+
+<p>Applying a spectral filter $g(\Lambda)$ to a heat signal $x$ acts by scaling each mode: </p>
+$$x_{\text{filtered}} = U g(\Lambda) U^\top x$$ 
+<p>so a low-pass filter suppresses the high-frequency panel patterns and produces smoother heat distributions, while a high-pass filter accentuates the oscillatory features visible in the high-frequency panel.</p>
+<h1 id="Neural-Network-To-Learn"><a href="#Neural-Network-To-Learn" class="headerlink" title="Neural Network To Learn "></a>Neural Network To Learn $g_{\theta}(\Lambda)$</h1><p>We can write a spectral graph convolution &#x2F; filter with learnable parameters $\theta$ as</p>
+$$
+x_{t+1} = U  g_\theta(\Lambda)  U^\top x_t,
+$$
+
+<p>where $U$ is the eigenvector matrix of the Laplacian, $\Lambda$ is the diagonal eigenvalue matrix, and $g_\theta(\Lambda)$ is a diagonal matrix of learnable weights acting on each eigenmode.</p>
+<p>Fully expanding the diagonal $g_\theta(\Lambda)$:</p>
+$$
+g_\theta(\Lambda) =
+\begin{bmatrix}
+\theta_1 & 0 & \cdots & 0 \\
+0 & \theta_2 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & \theta_n\\
+\end{bmatrix},
+$$
+
+<p>and the Laplacian eigenvectors as column vectors $U = [U_1 \; U_2 \; \cdots \; U_n]$, $U^\top = \begin{bmatrix} U_1^\top \\ U_2^\top \\ \vdots \\ U_n^\top \end{bmatrix}$, we have</p>
+$$
+x_{t+1} = 
+\begin{bmatrix} U_1 & U_2 & \cdots & U_n \end{bmatrix}
+\begin{bmatrix}
+\theta_1 & 0 & \cdots & 0 \\
+0 & \theta_2 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & \theta_n\\
+\end{bmatrix}
+\begin{bmatrix} U_1^\top \\
+U_2^\top \\ \vdots \\
+U_n^\top \end{bmatrix} x_t\\
+$$
+
+$$
+x_{t+1} = 
+\begin{bmatrix} U_1 & U_2 & \cdots & U_n \end{bmatrix}
+\begin{bmatrix}
+\sigma(\theta_1) & 0 & \cdots & 0 \\
+0 & \sigma(\theta_2) & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & \sigma(\theta_n)\\
+\end{bmatrix}
+\begin{bmatrix} U_1^\top \\
+U_2^\top \\ \vdots \\
+U_n^\top \end{bmatrix} x_t
+$$
+
+
+
+<p>This makes it explicit that each column vector $U_i$ (the $i$-th eigenvector) is scaled by the learnable weight $\theta_i$ in the spectral domain, and then transformed back to the original node space via $U$ to produce the predicted signal $x_{t+1}$.</p>
+<h1 id="Why-Use-A-Neural-Network"><a href="#Why-Use-A-Neural-Network" class="headerlink" title="Why Use A Neural Network?"></a>Why Use A Neural Network?</h1><p>Two motivating examples illustrate the practical usefulness of such a model:</p>
+<ul>
+<li><p><strong>Partial Observations from Sensors</strong><br>In many real-world systems, heat or pressure sensors are only available at a small subset of points. We train the Spectral GCN using only these sparse observations, yet the learned model reconstructs and predicts the heat field across <em>all</em> vertices on the mesh. This effectively transforms a sparse set of measurements into a full-field prediction.</p>
+</li>
+<li><p><strong>Generalization to a New Geometry</strong><br>One might hope that a model trained on one torus could be applied to a slightly different torus. Unfortunately, this is generally not possible in the GCN setting. The eigenvectors of the Laplacian form the coordinate system in which the model operates, and even small geometric changes produce different Laplacian spectra. As a result, the learned spectral filters are not transferable across meshes. This is a fundamental drawback of spectral GCNs. However, we shall see that the GCN framework inspires frameworks that do not suffer from this drawback.</p>
+</li>
+</ul>
+<h2 id="Stability-Issues-And-Normalization"><a href="#Stability-Issues-And-Normalization" class="headerlink" title="Stability Issues And Normalization"></a>Stability Issues And Normalization</h2><p>While the Spectral GCN learns the qualitative behaviour of heat diffusion, raw training often leads to unstable predictions. After several steps, the overall temperature of the mesh may drift upward or downward, even though heat diffusion is energy-conserving. This is because the neural network makes predictions locally without obeying the laws of physics such as the law of conservation of energy. Which is why our predictions are on average “hotter” than the actual.</p>
+<p>Two practical fixes alleviate this:</p>
+<ul>
+<li><p><strong>Eigenvalue Normalization.</strong> Applying a sigmoid or similar squashing function to the learned spectral filter ensures that each frequency component is damped in a physically plausible range. This prevents the model from amplifying high-frequency modes, which would otherwise cause heat values to explode.</p>
+</li>
+<li><p><strong>Energy Conservation.</strong> After each predicted step, the total heat can be renormalized to match the physical energy of the system. This ensures that although the <em>shape</em> of the prediction is learned by the model, the <em>magnitude</em> remains consistent with diffusion dynamics. Empirically, this correction dramatically improves long-horizon stability.</p>
+</li>
+</ul>
+<p>Overall, the Spectral GCN provides a compact and interpretable model for heat propagation on a fixed mesh and performs remarkably well given its simplicity. However, its reliance on the Laplacian eigenbasis also limits its ability to generalize across geometries, motivating the need for more flexible spatial or message-passing approaches in applications where the underlying mesh may change.</p>
+<h1 id="Cold-Start-Recommender-Systems"><a href="#Cold-Start-Recommender-Systems" class="headerlink" title="Cold Start: Recommender Systems"></a>Cold Start: Recommender Systems</h1><p>What does spectral graph theory have to do with recommender systems? Once we view user–item behaviour as a graph, the connection becomes natural. In the spectral domain, <em>low-frequency</em> Laplacian eigenvectors capture broad, mainstream purchasing patterns, while <em>high-frequency</em> components represent niche tastes and micro-segments. Matrix Factorisation (MF) implicitly applies a <em>low-pass filter</em>: embeddings vary smoothly across the item–item graph, meaning MF emphasises low-frequency structure. But MF breaks down for cold-start items because an isolated item contributes no collaborative signal.</p>
+<p>In contrast, a spectral GCN applies a learned filter $$T x = g(L)x = U\ g(\Lambda) U^\top x$$</p>
+<p>In general, we represent user-item interactions as a bipartite graph i.e. edges do not exist between products. In this scenario, even the GCN cannot help since very clearly for a node to get assigned a value it must be connected to at least one other node. However, the graph formulation provides a very intuitive way to fix this issue! Simply add edges between products that are similar to each other. Then low frequency patterns are bound to filter into the node even if high frequency niche patterns will not. </p>
+<p>Matrix factorization resolves this issue by using side information (such as product attributes), which asserts similarity from external data. In my previous post I argued that you can achieve something similar through an intuitive edge-addition approach—even though it amounts to inserting 1’s into a fairly unintuitive matrix and factorizing it.</p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>In this post, we’ve journeyed from classical Fourier transforms to the spectral domain of graphs, uncovering how eigenvectors of the graph Laplacian act as the “frequencies” of a network. We saw how spectral graph convolutional networks can learn filters in this domain, elegantly predicting heat diffusion on a toroidal mesh. Along the way, we connected these ideas to recommender systems, showing how spectral methods and graph propagation provide a principled way to tackle the cold-start problem by letting information flow from similar or popular items.</p>
+<p>While spectral GCNs shine on fixed graphs and structured problems, they also come with caveats: eigen-decompositions can be expensive, and filters are not always transferable across different geometries. Nevertheless, the framework provides intuition and a foundation for more flexible spatial or message-passing approaches.</p>
+<p>So, whether you’re modeling heat flowing across a mesh or figuring out what obscure sock a new customer might want next, spectral graph theory shows that Fourier Transforms can take you a long way. </p>
+<p>In my next post, I will deal with the the two main issues of the GCN. </p>
+<ul>
+<li>Adding a new node&#x2F; transferring information to a similar graph</li>
+<li>Saving the computation of the Eigen values of the graph</li>
+</ul>
+</div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/signal-processing/">signal-processing</a><a class="link-muted mr-2" rel="tag" href="/tags/machine-learning/">machine-learning</a><a class="link-muted mr-2" rel="tag" href="/tags/recommender-systems/">recommender-systems</a><a class="link-muted mr-2" rel="tag" href="/tags/graph-neural-networks/">graph-neural-networks</a><a class="link-muted mr-2" rel="tag" href="/tags/spectral-methods/">spectral-methods</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2025/12/06/convolution/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2025/11/20/summarized/"><span class="level-item">Summarized</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card" id="comments"><div class="card-content"><h3 class="title is-5">Comments</h3><script src="https://giscus.app/client.js" repo="FranciscoRMendes/FranciscoRMendes.github.io" data-repo="FranciscoRMendes/FranciscoRMendes.github.io" data-repo-id="REPLACE_WITH_REPO_ID" data-category-id="REPLACE_WITH_CATEGORY_ID" data-category="Announcements" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="noborder_light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/gallery/DSC00878.jpg" alt="Francisco Romaldo Mendes"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">Francisco Romaldo Mendes</p><p class="is-size-6 is-block">Senior ML Engineer</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Chicago, Illinois</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="/archives/"><p class="title">31</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/categories/"><p class="title">9</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="/tags/"><p class="title">41</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="me noopener">Follow</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Github" href="https://github.com/FranciscoRMendes"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">Links</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://cri.uchicago.edu/portfolio/thirty-million-words/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">TMW Center</span></span><span class="level-right"><span class="level-item tag">cri.uchicago.edu</span></span></a></li><li><a class="level is-mobile" href="https://www.linkedin.com/in/franciscormendes/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">LinkedIn</span></span><span class="level-right"><span class="level-item tag">www.linkedin.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/autonomous-vehicles/"><span class="level-start"><span class="level-item">autonomous-vehicles</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/autonomous-vehicles/machine-learning/"><span class="level-start"><span class="level-item">machine-learning</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/book-review/"><span class="level-start"><span class="level-item">book-review</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/economics/"><span class="level-start"><span class="level-item">economics</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/machine-learning/"><span class="level-start"><span class="level-item">machine-learning</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/categories/mathematics/"><span class="level-start"><span class="level-item">mathematics</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/opinion/"><span class="level-start"><span class="level-item">opinion</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/physics/"><span class="level-start"><span class="level-item">physics</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/statistics/"><span class="level-start"><span class="level-item">statistics</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><figure class="media-left"><a class="image" href="/2026/03/07/acoustic-sensor-fusion/"><img src="/gallery/thumbnails/SWS.jpg" alt="Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-03-07T00:00:00.000Z">2026-03-07</time></p><p class="title"><a href="/2026/03/07/acoustic-sensor-fusion/">Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles</a></p><p class="categories"><a href="/categories/autonomous-vehicles/">autonomous-vehicles</a> / <a href="/categories/autonomous-vehicles/machine-learning/">machine-learning</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2026/02/28/quantum-fourier-transform/"><img src="/gallery/thumbnails/qft_cover.png" alt="From Bits to Clocks: A Visual Intuition for the Quantum Fourier Transform"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-02-28T00:00:00.000Z">2026-02-28</time></p><p class="title"><a href="/2026/02/28/quantum-fourier-transform/">From Bits to Clocks: A Visual Intuition for the Quantum Fourier Transform</a></p><p class="categories"><a href="/categories/mathematics/">mathematics</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2026/02/20/ssd-career-conference/"><img src="/gallery/thumbnails/career_conference_notes.jpeg" alt="Signaling, Skills, and Intellectual Health in the Age of AI: Thoughts from UChicago Career Conference 2026"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-02-20T00:00:00.000Z">2026-02-20</time></p><p class="title"><a href="/2026/02/20/ssd-career-conference/">Signaling, Skills, and Intellectual Health in the Age of AI: Thoughts from UChicago Career Conference 2026</a></p><p class="categories"><a href="/categories/opinion/">opinion</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2025/12/16/3d-coastline-paradox/"><img src="/gallery/thumbnails/telegraph-hill.webp" alt="Telegraph Hill and the Coastline Paradox: Measuring a City in Fractional Dimensions"></a></figure><div class="media-content"><p class="date"><time dateTime="2025-12-16T00:00:00.000Z">2025-12-16</time></p><p class="title"><a href="/2025/12/16/3d-coastline-paradox/">Telegraph Hill and the Coastline Paradox: Measuring a City in Fractional Dimensions</a></p><p class="categories"><a href="/categories/mathematics/">mathematics</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2025/12/06/convolution/"><img src="/gallery/thumbnails/2D%20Fourier%20Transform.jpg" alt="Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain"></a></figure><div class="media-content"><p class="date"><time dateTime="2025-12-06T00:00:00.000Z">2025-12-06</time></p><p class="title"><a href="/2025/12/06/convolution/">Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain</a></p><p class="categories"><a href="/categories/machine-learning/">machine-learning</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2026/03/"><span class="level-start"><span class="level-item">March 2026</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2026/02/"><span class="level-start"><span class="level-item">February 2026</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/12/"><span class="level-start"><span class="level-item">December 2025</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/11/"><span class="level-start"><span class="level-item">November 2025</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/09/"><span class="level-start"><span class="level-item">September 2025</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/02/"><span class="level-start"><span class="level-item">February 2025</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/12/"><span class="level-start"><span class="level-item">December 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/11/"><span class="level-start"><span class="level-item">November 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/10/"><span class="level-start"><span class="level-item">October 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/09/"><span class="level-start"><span class="level-item">September 2024</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/08/"><span class="level-start"><span class="level-item">August 2024</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/07/"><span class="level-start"><span class="level-item">July 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/05/"><span class="level-start"><span class="level-item">May 2024</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/11/"><span class="level-start"><span class="level-item">November 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/01/"><span class="level-start"><span class="level-item">January 2022</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/machine-learning/"><span class="tag">machine-learning</span><span class="tag">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/embedded-ml/"><span class="tag">embedded-ml</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mathematics/"><span class="tag">mathematics</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/economics/"><span class="tag">economics</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/low-rank-approximation/"><span class="tag">low-rank-approximation</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/model-compression/"><span class="tag">model-compression</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/signal-processing/"><span class="tag">signal-processing</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/statistics/"><span class="tag">statistics</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/recommender-systems/"><span class="tag">recommender-systems</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/book-review/"><span class="tag">book-review</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/politics/"><span class="tag">politics</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/experimentation/"><span class="tag">experimentation</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/convolutional-neural-networks/"><span class="tag">convolutional-neural-networks</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/fiction/"><span class="tag">fiction</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lora/"><span class="tag">lora</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/philosophy/"><span class="tag">philosophy</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/physics/"><span class="tag">physics</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/career/"><span class="tag">career</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/a-b-testing/"><span class="tag">a-b-testing</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/causal-inference/"><span class="tag">causal-inference</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/fourier-transform/"><span class="tag">fourier-transform</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/graph-neural-networks/"><span class="tag">graph-neural-networks</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/game-theory/"><span class="tag">game-theory</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/essay/"><span class="tag">essay</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/quantization/"><span class="tag">quantization</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/reinforcement-learning/"><span class="tag">reinforcement-learning</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/neural-networks/"><span class="tag">neural-networks</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/artificial-intelligence/"><span class="tag">artificial-intelligence</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/fractals/"><span class="tag">fractals</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/autonomous-vehicles/"><span class="tag">autonomous-vehicles</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sensor-fusion/"><span class="tag">sensor-fusion</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bayesian-statistics/"><span class="tag">bayesian-statistics</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/history/"><span class="tag">history</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/spectral-methods/"><span class="tag">spectral-methods</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/football/"><span class="tag">football</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sports/"><span class="tag">sports</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/matching/"><span class="tag">matching</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/general-relativity/"><span class="tag">general-relativity</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/quantum-computing/"><span class="tag">quantum-computing</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/algorithms/"><span class="tag">algorithms</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/policy/"><span class="tag">policy</span><span class="tag">1</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">Subscribe for updates</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">follow.it</h3><form action="" method="post" target="_blank"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/gallery/favicon-32x32.png" alt="Hexo" height="28"></a><p class="is-size-7"><span>&copy; 2026 Francisco Romaldo Fernandes Mendes</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/javascript" id="MathJax-script" async>MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      chtml: {
+        matchFontHeight: false
+      }
+    };</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script><!--!--><script>
+      var sc_project=13006621;
+      var sc_invisible=1;
+      var sc_security="b56ff72f";
+      var sc_https=1;
+      var sc_remove_link=1;</script><script src="https://www.statcounter.com/counter/counter.js" async></script><noscript><div class="statcounter"><img class="statcounter" src="https://c.statcounter.com/13006621/0/b56ff72f/1/" alt="real time web analytics"></div></noscript><!--!--><script data-pjax src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>

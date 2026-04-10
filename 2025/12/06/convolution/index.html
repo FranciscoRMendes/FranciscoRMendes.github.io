@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain - Hexo</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Hexo"><meta name="msapplication-TileImage" content="/gallery/logo.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Hexo"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="In-Depth Explanation of Various kinds of Convolution: 1D, 2D and Graph"><meta property="og:type" content="blog"><meta property="og:title" content="Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain"><meta property="og:url" content="http://example.com/2025/12/06/convolution/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="In-Depth Explanation of Various kinds of Convolution: 1D, 2D and Graph"><meta property="og:locale" content="en_US"><meta property="og:image" content="http://example.com/gallery/thumbnails/2D%20Fourier%20Transform.jpg"><meta property="article:published_time" content="2025-12-06T00:00:00.000Z"><meta property="article:modified_time" content="2026-04-10T11:52:56.830Z"><meta property="article:author" content="Francisco Romaldo Fernandes Mendes"><meta property="article:tag" content="signal-processing"><meta property="article:tag" content="machine-learning"><meta property="article:tag" content="fourier-transform"><meta property="article:tag" content="convolutional-neural-networks"><meta property="article:tag" content="low-rank-approximation"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="http://example.com/gallery/thumbnails/2D%20Fourier%20Transform.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/12/06/convolution/"},"headline":"Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain","image":["http://example.com/gallery/thumbnails/2D%20Fourier%20Transform.jpg"],"datePublished":"2025-12-06T00:00:00.000Z","dateModified":"2026-04-10T11:52:56.830Z","author":{"@type":"Person","name":"Francisco Romaldo Fernandes Mendes"},"publisher":{"@type":"Organization","name":"Hexo","logo":{"@type":"ImageObject","url":"http://example.com/gallery/favicon-32x32.png"}},"description":"In-Depth Explanation of Various kinds of Convolution: 1D, 2D and Graph"}</script><link rel="canonical" href="http://example.com/2025/12/06/convolution/"><link rel="icon" href="/gallery/logo.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link data-pjax rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-N4MSXT4WL6" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-N4MSXT4WL6');</script><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/custom.css"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/gallery/favicon-32x32.png" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a><a class="navbar-item" href="/curriculum">Curriculum</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/FranciscoRMendes"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/gallery/thumbnails/2D%20Fourier%20Transform.jpg" alt="Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2025-12-06T00:00:00.000Z" title="12/6/2025, 12:00:00 AM">2025-12-06</time></span><span class="level-item">Updated&nbsp;<time dateTime="2026-04-10T11:52:56.830Z" title="4/10/2026, 11:52:56 AM">2026-04-10</time></span><span class="level-item"><a class="link-muted" href="/categories/machine-learning/">machine-learning</a></span><span class="level-item">26 minutes read (About 3885 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain</h1><div class="content"><h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>Convolution sits at the heart of modern machine learning—especially convolutional neural networks (CNNs)—yet the underlying mathematics is often hidden behind highly optimised implementations in PyTorch, TensorFlow, and other frameworks. As a result, many of the properties that make convolution such a powerful building block for deep learning become obscured, particularly when we try to reason about model behaviour or debug a failing architecture.</p>
+<p>If you know the convolution theorem, a natural question arises:</p>
+<p><em>Why don’t CNNs simply compute a Fourier transform of the input and kernel, multiply them in the frequency domain, and invert the result? Wouldn’t that be simpler and faster?</em></p>
+<p>This blog post addresses exactly that question. We will see that:</p>
+<ol>
+<li><p><strong>FFT-based convolution is not local.</strong><br>In the Fourier domain every coefficient depends on every input pixel. This destroys the locality structure that CNNs rely on to learn hierarchical, spatially meaningful features. As a result, it breaks the very inductive bias that makes CNNs effective.</p>
+</li>
+<li><p><strong>FFT-based convolution is not computationally cheaper in neural networks.</strong><br>Although FFTs are asymptotically efficient, they must be recomputed on every forward and backward pass—and the cost of repeatedly transforming inputs, kernels, and gradients outweighs any benefit from spectral multiplication.</p>
+</li>
+</ol>
+<p>By the end of this post, we’ll have a clear, explicit comparison—both in matrix form and via backpropagation—showing why CNNs deliberately perform convolution in the spatial domain. Any practioner of signal processing should also be interested in knowing when the “locality” property is useful and when it is not!</p>
+<h1 id="1-D-Convolution"><a href="#1-D-Convolution" class="headerlink" title="1-D Convolution"></a>1-D Convolution</h1><p>Let us start with the most basic form of convolution, the 1D convolution. In this case you have a filter (which is nothing but a sequence of numbers) that you want to multiply with your signal in order to produce another signal which is hopefully more interesting to you. For example, in your headphones, you want to multiply a set of numbers with the music signal such that the resulting signal is more music than the wailing baby 1 row behind you. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">conv1d_direct</span>(<span class="params">x, h</span>):</span><br><span class="line">    nx, nh = <span class="built_in">len</span>(x), <span class="built_in">len</span>(h)</span><br><span class="line">    y = np.zeros(nx+nh-<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(y)):</span><br><span class="line">        <span class="keyword">for</span> m <span class="keyword">in</span> <span class="built_in">range</span>(nx):</span><br><span class="line">            k = n - m</span><br><span class="line">            <span class="keyword">if</span> <span class="number">0</span> &lt;= k &lt; nh:</span><br><span class="line">                y[n] += x[m] * h[k]</span><br><span class="line">    <span class="keyword">return</span> y</span><br><span class="line"></span><br><span class="line">x = np.array([<span class="number">1.</span>,<span class="number">2.</span>,<span class="number">0.</span>,-<span class="number">1.</span>]) <span class="comment"># this is the signal of music + baby wailing</span></span><br><span class="line">h = np.array([<span class="number">0.5</span>,<span class="number">1.</span>,<span class="number">0.5</span>]) <span class="comment"># this is a filter that when multiplied with x makes it more music</span></span><br><span class="line">conv1d_direct(x,h)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Convolution-Theorem"><a href="#Convolution-Theorem" class="headerlink" title="Convolution Theorem"></a>Convolution Theorem</h2><p>This brings us to the convolution theorem wherein we can prove that the process of convolution i.e. multiplying window-wise h and x is mathematically equivalent to a simple multiplication between the fft of h and the fft of x. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">conv_via_fft</span>(<span class="params">x,h</span>):</span><br><span class="line">    N = <span class="built_in">len</span>(x)+<span class="built_in">len</span>(h)-<span class="number">1</span></span><br><span class="line">    X = np.fft.rfft(x,n=N)</span><br><span class="line">    H = np.fft.rfft(h,n=N)</span><br><span class="line">    <span class="keyword">return</span> np.fft.irfft(X*H,n=N)</span><br><span class="line"></span><br><span class="line">np.<span class="built_in">max</span>(np.<span class="built_in">abs</span>(conv1d_direct(x,h) - conv_via_fft(x,h)))</span><br><span class="line"><span class="built_in">print</span>(conv1d_direct(x,h))</span><br><span class="line"><span class="built_in">print</span>(conv_via_fft(x,h))</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-D-Convolution"><a href="#2-D-Convolution" class="headerlink" title="2-D Convolution"></a>2-D Convolution</h1><p>Just like before before we will convolve a 2D filter with a 2D signal in the spatial domain. We will then, try to do it using the FFT. We will verify that the convolution theorem does indeed work in the 2D space as well. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">conv2d_direct</span>(<span class="params">img, ker</span>):</span><br><span class="line">    ih, iw = img.shape</span><br><span class="line">    kh, kw = ker.shape</span><br><span class="line">    out = np.zeros((ih+kh-<span class="number">1</span>, iw+kw-<span class="number">1</span>))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(out.shape[<span class="number">0</span>]):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(out.shape[<span class="number">1</span>]):</span><br><span class="line">            <span class="keyword">for</span> m <span class="keyword">in</span> <span class="built_in">range</span>(ih):</span><br><span class="line">                <span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(iw):</span><br><span class="line">                    km, kn = i-m, j-n</span><br><span class="line">                    <span class="keyword">if</span> <span class="number">0</span> &lt;= km &lt; kh <span class="keyword">and</span> <span class="number">0</span> &lt;= kn &lt; kw:</span><br><span class="line">                        out[i,j] += img[m,n] * ker[km,kn]</span><br><span class="line">    <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line">img = np.array([[<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]])</span><br><span class="line">ker = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">4</span>,<span class="number">2</span>],[<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>]])/<span class="number">16</span></span><br><span class="line">conv2d_direct(img,ker)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Convolution-Theorem-2D"><a href="#Convolution-Theorem-2D" class="headerlink" title="Convolution Theorem 2D"></a>Convolution Theorem 2D</h2><p>In a similar way to the 1D case instead of windowing and multiplying, we can take the fft of the signal and the kernel and simply multiply. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">conv2d_fft</span>(<span class="params">img,ker</span>):</span><br><span class="line">    H,W = img.shape</span><br><span class="line">    Kh,Kw = ker.shape</span><br><span class="line">    OH,OW = H+Kh-<span class="number">1</span>, W+Kw-<span class="number">1</span></span><br><span class="line">    IMG = np.fft.rfft2(img, s=(OH,OW))</span><br><span class="line">    KER = np.fft.rfft2(ker, s=(OH,OW))</span><br><span class="line">    <span class="keyword">return</span> np.fft.irfft2(IMG*KER, s=(OH,OW))</span><br><span class="line"></span><br><span class="line">out_d = conv2d_direct(img,ker)</span><br><span class="line">out_f = conv2d_fft(img,ker)</span><br><span class="line">np.<span class="built_in">max</span>(np.<span class="built_in">abs</span>(out_d - out_f))</span><br></pre></td></tr></table></figure>
+
+<h2 id="So-why-do-NNs-not-use-the-FFT"><a href="#So-why-do-NNs-not-use-the-FFT" class="headerlink" title="So why do NNs not use the FFT?"></a>So why do NNs not use the FFT?</h2><p>In a neural network, convolution is used to generate feature maps that feed into the next layer. At first glance, the convolution theorem suggests a tempting shortcut: instead of sliding a kernel spatially, we could transform both the image and kernel into the frequency domain, multiply them element-wise, and transform the result back. The output would be mathematically equivalent—so why not do this inside CNNs?</p>
+<p>It turns out there are two fundamental reasons:</p>
+<ol>
+<li><p><strong>Neural networks care about more than just the output—they care about how the output is produced.</strong><br>During backpropagation, each filter weight is updated using gradients derived from local spatial features. This locality enables CNNs to learn hierarchies of edges, textures, shapes, and patterns.<br>In the Fourier domain, however, gradients flow through global Fourier coefficients. Every frequency component depends on every pixel, so the update for a single weight depends on the entire image. This destroys the spatial locality that CNNs rely on and eliminates the inductive bias that makes them effective.</p>
+</li>
+<li><p><strong>The FFT is not “simpler” computationally for neural networks.</strong><br>While FFTs are efficient in isolation, a CNN would need to repeatedly compute forward FFTs, spectral multiplications, and inverse FFTs—not just for the forward pass, but also for backpropagation.<br>When you count actual multiplications and transforms, the FFT approach is often more expensive, especially for small kernels (e.g., 3×3, 5×5), which dominate modern architectures.</p>
+</li>
+</ol>
+<p><strong>In short:</strong> CNNs avoid the Fourier domain because it removes locality and adds computational overhead—both of which undermine the very reasons convolution works so well in deep learning.</p>
+<h1 id="2D-Spatial-Convolution-as-a-Matrix-Multiply"><a href="#2D-Spatial-Convolution-as-a-Matrix-Multiply" class="headerlink" title="2D Spatial Convolution as a Matrix Multiply"></a>2D Spatial Convolution as a Matrix Multiply</h1><p>For our next trick we will show the exact way in which your hardware actually computes convolutions. Spoiler: it will be some kind of matrix multiplication. This is quite different from the way convolution is taught in the classroom where you usually <em>convolve</em> with a patch of pixels in the spatial domain and <em>roll</em> the kernel onto the next patch nearby. In reality, this whole process is just represented as one huge matrix multiply. It is very important to think about convolution in this way, as it makes approaching complex questions easier. Since looping over pixels is not a coherent mathematical approach whose complexity is easy to compute. Once it is expressed as a matrix multiply between to matrices we can directly use a formula to compute complexity. More importantly, GPUs work fast precisely because they can parallelize this matrix multiply (as opposed to parallizing various kinds of for-loop structures).</p>
+<p>In this section, $X$ denotes the input image. It’s worth noting that most deep-learning libraries treat the 2D and 1D cases in essentially the same way: the very first step is to reshape the image into a long vector, commonly written as $\mathrm{vec}(X)$. This operation—often implemented as <code>im2col</code> in the source code—unrolls local patches of the image so that convolution can be expressed as a matrix–vector multiplication. </p>
+$$X =
+\begin{bmatrix}
+x_{11} & x_{12} & x_{13} & x_{14} \\
+x_{21} & x_{22} & x_{23} & x_{24} \\
+x_{31} & x_{32} & x_{33} & x_{34} \\
+x_{41} & x_{42} & x_{43} & x_{44}
+\end{bmatrix},
+\quad
+\mathrm{vec}(X) =
+\begin{bmatrix}
+x_{11} \\ x_{12} \\ x_{13} \\ x_{14} \\
+x_{21} \\ x_{22} \\ x_{23} \\ x_{24} \\
+x_{31} \\ x_{32} \\ x_{33} \\ x_{34} \\
+x_{41} \\ x_{42} \\ x_{43} \\ x_{44}
+\end{bmatrix}.$$
+
+<p>Let the $3\times 3$ kernel we are interested in convolving be:</p>
+$$W =
+\begin{bmatrix}
+w_{11} & w_{12} & w_{13} \\
+w_{21} & w_{22} & w_{23} \\
+w_{31} & w_{32} & w_{33}
+\end{bmatrix}.$$
+
+<p>The valid convolution output (size $2\times 2$) is (again <code>im2col</code> outputs a long vector that can be then transformed to an image on the other end):</p>
+$$\mathrm{vec}(Y)=
+\begin{bmatrix}
+y_{11} \\ 
+y_{12} \\ 
+y_{21} \\ 
+y_{22} \\
+\end{bmatrix}.$$
+
+<p>We can express the convolution as a matrix multiply:</p>
+$$\mathrm{vec}(Y) = T(W)\ \mathrm{vec}(X),$$
+
+<p>where $T(W)$ is the Block-Toeplitz with Toeplitz Blocks (BTTB) matrix. </p>
+$$T(W) =
+\begin{bmatrix}
+\color{blue}{w_{11}} & \color{blue}{w_{12}} & \color{blue}{w_{13}} & 0
+& \color{blue}{w_{21}} & \color{blue}{w_{22}} & \color{blue}{w_{23}} & 0
+& \color{blue}{w_{31}} & \color{blue}{w_{32}} & \color{blue}{w_{33}} & 0
+& 0 & 0 & 0 & 0 \\[2mm]
+%
+0 & \color{blue}{w_{11}} & \color{blue}{w_{12}} & \color{blue}{w_{13}}
+& 0 & \color{blue}{w_{21}} & \color{blue}{w_{22}} & \color{blue}{w_{23}}
+& 0 & \color{blue}{w_{31}} & \color{blue}{w_{32}} & \color{blue}{w_{33}}
+& 0 & 0 & 0 & 0 \\[2mm]
+%
+0 & 0 & 0 & 0 
+& \color{blue}{w_{11}} & \color{blue}{w_{12}} & \color{blue}{w_{13}} & 0
+& \color{blue}{w_{21}} & \color{blue}{w_{22}} & \color{blue}{w_{23}} & 0
+& \color{blue}{w_{31}} & \color{blue}{w_{32}} & \color{blue}{w_{33}} & 0 \\[2mm]
+%
+0 & 0 & 0 & 0 
+& 0 & \color{blue}{w_{11}} & \color{blue}{w_{12}} & \color{blue}{w_{13}}
+& 0 & \color{blue}{w_{21}} & \color{blue}{w_{22}} & \color{blue}{w_{23}}
+& 0 & \color{blue}{w_{31}} & \color{blue}{w_{32}} & \color{blue}{w_{33}}
+\end{bmatrix}.$$
+
+<p>Expanded, the output entries are:</p>
+$$
+y_{11} =
+w_{11} x_{11} + w_{12} x_{12} + w_{13} x_{13} + w_{21} x_{21} + w_{22} x_{22} + w_{23} x_{23} + w_{31} x_{31} + w_{32} x_{32} + w_{33}x_{33}
+$$
+
+$$
+y_{12} =
+w_{11} x_{12} + w_{12} x_{13} + w_{13} x_{14} + w_{21} x_{22} + w_{22} x_{23} + w_{23} x_{24} + w_{31} x_{32} + w_{32} x_{33} + w_{33}x_{34}
+$$
+
+$$
+y_{21} =
+w_{11} x_{21} + w_{12} x_{22} + w_{13} x_{23} + w_{21} x_{31} + w_{22} x_{32} + w_{23} x_{33} + w_{31} x_{41} + w_{32} x_{42} + w_{33} x_{43}
+$$
+
+$$
+y_{22} =
+w_{11} x_{22} + w_{12} x_{23} + w_{13} x_{24} + w_{21} x_{32} + w_{22} x_{33} + w_{23} x_{34} + w_{31} x_{42} + w_{32} x_{43} + w_{33} x_{44}
+$$
+
+
+
+
+<h2 id="Loss-Backpropagation-in-Convolution"><a href="#Loss-Backpropagation-in-Convolution" class="headerlink" title="Loss Backpropagation in Convolution"></a>Loss Backpropagation in Convolution</h2><h3 id="1D-Convolution-Example"><a href="#1D-Convolution-Example" class="headerlink" title="1D Convolution Example"></a><strong>1D Convolution Example</strong></h3><p>Let the 1D convolution be:</p>
+$$
+y = T(w) x
+$$
+
+<p>where:</p>
+<ul>
+<li>($x \in \mathbb{R}^6$) is the input</li>
+<li>($w \in \mathbb{R}^3$) is the kernel</li>
+<li>($y \in \mathbb{R}^4$) is the output (valid convolution)</li>
+</ul>
+<p>Assume a scalar loss ($L(y)$).</p>
+<h4 id="Step-1-Gradient-w-r-t-Output"><a href="#Step-1-Gradient-w-r-t-Output" class="headerlink" title="Step 1: Gradient w.r.t Output"></a>Step 1: Gradient w.r.t Output</h4>$$
+\frac{\partial L}{\partial y} =
+\begin{bmatrix}
+\frac{\partial L}{\partial y_1} \\
+\frac{\partial L}{\partial y_2} \\
+\frac{\partial L}{\partial y_3} \\
+\frac{\partial L}{\partial y_4}
+\end{bmatrix}.
+$$
+
+
+
+<h4 id="Step-2-Gradient-w-r-t-Kernel"><a href="#Step-2-Gradient-w-r-t-Kernel" class="headerlink" title="Step 2: Gradient w.r.t Kernel"></a>Step 2: Gradient w.r.t Kernel</h4><p>Construct the <strong>input Toeplitz matrix</strong>:</p>
+$$
+T_x =
+\begin{bmatrix}
+x_1 & x_2 & x_3 \\
+x_2 & x_3 & x_4 \\
+x_3 & x_4 & x_5 \\
+x_4 & x_5 & x_6
+\end{bmatrix}.
+$$
+
+<p>Then the gradient w.r.t the kernel is:</p>
+$$
+\frac{\partial L}{\partial w} = T_x^\top \frac{\partial L}{\partial y} =
+\begin{bmatrix}
+x_1 & x_2 & x_3 & x_4 \\
+x_2 & x_3 & x_4 & x_5 \\
+x_3 & x_4 & x_5 & x_6 \\
+\end{bmatrix}
+\begin{bmatrix}
+\frac{\partial L}{\partial y_1} \\
+\frac{\partial L}{\partial y_2} \\
+\frac{\partial L}{\partial y_3} \\
+\frac{\partial L}{\partial y_4}
+\end{bmatrix}.
+$$
+
+<p><strong>Observation:</strong> Each kernel weight sees <strong>only the local patches of the input it touches</strong>, preserving locality.</p>
+<h4 id="Step-3-Gradient-w-r-t-Input"><a href="#Step-3-Gradient-w-r-t-Input" class="headerlink" title="Step 3: Gradient w.r.t Input"></a>Step 3: Gradient w.r.t Input</h4>$$
+\frac{\partial L}{\partial x} = T(w)^\top \frac{\partial L}{\partial y}.
+$$
+
+<p>Again, <strong>each input element only receives gradient from the outputs it contributed to</strong>.</p>
+<h3 id="2D-Convolution-Example"><a href="#2D-Convolution-Example" class="headerlink" title="2D Convolution Example"></a><strong>2D Convolution Example</strong></h3><p>Only for completeness, it should be clear that 1D and 2D is handled the same way using <code>im2col</code></p>
+<p>For 2D BTTB convolution:</p>
+$$
+\mathrm{vec}(Y) = T(W) \mathrm{vec}(X),
+$$
+
+<p>with scalar loss ($L(Y)$):</p>
+<ul>
+<li>Gradient w.r.t kernel:</li>
+</ul>
+$$
+\frac{\partial L}{\partial W} = T_X^\top \frac{\partial L}{\partial \mathrm{vec}(Y)}
+$$
+
+<ul>
+<li>Gradient w.r.t input:</li>
+</ul>
+$$
+\frac{\partial L}{\partial \mathrm{vec}(X)} = T(W)^\top \frac{\partial L}{\partial \mathrm{vec}(Y)}
+$$
+
+
+<h4 id="Observation"><a href="#Observation" class="headerlink" title="Observation"></a><strong>Observation</strong></h4><ul>
+<li>Each kernel weight is influenced <strong>only by the input pixels in the patch it was applied to</strong></li>
+<li>Each input pixel receives gradients <strong>only from outputs it contributed to</strong></li>
+<li>This is why CNNs learn <strong>localized features</strong> efficiently.</li>
+</ul>
+<h1 id="2D-Fourier-Transform-Convolution-as-Matrix-Multiplies"><a href="#2D-Fourier-Transform-Convolution-as-Matrix-Multiplies" class="headerlink" title="2D Fourier Transform Convolution as Matrix Multiplies"></a>2D Fourier Transform Convolution as Matrix Multiplies</h1><p>Similar to the spatial convolution case we will represent the Fourier transform as a sequence of matrix multiplies. The recipe is as follows, </p>
+<ol>
+<li>Fourier Transform of Kernel</li>
+<li>Fourier Transform of 2D Image</li>
+<li>Elementwise Multiply in the Frequency Domain</li>
+<li>Inverse Fourier Transform</li>
+</ol>
+<p>These matrices can get quite huge, but I thought we need to see them explicitly to make understanding them a bit easier. </p>
+<p>We assume:</p>
+$$
+X =
+\begin{bmatrix}
+x_{11} & x_{12} & x_{13} & x_{14}\\
+x_{21} & x_{22} & x_{23} & x_{24}\\
+x_{31} & x_{32} & x_{33} & x_{34}\\
+x_{41} & x_{42} & x_{43} & x_{44}\\
+\end{bmatrix},
+\qquad
+W =
+\begin{bmatrix}
+w_{11} & w_{12} & w_{13}\\
+w_{21} & w_{22} & w_{23}\\
+w_{31} & w_{32} & w_{33}\\
+\end{bmatrix}
+$$
+
+<p>Flatten row-major:</p>
+$$
+\mathrm{vec}(X)=
+\begin{bmatrix}
+x_{11}\\
+x_{12}\\
+x_{13}\\
+x_{14}\\
+x_{21}\\
+x_{22}\\
+x_{23}\\
+x_{24}\\
+x_{31}\\
+x_{32}\\
+x_{33}\\
+x_{34}\\
+x_{41}\\
+x_{42}\\
+x_{43}\\
+x_{44}\\
+\end{bmatrix},
+\qquad
+\mathrm{vec}(W)=
+\begin{bmatrix}
+w_{11}\\
+w_{12}\\
+w_{13}\\
+w_{21}\\
+w_{22}\\
+w_{23}\\
+w_{31}\\
+w_{32}\\
+w_{33}\\
+\end{bmatrix}.
+$$
+
+<p>The 2D DFT matrix for a 4×4 image (flattened row-major) is:</p>
+$$
+F_{k,n} = e^{-2\pi i \cdot kn/16},
+\qquad k,n = 0,\dots,15.
+$$
+
+
+$$
+F=
+\begin{bmatrix}
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+1 & c_{1} - is_{1} & c_{2} - is_{2} & c_{3} - is_{3} & c_{4} - is_{4} & c_{5} - is_{5} & c_{6} - is_{6} & c_{7} - is_{7} & -1 & c_{9} - is_{9} & c_{10} - is_{10} & c_{11} - is_{11} & c_{12} - is_{12} & c_{13} - is_{13} & c_{14} - is_{14} & c_{15} - is_{15} \\
+1 & c_{2} - is_{2} & c_{4} - is_{4} & c_{6} - is_{6} & -1 & c_{10} - is_{10} & c_{12} - is_{12} & c_{14} - is_{14} & 1 & c_{2} - is_{2} & c_{4} - is_{4} & c_{6} - is_{6} & -1 & c_{10} - is_{10} & c_{12} - is_{12} & c_{14} - is_{14} \\
+1 & c_{3} - is_{3} & c_{6} - is_{6} & c_{9} - is_{9} & c_{12} - is_{12} & c_{15} - is_{15} & c_{18} - is_{18} & c_{21} - is_{21} & -1 & c_{27} - is_{27} & c_{30} - is_{30} & c_{33} - is_{33} & c_{36} - is_{36} & c_{39} - is_{39} & c_{42} - is_{42} & c_{45} - is_{45} \\
+1 & c_{4} - is_{4} & -1 & c_{12} - is_{12} & 1 & c_{20} - is_{20} & -1 & c_{28} - is_{28} & 1 & c_{36} - is_{36} & -1 & c_{44} - is_{44} & 1 & c_{52} - is_{52} & -1 & c_{60} - is_{60} \\
+1 & c_{5} - is_{5} & c_{10} - is_{10} & c_{15} - is_{15} & c_{20} - is_{20} & c_{25} - is_{25} & c_{30} - is_{30} & c_{35} - is_{35} & -1 & c_{45} - is_{45} & c_{50} - is_{50} & c_{55} - is_{55} & c_{60} - is_{60} & c_{65} - is_{65} & c_{70} - is_{70} & c_{75} - is_{75} \\
+1 & c_{6} - is_{6} & c_{12} - is_{12} & c_{18} - is_{18} & -1 & c_{30} - is_{30} & c_{36} - is_{36} & c_{42} - is_{42} & 1 & c_{54} - is_{54} & c_{60} - is_{60} & c_{66} - is_{66} & -1 & c_{78} - is_{78} & c_{84} - is_{84} & c_{90} - is_{90} \\
+1 & c_{7} - is_{7} & c_{14} - is_{14} & c_{21} - is_{21} & c_{28} - is_{28} & c_{35} - is_{35} & c_{42} - is_{42} & c_{49} - is_{49} & -1 & c_{63} - is_{63} & c_{70} - is_{70} & c_{77} - is_{77} & c_{84} - is_{84} & c_{91} - is_{91} & c_{98} - is_{98} & c_{105} - is_{105} \\
+1 & -1 & 1 & -1 & 1 & -1 & 1 & -1 & 1 & -1 & 1 & -1 & 1 & -1 & 1 & -1 \\
+1 & c_{9} - is_{9} & c_{18} - is_{18} & c_{27} - is_{27} & c_{36} - is_{36} & c_{45} - is_{45} & c_{54} - is_{54} & c_{63} - is_{63} & -1 & c_{81} - is_{81} & c_{90} - is_{90} & c_{99} - is_{99} & c_{108} - is_{108} & c_{117} - is_{117} & c_{126} - is_{126} & c_{135} - is_{135} \\
+1 & c_{10} - is_{10} & c_{20} - is_{20} & c_{30} - is_{30} & 1 & c_{50} - is_{50} & c_{60} - is_{60} & c_{70} - is_{70} & 1 & c_{90} - is_{90} & c_{100} - is_{100} & c_{110} - is_{110} & 1 & c_{130} - is_{130} & c_{140} - is_{140} & c_{150} - is_{150} \\
+1 & c_{11} - is_{11} & c_{22} - is_{22} & c_{33} - is_{33} & c_{44} - is_{44} & c_{55} - is_{55} & c_{66} - is_{66} & c_{77} - is_{77} & -1 & c_{99} - is_{99} & c_{110} - is_{110} & c_{121} - is_{121} & c_{132} - is_{132} & c_{143} - is_{143} & c_{154} - is_{154} & c_{165} - is_{165} \\
+1 & c_{12} - is_{12} & -1 & c_{36} - is_{36} & 1 & c_{60} - is_{60} & -1 & c_{84} - is_{84} & 1 & c_{108} - is_{108} & -1 & c_{132} - is_{132} & 1 & c_{156} - is_{156} & -1 & c_{180} - is_{180} \\
+1 & c_{13} - is_{13} & c_{26} - is_{26} & c_{39} - is_{39} & c_{52} - is_{52} & c_{65} - is_{65} & c_{78} - is_{78} & c_{91} - is_{91} & -1 & c_{117} - is_{117} & c_{130} - is_{130} & c_{143} - is_{143} & c_{156} - is_{156} & c_{169} - is_{169} & c_{182} - is_{182} & c_{195} - is_{195} \\
+1 & c_{14} - is_{14} & c_{28} - is_{28} & c_{42} - is_{42} & -1 & c_{70} - is_{70} & c_{84} - is_{84} & c_{98} - is_{98} & 1 & c_{126} - is_{126} & c_{140} - is_{140} & c_{154} - is_{154} & -1 & c_{182} - is_{182} & c_{196} - is_{196} & c_{210} - is_{210} \\
+1 & c_{15} - is_{15} & c_{30} - is_{30} & c_{45} - is_{45} & c_{60} - is_{60} & c_{75} - is_{75} & c_{90} - is_{90} & c_{105} - is_{105} & -1 & c_{135} - is_{135} & c_{150} - is_{150} & c_{165} - is_{165} & c_{180} - is_{180} & c_{195} - is_{195} & c_{210} - is_{210} & c_{225} - is_{225}\\
+\end{bmatrix}
+$$
+
+<p>Where</p>
+$$
+c_n = \cos\left(\frac{2\pi n}{16}\right), \qquad s_n = \sin\left(\frac{2\pi n}{16}\right).
+$$
+
+
+
+<h1 id="1-Fourier-Transform-of-the-Kernel"><a href="#1-Fourier-Transform-of-the-Kernel" class="headerlink" title="1. Fourier Transform of the Kernel**"></a>1. Fourier Transform of the Kernel**</h1>$$
+\hat{W} = F  \mathrm{vec}(W_{padded})
+$$
+
+<p>where $W_{padded}$ is the 3×3 kernel zero-padded to 4×4. Explicitly:</p>
+$$
+\mathrm{vec}(W_{padded}) =
+\begin{bmatrix}
+w_{11}\\
+w_{12}\\
+w_{13}\\
+0\\
+w_{21}\\
+w_{22}\\
+w_{23}\\
+0\\
+w_{31}\\
+w_{32}\\
+w_{33}\\
+0\\
+0\\
+0\\
+0\\
+0\\
+\end{bmatrix}.
+$$
+
+<p>Then:</p>
+$$
+\hat{W} = F \mathrm{vec}(W_{padded}).
+$$
+
+<p>Take the first row, </p>
+$$
+\hat{W}_1 = w_{11} + w_{12} + w_{13} + w_{21} + w_{22} + w_{23} + w_{31} + w_{32} + w_{33}
+$$
+
+<h1 id="2-Fourier-Transform-of-the-Image"><a href="#2-Fourier-Transform-of-the-Image" class="headerlink" title="2. Fourier Transform of the Image"></a>2. Fourier Transform of the Image</h1>$$
+\hat{X} = F \mathrm{vec}(X)
+$$
+
+<p>Take the first row, </p>
+$$
+\hat{X}_1 = x_{11} + x_{12} + x_{13} + x_{14} + x_{21} + x_{22} + x_{23} + x_{24} + x_{31} + x_{32} + x_{33} + x_{34} + x_{41} + x_{42} + x_{43} + x_{44}
+$$
+
+
+<h1 id="3-Multiply-Elementwise-in-Frequency-Space"><a href="#3-Multiply-Elementwise-in-Frequency-Space" class="headerlink" title="3. Multiply (Elementwise) in Frequency Space"></a>3. Multiply (Elementwise) in Frequency Space</h1><p>Define the frequency-domain product:</p>
+$$
+\hat{Y} = \hat{W} \odot \hat{X}
+$$
+
+<p>Written explicitly:</p>
+$$
+\hat{Y}=
+\begin{bmatrix}
+\hat{W}_1 \hat{X}_1 \\
+\hat{W}_2 \hat{X}_2 \\
+\vdots \\
+\hat{W}_{16} \hat{X}_{16}
+\end{bmatrix}
+$$
+
+
+<!-- or equivalently as a matrix multiplication:
+
+$$
+\hat{Y} =
+\mathrm{diag}(\hat{W})
+\hat{X}
+$$ -->
+
+<!-- with
+
+$$
+\mathrm{diag}(\hat{W}) =
+\begin{bmatrix}
+\hat{W}_1 & 0 & \cdots & 0 \\
+0 & \hat{W}*2 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & \hat{W}*\{16} \\
+\end{bmatrix}.
+$$ -->
+
+<!-- Note: this diagonal matrix is **dense globally** w.r.t. the kernel values even though diagonal in Fourier space. -->
+
+
+
+<h1 id="4-Inverse-Fourier-Transform"><a href="#4-Inverse-Fourier-Transform" class="headerlink" title="4. Inverse Fourier Transform"></a>4. Inverse Fourier Transform</h1><p>To return to spatial domain:</p>
+$$
+\mathrm{vec}(Y) = F^{-1} \hat{Y} = \frac{1}{16} F \hat{Y}
+$$
+
+<p>Explicitly:</p>
+$$
+\mathrm{vec}(Y)
+= \frac{1}{16}
+F
+\begin{bmatrix}
+\hat{W}_1 \hat{X}_1 \\
+\hat{W}_2 \hat{X}_2 \\
+\hat{W}_3 \hat{X}_3 \\
+\vdots \\
+\hat{W}_{16} \hat{X}_{16}
+\end{bmatrix}.
+$$
+
+<p>Thus the first row of the output looks like (the subscript is 11 because it will eventually be recast to an image), </p>
+$$
+y_{11} = \frac{1}{16} \left(
+\hat{W}_1 \hat{X}_1 + \hat{W}_2 \hat{X}_2 + \hat{W}_3 \hat{X}_3 + \cdots + \hat{W}_{16} \hat{X}_{16}
+\right)
+$$
+
+<p>We will try to focus on that first term on the RHS, $\hat{W}_1$, $\hat{X}_1$,</p>
+$$
+\hat{W}_1\hat{X}_1 = (w_{11} + w_{12} + w_{13} + w_{21} + w_{22} + w_{23} + w_{31} + w_{32} + w_{33}) \times (x_{11} + x_{12} + x_{13} + x_{14} + x_{21} + x_{22} + x_{23} + x_{24} + x_{31} + x_{32} + x_{33} + x_{34} + x_{41} + x_{42} + x_{43} + x_{44})
+$$
+
+$$
+y_{11} = \frac{1}{16} (w_{11} + w_{12} + w_{13} +\dots + w_{33}) \times (x_{11} + x_{12} + x_{13} +\dots + x_{42} + x_{43} + \textcolor{red}{x_{44}})
+$$
+
+<p>Compare this to $y_{11}$ from the spatial case, notice that the term $\textcolor{red}{x_{44}}$ is missing in the below expression, </p>
+$$
+y_{11} = w_{11} x_{11} + w_{12} x_{12} + w_{13} x_{13} + w_{21}x_{21} + w_{22} x_{22} + w_{23} x_{23}+ w_{31} x_{31} + w_{32} x_{32} + w_{33} x_{33}
+$$
+
+<p>Eventually these two values will be numerically the same! We know this from the convolution theorem. In the next section we will see that the contributing values matter to the gradient back propagation and that is where the two approaches will differ. </p>
+<h1 id="Gradient-Comparison"><a href="#Gradient-Comparison" class="headerlink" title="Gradient Comparison"></a>Gradient Comparison</h1><h2 id="FFT-Gradient"><a href="#FFT-Gradient" class="headerlink" title="FFT Gradient"></a>FFT Gradient</h2>$$
+\frac{\partial y_{11}}{\partial w_{11}} = \frac{1}{16} \left( x_{11} + x_{12} + x_{13} + \dots + x_{44} \right)
+$$
+
+<p>Notice that every input pixel contributes to the gradient of $w_{11}$.</p>
+<p>Similarly for other weights, EVERY pixel contributes to the gradient. </p>
+$$
+\frac{\partial y_{11}}{\partial w_{ij}} = \frac{1}{16} \left( x_{11} + x_{12} + \dots + x_{44} \right), \quad \forall w_{ij}
+$$
+
+<h2 id="Gradient-in-the-Spatial-Convolution-Case"><a href="#Gradient-in-the-Spatial-Convolution-Case" class="headerlink" title="Gradient in the Spatial Convolution Case"></a>Gradient in the Spatial Convolution Case</h2><p>Notice that each update depends only on the pixel patch that it touches! </p>
+$$
+\frac{\partial L}{\partial w_{ij}} 
+= \frac{\partial L}{\partial y_{11}} \cdot \frac{\partial y_{11}}{\partial w_{ij}} 
+= \frac{\partial L}{\partial y_{11}} \cdot \frac{1}{16} \sum_{m=1}^{4} \sum_{n=1}^{4} x_{mn}
+$$
+
+$$
+\frac{\partial y_{11}}{\partial w_{11}} = x_{11}, \quad
+\frac{\partial y_{11}}{\partial w_{12}} = x_{12}, \quad
+\frac{\partial y_{11}}{\partial w_{13}} = x_{13},
+$$
+
+$$
+\frac{\partial y_{11}}{\partial w_{21}} = x_{21}, \quad
+\frac{\partial y_{11}}{\partial w_{22}} = x_{22}, \quad
+\frac{\partial y_{11}}{\partial w_{23}} = x_{23},
+$$
+
+$$
+\frac{\partial y_{11}}{\partial w_{31}} = x_{31}, \quad
+\frac{\partial y_{11}}{\partial w_{32}} = x_{32}, \quad
+\frac{\partial y_{11}}{\partial w_{33}} = x_{33}.
+$$
+
+<p>Gradient update for scalar loss L</p>
+$$
+\frac{\partial L}{\partial w_{ij}} = \frac{\partial L}{\partial y_{11}} \cdot \frac{\partial y_{11}}{\partial w_{ij}}.
+$$
+<h1 id="Computational-Comparison"><a href="#Computational-Comparison" class="headerlink" title="Computational Comparison"></a>Computational Comparison</h1><h2 id="Spatial-Convolution"><a href="#Spatial-Convolution" class="headerlink" title="Spatial Convolution"></a>Spatial Convolution</h2><p>Suppose:</p>
+<ul>
+<li>Input image: $X$ of size $N \times N$</li>
+<li>Kernel: $W$ of size $K \times K$</li>
+<li>Output: $Y$ of size $(N-K+1) \times (N-K+1)$</li>
+</ul>
+<h3 id="Number-of-multiplications"><a href="#Number-of-multiplications" class="headerlink" title="Number of multiplications"></a>Number of multiplications</h3><p>Each output pixel requires $K^2$ multiplications:</p>
+$$
+\text{Total multiplications} = (N-K+1)^2 \cdot K^2 \approx N^2 K^2 \quad \text{for } N \gg K
+$$
+
+<ul>
+<li>Linear in <strong>number of pixels</strong> and <strong>kernel size</strong>.</li>
+<li>Memory access is <strong>local</strong>, cache-friendly.</li>
+</ul>
+<h2 id="FFT-based-Convolution"><a href="#FFT-based-Convolution" class="headerlink" title="FFT-based Convolution"></a>FFT-based Convolution</h2><p>Forward pass:</p>
+<ol>
+<li>Zero-pad kernel to size $N \times N$</li>
+<li>Compute 2D FFT of input and kernel: $O(N^2 \log N)$ each</li>
+<li>Elementwise multiplication in Fourier domain: $O(N^2)$</li>
+<li>Inverse FFT: $O(N^2 \log N)$</li>
+</ol>
+<h3 id="Total-computational-cost"><a href="#Total-computational-cost" class="headerlink" title="Total computational cost"></a>Total computational cost</h3>$$
+\text{FFT convolution} \approx 2 \cdot O(N^2 \log N) + O(N^2) \sim O(N^2 \log N)
+$$
+
+<ul>
+<li>For small kernels $K \ll N$  $K^2 \ll \log N$, so:</li>
+</ul>
+$$
+N^2 K^2 \ll N^2 \log N
+$$
+
+<ul>
+<li><strong>Spatial convolution is cheaper</strong> for small kernels, which is why CNNs prefer it.</li>
+<li>FFT becomes advantageous only for <strong>very large kernels</strong> or very large images.</li>
+</ul>
+<h3 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h3><ol>
+<li>Spatial convolution is efficient for small kernels and preserves <em>locality</em> which is crucial for CNNs to learn hierarchies.</li>
+<li>FFT convolution has global interactions, destroys the local inductive bias, and is only computationally advantageous for very large kernels.</li>
+</ol>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>We have seen that spatial convolution is not only computationally more efficient but also better suited to capturing the hierarchical structure inherent in most images. For instance, a face detection algorithm may rely on local patterns such as the triangle formed by the eyes and the nose. A kernel that focuses specifically on this local arrangement is highly effective because it preserves locality.</p>
+<p>Conversely, in domains like recommendation systems, where data may be represented as a sparse matrix of product–user interactions, capturing global patterns can be more important. Here, the “local” interactions often correspond to users with strong connections, whereas broader, global patterns reveal trends across the entire system. In such contexts, FFT-based approaches—or methods that leverage global connectivity, like graph convolutional networks—can be more appropriate.</p>
+<p>This contrast explains why spatial CNNs excel in image-based tasks, while GCNs or FFT-based methods are more suitable for graphs representing global interactions, such as those between users and products.</p>
+<h1 id="References-Further-Reading"><a href="#References-Further-Reading" class="headerlink" title="References &amp; Further Reading"></a>References &amp; Further Reading</h1><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=eMXuk97NeSI">Spatial Convoluttions visualized</a></p>
+</li>
+<li><p><strong>“A Beginner’s Guide to Convolutions” (Colah’s Blog)</strong> – A visual, intuitive introduction to convolution and receptive fields.<br><a target="_blank" rel="noopener" href="https://colah.github.io/posts/2014-07-Understanding-Convolutions/">https://colah.github.io/posts/2014-07-Understanding-Convolutions/</a></p>
+</li>
+<li><p><strong>“The Fast Fourier Transform (FFT): Most Ingenious Algorithm Ever?” (3Blue1Brown video)</strong> – A beautiful geometric explanation of the FFT.<br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=h7apO7q16V0&utm_source=chatgpt.com">https://www.youtube.com/watch?v=h7apO7q16V0&amp;utm_source&#x3D;chatgpt.com</a></p>
+</li>
+<li><p><strong>“Convolutional Neural Networks for Visual Recognition” (Stanford CS231n)</strong> – Gold-standard material on spatial convolution.<br><a target="_blank" rel="noopener" href="https://cs231n.github.io/convolutional-networks/">https://cs231n.github.io/convolutional-networks/</a></p>
+</li>
+</ul>
+<h3 id="Visualization-Signal-Processing"><a href="#Visualization-Signal-Processing" class="headerlink" title="Visualization &amp; Signal Processing"></a>Visualization &amp; Signal Processing</h3><ul>
+<li><p><strong>Khan Academy – Fourier Series &amp; Fourier Transform</strong> – Visual and interactive explanations of frequency-domain thinking.<br><a target="_blank" rel="noopener" href="https://www.khanacademy.org/math/differential-equations/fourier-series">https://www.khanacademy.org/math/differential-equations/fourier-series</a></p>
+</li>
+<li><p><strong>DSP Guide (Free Online Book)</strong> – Clear, practical engineering-focused intuition on convolution and transforms.<br><a target="_blank" rel="noopener" href="https://www.dspguide.com/">https://www.dspguide.com/</a></p>
+</li>
+</ul>
+<h3 id="Implementing-FFT-based-Convolution"><a href="#Implementing-FFT-based-Convolution" class="headerlink" title="Implementing FFT-based Convolution"></a>Implementing FFT-based Convolution</h3><ul>
+<li><p><strong>PyTorch FFT Tutorial</strong> – How PyTorch performs FFT-based convolution behind the scenes.<br><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/fft.html">https://pytorch.org/docs/stable/fft.html</a></p>
+</li>
+<li><p><strong>SciPy signal.fftconvolve</strong> – Practical tool frequently used for 2D FFT convolution.<br><a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.fftconvolve.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.fftconvolve.html</a></p>
+</li>
+</ul>
+<h3 id="Graph-Neural-Networks-Spectral-Methods"><a href="#Graph-Neural-Networks-Spectral-Methods" class="headerlink" title="Graph Neural Networks &amp; Spectral Methods"></a>Graph Neural Networks &amp; Spectral Methods</h3><ul>
+<li><p><strong>“A Friendly Introduction to Graph Neural Networks” (Stanford)</strong> – Excellent intuition about GCNs and why they differ from CNNs.<br><a target="_blank" rel="noopener" href="https://web.stanford.edu/class/cs224w/">https://web.stanford.edu/class/cs224w/</a></p>
+</li>
+<li><p><strong>“Spectral Graph Convolution Explained” (Medium)</strong> – Gentle intro to graph Laplacians and filtering.<br><a target="_blank" rel="noopener" href="https://medium.com/towards-data-science/spectral-graph-convolution-explained-6dddb6c1c2b0">https://medium.com/towards-data-science/spectral-graph-convolution-explained-6dddb6c1c2b0</a></p>
+</li>
+</ul>
+<h3 id="Practical-Engineering-Notes"><a href="#Practical-Engineering-Notes" class="headerlink" title="Practical Engineering Notes"></a>Practical Engineering Notes</h3><ul>
+<li><p><strong>“Why FFT Convolution is Faster” (StackOverflow discussion)</strong> – Short, practical engineering explanation.<br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/12665249/why-is-fft-convolution-faster">https://stackoverflow.com/questions/12665249/why-is-fft-convolution-faster</a></p>
+</li>
+<li><p><strong>“im2col and GEMM: How CNNs Are Really Implemented” (DeepLearning.ai forums)</strong> – Helps connect the maths to real-world kernels.<br><a target="_blank" rel="noopener" href="https://community.deeplearning.ai/t/how-im2col-really-works/27659">https://community.deeplearning.ai/t/how-im2col-really-works/27659</a></p>
+</li>
+</ul>
+</div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/signal-processing/">signal-processing</a><a class="link-muted mr-2" rel="tag" href="/tags/machine-learning/">machine-learning</a><a class="link-muted mr-2" rel="tag" href="/tags/fourier-transform/">fourier-transform</a><a class="link-muted mr-2" rel="tag" href="/tags/convolutional-neural-networks/">convolutional-neural-networks</a><a class="link-muted mr-2" rel="tag" href="/tags/low-rank-approximation/">low-rank-approximation</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2025/12/16/3d-coastline-paradox/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Telegraph Hill and the Coastline Paradox: Measuring a City in Fractional Dimensions</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2025/11/22/hot-cold-gcns/"><span class="level-item">Hot &amp; Cold Spectral GCNs: How Graph Fourier Transforms Connect Heat Flow and Cold-Start Recommendations</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card" id="comments"><div class="card-content"><h3 class="title is-5">Comments</h3><script src="https://giscus.app/client.js" repo="FranciscoRMendes/FranciscoRMendes.github.io" data-repo="FranciscoRMendes/FranciscoRMendes.github.io" data-repo-id="REPLACE_WITH_REPO_ID" data-category-id="REPLACE_WITH_CATEGORY_ID" data-category="Announcements" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="noborder_light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/gallery/DSC00878.jpg" alt="Francisco Romaldo Mendes"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">Francisco Romaldo Mendes</p><p class="is-size-6 is-block">Senior ML Engineer</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Chicago, Illinois</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="/archives/"><p class="title">31</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/categories/"><p class="title">9</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="/tags/"><p class="title">41</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="me noopener">Follow</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Github" href="https://github.com/FranciscoRMendes"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">Links</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://cri.uchicago.edu/portfolio/thirty-million-words/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">TMW Center</span></span><span class="level-right"><span class="level-item tag">cri.uchicago.edu</span></span></a></li><li><a class="level is-mobile" href="https://www.linkedin.com/in/franciscormendes/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">LinkedIn</span></span><span class="level-right"><span class="level-item tag">www.linkedin.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/autonomous-vehicles/"><span class="level-start"><span class="level-item">autonomous-vehicles</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/autonomous-vehicles/machine-learning/"><span class="level-start"><span class="level-item">machine-learning</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/book-review/"><span class="level-start"><span class="level-item">book-review</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/economics/"><span class="level-start"><span class="level-item">economics</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/machine-learning/"><span class="level-start"><span class="level-item">machine-learning</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/categories/mathematics/"><span class="level-start"><span class="level-item">mathematics</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/opinion/"><span class="level-start"><span class="level-item">opinion</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/physics/"><span class="level-start"><span class="level-item">physics</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/statistics/"><span class="level-start"><span class="level-item">statistics</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><figure class="media-left"><a class="image" href="/2026/03/07/acoustic-sensor-fusion/"><img src="/gallery/thumbnails/SWS.jpg" alt="Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-03-07T00:00:00.000Z">2026-03-07</time></p><p class="title"><a href="/2026/03/07/acoustic-sensor-fusion/">Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles</a></p><p class="categories"><a href="/categories/autonomous-vehicles/">autonomous-vehicles</a> / <a href="/categories/autonomous-vehicles/machine-learning/">machine-learning</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2026/02/28/quantum-fourier-transform/"><img src="/gallery/thumbnails/qft_cover.png" alt="From Bits to Clocks: A Visual Intuition for the Quantum Fourier Transform"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-02-28T00:00:00.000Z">2026-02-28</time></p><p class="title"><a href="/2026/02/28/quantum-fourier-transform/">From Bits to Clocks: A Visual Intuition for the Quantum Fourier Transform</a></p><p class="categories"><a href="/categories/mathematics/">mathematics</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2026/02/20/ssd-career-conference/"><img src="/gallery/thumbnails/career_conference_notes.jpeg" alt="Signaling, Skills, and Intellectual Health in the Age of AI: Thoughts from UChicago Career Conference 2026"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-02-20T00:00:00.000Z">2026-02-20</time></p><p class="title"><a href="/2026/02/20/ssd-career-conference/">Signaling, Skills, and Intellectual Health in the Age of AI: Thoughts from UChicago Career Conference 2026</a></p><p class="categories"><a href="/categories/opinion/">opinion</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2025/12/16/3d-coastline-paradox/"><img src="/gallery/thumbnails/telegraph-hill.webp" alt="Telegraph Hill and the Coastline Paradox: Measuring a City in Fractional Dimensions"></a></figure><div class="media-content"><p class="date"><time dateTime="2025-12-16T00:00:00.000Z">2025-12-16</time></p><p class="title"><a href="/2025/12/16/3d-coastline-paradox/">Telegraph Hill and the Coastline Paradox: Measuring a City in Fractional Dimensions</a></p><p class="categories"><a href="/categories/mathematics/">mathematics</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2025/12/06/convolution/"><img src="/gallery/thumbnails/2D%20Fourier%20Transform.jpg" alt="Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain"></a></figure><div class="media-content"><p class="date"><time dateTime="2025-12-06T00:00:00.000Z">2025-12-06</time></p><p class="title"><a href="/2025/12/06/convolution/">Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain</a></p><p class="categories"><a href="/categories/machine-learning/">machine-learning</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2026/03/"><span class="level-start"><span class="level-item">March 2026</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2026/02/"><span class="level-start"><span class="level-item">February 2026</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/12/"><span class="level-start"><span class="level-item">December 2025</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/11/"><span class="level-start"><span class="level-item">November 2025</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/09/"><span class="level-start"><span class="level-item">September 2025</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/02/"><span class="level-start"><span class="level-item">February 2025</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/12/"><span class="level-start"><span class="level-item">December 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/11/"><span class="level-start"><span class="level-item">November 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/10/"><span class="level-start"><span class="level-item">October 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/09/"><span class="level-start"><span class="level-item">September 2024</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/08/"><span class="level-start"><span class="level-item">August 2024</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/07/"><span class="level-start"><span class="level-item">July 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/05/"><span class="level-start"><span class="level-item">May 2024</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/11/"><span class="level-start"><span class="level-item">November 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/01/"><span class="level-start"><span class="level-item">January 2022</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/machine-learning/"><span class="tag">machine-learning</span><span class="tag">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/embedded-ml/"><span class="tag">embedded-ml</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mathematics/"><span class="tag">mathematics</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/economics/"><span class="tag">economics</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/low-rank-approximation/"><span class="tag">low-rank-approximation</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/model-compression/"><span class="tag">model-compression</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/signal-processing/"><span class="tag">signal-processing</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/statistics/"><span class="tag">statistics</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/recommender-systems/"><span class="tag">recommender-systems</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/book-review/"><span class="tag">book-review</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/politics/"><span class="tag">politics</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/experimentation/"><span class="tag">experimentation</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/convolutional-neural-networks/"><span class="tag">convolutional-neural-networks</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/fiction/"><span class="tag">fiction</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lora/"><span class="tag">lora</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/philosophy/"><span class="tag">philosophy</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/physics/"><span class="tag">physics</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/career/"><span class="tag">career</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/a-b-testing/"><span class="tag">a-b-testing</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/causal-inference/"><span class="tag">causal-inference</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/fourier-transform/"><span class="tag">fourier-transform</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/graph-neural-networks/"><span class="tag">graph-neural-networks</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/game-theory/"><span class="tag">game-theory</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/essay/"><span class="tag">essay</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/quantization/"><span class="tag">quantization</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/reinforcement-learning/"><span class="tag">reinforcement-learning</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/neural-networks/"><span class="tag">neural-networks</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/artificial-intelligence/"><span class="tag">artificial-intelligence</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/fractals/"><span class="tag">fractals</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/autonomous-vehicles/"><span class="tag">autonomous-vehicles</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sensor-fusion/"><span class="tag">sensor-fusion</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bayesian-statistics/"><span class="tag">bayesian-statistics</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/history/"><span class="tag">history</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/spectral-methods/"><span class="tag">spectral-methods</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/football/"><span class="tag">football</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sports/"><span class="tag">sports</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/matching/"><span class="tag">matching</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/general-relativity/"><span class="tag">general-relativity</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/quantum-computing/"><span class="tag">quantum-computing</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/algorithms/"><span class="tag">algorithms</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/policy/"><span class="tag">policy</span><span class="tag">1</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">Subscribe for updates</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">follow.it</h3><form action="" method="post" target="_blank"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/gallery/favicon-32x32.png" alt="Hexo" height="28"></a><p class="is-size-7"><span>&copy; 2026 Francisco Romaldo Fernandes Mendes</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/javascript" id="MathJax-script" async>MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      chtml: {
+        matchFontHeight: false
+      }
+    };</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script><!--!--><script>
+      var sc_project=13006621;
+      var sc_invisible=1;
+      var sc_security="b56ff72f";
+      var sc_https=1;
+      var sc_remove_link=1;</script><script src="https://www.statcounter.com/counter/counter.js" async></script><noscript><div class="statcounter"><img class="statcounter" src="https://c.statcounter.com/13006621/0/b56ff72f/1/" alt="real time web analytics"></div></noscript><!--!--><script data-pjax src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>

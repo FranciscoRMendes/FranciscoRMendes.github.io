@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>The Management Consulting Playbook for AB Testing (with an emphasis on Recommender Systems) - Hexo</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Hexo"><meta name="msapplication-TileImage" content="/gallery/logo.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Hexo"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="A comprehensive guide to AB Testing in the context of management consulting, with a special focus on recommender systems."><meta property="og:type" content="blog"><meta property="og:title" content="The Management Consulting Playbook for AB Testing (with an emphasis on Recommender Systems)"><meta property="og:url" content="http://example.com/2024/11/08/consulting-ab-testing/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="A comprehensive guide to AB Testing in the context of management consulting, with a special focus on recommender systems."><meta property="og:locale" content="en_US"><meta property="og:image" content="http://example.com/gallery/thumbnails/ab-testing-cartoon.png"><meta property="article:published_time" content="2024-11-08T00:00:00.000Z"><meta property="article:modified_time" content="2026-04-10T11:52:56.830Z"><meta property="article:author" content="Francisco Romaldo Fernandes Mendes"><meta property="article:tag" content="a-b-testing"><meta property="article:tag" content="statistics"><meta property="article:tag" content="experimentation"><meta property="article:tag" content="recommender-systems"><meta property="article:tag" content="causal-inference"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="http://example.com/gallery/thumbnails/ab-testing-cartoon.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2024/11/08/consulting-ab-testing/"},"headline":"The Management Consulting Playbook for AB Testing (with an emphasis on Recommender Systems)","image":["http://example.com/gallery/thumbnails/ab-testing-cartoon.png"],"datePublished":"2024-11-08T00:00:00.000Z","dateModified":"2026-04-10T11:52:56.830Z","author":{"@type":"Person","name":"Francisco Romaldo Fernandes Mendes"},"publisher":{"@type":"Organization","name":"Hexo","logo":{"@type":"ImageObject","url":"http://example.com/gallery/favicon-32x32.png"}},"description":"A comprehensive guide to AB Testing in the context of management consulting, with a special focus on recommender systems."}</script><link rel="canonical" href="http://example.com/2024/11/08/consulting-ab-testing/"><link rel="icon" href="/gallery/logo.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link data-pjax rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-N4MSXT4WL6" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-N4MSXT4WL6');</script><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/custom.css"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/gallery/favicon-32x32.png" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a><a class="navbar-item" href="/curriculum">Curriculum</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/FranciscoRMendes"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/gallery/thumbnails/ab-testing-cartoon.png" alt="The Management Consulting Playbook for AB Testing (with an emphasis on Recommender Systems)"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-11-08T00:00:00.000Z" title="11/8/2024, 12:00:00 AM">2024-11-08</time></span><span class="level-item">Updated&nbsp;<time dateTime="2026-04-10T11:52:56.830Z" title="4/10/2026, 11:52:56 AM">2026-04-10</time></span><span class="level-item"><a class="link-muted" href="/categories/statistics/">statistics</a></span><span class="level-item">40 minutes read (About 5947 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">The Management Consulting Playbook for AB Testing (with an emphasis on Recommender Systems)</h1><div class="content"><h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>Although I’ve focused much more on the ML side of consulting projects—and I really enjoy it—I’ve often had to dust off my statistician hat to measure how well the algorithms I build actually perform. Most of my experience in this area has been in verifying that recommendation engines, once deployed, truly deliver value. In this article, I’ll explore some key themes in AB Testing. While, I tried to be as general as possible, I did drill down on specific concepts that are particularly salient to recommender systems. </p>
+<p>I thoroughly enjoy the “measurement science” behind these challenges; it’s a great reminder that classic statistics is far from obsolete. In practice, it also lets us make informed claims based on simulations, even if formal proofs aren’t immediately available. I’ve also included some helpful simulations.</p>
+<h1 id="Basic-Structure-of-AB-Testing"><a href="#Basic-Structure-of-AB-Testing" class="headerlink" title="Basic Structure of AB Testing"></a>Basic Structure of AB Testing</h1><p>AB Testing begins on day zero, often in a room full of stakeholders, where your task is to prove that your recommendation engine, feature (like a new button), or pricing algorithm really works. Here, the focus shifts from the predictive power of machine learning to the causal inference side of statistics. (Toward the end of this article, I’ll also touch briefly on causal inference within the context of ML.)</p>
+<h1 id="Phase-1-Experimental-Context"><a href="#Phase-1-Experimental-Context" class="headerlink" title="Phase 1: Experimental Context"></a>Phase 1: Experimental Context</h1><ul>
+<li><p><strong>Define the feature under analysis</strong> and evaluate whether AB testing is necessary. Sometimes, if a competitor is already implementing the feature, testing may not be essential; you may simply need to keep pace.</p>
+</li>
+<li><p><strong>Establish a primary metric of interest.</strong> In consulting projects, this metric often aligns closely with engagement fees, so it’s critical to define it well.</p>
+</li>
+<li><p><strong>Identify guardrail metrics</strong>—these are typically independent of the experiment (e.g., revenue, profit, total rides, wait time) and represent key business metrics that should not be negatively impacted by the test.</p>
+</li>
+<li><p><strong>Set a null hypothesis,</strong> $H_0$ (usually representing a zero effect size on the main metric). Consider what would happen without the experiment, which may involve using non-ML recommendations or an existing ML recommendation in recommendation engine contexts.</p>
+</li>
+<li><p><strong>Specify a significance level,</strong> $\alpha$, which is the maximum probability of rejecting the null hypothesis when it is true, commonly set at 0.05. This value is conventional but somewhat arbitrary, and it’s challenging to justify because humans often struggle to assign accurate probabilities to risk.</p>
+</li>
+<li><p><strong>Define the alternative hypothesis,</strong> $H_1$, indicating the minimum effect size you hope to observe. For example, in a PrimeTime pricing experiment, you’d specify the smallest expected change in your chosen metric, such as whether rides will increase by hundreds or by 1%. This effect size is generally informed by prior knowledge and reflects the threshold at which the feature becomes worthwhile.</p>
+</li>
+<li><p><strong>Choose a power level,</strong> $1 - \beta$, usually set to 0.8. This means there is at least an 80% chance of rejecting the null hypothesis when $H_1$ is true.</p>
+</li>
+<li><p><strong>Select a test statistic</strong> with a known distribution under both hypotheses. The sample average of the metric of interest is often a good choice.</p>
+</li>
+<li><p><strong>Determine the minimum sample size</strong> required to achieve the desired power level $1 - \beta$ with all given parameters.</p>
+</li>
+</ul>
+<p>Before proceeding, it’s crucial to recognize that many choices, like those for $\alpha$ and $\beta$, are inherently subjective. Often, these parameters are predefined by an existing statistics or measurement science team, and a “Risk” team may also weigh in to ensure the company’s risk profile remains stable. For instance, if you’re testing a recommendation engine, implementing a new pricing algorithm, and cutting costs simultaneously, the risk team might have input on how much overall risk the company can afford. This subjectivity often makes Bayesian approaches appealing, driving interest in a Bayesian perspective for AB Testing.</p>
+<h1 id="Phase-2-Experiment-Design"><a href="#Phase-2-Experiment-Design" class="headerlink" title="Phase 2: Experiment Design"></a>Phase 2: Experiment Design</h1><p>With the treatment, hypothesis, and metrics established, the next step is to define the unit of randomization for the experiment and determine when each unit will participate. The chosen unit of randomization should allow accurate measurement of the specified metrics, minimize interference and network effects, and account for user experience considerations.The next couple of sections will dive deeper into certain considerations when designing an experiment, and how to statistically overcome them. In a recommendation engine context, this can be quite complex, since both treatment and control groups share the pool of products, it is possible that increased purchases from the online recommendation can cause the stock to run out for people who physically visit the store. So if we see the control group (i.e. the group not exposed to the new recommender system) buying more competitor products (competitors to the products you are recommending) this could simply be because the product was not available and the treatment was much more effective than it seemed!</p>
+<h1 id="Unit-of-Randomization-and-Interference"><a href="#Unit-of-Randomization-and-Interference" class="headerlink" title="Unit of Randomization and Interference"></a>Unit of Randomization and Interference</h1><p>Now that you have approval to run your experiment, you need to define the unit of randomization. This can be tricky because often there are multiple levels at which randomization can be carried out for example, you can randomize your app experience by session, you could also randomize it by user. This leads to our first big problem in AB testing. What is the best unit of randomization? And what are the pitfalls of picking the wrong unit? Sometimes, the unit is picked for you, you simply may not have recommendation engine data at the exact level you want. A unit is often hard to conceptualize, it is easy to think that it is one user. But one user at different points in their journey through the app can be treated as different units.</p>
+<h2 id="Example-of-Interference"><a href="#Example-of-Interference" class="headerlink" title="Example of Interference"></a>Example of Interference</h2><p>Interference is a huge problem in recommendation engines for most retail problems. Let me walk you through an interesting example we saw for a large US retailer. We were testing whether a certain product (high margin obviously!) was being recommended to users. The treatment group was shown the product and the control group was not. The metric of interest was the number of purchases of a basket of high margin products. The control group purchased the product at a rate of $\tau_0\%$ and the treatment group purchased the product at a rate of $\tau_t\%$. The experiment was significant at the $0.05$ level. However, after the experiment we noticed that the difference in sales closed up to $\tau_t - \tau_0 = \delta\%$. This was because the treatment group was buying up the stock of the product and the control group was not because they <em>could not</em>. Sometimes the act of being recommended a product was a kind of treatment in itself. This is a non-classical example of interference. This is a good reason to use a formal causal inference framework to measure the effect of the treatment. One way to do this is DAGs, which I will discuss later. The best way to run an experiment like this is to randomize by region. However, this is not always possible since regions share the same stock. But I think you get the idea.</p>
+<h2 id="Robust-Standard-Errors-in-AB-Tests"><a href="#Robust-Standard-Errors-in-AB-Tests" class="headerlink" title="Robust Standard Errors in AB Tests"></a>Robust Standard Errors in AB Tests</h2><p>You can fix interference by clustering at the region level but very often this leads to another problem of its own. The unit of treatment allocation is now fundamentally bigger than the unit at which you are conducting the analysis. We do not really recommend products at the store level, we recommend products at the user level. So while we assign treatment and control at the store level we are analyzing effects at the user level. As a consequence we need to adjust our standard errors to account for this. This is where robust standard errors come in. In such a case, the standard errors you calculate for the average treatment effect are<br><em>lower</em> than what they truly are. And this has far-reaching effects for power, effect size and the like.</p>
+<p>Recall, the variance of the OLS estimator</p>
+$$\text{Var}(\hat \beta) = (X’X)^{-1} X’ \epsilon \epsilon’ X (X’X)^{-1}$$
+
+<p>You can analyze the variance matrix under various assumptions to estimate, $$\epsilon \epsilon’ = \Omega$$</p>
+<p>Under homoscedasticity,</p>
+$$\Omega = \begin{bmatrix} \sigma^2 & 0 & \dots & 0 & 0 \\ 0 & \sigma^2 & \dots & 0 & 0 \\ \vdots & & \ddots & & \vdots \\ 0 & 0 & \dots & \sigma^2 & 0 \\ 0 & 0 & \dots & 0 & \sigma^2 \\ \end{bmatrix} = \sigma^2 I_n$$
+
+<p>Under heteroscedasticity (Heteroscedastic robust standard errors),</p>
+$$\Omega = \begin{bmatrix} \sigma^2_1 & 0 & \dots & 0 & 0 \\ 0 & \sigma^2_2 & & 0 & 0 \\ \vdots & & \ddots & & \vdots \\ 0 & 0 & & \sigma^2_{n-1} & 0 \\ 0 & 0 & \dots & 0 & \sigma^2_n \\ \end{bmatrix}$$
+
+<p>And finally under clustering, $$\Omega = \begin{bmatrix} \epsilon_1^2 & \epsilon_1 \epsilon_2 & 0 & 0 & \dots & 0 & 0 \\ \epsilon_1 \epsilon_2 & \epsilon_2^2 & 0 & 0 & & 0 & 0 \\ 0 & 0 & \epsilon_3^2 & \sigma^2_{34} & & 0 & 0 \\ 0 & 0 & \sigma^2_{34} & \epsilon_3^2 & & 0 & 0 \\ \vdots & & & & \ddots & & \vdots \\ 0 & 0 & 0 & 0 & & \epsilon_{n-1}^2 & \sigma^2_{n-1,n} \\ 0 & 0 & 0 & 0 & \dots & \sigma^2_{n-1,n} & \epsilon_n^2 \\ \end{bmatrix}$$</p>
+<p>The cookbook, for estimating $\Omega$ is therefore multiplying your matrix $\epsilon\epsilon'$ with some kind of banded matrix that represents your assumption $C$,</p>
+$$\Omega = C\epsilon \epsilon'= \begin{bmatrix} 1 & 1 & 0 & 0 & \dots & 0 & 0 \\ 1 & 1 & 0 & 0 & \dots & 0 & 0 \\ 0 & 0 & 1 & 1 & \dots & 0 & 0 \\ 0 & 0 & 1 & 1 & \dots & 0 & 0 \\ \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\ 0 & 0 & 0 & 0 & \dots & 1 & 1 \\ 0 & 0 & 0 & 0 & \dots & 1 & 1 \\ \end{bmatrix} \begin{bmatrix} \sigma_1^2 & \sigma_{12} & \sigma_{13} & \dots & \sigma_{1n} \\ \sigma_{12} & \sigma_2^2 & \sigma_{23} & \dots & \sigma_{2n} \\ \sigma_{13} & \sigma_{23} & \sigma_3^2 & \dots & \sigma_{3n} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ \sigma_{1n} & \sigma_{2n} & \sigma_{3n} & \dots & \sigma_n^2 \\ \end{bmatrix}$$
+
+<h2 id="Range-of-Clustered-Standard-Errors"><a href="#Range-of-Clustered-Standard-Errors" class="headerlink" title="Range of Clustered Standard Errors"></a>Range of Clustered Standard Errors</h2>$$\hat{\text{Var}}(\hat{\beta}) = \sum_{g=1}^G \sum_{i=1}^{n_g} \sum_{j=1}^{n_g} \epsilon_i, \epsilon_j$$
+
+$$\hat{\text{Var}}(\hat{\beta}) \in [ \sum_{i} \epsilon_i^2, \sum_{g} n_g^2 \epsilon_g^2]$$
+
+<p>Where the left boundary is where no clustering occurs and all errors are independent and the right boundary is where the clustering is very strong but variance between clusters is zero. It is fair to ask, why we need to multiply by a matrix of assumptions $C$ at all, the answer is that the assumptions scale the error to tolerable levels, such that the error is not too large or too small. By pure coincidence, it is possible to have high covariance between any two observations, whether to include it or not is predicated by your assumption matrix $C$.</p>
+<h1 id="Power-Analysis"><a href="#Power-Analysis" class="headerlink" title="Power Analysis"></a>Power Analysis</h1><p>I have found that power analysis is an overlooked part of AB Testing, in Consulting you will probably have to work with the existing experimentation team to make sure the experiment is powered correctly. There is usually some amount of haggling and your tests are likely to be underpowered. There is a good argument to be made about overpowering your tests (such a term does not exist in statistics, who would complain about that), but this usually comes with some risk to guardrail metrics, thus you are likely to under power your tests when considering a guardrail metric. This is OKAY, because remember the $0.05$ level is a convention, and the $0.8$ power level is also a convention that by definition err on the side of NOT rejecting the null. So if you see an effect with an underpowered test you do have some latitude to make a claim while reducing the significance level of your test.</p>
+<p>Power analysis focuses on reducing the probability of accepting the null hypothesis when the alternative is true. To increase the power of an A&#x2F;B test and reduce false negatives, three key strategies can be applied:</p>
+<ul>
+<li><p>Effect Size: Larger effect sizes are easier to detect. This can be achieved by testing bold, high-impact changes or trying new product areas with greater potential for improvement. Larger deviations from the baseline make it easier for the experiment to reveal significant effects.</p>
+</li>
+<li><p>Sample Size: Increasing sample size boosts the test’s accuracy and ability to detect smaller effects. With more data, the observed metric tends to be closer to its true value, enhancing the likelihood of detecting genuine effects. Adding more participants or reducing the number of test groups can improve power, though there’s a balance to strike between test size and the number of concurrent tests.</p>
+</li>
+<li><p>Reducing Metric Variability: Less variability in the test metric across the sample makes it easier to spot genuine effects. Targeting a more homogeneous sample or employing models that account for population variability helps reduce noise, making subtle signals easier to detect.</p>
+</li>
+</ul>
+<p>Finally, experiments are often powered at 80% for a postulated effect size — enough to detect meaningful changes that justify the new feature’s costs or improvements. Meaningful effect sizes depend on context, domain knowledge, and historical data on expected impacts, and this understanding helps allocate testing resources efficiently.</p>
+<p><img src="/2024/11/08/consulting-ab-testing/netflix_power.png" alt="Power 2"></p>
+<p>In an A&#x2F;B test, the power of a test (the probability of correctly detecting a true effect) is influenced by the effect size, sample size, significance level, and pooled variance. The formula for power,</p>
+$1 - \beta$, can be approximated as follows for a two-sample test:
+
+$$
+\text{Power} = \Phi \left( \frac{\Delta - z_{1-\alpha/2} \cdot \sigma_{\text{pooled}}}{\sigma_{\text{pooled}} / \sqrt{n}} \right)
+$$
+
+<p>Where,</p>
+<ul>
+<li>$\Delta$ is the **Minimum Detectable Effect (MDE)**, representing the smallest effect size we aim to detect.
+</li>
+<li>$z_{1-\alpha/2}$ is the critical z-score for a significance level
+$\alpha$ (e.g., 1.96 for a 95% confidence level).
+</li>
+<li>$\sigma_{\text{pooled}}$ is the **pooled standard deviation
+<p>** of the metric across groups, representing the combined variability.</p>
+</li>
+<li>$n$ is the **sample size per group**.
+</li>
+<li>$\Phi$ is the **cumulative distribution function
+<p>** (CDF) of the standard normal distribution, which gives the probability that a value is below a given z-score.</p>
+</li>
+</ul>
+<h2 id="Understanding-the-Role-of-Pooled-Variance"><a href="#Understanding-the-Role-of-Pooled-Variance" class="headerlink" title="Understanding the Role of Pooled Variance"></a>Understanding the Role of Pooled Variance</h2><ul>
+<li><p><strong>Power decreases</strong> as the <strong>pooled variance</strong> ($\sigma_{\text{pooled}}^2$) increases. Higher variance increases the &quot;noise&quot; in the data, making it more challenging to detect the effect (MDE) relative to the variation.</p>
+</li>
+<li><p>When <strong>pooled variance is low</strong>, the test statistic (difference between groups) is less likely to be drowned out by noise, so the test is more likely to detect even smaller differences. This results in <strong>higher power</strong> for a given sample size and effect size.</p>
+</li>
+</ul>
+<h2 id="Practical-Implications"><a href="#Practical-Implications" class="headerlink" title="Practical Implications"></a>Practical Implications</h2><p>In experimental design:</p>
+<ul>
+<li><p>Reducing $\sigma_{\text{pooled}}$ (e.g., by choosing a more homogeneous sample) improves power without increasing sample size.</p>
+</li>
+<li><p>If $\sigma_{\text{pooled}}$ is high due to natural variability, increasing the sample size $n$ compensates by lowering the standard error $\left(\frac{\sigma_{\text{pooled}}}{\sqrt{n}}\right)$, thereby maintaining power.</p>
+</li>
+</ul>
+<h1 id="Difference-in-Difference"><a href="#Difference-in-Difference" class="headerlink" title="Difference in Difference"></a>Difference in Difference</h1><p>Randomizing by region to solve interference can create a new issue: regional trends may bias results. If, for example, a fast-growing region is assigned to the treatment, any observed gains may simply reflect that region’s natural growth rather than the treatment’s effect.</p>
+<p>In recommender system tests aiming to boost sales, retention, or engagement, this issue can be problematic. Assigning a growing region to control and a mature one to treatment will almost certainly make the treatment group appear more effective, potentially masking the true impact of the recommendations.</p>
+<h2 id="Linear-Regression-Example-of-DiD"><a href="#Linear-Regression-Example-of-DiD" class="headerlink" title="Linear Regression Example of DiD"></a>Linear Regression Example of DiD</h2><p>To understand the impact of a new treatment on a group, let’s consider an example where everyone in group $G$ receives a treatment at time $t_e$. Our goal is to measure how this treatment affects outcomes over time.</p>
+<p>First, we’ll introduce some notation:</p>
+<p>Define $\mathbb{1}_A(x)$, which indicates if $x$ belongs to a specific set $A$:</p>
+<div style="text-align:left">
+Let $T = \{t : t > t_e\}$, which represents the period after treatment. We can use this to set up a few key indicators:
+
+<ul>
+<li>$\mathbb{1}_{T(t)} = 1$ if the time $t$ is after the treatment, and $0$ otherwise.</li>
+<li>$\mathbb{1}_{G(i)} = 1$ if an individual $i$ is in group $G$, meaning they received the treatment.</li>
+<li>if they are both $1$ then they refer to those in the treatment group during the post-treatment period.</li>
+</ul>
+<div>
+
+<p>Using these indicators, we can build a simple linear regression model:</p>
+<div style="text-align:left">
+$$
+y_{it} = \beta_0 + \beta_1 \mathbb{1}_{T(t)} + \beta_2 \mathbb{1}_{G(i)} + \beta_3 \mathbb{1}_{T(t)} \mathbb{1}_{G(i)}+ \epsilon_{it}
+$$
+<div>
+
+<p>In this model, the coefficient $\beta_3$ is the term we’re most interested in. It represents the Difference-in-Differences (DiD) effect: how much the treatment group’s outcome changes after treatment compared to the control group’s change in the same period. In other words, $\beta_3$ provides a clearer picture of the treatment’s direct impact, isolating it from other factors.</p>
+<p>For this model to work reliably, we rely on the <em>parallel trends assumption</em>: the control and treatment groups would have followed similar paths over time if there had been no treatment. Although the initial levels of $y_{it}$ can differ between groups, they should trend together in the absence of intervention.</p>
+<h2 id="Testing-the-Parallel-Trends-Assumption"><a href="#Testing-the-Parallel-Trends-Assumption" class="headerlink" title="Testing the Parallel Trends Assumption"></a>Testing the Parallel Trends Assumption</h2><p>You can always test whether your data satisfies the parallel trends assumption by looking at it. In a practical environment, I have never really tested this assumption, for two big reasons (it is also why I personally think DiD is not a great method):</p>
+<ul>
+<li>If you need to test an assumption in your data, you are likely to have a problem with your data. If it is not obvious from some non-statistical argument or plot etc you are unlikely to be able to convince a stakeholder that it is a good assumption.</li>
+<li>The data required to test this assumption, usually invalidates its need. If you have data to test this assumption, you likely have enough data to run a more sophisticated model than DiD (like CUPED).</li>
+</ul>
+<p>Having said all that, here are some ways you can test the parallel trends assumption:</p>
+<ul>
+<li><p><strong>Visual Inspection:</strong></p>
+<ul>
+<li><p>Plot the average outcome variable over time for both the treatment and control groups, focusing on the pre-treatment period. If the trends appear roughly parallel before the intervention, this provides visual evidence supporting the parallel trends assumption.</p>
+</li>
+<li><p>Make sure any divergence between the groups only occurs after the treatment.</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Placebo Test:</strong></p>
+<ul>
+<li><p>Pretend the treatment occurred at a time prior to the actual intervention and re-run the DiD analysis. If you find a significant “effect” before the true treatment, this suggests that the parallel trends assumption may not hold.</p>
+</li>
+<li><p>Use a range of pre-treatment cutoff points and check if similar differences are estimated. Consistent non-zero results may indicate underlying trend differences unrelated to the actual treatment.</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Event Study Analysis (Dynamic DiD):</strong></p>
+<ul>
+<li><p>Extend the DiD model by including lead and lag indicators for the treatment. </p>
+</li>
+<li><p>If pre-treatment coefficients (leads) are close to zero and non-significant, it supports the parallel trends assumption. Large or statistically significant leads could indicate violations of the assumption.</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Formal Statistical Tests:</strong></p>
+<ul>
+<li><p>Run a regression on only the pre-treatment period, introducing an interaction term between time and group to test for significant differences in trends:</p>
+</li>
+<li><p>If the coefficient $\alpha_3$ on the interaction term is close to zero and statistically insignificant, this supports the parallel trends assumption. A significant $\alpha_3$ would indicate a pre-treatment trend difference, which would challenge the assumption.</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Covariate Adjustment (Conditional Parallel Trends):</strong></p>
+<ul>
+<li>If parallel trends don’t hold unconditionally, you might adjust for observable characteristics that vary between groups and influence the outcome. This is a more relaxed “conditional parallel trends” assumption, and you could check if trends are parallel after including covariates in the model.</li>
+</ul>
+</li>
+</ul>
+<p>If you can make all this work for you, great, I never have. In the dynamic world of recommendation engines (especially always ‘’online’’ recommendation engines) it is very difficult to find a reasonably good cut-off point for the placebo test. And the event study analysis is usually not very useful since the treatment is usually ongoing.</p>
+<h1 id="Peeking-and-Early-Stopping"><a href="#Peeking-and-Early-Stopping" class="headerlink" title="Peeking and Early Stopping"></a>Peeking and Early Stopping</h1><p>Your test is running, and you’re getting results—some look good, some look bad. Let’s say you decide to stop early and reject the null hypothesis because the data looked good. What could happen? Well, you shouldn’t. In short, you’re changing the power of the test. A quick simulation can show the difference: with early stopping or peeking, your rejection rate of the null hypothesis is much higher than the 0.05 you intended. This isn’t surprising since increasing the sample size raises the chance of rejecting the null when it’s true.</p>
+<p>The benefits of early stopping aren’t just about self-control. It can also help prevent a bad experiment from affecting critical guardrail metrics, letting you limit the impact while still gathering needed information. Another example is when testing expendable items. Think about a magazine of bullets: if you test by firing each bullet, you’re guaranteed they all work—but now you have no bullets left. So you might rephrase the experiment as, How many bullets do I need to fire to know this magazine works?</p>
+<p>In consulting you are going to peek early, you have to live with it. For one reason or another, a bug in production, an eager client whatever the case, you are going to peek, so you better prepare accordingly.</p>
+<div align="left">
+
+<h4 id="Simulated-Effect-of-Peeking-on-Experiment-Outcomes"><a href="#Simulated-Effect-of-Peeking-on-Experiment-Outcomes" class="headerlink" title="Simulated Effect of Peeking on Experiment Outcomes"></a>Simulated Effect of Peeking on Experiment Outcomes</h4><table>
+<thead>
+<tr>
+<th><img src="/2024/11/08/consulting-ab-testing/withoutPeeking.png" alt="Without Peeking"></th>
+<th><img src="/2024/11/08/consulting-ab-testing/withPeekingAfter100rounds.png" alt="With Peeking"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>(a) Without Peeking:</strong> $\frac{3}{100}$ reject null, $\alpha=0.05$</td>
+<td><strong>(b) With Peeking:</strong> $\frac{29}{100}$ reject null, $\alpha=0.05$</td>
+</tr>
+</tbody></table>
+</div>
+
+<p>Under a given null hypothesis, we run 100 simulations of experiments and record the z-statistic for each. We do this once without peeking and let the experiments run for $1000$ observations. In the peeking case, we stop whenever the z-statistic crosses the boundary but only after $100$th observation.</p>
+<h1 id="Sequential-Testing-for-Peeking"><a href="#Sequential-Testing-for-Peeking" class="headerlink" title="Sequential Testing for Peeking"></a>Sequential Testing for Peeking</h1><p>The Sequential Probability Ratio Test (SPRT) compares the likelihood ratio at the $n$-th observation, given by:</p>
+$$\Lambda_n = \frac{L(H_1 \mid x_1, x_2, \dots, x_n)}{L(H_0 \mid x_1, x_2, \dots, x_n)}$$
+
+<p>where $L(H_0 \mid x_1, x_2, \dots, x_n)$ and $L(H_1 \mid x_1, x_2, \dots, x_n)$ are the likelihood functions under the null hypothesis $H_0$ and the alternative hypothesis $H_1$, respectively.</p>
+<p>The test compares the likelihood ratio to two thresholds, $A$ and $B$, and the decision rule is:</p>
+$$\text{If } \Lambda_n \geq A, \text{ accept } H_1,$$ $$\text{If } \Lambda_n \leq B, \text{ accept } H_0,$$ $$\text{If } B < \Lambda_n < A, \text{ continue sampling}.$$
+
+<p>The thresholds $A$ and $B$ are determined based on the desired error probabilities. For a significance level $\alpha$ (probability of a Type I error) and power $1 - \beta$ (probability of detecting a true effect when $H_1$ is true), the thresholds are given by:</p>
+$$A = \frac{1 - \beta}{\alpha}, \quad B = \frac{\beta}{1 - \alpha}.$$
+
+<h3 id="Normal-Distribution"><a href="#Normal-Distribution" class="headerlink" title="Normal Distribution"></a>Normal Distribution</h3><p>This test is in practice a lot easier to carry out for certain distributions like the normal distribution, assume an unknown mean $\mu$ and known variance $\sigma^2$</p>
+$$\begin{aligned} H_0: \quad & \mu = 0 , \\ H_1: \quad & \mu = 0.1 \end{aligned}$$
+
+$$\mathcal L(\mu) = \left( \frac{1}{\sqrt{2 \pi} \sigma } \right)^n e^{- \sum_{i=1}^{n} \frac{(X_i - \mu)^2}{2 \sigma^2}}$$
+
+$$\Lambda(X) = \frac{\mathcal L (0.1, \sigma^2)}{\mathcal L (0, \sigma^2)} = \frac{e^{- \sum_{i=1}^{n} \frac{(X_i - 0.1)^2}{2 \sigma^2}}}{e^{- \sum_{i=1}^{n} \frac{(X_i)^2}{2 \sigma^2}}}$$
+
+<p>The sequential rule becomes the recurrent sum, $S_i$ (with $S_0=0$) $$S_{i} = S_{i-1} + \log(\Lambda_{i})$$</p>
+<p>With the stopping rule</p>
+<ul>
+<li>$S_i \geq b$ : Accept $H_1$
+</li>
+<li>$S_i\geq a$ : Accept $H_0$
+</li>
+<li>$a<S_i<b$ : continue</li>
+</ul>
+$a \approx \log {\frac {\beta }{1-\alpha }} \quad \text{and} \quad  b \approx \log {\frac {1-\beta }{\alpha }}$
+
+<p>There is another elegant method outlined in Evan Miller’s blog post, which I will not go into here but just state it for brevity (it is also used at Etsy, so there is certainly some benefit to it). It is a very good read and I highly recommend it.</p>
+<ul>
+<li>At the beginning of the experiment, choose a sample size $N$.</li>
+<li>Assign subjects randomly to the treatment and control, with 50% probability each.</li>
+<li>Track the number of incoming successes from the treatment group. Call this number $T$.</li>
+<li>Track the number of incoming successes from the control group. Call this number $C$.</li>
+<li>If $T−C$ reaches $2\sqrt{N}$, stop the test. Declare the treatment to be the winner.</li>
+<li>If $T+C$ reaches $N$, stop the test. Declare no winner.</li>
+<li>If neither of the above conditions is met, continue the test.</li>
+</ul>
+<p>Using these techniques you can “peek” at the test data as it comes in and decide to stop as per your requirement. This is very useful as the following simulation using this more complex criteria shows. Note that what you want to verify is two things,</p>
+<ul>
+<li><p>Does early stopping under the null hypothesis, accept the null in approximately $\alpha$ fraction of simulations once the stopping criteria is reached and does it do so<br><em>fast</em>.</p>
+</li>
+<li><p>Does early stopping under the alternative reject the null hypothesis in $1-\beta$ fraction of simulations and does it do so<br><em>fast</em>.</p>
+</li>
+</ul>
+<p>The answer to these two questions is not always symmetrical, and it seems that we need more samples to reject the null (case 2) versus accept it case 1. Which is as it should be! But in both cases, as the simulations below show, you need a significantly fewer number of samples than before.</p>
+<h2 id="CUPED-and-Other-Similar-Techniques"><a href="#CUPED-and-Other-Similar-Techniques" class="headerlink" title="CUPED and Other Similar Techniques"></a>CUPED and Other Similar Techniques</h2><p>Recall, our diff-in-diff equation, $$Y_{i,t} = \alpha + \beta D_i + \gamma \mathbb I (t=1) + \delta D_i * \mathbb I (t=1) + \varepsilon_{i,t}$$</p>
+<p>Diff in Diff is nothing but CUPED for $\theta=1$. I state this without proof. I was not able to find a clear one any where.</p>
+<p>Consider the auto-regression with control variates regression equation, $$Y_{i, t=1} = \alpha + \beta D_i + \gamma Y_{i, t=0} + \varepsilon_i$$ This is also NOT equivalent to CUPED, nor is it a special case. Again, I was not able to find a good proof anywhere.</p>
+<h1 id="Multiple-Hypotheses"><a href="#Multiple-Hypotheses" class="headerlink" title="Multiple Hypotheses"></a>Multiple Hypotheses</h1><p>In most of the introduction, we set the scene by considering only one hypotheses. However, in real life you may want to test multiple hypotheses at the same time.</p>
+<ul>
+<li><p>You may be testing multiple hypotheses even if you did not realize it, such as over time. In the example of early stopping you are actually checking multiple hypotheses. One at every time point.</p>
+</li>
+<li><p>You truly want to test multiple features of your product at the same time and want to run one test to see if the results got better.</p>
+</li>
+</ul>
+<h2 id="Regression-Model-Setup"><a href="#Regression-Model-Setup" class="headerlink" title="Regression Model Setup"></a>Regression Model Setup</h2><p>We consider a regression model with three treatments, $D_1$, $D_2$, and $D_3$, to study their effects on a continuous outcome variable, $Y$. The model is specified as: $$Y = \beta_0 + \beta_1 D_1 + \beta_2 D_2 + \beta_3 D_3 + \epsilon$$ where:</p>
+<ul>
+<li>$Y$ is the outcome variable,
+</li>
+<li>$D_1$, $D_2$, and $D_3$ are binary treatment indicators (1 if the treatment is applied, 0 otherwise),
+</li>
+<li>$\beta_0$ is the intercept,
+</li>
+<li>$\beta_1$, $\beta_2$, and $\beta_3$ are the coefficients representing the effects of treatments $D_1$, $D_2$, and $D_3$, respectively,
+</li>
+<li>$\epsilon$ is the error term, assumed to be normally distributed with mean 0 and variance $\sigma^2$.</li>
+</ul>
+<h2 id="Hypotheses-Setup"><a href="#Hypotheses-Setup" class="headerlink" title="Hypotheses Setup"></a>Hypotheses Setup</h2><p>We aim to test whether each treatment has a significant effect on the outcome variable $Y$. This involves testing the null hypothesis that each treatment coefficient is zero.</p>
+<p>The null hypotheses are formulated as follows: $$H_0^{(1)}: \beta_1 = 0$$ $$H_0^{(2)}: \beta_2 = 0$$ $$H_0^{(3)}: \beta_3 = 0$$</p>
+<p>Each null hypothesis represents the assumption that a particular treatment (either $D_1$, $D_2$, or $D_3$) has no effect on the outcome variable $Y$, implying that the treatment coefficient $\beta_i$ for that treatment is zero.</p>
+<h2 id="Multiple-Hypothesis-Testing"><a href="#Multiple-Hypothesis-Testing" class="headerlink" title="Multiple Hypothesis Testing"></a>Multiple Hypothesis Testing</h2><p>Since we are testing three hypotheses simultaneously, we need to control for the potential increase in false positives. We can use a multiple hypothesis testing correction method, such as the<br><strong>Bonferroni correction</strong> or the <strong>Benjamini-Hochberg procedure</strong>.</p>
+<h2 id="Bonferroni-Correction"><a href="#Bonferroni-Correction" class="headerlink" title="Bonferroni Correction"></a>Bonferroni Correction</h2><p>With the Bonferroni correction, we adjust the significance level $\alpha$ for each hypothesis test by dividing it by the number of tests $m = 3$. If we want an overall significance level of $\alpha = 0.05$, then each individual hypothesis would be tested at: $$\alpha_{\text{adjusted}} = \frac{\alpha}{m} = \frac{0.05}{3} = 0.0167$$</p>
+<h2 id="Benjamini-Hochberg-Procedure"><a href="#Benjamini-Hochberg-Procedure" class="headerlink" title="Benjamini-Hochberg Procedure"></a>Benjamini-Hochberg Procedure</h2><p>Alternatively, we could apply the Benjamini-Hochberg procedure to control the False Discovery Rate (FDR). The procedure involves sorting the p-values from smallest to largest and comparing each p-value $p_i$ with the threshold: $$p_i \leq \frac{i}{m} \cdot \alpha$$ where $i$ is the rank of the p-value and $m$ is the total number of tests. We declare all hypotheses with p-values meeting this criterion as significant. This framework allows us to assess the individual effects of $D_1$, $D_2$, and $D_3$ while properly accounting for multiple hypothesis testing.</p>
+<h1 id="Variance-Reduction-CUPED"><a href="#Variance-Reduction-CUPED" class="headerlink" title="Variance Reduction: CUPED"></a>Variance Reduction: CUPED</h1><p>When analyzing the effectiveness of a recommender system, sometimes your metrics are skewed by high variance in the metric i.e. $Y_i$. One easy way to fix this is by using the usual outlier removal suite of techniques. However, outlier removal is a difficult thing to statistically define, and very often you may be losing “whales”. Customers who are truly large consumers of a product. One easy way to do this would be to normalize the metric by its mean, i.e. $Y_i = \frac{Y_i}{\bar Y}$. Any even better way to do this would be to normalize the metric by that users own mean, i.e. $Y_i = \frac{Y_i}{\bar Y_i}$. This is the idea behind CUPED.</p>
+<p>Consider, the regression form of the treatment equation,</p>
+$$Y_{i, t=1} = \alpha + \beta D_i + \varepsilon_i$$
+
+<p>Assume you have data about the metric from before, and have values $Y_{i,t=0}$. Where the subscript denoted the $i$ individuals outcome, before the experiment was even run, $t=1$.</p>
+$$
+\hat Y^{cuped}\_{t=1} = \theta\bar Y_{t=0} + \theta \mathbb E [Y_{t=0} ]
+$$
+
+<p>This is like running a regression of $Y_{t=1}$ on $Y_{t=0}$.</p>
+$$
+Y\_{i, t=1} = \theta Y_{i, t=0} + \hat Y^{cuped}_{i, t=1}
+$$
+<p>Now, use those residuals in the treatment equation above,</p>
+$$
+\hat Y^{cuped}_{i, t=1} = \alpha + \beta D_i + \varepsilon_i
+$$
+
+<p>And then estimate the treatment effect.</p>
+<p>The statistical theory behind CUPED is fairly simple and setting up the regression equation is not difficult. However, in my experience, choosing the right window for pre-treatment covariates is extremely difficult, choose the right window and you reduce your variance by a lot. The right window depends a lot on your business. Some key considerations,</p>
+<ul>
+<li>Sustained purchasing behavior is a key requirement. If the $Y_{t=0}$ is not a good predictor of $Y_{t=1}$ for the interval $t=0$ to $t=1$ then the variance of $Y^{cuped}$ will be high. Defeating the purpose.</li>
+<li>Longer windows come with computational costs.</li>
+<li>In practice, because companies are testing things all the time you could have noise left over from a previous experiment that you need to randomize&#x2F; control for.</li>
+</ul>
+<h2 id="Simulating-CUPED"><a href="#Simulating-CUPED" class="headerlink" title="Simulating CUPED"></a>Simulating CUPED</h2><p>One way you can guess a good pre-treatment window is by simulating the treatment effect for various levels of MDEs (the change you expect to see in $Y_i$) and plot the probability of rejecting the alternative hypothesis if it is true i.e. Power.</p>
+<p><img src="/2024/11/08/consulting-ab-testing/variance_reduction_vs_Lift.png" alt="MDE vs Power for 2 Different Metrics"></p>
+<p>So you read off your hypothesized MDE and Power, and then every point to the left of that is a good window. As an example, lets say you know your MDE to be $3\%$ and you want a power of $0.8$, then your only option is the 16 week window. Analogously, if you have an MDE of $5\%$ and you want a power of $0.8$, then the conventional method (with no CUPED) is fine as you can attain an MDE of $4\%$ with a power of $0.8$. Finally, if you have an MDE of $4\%$ and you want a power of $0.8$ then a 1 week window is fine.</p>
+<p>Finally, you can check that you have made the right choice by plotting the variance reduction factor against the pre-period (weeks) and see if the variance reduction factor is high.</p>
+<p>CUPED is a very powerful technique, but if I could give one word of advice to anyone trying to do it, it would be this:<br><em>get the pre-treatment window<br>right</em>. This has more to do with business intelligence than with statistics. In this specific example longer windows gave higher variance reduction, but I have seen cases where a “sweet spot” exists.</p>
+<h1 id="Variance-Reduction-CUPAC"><a href="#Variance-Reduction-CUPAC" class="headerlink" title="Variance Reduction: CUPAC"></a>Variance Reduction: CUPAC</h1><p>As it turns out we can control variance, by other means using the same principle as CUPED. The idea is to use a control variate that is not a function of the treatment. Recall, the regression equation we ran for CUPED, $$
+Y\_{i, t=1} = \theta Y_{i, t=0} + \hat Y^{cuped}_{i, t=1}
+$$ Generally speaking, this is often posed as finding some $X$ that is uncorrelated with the treatment but correlated with $Y$.</p>
+$$
+Y\_{i, t=1} = \theta X_{i, t=0} + \hat Y^{cuped}_{i, t=1}
+$$
+
+<p>You could use<br><em>any</em> $X$ that is uncorrelated with the treatment but correlated with $Y$. An interesting thing to try would be to fit a highly non-linear machine learning model to $Y_t$ (such as random forest, XGBoost) using a set of observable variables $Z_t$, call it $f(Z_t)$. Then use $f(Z_t)$ as your $X$.</p>
+$$
+Y\_{i, t=1} = \theta f(Z_{i,t=1}) + \hat Y^{cuped}_{i, t=1}
+$$
+
+<p>Notice here two things, - that $f(Y)$ is not a function of $D_i$ but is a function of $Y_i$. - that $f(Z)$ does not (necessarily) need any data from $t=0$ to be calculated, so it is okay, if<br><em>no pre-treatment data<br>exists</em>! - if pre-treatment data exists then you can use it to fit $f(Z)$ and then use it to predict $Y$ at $t=1$ as well, so it can only enhance the performance of your fit and thereby reduce variance even more.</p>
+<p>If you really think about it, any process to create pre-treatment covariates inevitably involves finding some $X$ highly correlated with outcome and uncorrelated with treatment and controlling for that. In CUPAC we just dump all of that into one ML model and let the model figure out the best way to control for variance using all the variables we threw in it.</p>
+<p>I highly recommend CUPAC over CUPED, it is a more general technique and can be used in a wider variety of situations. If you really want to, you can throw $Y_{t=0}$ into the mix as well!</p>
+<h2 id="A-Key-Insight-Recommendation-Engines-and-CUPAC-CUPED"><a href="#A-Key-Insight-Recommendation-Engines-and-CUPAC-CUPED" class="headerlink" title="A Key Insight: Recommendation Engines and CUPAC&#x2F; CUPED"></a>A Key Insight: Recommendation Engines and CUPAC&#x2F; CUPED</h2><p>Take a step back and think about what $f(Z)$ is<br><em>really</em> saying in context of a recommender system, it is saying given some $Z$ can I predict my outcome metric. Let us say the outcome metric is some $G(Y)$, where $Y$ is sales.</p>
+$$
+G(Y) = G(f(Z)) + \varepsilon
+$$
+
+<p>What is a recommender system? It takes some $Z$ and predicts $Y$.</p>
+$$
+\hat Y = r(Z) + \varepsilon'
+$$
+
+$$
+G(\hat Y) = G(r(Z)) + \varepsilon''
+$$
+
+<p>This basically means that a pretty good function to control for variance is a recommender system itself! Now you can see why CUPAC is so powerful, it is a way to control for variance using a recommender system itself. You have all the pieces ready for you. HOWEVER! You cannot use the recommender system you are currently testing as your $f(Z)$, that would be mean that $D_i$ is correlated with $f(Z)$ and that would violate the assumption of uncorrelatedness. Usually, the existing recommender system (the pre-treatment one) can be used for this purpose. The finally variable $Y^{cupac}$ then has a nice interpretation it is not the difference between what people<br><em>truly</em> did and the recommended value, but rather the difference between the two recommender systems! Any model is a variance reduction model, it is just a question of how much variance it reduces. Since the existing recommender system is good enough it is likely to reduce a lot of variance. If it is terrible (which is why they hired you in the first place) then this approach is unlikely to work. But in my experience, existing recommendations are always pretty good in the industry it is a question of finding those last few drops of performance increase.</p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>The above are pretty much all you can expect to find in terms of evaluating models in Consulting. In my experience considering all the possibilities that would undermine your test are worth thinking about <em>before</em> embarking on the AB test. </p>
+</div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/a-b-testing/">a-b-testing</a><a class="link-muted mr-2" rel="tag" href="/tags/statistics/">statistics</a><a class="link-muted mr-2" rel="tag" href="/tags/experimentation/">experimentation</a><a class="link-muted mr-2" rel="tag" href="/tags/recommender-systems/">recommender-systems</a><a class="link-muted mr-2" rel="tag" href="/tags/causal-inference/">causal-inference</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2024/12/17/matching-matlabs-resample/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Matching MATLAB&#039;s resample function in Python</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2024/10/22/singularities/"><span class="level-item">A Short Note on Singularities in Physics and Mathematics</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card" id="comments"><div class="card-content"><h3 class="title is-5">Comments</h3><script src="https://giscus.app/client.js" repo="FranciscoRMendes/FranciscoRMendes.github.io" data-repo="FranciscoRMendes/FranciscoRMendes.github.io" data-repo-id="REPLACE_WITH_REPO_ID" data-category-id="REPLACE_WITH_CATEGORY_ID" data-category="Announcements" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="noborder_light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/gallery/DSC00878.jpg" alt="Francisco Romaldo Mendes"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">Francisco Romaldo Mendes</p><p class="is-size-6 is-block">Senior ML Engineer</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Chicago, Illinois</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="/archives/"><p class="title">31</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/categories/"><p class="title">9</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="/tags/"><p class="title">41</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="me noopener">Follow</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Github" href="https://github.com/FranciscoRMendes"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">Links</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://cri.uchicago.edu/portfolio/thirty-million-words/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">TMW Center</span></span><span class="level-right"><span class="level-item tag">cri.uchicago.edu</span></span></a></li><li><a class="level is-mobile" href="https://www.linkedin.com/in/franciscormendes/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">LinkedIn</span></span><span class="level-right"><span class="level-item tag">www.linkedin.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/autonomous-vehicles/"><span class="level-start"><span class="level-item">autonomous-vehicles</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/autonomous-vehicles/machine-learning/"><span class="level-start"><span class="level-item">machine-learning</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/book-review/"><span class="level-start"><span class="level-item">book-review</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/economics/"><span class="level-start"><span class="level-item">economics</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/machine-learning/"><span class="level-start"><span class="level-item">machine-learning</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/categories/mathematics/"><span class="level-start"><span class="level-item">mathematics</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/opinion/"><span class="level-start"><span class="level-item">opinion</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/physics/"><span class="level-start"><span class="level-item">physics</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/statistics/"><span class="level-start"><span class="level-item">statistics</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><figure class="media-left"><a class="image" href="/2026/03/07/acoustic-sensor-fusion/"><img src="/gallery/thumbnails/SWS.jpg" alt="Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-03-07T00:00:00.000Z">2026-03-07</time></p><p class="title"><a href="/2026/03/07/acoustic-sensor-fusion/">Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles</a></p><p class="categories"><a href="/categories/autonomous-vehicles/">autonomous-vehicles</a> / <a href="/categories/autonomous-vehicles/machine-learning/">machine-learning</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2026/02/28/quantum-fourier-transform/"><img src="/gallery/thumbnails/qft_cover.png" alt="From Bits to Clocks: A Visual Intuition for the Quantum Fourier Transform"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-02-28T00:00:00.000Z">2026-02-28</time></p><p class="title"><a href="/2026/02/28/quantum-fourier-transform/">From Bits to Clocks: A Visual Intuition for the Quantum Fourier Transform</a></p><p class="categories"><a href="/categories/mathematics/">mathematics</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2026/02/20/ssd-career-conference/"><img src="/gallery/thumbnails/career_conference_notes.jpeg" alt="Signaling, Skills, and Intellectual Health in the Age of AI: Thoughts from UChicago Career Conference 2026"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-02-20T00:00:00.000Z">2026-02-20</time></p><p class="title"><a href="/2026/02/20/ssd-career-conference/">Signaling, Skills, and Intellectual Health in the Age of AI: Thoughts from UChicago Career Conference 2026</a></p><p class="categories"><a href="/categories/opinion/">opinion</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2025/12/16/3d-coastline-paradox/"><img src="/gallery/thumbnails/telegraph-hill.webp" alt="Telegraph Hill and the Coastline Paradox: Measuring a City in Fractional Dimensions"></a></figure><div class="media-content"><p class="date"><time dateTime="2025-12-16T00:00:00.000Z">2025-12-16</time></p><p class="title"><a href="/2025/12/16/3d-coastline-paradox/">Telegraph Hill and the Coastline Paradox: Measuring a City in Fractional Dimensions</a></p><p class="categories"><a href="/categories/mathematics/">mathematics</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2025/12/06/convolution/"><img src="/gallery/thumbnails/2D%20Fourier%20Transform.jpg" alt="Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain"></a></figure><div class="media-content"><p class="date"><time dateTime="2025-12-06T00:00:00.000Z">2025-12-06</time></p><p class="title"><a href="/2025/12/06/convolution/">Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain</a></p><p class="categories"><a href="/categories/machine-learning/">machine-learning</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2026/03/"><span class="level-start"><span class="level-item">March 2026</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2026/02/"><span class="level-start"><span class="level-item">February 2026</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/12/"><span class="level-start"><span class="level-item">December 2025</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/11/"><span class="level-start"><span class="level-item">November 2025</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/09/"><span class="level-start"><span class="level-item">September 2025</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/02/"><span class="level-start"><span class="level-item">February 2025</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/12/"><span class="level-start"><span class="level-item">December 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/11/"><span class="level-start"><span class="level-item">November 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/10/"><span class="level-start"><span class="level-item">October 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/09/"><span class="level-start"><span class="level-item">September 2024</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/08/"><span class="level-start"><span class="level-item">August 2024</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/07/"><span class="level-start"><span class="level-item">July 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/05/"><span class="level-start"><span class="level-item">May 2024</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/11/"><span class="level-start"><span class="level-item">November 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/01/"><span class="level-start"><span class="level-item">January 2022</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/machine-learning/"><span class="tag">machine-learning</span><span class="tag">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/embedded-ml/"><span class="tag">embedded-ml</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mathematics/"><span class="tag">mathematics</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/economics/"><span class="tag">economics</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/low-rank-approximation/"><span class="tag">low-rank-approximation</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/model-compression/"><span class="tag">model-compression</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/signal-processing/"><span class="tag">signal-processing</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/statistics/"><span class="tag">statistics</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/recommender-systems/"><span class="tag">recommender-systems</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/book-review/"><span class="tag">book-review</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/politics/"><span class="tag">politics</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/experimentation/"><span class="tag">experimentation</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/convolutional-neural-networks/"><span class="tag">convolutional-neural-networks</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/fiction/"><span class="tag">fiction</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lora/"><span class="tag">lora</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/philosophy/"><span class="tag">philosophy</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/physics/"><span class="tag">physics</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/career/"><span class="tag">career</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/a-b-testing/"><span class="tag">a-b-testing</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/causal-inference/"><span class="tag">causal-inference</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/fourier-transform/"><span class="tag">fourier-transform</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/graph-neural-networks/"><span class="tag">graph-neural-networks</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/game-theory/"><span class="tag">game-theory</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/essay/"><span class="tag">essay</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/quantization/"><span class="tag">quantization</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/reinforcement-learning/"><span class="tag">reinforcement-learning</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/neural-networks/"><span class="tag">neural-networks</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/artificial-intelligence/"><span class="tag">artificial-intelligence</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/fractals/"><span class="tag">fractals</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/autonomous-vehicles/"><span class="tag">autonomous-vehicles</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sensor-fusion/"><span class="tag">sensor-fusion</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bayesian-statistics/"><span class="tag">bayesian-statistics</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/history/"><span class="tag">history</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/spectral-methods/"><span class="tag">spectral-methods</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/football/"><span class="tag">football</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sports/"><span class="tag">sports</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/matching/"><span class="tag">matching</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/general-relativity/"><span class="tag">general-relativity</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/quantum-computing/"><span class="tag">quantum-computing</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/algorithms/"><span class="tag">algorithms</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/policy/"><span class="tag">policy</span><span class="tag">1</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">Subscribe for updates</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">follow.it</h3><form action="" method="post" target="_blank"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/gallery/favicon-32x32.png" alt="Hexo" height="28"></a><p class="is-size-7"><span>&copy; 2026 Francisco Romaldo Fernandes Mendes</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/javascript" id="MathJax-script" async>MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      chtml: {
+        matchFontHeight: false
+      }
+    };</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script><!--!--><script>
+      var sc_project=13006621;
+      var sc_invisible=1;
+      var sc_security="b56ff72f";
+      var sc_https=1;
+      var sc_remove_link=1;</script><script src="https://www.statcounter.com/counter/counter.js" async></script><noscript><div class="statcounter"><img class="statcounter" src="https://c.statcounter.com/13006621/0/b56ff72f/1/" alt="real time web analytics"></div></noscript><!--!--><script data-pjax src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>

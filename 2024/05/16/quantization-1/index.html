@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>A Manual Implementation of Quantization in PyTorch - Single Layer - Hexo</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Hexo"><meta name="msapplication-TileImage" content="/gallery/logo.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Hexo"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="A manual implementation of quantization in PyTorch."><meta property="og:type" content="blog"><meta property="og:title" content="A Manual Implementation of Quantization in PyTorch - Single Layer"><meta property="og:url" content="http://example.com/2024/05/16/quantization-1/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="A manual implementation of quantization in PyTorch."><meta property="og:locale" content="en_US"><meta property="og:image" content="http://example.com/gallery/thumbnails/quantization.png"><meta property="article:published_time" content="2024-05-16T00:00:00.000Z"><meta property="article:modified_time" content="2026-04-10T11:52:56.844Z"><meta property="article:author" content="Francisco Romaldo Fernandes Mendes"><meta property="article:tag" content="machine-learning"><meta property="article:tag" content="embedded-ml"><meta property="article:tag" content="model-compression"><meta property="article:tag" content="quantization"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="http://example.com/gallery/thumbnails/quantization.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2024/05/16/quantization-1/"},"headline":"A Manual Implementation of Quantization in PyTorch - Single Layer","image":["http://example.com/gallery/thumbnails/quantization.png"],"datePublished":"2024-05-16T00:00:00.000Z","dateModified":"2026-04-10T11:52:56.844Z","author":{"@type":"Person","name":"Francisco Romaldo Fernandes Mendes"},"publisher":{"@type":"Organization","name":"Hexo","logo":{"@type":"ImageObject","url":"http://example.com/gallery/favicon-32x32.png"}},"description":"A manual implementation of quantization in PyTorch."}</script><link rel="canonical" href="http://example.com/2024/05/16/quantization-1/"><link rel="icon" href="/gallery/logo.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link data-pjax rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-N4MSXT4WL6" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-N4MSXT4WL6');</script><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/custom.css"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/gallery/favicon-32x32.png" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a><a class="navbar-item" href="/curriculum">Curriculum</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/FranciscoRMendes"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/gallery/thumbnails/quantization.png" alt="A Manual Implementation of Quantization in PyTorch - Single Layer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-05-16T00:00:00.000Z" title="5/16/2024, 12:00:00 AM">2024-05-16</time></span><span class="level-item">Updated&nbsp;<time dateTime="2026-04-10T11:52:56.844Z" title="4/10/2026, 11:52:56 AM">2026-04-10</time></span><span class="level-item"><a class="link-muted" href="/categories/machine-learning/">machine-learning</a></span><span class="level-item">27 minutes read (About 4019 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">A Manual Implementation of Quantization in PyTorch - Single Layer</h1><div class="content"><h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>The packaging of extremely complex techniques inside convenient wrappers in PyTorch often makes quick implementations fairly easy, it also removes the need to understand the inner workings of the code. However, this obfuscates the theory of why such things work and why they are important to us. For instance, for neither love or money, could I figure out what a QuantStub and a DeQuant Stub really do and how to replicate that using pen and paper. In embedded systems one often has to code up certain things <em>from scratch</em>, as it were and sometimes PyTorch’s “convenience” can be a major impediment to understanding the underlying theory. In the code below, I will show you how to quantize a single layer of a neural network using PyTorch. And explain each step in excruciating detail. At the end of this article you will be able to implement quantization in PyTorch (or indeed <em>any</em> other library) but crucially, you will be able to do it <em>without</em> using any quantize layers, you can essentially use the usual “vanilla” layers. But before that we need to understand how or why quantization is important.</p>
+<h1 id="Quantization"><a href="#Quantization" class="headerlink" title="Quantization"></a>Quantization</h1><p>The process of quantization is the process of reducing the number of bits that represent a number. This usually means we want to use an integer instead of a real number, that is, you want to go from using a floating point number to an integer. It is important to note that the reason for this is because of the way we multiply numbers in embedded systems. This has to do with both the physics and the chemistry of a half-adder and a full adder. It just takes longer to multiply two floats together than it does to multiply two integers together. For instance, multiplying $2.55\times 1.28$ is a much more complex operation than multiplying $255 \times 128$. So it is not simply a consequence of reducing the “size” of the number. In the future, I will write a blog post about why physics has a lot to do with why this is. </p>
+<h1 id="Outline"><a href="#Outline" class="headerlink" title="Outline"></a>Outline</h1><p>I start with the intuition behind Quantization using a helpful example. And then I outline a manual implementation of quantization in PyTorch. So what exactly does “manual” mean?</p>
+<ol>
+<li>I will take a given, assumed pre-trained, PyTorch model (1 Fully connected layer with no bias) that has been quantized using PyTorch’s quantization API.</li>
+<li>I will extract the weights of the layer and quantize them manually using the scale and zero point from the PyTorch quantization API.</li>
+<li>I will quantize the input to the layer manually, using the same scale and zero point as the PyTorch quantization API.</li>
+<li>I will construct a “vanilla” fully connected layer (as opposed to the quantized layer in step 1) and multiply the quantized weights and input to get the output.</li>
+<li>I will compare the output of the quantized layer from step 1 with the output of the “vanilla” layer from step 4.</li>
+</ol>
+<p>This will inherently allow you to understand the following :</p>
+<ol>
+<li>How to quantize a layer in PyTorch and what quantizing in PyTorch really means. </li>
+<li>Some potentially confusing issues about <em>what</em> is being quantized, <em>how</em> and <em>why</em>.</li>
+<li>What does the QuantStub and DeQuantStub really do and how to replicate that using pen and paper.</li>
+</ol>
+<p>At the end of this article you should be able to :</p>
+<ol>
+<li>Understand Quantization conceptually. </li>
+<li>Understand PyTorch’s quantization API.</li>
+<li>Implement quantization manually in PyTorch.</li>
+<li>Implement a Quantized Neural Network in PyTorch without using PyTorch’s quantization API.</li>
+</ol>
+<h1 id="Intuition-behind-Quantization"><a href="#Intuition-behind-Quantization" class="headerlink" title="Intuition behind Quantization"></a>Intuition behind Quantization</h1><p>The best way to think about quantization is to think of it through an example. Let’s say you own a store, and you are printing labels for the prices of objects, but you want to economize on the number of labels you print. Assume here for simplicity that you can print a label that shows a price lower than the price of the product but not more. If you print tags for 0.20 cents, you get the following table, which shows a loss of 0.97 by printing 6 labels. This obviously didn’t save you much as you might as well have printed $6$ labels with the original prices and lost $0$ in sales.</p>
+<table>
+<thead>
+<tr>
+<th>Price</th>
+<th>Tags</th>
+<th>Loss</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.99</td>
+<td>1.8</td>
+<td>-0.19</td>
+</tr>
+<tr>
+<td>2.00</td>
+<td>2</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>0.59</td>
+<td>0.4</td>
+<td>-0.19</td>
+</tr>
+<tr>
+<td>12.30</td>
+<td>12</td>
+<td>-0.30</td>
+</tr>
+<tr>
+<td>8.50</td>
+<td>8.4</td>
+<td>-0.10</td>
+</tr>
+<tr>
+<td>8.99</td>
+<td>8.8</td>
+<td>-0.19</td>
+</tr>
+<tr>
+<td></td>
+<td>6</td>
+<td>-0.97</td>
+</tr>
+</tbody></table>
+<p>Maybe we can be more aggressive, by choosing tags rounded to the nearest dollar instead, we can obviously lose more money but we save on one whole tag!</p>
+<table>
+<thead>
+<tr>
+<th>Price</th>
+<th>Tags</th>
+<th>Loss</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.99</td>
+<td>1</td>
+<td>-0.99</td>
+</tr>
+<tr>
+<td>2.00</td>
+<td>2</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>0.59</td>
+<td>0</td>
+<td>-0.59</td>
+</tr>
+<tr>
+<td>12.30</td>
+<td>12</td>
+<td>-0.30</td>
+</tr>
+<tr>
+<td>8.50</td>
+<td>8</td>
+<td>-0.50</td>
+</tr>
+<tr>
+<td>8.99</td>
+<td>8</td>
+<td>-0.99</td>
+</tr>
+<tr>
+<td></td>
+<td>5</td>
+<td>-3.37</td>
+</tr>
+</tbody></table>
+<p>How about an even more aggressive one? We round to the nearest $10$ dollars and use just two tags. But then we are stuck with a massive loss of $24$ dollars. </p>
+<table>
+<thead>
+<tr>
+<th>Price</th>
+<th>Tags</th>
+<th>Loss</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.99</td>
+<td>0</td>
+<td>-1.99</td>
+</tr>
+<tr>
+<td>2.00</td>
+<td>0</td>
+<td>-2.00</td>
+</tr>
+<tr>
+<td>0.59</td>
+<td>0</td>
+<td>-0.59</td>
+</tr>
+<tr>
+<td>12.30</td>
+<td>10</td>
+<td>-2.30</td>
+</tr>
+<tr>
+<td>8.50</td>
+<td>0</td>
+<td>-8.50</td>
+</tr>
+<tr>
+<td>8.99</td>
+<td>0</td>
+<td>-8.99</td>
+</tr>
+<tr>
+<td></td>
+<td>2</td>
+<td>-24.37</td>
+</tr>
+</tbody></table>
+<p>In this example, the price tags represent memory units and each price tag printed costs a certain amount of memory. Obviously, printing as many price tags as there are goods results in no loss of money but also the worst possible outcome as far as memory is concerned. Going the other way reducing the number of tags results in the largest loss in money.</p>
+<h1 id="Quantization-as-an-Unbounded-Optimization-Problem"><a href="#Quantization-as-an-Unbounded-Optimization-Problem" class="headerlink" title="Quantization as an (Unbounded) Optimization Problem"></a>Quantization as an (Unbounded) Optimization Problem</h1><p>Clearly, this calls for an optimization problem, so we can set up the following one : let $f(x)$ be the quantization function , then the loss is as follows, $$L = (f(x) - x) + \lambda |\phi (X)|$$</p>
+<p>Where $\phi(X)$ is a count of the unique values that $f(x)$ over the entire interval of, $x \in \{x_{min}, x_{max}\}$.</p>
+<h3 id="Issues-with-finding-a-solution"><a href="#Issues-with-finding-a-solution" class="headerlink" title="Issues with finding a solution"></a>Issues with finding a solution</h3><p>A popular assumption is to assume that the function is a rounding of a linear transformation. The constraint that minimizes $\phi(X)$ is difficult since the function is unbounded. We could solve this if we knew at least two points at which we knew the expected output for the quantization problem, but we do not, since there is no bound on the highest tag we can print. If we could impose a bound on the problem, we could evaluate the function at the two bounds and solve it. Thus setting a bound seems to solve both problems.</p>
+<h1 id="Quantization-as-Bounded-Optimization-Problem"><a href="#Quantization-as-Bounded-Optimization-Problem" class="headerlink" title="Quantization as Bounded Optimization Problem"></a>Quantization as Bounded Optimization Problem</h1><p>In the previous section, our goal was to reduce the number of price tags we print, but it was not a bounded problem. In your average grocery story prices could run between $0$ dollars and a $1500$ dollars. Using the scheme above you could certainly print fewer labels. But you could also end up printing a large number of labels in absolute terms. You could do one better by pre-determining the number of labels you want to print. Let us then, set some bounds on the number of labels we want to print, consider the labels you want to print as $x = \{-1, 0, 1, 2\}$, this is fairly aggressive. Again we can set up the optimization problem as follows (there is no need to minimze $\phi(X)$, the count of unique labels for now, since we are defining that ourselves), $$L = (\text{round}(\frac{1}{s} x + z) - x)$$ where $s$ is the scale and $z$ is the zero point. $$x_q = \text{round}(\frac{1}{s} x + z)$$ It must be true that, $$\text{round}(\frac{1}{s} x_{min} + z) = x_{q,min}$$ $$\text{round}(\frac{1}{s} x_{max} + z) = x_{q,max}$$ Evaluating the above equations gives us the general solution $$\text{round}(\frac{1}{s}*0.59 + z) = -1$$ $$\text{round}(\frac{1}{s}*12.30 + z) = 2$$ This gives us the solution, $$s = 3.9033$$ $$z = -1$$.</p>
+<table>
+<thead>
+<tr>
+<th>Price</th>
+<th>Label</th>
+<th>Loss</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.99</td>
+<td>0</td>
+<td>-1.99</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+<td>-2</td>
+</tr>
+<tr>
+<td>0.59</td>
+<td>-1</td>
+<td>-1.59</td>
+</tr>
+<tr>
+<td>12.3</td>
+<td>2</td>
+<td>-10.3</td>
+</tr>
+<tr>
+<td>8.5</td>
+<td>1</td>
+<td>-7.5</td>
+</tr>
+<tr>
+<td>8.99</td>
+<td>1</td>
+<td>-7.99</td>
+</tr>
+<tr>
+<td></td>
+<td>4</td>
+<td>-31.37</td>
+</tr>
+</tbody></table>
+<p>This gives the oft quoted quantization formula, $$x_q = \text{round}(\frac{1}{s}x + z)$$ Similarly, we get reverse the formula to get the dequantization formula i.e. starting from a quantized value we can guess what the original value must have been, $$x = s(x_q -z)$$ This is obviously lossy.</p>
+<h1 id="Implication-of-Quantization"><a href="#Implication-of-Quantization" class="headerlink" title="Implication of Quantization"></a>Implication of Quantization</h1><p>We have shown that given some prices, we can quantize them to a smaller set of labels. Thus saving on the cost of labels. What if you remembered $s$ and $z$ and then you used the dequantization formula to guess what the original price was and charge the customer <em>that</em> amount? This way you can save on the number of labels, but you can get closer to the original price by just writing down $s$ and $z$ and using the dequantization formula. We can actually do a better job with prices as well as saving on the number of labels. However, this is lossy, and you will lose some money. In this example, we notice that we consider charging more or less than the actual price as a loss both ways, to keep things simple.</p>
+<table>
+<thead>
+<tr>
+<th>Price</th>
+<th>Label</th>
+<th>Loss</th>
+<th>DeQuant</th>
+<th>De-q loss</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.99</td>
+<td>0</td>
+<td>1.99</td>
+<td>3.90</td>
+<td>1.91</td>
+</tr>
+<tr>
+<td>2.00</td>
+<td>0</td>
+<td>2.00</td>
+<td>3.90</td>
+<td>1.90</td>
+</tr>
+<tr>
+<td>0.59</td>
+<td>-1</td>
+<td>1.59</td>
+<td>0.00</td>
+<td>0.59</td>
+</tr>
+<tr>
+<td>12.30</td>
+<td>2</td>
+<td>10.3</td>
+<td>11.71</td>
+<td>0.59</td>
+</tr>
+<tr>
+<td>8.50</td>
+<td>1</td>
+<td>7.50</td>
+<td>7.80</td>
+<td>0.69</td>
+</tr>
+<tr>
+<td>8.99</td>
+<td>1</td>
+<td>7.99</td>
+<td>7.80</td>
+<td>1.18</td>
+</tr>
+<tr>
+<td></td>
+<td>4</td>
+<td>31.37</td>
+<td></td>
+<td>6.87</td>
+</tr>
+</tbody></table>
+<h1 id="Quantization-of-Matrix-Multiplication"><a href="#Quantization-of-Matrix-Multiplication" class="headerlink" title="Quantization of Matrix Multiplication"></a>Quantization of Matrix Multiplication</h1><p>Using this we can create a recipe for quantization to help us in the case of neural networks. Recall that the basic unit of a neural network is the operation, $$y = WX$$</p>
+<p>We can apply quantization to the weights and the input ($W_q, X_q$). We can then use dequantization to get the output.</p>
+$$y = s_w(W_q-z_w)\cdot s_x(X_q-z_x)$$ $$y = s_w s_x (W_q-z_w) \cdot (X_q-z_x)$$
+
+<p>Our goal of trying to avoid the floating point multiplication between $WX$ can now be achieved by replacing them with their respective quantized values and scaling and subtracting the zero point to get the final output. Here, $W_q$ and $X_q$ are quantized matrices and thus the multiplication operation (after multiplying it out) is now not between two floating point matrices $W$ and $X$ but between $W_q$ and $X_q$. Which are both integer matrices. This allows us to save on memory and computation since it is cheaper to multiply integers together than it is to multiple floats. However, in practice since, $z_x, z_w$ are also integers, $(W-z_w) \cdot (X-z_x)$ is also an integer multiplication, so we just use that mulitplication instead of multiplying out the whole thing.</p>
+<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><p>Consider the following original,</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">M</span>(torch.nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>(M, self).__init__()</span><br><span class="line">        <span class="comment"># QuantStub converts tensors from floating point to quantized</span></span><br><span class="line">        self.quant = torch.quantization.QuantStub()</span><br><span class="line">        self.fc = torch.nn.Linear(<span class="number">2</span>, <span class="number">2</span>, bias=<span class="literal">False</span>)</span><br><span class="line">        <span class="comment"># DeQuantStub converts tensors from quantized to floating point</span></span><br><span class="line">        self.dequant = torch.quantization.DeQuantStub()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, X</span>):</span><br><span class="line">        <span class="comment"># manually specify where tensors will be converted from floating</span></span><br><span class="line">        <span class="comment"># point to quantized in the quantized model</span></span><br><span class="line">        X = self.quant(X)</span><br><span class="line">        x = self.fc(X) <span class="comment"># [[124.,  36.]</span></span><br><span class="line">        <span class="comment"># manually specify where tensors will be converted from quantized</span></span><br><span class="line">        <span class="comment"># to floating point in the quantized model</span></span><br><span class="line">        x = self.dequant(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
+
+<p>Now consider, the manual quantization of the weights and the input. <code>model_int8</code> represents the quantized model. The <code>QuantM2</code> class is the manual quantization of the model. The <code>prepare_model</code> function uses PyTorch convenience functions for quantization of the weights and the input i.e. get $W_q, X_q, s_w, s_x, z_w, z_x$, from this model and compute the other steps. You can calculate these yourself as well, using the distributions of the input data and activation functions. The <code>quantize_tensor_unsigned</code> function is the manual quantization of the input tensor. The <code>pytorch_result</code> function is that computes the output of the fully connected layer of the PyTorch quantized model. The <code>forward</code> function is the manual quantization of the forward pass of the model.  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">prepare_model</span>(<span class="params">model_fp32, input_fp32</span>):</span><br><span class="line">    <span class="comment"># model must be set to eval mode for static quantization logic to work</span></span><br><span class="line">    model_fp32.<span class="built_in">eval</span>()</span><br><span class="line">    model_fp32.qconfig = torch.quantization.QConfig(</span><br><span class="line">        activation=MinMaxObserver.with_args(dtype=torch.quint8),</span><br><span class="line">        weight=MinMaxObserver.with_args(dtype=torch.qint8)</span><br><span class="line">    )</span><br><span class="line">    <span class="comment"># Prepare the model for static quantization. This inserts observers in</span></span><br><span class="line">    <span class="comment"># the model that will observe activation tensors during calibration.</span></span><br><span class="line">    model_fp32_prepared = torch.quantization.prepare(model_fp32)</span><br><span class="line">    model_fp32_prepared(input_fp32)</span><br><span class="line"></span><br><span class="line">    model_int8 = torch.quantization.convert(model_fp32_prepared)</span><br><span class="line">    <span class="keyword">return</span> model_int8</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">quantize_tensor_unsigned</span>(<span class="params">x, scale, zero_point, num_bits=<span class="number">8</span></span>):</span><br><span class="line">    <span class="comment"># This function mocks the PyTorch QuantStub function which quantizes the input tensor</span></span><br><span class="line">    qmin = <span class="number">0.</span></span><br><span class="line">    qmax = <span class="number">2.</span> ** num_bits - <span class="number">1.</span></span><br><span class="line"></span><br><span class="line">    q_x = zero_point + x / scale</span><br><span class="line">    q_x.clamp_(qmin, qmax).round_()</span><br><span class="line">    q_x = q_x.<span class="built_in">round</span>().byte()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> QTensor(tensor=q_x, scale=scale, zero_point=zero_point)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">QuantM2</span>(torch.nn.Module):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, model_fp32, input_fp32</span>):</span><br><span class="line">        <span class="built_in">super</span>(QuantM2, self).__init__()</span><br><span class="line">        self.fc = torch.nn.Linear(<span class="number">2</span>, <span class="number">2</span>, bias=<span class="literal">False</span>)</span><br><span class="line">        self.model_int8 = prepare_model(model_fp32, input_fp32)</span><br><span class="line">        <span class="comment"># PyTorch automatically quantizes the model for you, we will use those weights to compute a forward pass</span></span><br><span class="line">        W_q = self.model_int8.fc.weight().int_repr().double() </span><br><span class="line">        z_w = self.model_int8.fc.weight().q_zero_point()</span><br><span class="line">        self.fc.weight.data = (W_q - z_w)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pytorch_result</span>(<span class="params">model_int8, input_fp32</span>):</span><br><span class="line">        pytorch_res = model_int8.fc(model_int8.quant(input_fp32)).int_repr().<span class="built_in">float</span>()</span><br><span class="line">        <span class="keyword">return</span> pytorch_res</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">            input_fp32 = x</span><br><span class="line">            s_x = self.model_int8.quant(input_fp32).q_scale()</span><br><span class="line">            z_x = self.model_int8.quant(input_fp32).q_zero_point()</span><br><span class="line">            quant_input_unsigned = quantize_tensor_unsigned(input_fp32, s_x,z_x)</span><br><span class="line">            z_x = quant_input_unsigned.zero_point</span><br><span class="line">            s_x = quant_input_unsigned.scale</span><br><span class="line">            s_w = self.model_int8.fc.weight().q_scale()</span><br><span class="line">            x1 = self.fc(quant_input_unsigned.tensor.double() - z_x)</span><br><span class="line">            <span class="comment"># this next step is equivalent to dequantizing the output of the fully connected layer</span></span><br><span class="line">            <span class="comment"># it not exactly equivalent since I already subtracted the two zero points</span></span><br><span class="line">            <span class="comment"># you can derive a much longer quantization formula that multiplies W_q * X_q and has additional terms</span></span><br><span class="line">            <span class="comment"># you can then put W_q in the fc layer and X_q in the forward pass</span></span><br><span class="line">            <span class="comment"># and then use all those additional terms in the below step to requantize</span></span><br><span class="line">            <span class="comment"># in embedded systems its easy to use the formulation here</span></span><br><span class="line">            x1 = x1 * (s_x * s_w)</span><br><span class="line">            <span class="keyword">return</span> x1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Sample run code of the above code is as follows,</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cal_dat = torch.randn(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">model = M()</span><br><span class="line"><span class="comment"># graph mode implementation</span></span><br><span class="line">sample_data = torch.randn(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">model(sample_data)</span><br><span class="line">quant_model= QuantM2(model_fp32=model, input_fp32=sample_data)</span><br><span class="line">quant_model(sample_data)</span><br><span class="line">quant_model.model_int8(sample_data) <span class="comment"># this is the quantized model, M2 should match it exactly, M is the original non quantized model. For small data sets there is usually no divergence.</span></span><br><span class="line"><span class="comment"># but in practice, the quantized model will be faster and use less memory, but will lose some accuracy</span></span><br></pre></td></tr></table></figure>
+
+<p>Let us start by analyzing the output of a quant layer of our simple model. The output of the int_models quantized layer is (somewhat counter-intuitively) always a float, this does not mean it is not quantized, it simply means you are shown the non-quantized value. If you look at the output, you will notice, it has dtype, quantization_scheme, scale and zero_point. You can view the value that will actually be used when it is called within the context of a quant layer by calling its int representation. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#recreate quant layer</span></span><br><span class="line">int_model = quant_model.model_int8</span><br><span class="line">default_pytorch_quant_layer_output = int_model.quant(sample_data)</span><br><span class="line"><span class="comment"># OUTPUT</span></span><br><span class="line"><span class="comment"># tensor([[0.1916, 0.5428]], size=(1, 2), dtype=torch.quint8,</span></span><br><span class="line"><span class="comment">#        quantization_scheme=torch.per_tensor_affine, scale=0.0021285151597112417,</span></span><br><span class="line"><span class="comment">#        zero_point=0)</span></span><br><span class="line"></span><br><span class="line">actual_pytorch_quant_layer_output = int_model.quant(sample_data).int_repr()</span><br><span class="line"><span class="comment"># OUTPUT</span></span><br><span class="line"><span class="comment"># tensor([[90, 255]], dtype=torch.uint8)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Our manual quantization layer is a bit different, it outputs a QTensor object, which contains the tensor, the scale and the zero point. We get the scale and the zero point from the PyTorch quantized model’s quant layer (again, we could easily have done this by ourselves using the sample data).</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">manual_quant_layer_output = quantize_tensor_unsigned(sample_data, int_model.quant(sample_data).q_scale(), int_model.quant(sample_data).q_zero_point())</span><br><span class="line"><span class="comment"># OUTPUT</span></span><br><span class="line"><span class="comment"># QTensor(tensor=tensor([[ 90, 255]], dtype=torch.uint8), scale=0.0021285151597112417, zero_point=0)</span></span><br></pre></td></tr></table></figure>
+
+<p>Now let us look at the output of the quant layer AND the fully connected layer.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#recreate the fully connected layer operation</span></span><br><span class="line">pytorch_fc_quant_layer_output = int_model.dequant(int_model.fc(int_model.quant(sample_data)))</span><br><span class="line"><span class="comment"># tensor([[-0.7907,  0.6919]])</span></span><br><span class="line">manual_fc_quant_layer_output = quant_model(sample_data)</span><br><span class="line"><span class="comment"># tensor([[-0.7886,  0.6932]], dtype=torch.float64, grad_fn=&lt;MulBackward0&gt;)</span></span><br></pre></td></tr></table></figure>
+<p>It is worthwhile to point out a few things. First, the following two commands seem to give the same <em>values</em> but are very different. The first is a complete tensor object that gives float values but is actually quantized, look at dtype, it is actually quint.8.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int_model.fc(int_model.quant(sample_data))</span><br><span class="line"><span class="comment"># tensor([[-0.7907,  0.6919]], size=(1, 2), dtype=torch.quint8,</span></span><br><span class="line"><span class="comment">#        quantization_scheme=torch.per_tensor_affine, scale=0.0058139534667134285,</span></span><br><span class="line"><span class="comment">#        zero_point=136)</span></span><br></pre></td></tr></table></figure>
+<p>The output of this is a <em>truly</em> a float tensor, it not only shows as float values (same as before) but contains no quantization information.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int_model.dequant(int_model.fc(int_model.quant(sample_data)))</span><br><span class="line"> <span class="comment"># tensor([[-0.7907,  0.6919]])</span></span><br></pre></td></tr></table></figure>
+
+<p>Thus, in order to recreate a quantization operation from PyTorch in any embedded system you do not need to implement a de-quant layer. You can simply multiply and subtract zero points from your weight layers appropriately. Look for the long note inside the forward pass of the manually quantized model for more information. </p>
+<h3 id="A-Word-on-PyTorch-and-Quantization"><a href="#A-Word-on-PyTorch-and-Quantization" class="headerlink" title="A Word on PyTorch and Quantization"></a>A Word on PyTorch and Quantization</h3><p>PyTorch’s display in the console is not always indicative of what is happening in the back end, this section should clear up some questions, you may have (since I had them). The fundamental unit of data that goes between layers in PyTorch is always a Tensor, that is always displayed as a float. This is fairly confusing since when we think of a vector&#x2F;tensor as quantized we see all the data as integers. But PyTorch works differently, when a tensor is quantized it is still displayed as a float, but its quantized data type and quantization scheme to get to that data type is stored as additional attributes to the tensor object. Thus, do not be confused if you still see float values displayed, you must look at the dtype to get a clear understanding of what the values are. In order to view a quantized tensor as a int, you need to call int_repr() on the tensor object. Note, this throws an error if the tensor has not been quantized in the first place. Also, note that when PyTorch encounters a quantized tensor, it will carry out multiplication on the quantized values automatically and thus the benefits of quantization will be realized even if you do not actually see them. When exporting the model this information is packaged as well, no need for anything extra to be done. </p>
+<h3 id="A-Word-on-Quant-and-DeQuant-Stubs"><a href="#A-Word-on-Quant-and-DeQuant-Stubs" class="headerlink" title="A Word on Quant and DeQuant Stubs"></a>A Word on Quant and DeQuant Stubs</h3><p>This is perhaps the most confusing of all things about quantization in PyTorch, the QuantStub and DeQuantStub. </p>
+<ol>
+<li>The job of de-quantizing something is automatically taken care of by the previous layer, as mentioned above. Thus when you come to a DeQuant Layer all it seems to do is just strip away the <em>memory</em> of having ever been quantized and ensures that the floating point representation is used. That is what is meant by the statement “DeQuantStub is stateless”, it literally needs nothing to function, all the information it needs to function will be packaged with the input tensor you feed into it. </li>
+<li>The Quant Stub, on the other hand, is <em>stateful</em> it needs to know the scale and the zero point of what is being fed into it, and the network has no knowledge of the input data, which is why you need to feed data into the Neural Network to get this going, if you knew the scale and zero point of your data already you could directly input that information into the QuantStub. </li>
+<li>The QuantStub and DeQuantStub are not actually layers, they are just functions that are called when the model is quantized. </li>
+<li>Another huge misconception is when and where to call these layers, <em>every</em> example on the PyTorch repo will have the Quant and DeQuant stub sandwiching the entire network, this leads people to think that the entire network is quantized. This is not true see the following section for more information.</li>
+</ol>
+<h3 id="Do-you-need-to-insert-a-Quant-and-DeQuant-Stub-after-every-layer-in-your-model"><a href="#Do-you-need-to-insert-a-Quant-and-DeQuant-Stub-after-every-layer-in-your-model" class="headerlink" title="Do you need to insert a Quant and DeQuant Stub after every layer in your model?"></a>Do you need to insert a Quant and DeQuant Stub after every layer in your model?</h3><p>Unless you know exactly what you are doing, then YES you do. In most cases, especially for first time users, you usually want to dequantize immediately after quantizing. If you want to “quantize” every multiplication operation but dequantize the result (i.e. try to bring it back to your original scale of data) then yes, you do. The Quant and DeQuant Stub is “dumb” in the sense that it does not know what the previous layer was, if you feed it a quantized tensor it dequantizes it. It has no view of your network as a whole and does <em>not</em> modify the behavior of the network as a whole. Recall the mathematics of what we are trying to do. We want to replace a matrix multiplication, $WX$ with $(W_q-z_q)\cdot (X_q z_q)\times s_x s_w$. Now what if you want to replace this across multiple layers i.e. you want to quantize the following expression : </p>
+$$W(BX)$$
+
+<p>Your first layer weights are $B$ and the second layer weights are $W$. You want to quantize the entire expression. Ask yourself what do you really want to do, in most cases what you really want to do, is quantize the two matrix multiplies, you inevitably have to do, so that they do not occur in float representation but rather occur in integer. This means you want to replace $$BX$$ with $$(B_q - z_b) \cdot (X_q - z_x) s_x s_b$$ and thus replacing the whole expression $$W(BX)$$ with $$(W_q - z_w) \cdot (B_q - z_b) \cdot (X_q - z_x) \times s_x s_b s_w$$. If you do not dequantize after every layer you will end up executing the following equation, $$(W_q - z_w) \cdot (B_q - z_b) \cdot (X_q - z_x) \times s_w$$ as the entire first layer will be quantized, its output will be recorded and then that quantized value in int8 will flow to the next layer. After this, all the quantization information will be lost i.e. the scale and zero point will be lost. The DeQuant layer will simply use the information from the previous layer to dequantize the output, so only the most recent layers output will be dequantized. </p>
+<h3 id="When-do-you-not-need-to-put-Quant-and-DeQuant-Stubs-after-every-layer"><a href="#When-do-you-not-need-to-put-Quant-and-DeQuant-Stubs-after-every-layer" class="headerlink" title="When do you not need to put Quant and DeQuant Stubs after every layer?"></a>When do you not need to put Quant and DeQuant Stubs after every layer?</h3><p>Dequantizing comes with a cost, you need to compute $m \times n$ floating point multiplications, in order to multiply the weights with the matrix. This is certainly less than the floating point operations from the original matrix multiplication itself (a lot less than storing the output from another whole floating point matrix), but it is still a lot. However, in many of my use cases, I could get away with not dequantizing. While the real reasons are still not clear to me (like most things in neural networks), I would guess that for some of my layers the weights were not that <em>important</em> to getting my overall accuracy. I was also in the Quantize Aware Framework, maybe I will do a post about this too. </p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>In this blog post we covered some important details about PyTorch’s implementation of quantization that are not immediately obvious. We then went on to manually implement a quantized layer and a quantized model. We then showed how to use the quantized layer and the quantized model to get the same results as the PyTorch quantized model. We also showed that the PyTorch quantized model is not actually quantized in the sense that the values are integers, but that the values are quantized in the sense that the values are stored as tensor objects (that store their quantization parameters with them) and the operations are carried out on the integers. This is a very important distinction to make. Additionally, in inference mode, you can just take out the quantized weights, and skip the fc layer step as well, you can just multiply the two matrices together. This is what I will be doing in the embedded system case. In my next posts, I will show you how to quantize a model and the physics behind why multiplying two floats is more expensive than multiplying a two integers. </p>
+</div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/machine-learning/">machine-learning</a><a class="link-muted mr-2" rel="tag" href="/tags/embedded-ml/">embedded-ml</a><a class="link-muted mr-2" rel="tag" href="/tags/model-compression/">model-compression</a><a class="link-muted mr-2" rel="tag" href="/tags/quantization/">quantization</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2024/05/16/left-backs-premier-league/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Where Have All The Left Backs Gone?</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2024/05/16/quantization-layer-details/"><span class="level-item">Are Values Passed Between Layers Float or Int in PyTorch Post Quantization?</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card" id="comments"><div class="card-content"><h3 class="title is-5">Comments</h3><script src="https://giscus.app/client.js" repo="FranciscoRMendes/FranciscoRMendes.github.io" data-repo="FranciscoRMendes/FranciscoRMendes.github.io" data-repo-id="REPLACE_WITH_REPO_ID" data-category-id="REPLACE_WITH_CATEGORY_ID" data-category="Announcements" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="noborder_light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/gallery/DSC00878.jpg" alt="Francisco Romaldo Mendes"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">Francisco Romaldo Mendes</p><p class="is-size-6 is-block">Senior ML Engineer</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Chicago, Illinois</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="/archives/"><p class="title">31</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/categories/"><p class="title">9</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="/tags/"><p class="title">41</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="me noopener">Follow</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Github" href="https://github.com/FranciscoRMendes"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">Links</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://cri.uchicago.edu/portfolio/thirty-million-words/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">TMW Center</span></span><span class="level-right"><span class="level-item tag">cri.uchicago.edu</span></span></a></li><li><a class="level is-mobile" href="https://www.linkedin.com/in/franciscormendes/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">LinkedIn</span></span><span class="level-right"><span class="level-item tag">www.linkedin.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/autonomous-vehicles/"><span class="level-start"><span class="level-item">autonomous-vehicles</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/autonomous-vehicles/machine-learning/"><span class="level-start"><span class="level-item">machine-learning</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/book-review/"><span class="level-start"><span class="level-item">book-review</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/economics/"><span class="level-start"><span class="level-item">economics</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/machine-learning/"><span class="level-start"><span class="level-item">machine-learning</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/categories/mathematics/"><span class="level-start"><span class="level-item">mathematics</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/opinion/"><span class="level-start"><span class="level-item">opinion</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/physics/"><span class="level-start"><span class="level-item">physics</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/statistics/"><span class="level-start"><span class="level-item">statistics</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><figure class="media-left"><a class="image" href="/2026/03/07/acoustic-sensor-fusion/"><img src="/gallery/thumbnails/SWS.jpg" alt="Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-03-07T00:00:00.000Z">2026-03-07</time></p><p class="title"><a href="/2026/03/07/acoustic-sensor-fusion/">Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles</a></p><p class="categories"><a href="/categories/autonomous-vehicles/">autonomous-vehicles</a> / <a href="/categories/autonomous-vehicles/machine-learning/">machine-learning</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2026/02/28/quantum-fourier-transform/"><img src="/gallery/thumbnails/qft_cover.png" alt="From Bits to Clocks: A Visual Intuition for the Quantum Fourier Transform"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-02-28T00:00:00.000Z">2026-02-28</time></p><p class="title"><a href="/2026/02/28/quantum-fourier-transform/">From Bits to Clocks: A Visual Intuition for the Quantum Fourier Transform</a></p><p class="categories"><a href="/categories/mathematics/">mathematics</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2026/02/20/ssd-career-conference/"><img src="/gallery/thumbnails/career_conference_notes.jpeg" alt="Signaling, Skills, and Intellectual Health in the Age of AI: Thoughts from UChicago Career Conference 2026"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-02-20T00:00:00.000Z">2026-02-20</time></p><p class="title"><a href="/2026/02/20/ssd-career-conference/">Signaling, Skills, and Intellectual Health in the Age of AI: Thoughts from UChicago Career Conference 2026</a></p><p class="categories"><a href="/categories/opinion/">opinion</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2025/12/16/3d-coastline-paradox/"><img src="/gallery/thumbnails/telegraph-hill.webp" alt="Telegraph Hill and the Coastline Paradox: Measuring a City in Fractional Dimensions"></a></figure><div class="media-content"><p class="date"><time dateTime="2025-12-16T00:00:00.000Z">2025-12-16</time></p><p class="title"><a href="/2025/12/16/3d-coastline-paradox/">Telegraph Hill and the Coastline Paradox: Measuring a City in Fractional Dimensions</a></p><p class="categories"><a href="/categories/mathematics/">mathematics</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2025/12/06/convolution/"><img src="/gallery/thumbnails/2D%20Fourier%20Transform.jpg" alt="Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain"></a></figure><div class="media-content"><p class="date"><time dateTime="2025-12-06T00:00:00.000Z">2025-12-06</time></p><p class="title"><a href="/2025/12/06/convolution/">Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain</a></p><p class="categories"><a href="/categories/machine-learning/">machine-learning</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2026/03/"><span class="level-start"><span class="level-item">March 2026</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2026/02/"><span class="level-start"><span class="level-item">February 2026</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/12/"><span class="level-start"><span class="level-item">December 2025</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/11/"><span class="level-start"><span class="level-item">November 2025</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/09/"><span class="level-start"><span class="level-item">September 2025</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/02/"><span class="level-start"><span class="level-item">February 2025</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/12/"><span class="level-start"><span class="level-item">December 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/11/"><span class="level-start"><span class="level-item">November 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/10/"><span class="level-start"><span class="level-item">October 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/09/"><span class="level-start"><span class="level-item">September 2024</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/08/"><span class="level-start"><span class="level-item">August 2024</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/07/"><span class="level-start"><span class="level-item">July 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/05/"><span class="level-start"><span class="level-item">May 2024</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/11/"><span class="level-start"><span class="level-item">November 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/01/"><span class="level-start"><span class="level-item">January 2022</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/machine-learning/"><span class="tag">machine-learning</span><span class="tag">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/embedded-ml/"><span class="tag">embedded-ml</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mathematics/"><span class="tag">mathematics</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/economics/"><span class="tag">economics</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/low-rank-approximation/"><span class="tag">low-rank-approximation</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/model-compression/"><span class="tag">model-compression</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/signal-processing/"><span class="tag">signal-processing</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/statistics/"><span class="tag">statistics</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/recommender-systems/"><span class="tag">recommender-systems</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/book-review/"><span class="tag">book-review</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/politics/"><span class="tag">politics</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/experimentation/"><span class="tag">experimentation</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/convolutional-neural-networks/"><span class="tag">convolutional-neural-networks</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/fiction/"><span class="tag">fiction</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lora/"><span class="tag">lora</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/philosophy/"><span class="tag">philosophy</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/physics/"><span class="tag">physics</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/career/"><span class="tag">career</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/a-b-testing/"><span class="tag">a-b-testing</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/causal-inference/"><span class="tag">causal-inference</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/fourier-transform/"><span class="tag">fourier-transform</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/graph-neural-networks/"><span class="tag">graph-neural-networks</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/game-theory/"><span class="tag">game-theory</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/essay/"><span class="tag">essay</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/quantization/"><span class="tag">quantization</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/reinforcement-learning/"><span class="tag">reinforcement-learning</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/neural-networks/"><span class="tag">neural-networks</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/artificial-intelligence/"><span class="tag">artificial-intelligence</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/fractals/"><span class="tag">fractals</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/autonomous-vehicles/"><span class="tag">autonomous-vehicles</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sensor-fusion/"><span class="tag">sensor-fusion</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bayesian-statistics/"><span class="tag">bayesian-statistics</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/history/"><span class="tag">history</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/spectral-methods/"><span class="tag">spectral-methods</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/football/"><span class="tag">football</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sports/"><span class="tag">sports</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/matching/"><span class="tag">matching</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/general-relativity/"><span class="tag">general-relativity</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/quantum-computing/"><span class="tag">quantum-computing</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/algorithms/"><span class="tag">algorithms</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/policy/"><span class="tag">policy</span><span class="tag">1</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">Subscribe for updates</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">follow.it</h3><form action="" method="post" target="_blank"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/gallery/favicon-32x32.png" alt="Hexo" height="28"></a><p class="is-size-7"><span>&copy; 2026 Francisco Romaldo Fernandes Mendes</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/javascript" id="MathJax-script" async>MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      chtml: {
+        matchFontHeight: false
+      }
+    };</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script><!--!--><script>
+      var sc_project=13006621;
+      var sc_invisible=1;
+      var sc_security="b56ff72f";
+      var sc_https=1;
+      var sc_remove_link=1;</script><script src="https://www.statcounter.com/counter/counter.js" async></script><noscript><div class="statcounter"><img class="statcounter" src="https://c.statcounter.com/13006621/0/b56ff72f/1/" alt="real time web analytics"></div></noscript><!--!--><script data-pjax src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>

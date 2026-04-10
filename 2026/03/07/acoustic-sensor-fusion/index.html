@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles - Hexo</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Hexo"><meta name="msapplication-TileImage" content="/gallery/logo.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Hexo"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Exploring PAMVON, a passive acoustic monitoring system for emergency vehicle detection, and the challenges preventing its production adoption."><meta property="og:type" content="blog"><meta property="og:title" content="Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles"><meta property="og:url" content="http://example.com/2026/03/07/acoustic-sensor-fusion/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="Exploring PAMVON, a passive acoustic monitoring system for emergency vehicle detection, and the challenges preventing its production adoption."><meta property="og:locale" content="en_US"><meta property="og:image" content="http://example.com/gallery/thumbnails/SWS.jpg"><meta property="article:published_time" content="2026-03-07T00:00:00.000Z"><meta property="article:modified_time" content="2026-04-10T11:52:56.822Z"><meta property="article:author" content="Francisco Romaldo Fernandes Mendes"><meta property="article:tag" content="autonomous-vehicles"><meta property="article:tag" content="sensor-fusion"><meta property="article:tag" content="signal-processing"><meta property="article:tag" content="machine-learning"><meta property="article:tag" content="embedded-ml"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="http://example.com/gallery/thumbnails/SWS.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2026/03/07/acoustic-sensor-fusion/"},"headline":"Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles","image":["http://example.com/gallery/thumbnails/SWS.jpg"],"datePublished":"2026-03-07T00:00:00.000Z","dateModified":"2026-04-10T11:52:56.822Z","author":{"@type":"Person","name":"Francisco Romaldo Fernandes Mendes"},"publisher":{"@type":"Organization","name":"Hexo","logo":{"@type":"ImageObject","url":"http://example.com/gallery/favicon-32x32.png"}},"description":"Exploring PAMVON, a passive acoustic monitoring system for emergency vehicle detection, and the challenges preventing its production adoption."}</script><link rel="canonical" href="http://example.com/2026/03/07/acoustic-sensor-fusion/"><link rel="icon" href="/gallery/logo.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link data-pjax rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-N4MSXT4WL6" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-N4MSXT4WL6');</script><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/custom.css"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/gallery/favicon-32x32.png" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a><a class="navbar-item" href="/curriculum">Curriculum</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/FranciscoRMendes"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/gallery/thumbnails/SWS.jpg" alt="Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2026-03-07T00:00:00.000Z" title="3/7/2026, 12:00:00 AM">2026-03-07</time></span><span class="level-item">Updated&nbsp;<time dateTime="2026-04-10T11:52:56.822Z" title="4/10/2026, 11:52:56 AM">2026-04-10</time></span><span class="level-item"><a class="link-muted" href="/categories/autonomous-vehicles/">autonomous-vehicles</a><span> / </span><a class="link-muted" href="/categories/autonomous-vehicles/machine-learning/">machine-learning</a></span><span class="level-item">25 minutes read (About 3694 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles</h1><div class="content"><h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>In autonomous driving, perception systems typically rely on photons i.e. cameras, lidar, and radar. But what if we could also listen to the environment, capturing sound cues that are invisible to traditional vision-based sensors?</p>
+<p>There are many intuitively appealing use cases where an additional sensing modality could enhance awareness of the surroundings. Acoustic sensing itself is not new in automotive systems. For example, ultrasonic sensors have long been used for short-range applications such as parking assistance. Extending this idea to environmental sound sensing—allowing a vehicle to effectively hear its surroundings—has been explored by organizations such as the Fraunhofer Institute and Renesas Electronics. At CVPR ‘23 we had the Princeton Computational Image lab create 2D “images” using beamforming (more on this later) from passive acoustic listening and fused this with RGB camera data. </p>
+<p><img src="/2026/03/07/acoustic-sensor-fusion/beamforming.gif" alt="Acoustic Beamforming for Multimodal Scene Understanding: Related work that uses a microphone array to create a pixelized output.  "></p>
+<p>While the Princeton paper was highly influential to this work, our client was interested in passing certain scenarios only without overly relying on (or expending energy on) a highly complex multi-dimensional sensor modality. In this post we explore several motivations for adding a simpler version of passive acoustic sensing to the autonomous vehicle sensor stack.</p>
+<div style="text-align:center;">
+  <img src="/2026/03/07/acoustic-sensor-fusion/emergency_vehicle_camera.gif" 
+    style="display:block; margin-left:auto; margin-right:auto; max-width:100%;">
+  <p><em>Sneak Peek of our solution: Flashing red/cyan vehicle is emitting sound</em></p>
+</div>
+
+<h3 id="Why-consider-acoustic-sensing"><a href="#Why-consider-acoustic-sensing" class="headerlink" title="Why consider acoustic sensing?"></a>Why consider acoustic sensing?</h3><ul>
+<li>Obstructed-view scenarios are increasingly emphasized in safety standards such as Euro NACP. Detecting hazards before they become visible is critical for improving safety metrics.</li>
+<li>With the rise of autonomous systems in defense and security applications, additional sensing modalities may provide a differentiator when competing for contracts.</li>
+<li>Sound does not require line-of-sight (LoS). Important events such as children playing in the street, emergency vehicle sirens, or approaching traffic can be detected even when visually occluded.</li>
+<li>Sound is a natural communication modality for humans, and could provide a mechanism for richer interaction between the environment and the ego vehicle.</li>
+<li>Acoustic signals can intrinsically provide directional information (heading), which can improve situational awareness metrics such as MAPH (Mean Average Precision with Heading).</li>
+<li>Beamforming+RGB outperforms RGB alone in challenging occluded scenarios</li>
+</ul>
+<h3 id="Key-disadvantages"><a href="#Key-disadvantages" class="headerlink" title="Key disadvantages"></a>Key disadvantages</h3><p>Acoustic sensing also introduces several challenges:</p>
+<ul>
+<li>Passive acoustic systems typically provide Angle-of-Arrival (AoA) information but not reliable distance estimates.</li>
+<li>Performance can degrade due to vehicle noise, wind noise, and environmental interference.</li>
+</ul>
+<h2 id="Toy-Example-Acoustic-Direction-Improves-Early-Detection"><a href="#Toy-Example-Acoustic-Direction-Improves-Early-Detection" class="headerlink" title="Toy Example: Acoustic Direction Improves Early Detection"></a>Toy Example: Acoustic Direction Improves Early Detection</h2><p>To illustrate the value of acoustic sensing, consider a simple scenario:</p>
+<ul>
+<li>An emergency vehicle approaches from the bottom-right relative to the ego vehicle.  </li>
+<li>Acoustic sensing estimates the direction of arrival using TDOA between microphones, but cannot determine distance.  </li>
+<li>Camera and lidar only detect the vehicle once it enters their field of view.</li>
+</ul>
+<p>In the simulation, the vehicle moves toward the ego vehicle. The acoustic system continuously estimates a sextant, or directional sector, while the camera and lidar begin detecting the vehicle only after it enters their sensing range.</p>
+<p>This allows the fusion system to gain early directional awareness, giving planning systems a chance to anticipate the approaching vehicle before visual confirmation. Even though the acoustic angle estimate is noisy, it provides information beyond the field of view of both camera and lidar. After fusing with lidar and camera data, the system produces more accurate position estimates.</p>
+<p><img src="/2026/03/07/acoustic-sensor-fusion/acoustic-kalman-filter-2.png" alt="Sensor Fusion Toy Example"></p>
+<h3 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h3><p>The work described here was originally developed at Reality AI, which was later acquired by Renesas Electronics to explore the commercial feasibility of passive acoustic sensing in automotive systems. My role focused on scaling the solution and validating it across different environments.</p>
+<p>We conducted experiments using simulated emergency sirens in multiple environments, including:</p>
+<ul>
+<li>controlled warehouse setups  </li>
+<li>busy urban streets  </li>
+<li>open environments with realistic traffic noise</li>
+</ul>
+<p>We also collaborated with external partners to collect additional datasets and explore multi-sensor fusion approaches.</p>
+<p>In this article, I will explore PAMVON (Passive Acoustic Monitoring for Vehicles and Objects)—a system that uses microphone arrays, signal processing, and machine learning to detect and localize important acoustic events in the driving environment.</p>
+<p>The work described here was originally developed at Reality AI, which was later acquired by Renesas Electronics to explore the commercial feasibility of passive acoustic sensing in automotive systems. My role focused on scaling the solution and validating it across different environments.</p>
+<p>We conducted experiments using simulated emergency sirens in multiple environments, including:</p>
+<ul>
+<li>controlled warehouse setups  </li>
+<li>busy urban streets  </li>
+<li>open environments with realistic traffic noise</li>
+</ul>
+<p>We also collaborated with external partners to collect additional datasets and explore multi-sensor fusion approaches.</p>
+<h1 id="Passive-Acoustic-Monitoring-PAM"><a href="#Passive-Acoustic-Monitoring-PAM" class="headerlink" title="Passive Acoustic Monitoring (PAM)"></a>Passive Acoustic Monitoring (PAM)</h1><p>Passive Acoustic Monitoring (PAM) detects environmental sounds without emitting signals. Instead, the system passively listens for events in the surrounding environment such as emergency vehicle sirens, horns, tire skids, engine noise, drones or machinery, and even children playing in the street.</p>
+<p>The key advantage of this approach is that sound does not require line-of-sight. Important cues can be detected even when they are visually occluded, in low-light conditions, or in adverse weather. This makes acoustic sensing particularly attractive for early warning scenarios, such as an approaching ambulance that has not yet entered the field of view of the vehicle’s cameras or lidar.</p>
+<p>Recent developments in multimodal large language models also change how one might think about acoustic perception. Rather than requiring a rigid classifier that assigns each sound to a predefined category, modern multimodal systems can reason over audio signals more flexibly and incorporate them into a broader contextual understanding of the scene. In practice this means the acoustic signal can act less as a strict classification task and more as an additional stream of environmental information that the perception system can interpret alongside vision and other sensor modalities.</p>
+<h1 id="Microphone-Arrays-and-Beamforming"><a href="#Microphone-Arrays-and-Beamforming" class="headerlink" title="Microphone Arrays and Beamforming"></a>Microphone Arrays and Beamforming</h1><p>Sound (like light) travels in a straight line and therefore we need at least 4 microphones to provide an accurate estimate of the angle of arrival of the sound wave.<br>A single microphone provides limited spatial information. To estimate where a sound originates, passive acoustic monitoring systems typically use small arrays of microphones. By observing the time differences between when a signal reaches each microphone, the system can estimate the direction of arrival of the sound source. Arrays also make it possible to improve signal quality by combining signals from multiple sensors.</p>
+<p>In practice this enables several useful capabilities. The system can estimate the direction of arrival of a sound, approximate the location of the source under certain assumptions, and improve the signal-to-noise ratio by combining measurements across the array.</p>
+<p>Beamforming is the signal processing technique that makes this possible. The idea is simple: signals arriving from a particular direction reach each microphone at slightly different times. By applying the appropriate delays and summing the signals together, the array reinforces sounds from the desired direction while suppressing sounds from other directions.</p>
+<p>The microphone array can be visualized like this:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Mic1 ----------- Mic2</span><br><span class="line">   \               /</span><br><span class="line">    \             /</span><br><span class="line">     \           /</span><br><span class="line">       ( sound )</span><br><span class="line">         source</span><br><span class="line">     /           \</span><br><span class="line">    /             \</span><br><span class="line">   /               \</span><br><span class="line">Mic3 ----------- Mic4</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>In practice the system estimates the relative delay between microphones using cross-correlation. When a sound arrives at the array, it reaches each microphone at slightly different times. By computing the cross-correlation between pairs of microphone signals, the system can estimate the time difference of arrival between them.</p>
+<p>These time differences constrain the direction from which the sound could have originated. With multiple microphone pairs, the system can estimate a consistent direction of arrival for the source.</p>
+<p>Once the delays are known, the array can also combine the microphone signals in a way that reinforces sounds coming from that direction while suppressing others. In effect, the array behaves like a steerable listening sensor that can focus on different parts of the acoustic scene.</p>
+<h3 id="Angle-of-Arrival-AoA-Estimation-via-Cross-Correlation"><a href="#Angle-of-Arrival-AoA-Estimation-via-Cross-Correlation" class="headerlink" title="Angle of Arrival (AoA) Estimation via Cross-Correlation"></a>Angle of Arrival (AoA) Estimation via Cross-Correlation</h3><p>In a microphone array, a sound source reaches each microphone at slightly different times. By comparing these signals, the system can estimate the relative delay between them. A common way to do this is through cross-correlation, which measures how similar two signals are as one is shifted in time relative to the other.</p>
+<p>For two microphone signals $x_1(t)$ and $x_2(t)$, the cross-correlation can be written as</p>
+$$
+R_{12}(\tau) = \int x_1(t) \, x_2(t+\tau) \, dt
+$$
+
+<p>The time shift $\tau$ that maximizes this correlation corresponds to the time difference of arrival between the two microphones:</p>
+$$
+\tau_{\text{max}} = \arg\max_\tau R_{12}(\tau)
+$$
+
+<p>If the microphones are separated by a distance $d$, this delay can be converted into an estimate of the angle of arrival:</p>
+$$
+\theta = \arcsin\left(\frac{c \cdot \tau_{\text{max}}}{d}\right)
+$$
+
+<p>where $c$ is the speed of sound.</p>
+<p>In real environments, reflections and background noise can make the correlation peak less reliable. A commonly used approach to improve robustness is generalized cross-correlation with phase transform (GCC-PHAT). This method emphasizes phase information in the frequency domain and reduces the influence of signal magnitude differences:</p>
+$$
+R_{12}(\tau) = \mathcal{F}^{-1}\{\frac{X_1(f) X_2^(f)}{|X_1(f) X_2^*(f)|}\}
+$$
+
+<p>Here $X_1(f)$ and $X_2(f)$ are the Fourier transforms of the microphone signals. The peak of $R_{12}(\tau)$ provides a stable estimate of the arrival delay, which can then be used to infer the direction of the sound source.</p>
+<h1 id="Signal-Processing-Pipeline"><a href="#Signal-Processing-Pipeline" class="headerlink" title="Signal Processing Pipeline"></a>Signal Processing Pipeline</h1><p>Passive acoustic monitoring typically follows a structured processing pipeline:</p>
+<ol>
+<li>Preprocessing: The raw microphone signals are filtered to remove irrelevant frequency bands, and gain normalization ensures consistent amplitude levels across microphones.  </li>
+<li>Time-frequency analysis: Signals are converted into spectrograms using the Short-Time Fourier Transform (STFT), revealing how frequency content evolves over time.  </li>
+<li>Beamforming: Directional enhancement techniques, such as delay-and-sum or cross-correlation-based beamforming, focus on sounds from specific directions while suppressing noise and interference.  </li>
+<li>Event detection: Open-source neural networks, including VGGish, convolutional-recurrent networks (CRNNs), and transformers, analyze the spectrograms to detect and classify events such as sirens, horns, or tire skids.</li>
+<li>Localization: Time Difference of Arrival (TDOA) estimates, often computed using GCC-PHAT cross-correlation, are combined across microphone pairs to infer the direction of incoming sounds and, in some cases, approximate source locations.</li>
+</ol>
+<p>This pipeline allows the system to transform raw audio into actionable information for autonomous vehicle perception, providing early warning of hazards even when they are outside the line of sight of cameras or lidar.</p>
+<h1 id="Acoustic-Sensor-Data-Representation"><a href="#Acoustic-Sensor-Data-Representation" class="headerlink" title="Acoustic Sensor Data Representation"></a>Acoustic Sensor Data Representation</h1><p>In a generalized form, data from a passive acoustic monitoring array can be represented as a tuple capturing the relevant information for fusion:</p>
+$$
+\displaystyle z_{\mathrm{ac}} = (\theta, \sigma_\theta, c, f, t, p_{\mathrm{ego}})
+$$
+
+<p>Where:</p>
+<ul>
+<li>$\theta$: Estimated angle of arrival (AoA) of the sound, typically computed using TDOA and cross-correlation (GCC-PHAT).  </li>
+<li>$\sigma_\theta$: Uncertainty of the angle estimate, reflecting noise, reverberation, or low SNR.  </li>
+<li>$c$: Sound class probability vector produced by the ML model. The classes correspond to ambulance, police, and other unknown loud sounds. For example, $c = [0.7, 0.2, 0.1]$</li>
+<li>$f$: Frequency-domain features, such as Mel spectrogram or STFT frame, optionally used for downstream ML fusion.  </li>
+<li>$t$: Timestamp of the measurement, to allow temporal alignment with other sensors.  </li>
+<li>$\mathbf{p}_{\text{ego}}$: Pose of the ego vehicle when the measurement was captured, typically $(x, y, \psi)$ in 2D or 3D coordinates.</li>
+</ul>
+<p>This representation allows the acoustic signal to integrate easily into perception and fusion pipelines:</p>
+<ul>
+<li>$\theta$ provides a directional prior for early detection.  </li>
+<li>$c$ informs semantic understanding of the source.  </li>
+<li>$\sigma_\theta$ can be used in probabilistic fusion (e.g., weighted averaging, Kalman updates).  </li>
+<li>$f$ allows future retraining or fine-tuning of ML models.  </li>
+<li>$t$ and $\mathbf{p}_{\text{ego}}$ allow projection into bird’s-eye view (BEV) maps or occupancy grids alongside camera and lidar data.</li>
+</ul>
+<p>For an array of $N$ microphones, the raw signals can also be stored as:</p>
+$$
+\mathbf{X}_{\text{raw}} = [x_1(t), x_2(t), \dots, x_N(t)]
+$$
+
+<p>These raw signals are processed into the generalized form above, providing a compact yet rich representation for sensor fusion.</p>
+<h1 id="Simple-ID-Based-Matching"><a href="#Simple-ID-Based-Matching" class="headerlink" title="Simple ID-Based Matching"></a>Simple ID-Based Matching</h1><p>Before exploring a more technical late fusion approach, we first evaluated a simpler strategy based on ID matching. In this setup, acoustic detections were associated directly with annotated object identities in the dataset.</p>
+<p>The acoustic classifier produced class probabilities for events such as ambulance sirens, police sirens, or other loud sounds. When the classifier detected a high probability ambulance siren, we matched that event to the corresponding object detection annotation in the scene. In practice this meant associating the acoustic event with the object ID labeled as an emergency vehicle in the perception dataset.</p>
+<p>One challenge is that the acoustic detector often produces a directional estimate much earlier than the moment when the vehicle becomes visible and is annotated by the vision system. The acoustic pipeline provides an angle of arrival $\theta$, but not a direct range estimate. To place this information in the BEV representation, we projected the acoustic bearing into the map by creating an artificial point along the direction of arrival at a fixed distance $d$ from the ego vehicle. The distance was chosen to be larger than the field of view of the camera and lidar sensors so that the acoustic signal could represent a potential source outside the current perception range.</p>
+<p>This artificial point can be written as</p>
+$$
+p_{ac} =
+\begin{bmatrix}
+x_{ego} \\
+y_{ego}
+\end{bmatrix}
++
+d
+\begin{bmatrix}
+\cos \theta \\
+\sin \theta
+\end{bmatrix}
+$$
+
+<p>where $(x_{ego}, y_{ego})$ is the position of the ego vehicle in BEV coordinates. As the vehicle approaches and eventually enters the sensor field of view, the projected acoustic point becomes spatially consistent with the detected object.</p>
+<p>This approach relies on the object detection pipeline already identifying vehicles and assigning consistent IDs across frames. The acoustic system then acts as an additional signal that confirms the presence of a specific type of vehicle.</p>
+<p>Although simple, this method is surprisingly effective. The acoustic cue provides early detection of emergency vehicles, while the vision system provides precise localization and tracking. By linking the acoustic classification to existing object IDs, the system can quickly identify which tracked object is likely producing the sound.</p>
+<p>This ID-based matching served as a useful baseline before implementing a more general late fusion approach using probabilistic tracking and bearing measurements.</p>
+<h1 id="Late-Fusion-with-an-Existing-BEV-Pipeline"><a href="#Late-Fusion-with-an-Existing-BEV-Pipeline" class="headerlink" title="Late Fusion with an Existing BEV Pipeline"></a>Late Fusion with an Existing BEV Pipeline</h1><p>While the ID-based matching approach provided a strong baseline, it relies on the object already being detected and assigned an identity by the perception pipeline. In many cases the acoustic signal appears earlier, before the vehicle enters the field of view of the cameras or lidar. To make better use of this early directional information, we extended the system using a more formal late fusion approach.</p>
+<p>In this setup, acoustic sensing was integrated on top of an existing lidar and camera perception stack. The vision and lidar pipeline already produced tracked objects in bird’s-eye view (BEV), including estimates of position, velocity, and uncertainty. The acoustic sensor then contributed an additional bearing measurement, which could be incorporated into the tracking framework to refine object estimates and improve situational awareness.</p>
+<p>After lidar and camera fusion, each tracked object is represented by a state vector</p>
+$$
+\mathbf{x} =
+\begin{bmatrix}
+x \\
+y \\
+v_x \\ 
+v_y
+\end{bmatrix}
+$$
+
+<p>where $(x,y)$ represents the position of the object in BEV coordinates and $(v_x, v_y)$ represents the velocity components. The tracker also maintains a covariance matrix</p>
+$$
+\mathbf{P}
+$$
+
+<p>which represents the uncertainty of the state estimate.</p>
+<p>The acoustic system produces a bearing measurement corresponding to the direction of arrival of the sound:</p>
+$$
+z_{ac} = \theta
+$$
+
+<p>where $\theta$ is the estimated angle of arrival relative to the ego vehicle.</p>
+<p>If the ego vehicle is located at position $(x_e, y_e)$, the predicted bearing of a tracked object can be written as</p>
+$$
+h(\mathbf{x}) =
+\arctan2(y - y_e, \; x - x_e)
+$$
+
+<p>This function maps the tracked object position into the expected acoustic measurement.</p>
+<p>The difference between the observed bearing and the predicted bearing is the innovation:</p>
+$$
+\mathbf{y} = z_{ac} - h(\mathbf{x})
+$$
+
+<p>Because the measurement model is nonlinear, we linearize it using the Jacobian</p>
+$$
+\mathbf{H} =
+\begin{bmatrix}
+\frac{\partial h}{\partial x} &
+\frac{\partial h}{\partial y} &
+0 &
+0
+\end{bmatrix}
+$$
+
+<p>For the bearing function this yields</p>
+$$
+\frac{\partial h}{\partial x} = -\frac{y - y_e}{(x-x_e)^2 + (y-y_e)^2}
+$$
+
+$$
+\frac{\partial h}{\partial y} = \frac{x - x_e}{(x-x_e)^2 + (y-y_e)^2}
+$$
+
+<p>Given acoustic measurement noise $R_{ac}$, the Kalman gain can then be computed as</p>
+$$
+\mathbf{K} =
+\mathbf{P} \mathbf{H}^T
+(\mathbf{H} \mathbf{P} \mathbf{H}^T + R_{ac})^{-1}
+$$
+
+<p>The updated state estimate becomes</p>
+$$
+\mathbf{x}_{new} =\mathbf{x} + \mathbf{K}\mathbf{y}
+$$
+
+<p>and the covariance is updated as</p>
+$$
+\mathbf{P}_{new} = (I - \mathbf{K}\mathbf{H})\mathbf{P}
+$$
+
+<p>Since the acoustic sensor only provides directional information, this update primarily reduces uncertainty perpendicular to the acoustic ray while leaving uncertainty along the ray largely unchanged. In practice, this allows acoustic measurements to improve the tracking of objects detected by lidar and camera without requiring modifications to the existing perception pipeline.</p>
+<h1 id="Final-Output"><a href="#Final-Output" class="headerlink" title="Final Output"></a>Final Output</h1><p>The final output of the system is represented in Bird’s-Eye View (BEV) space. The acoustic information can be projected into this space using either of the two methods discussed earlier.</p>
+<p>In the example scene below, the ego vehicle drives past a stationary car that is simulated to emit an emergency vehicle siren. The figure illustrates how the acoustic signal integrates with the rest of the perception stack.</p>
+<p>On the left, we show the acoustic output tagged with an object ID from the real-time object detection system provided by the customer (likely based on a model such as YOLO).</p>
+<p>In the centre, we show the BEV representation, where the estimated angle of arrival (AoA) from the microphone array is plotted as a ray originating from the ego vehicle. Because the clip is only six seconds long, the visualization shows a ray pointing in the direction of the detected emergency vehicle sound from the start of the sequence. In this case, the microphones detect the siren before the object enters the field of view of either the camera or the lidar.</p>
+<p>Once the vision-based detector identifies the vehicle, the AoA estimate can be associated with that object, with small corrections applied if necessary to account for sensor alignment or localisation error.</p>
+<p>On the right, we show the lidar point cloud for the same scene. In this example, the acoustic output is not annotated in the lidar view, although such a visualization is also possible.</p>
+<div style="text-align:center;">
+  <img src="/2026/03/07/acoustic-sensor-fusion/emergency_vehicle_camera.gif" 
+    style="display:block; margin-left:auto; margin-right:auto; max-width:100%;">
+  <p><em>Camera: Flashing red/cyan vehicle is emitting sound</em></p>
+</div>
+
+<div style="text-align:center;">
+  <img src="/2026/03/07/acoustic-sensor-fusion/emergency_vehicle_bev.gif" 
+    style="display:block; margin-left:auto; margin-right:auto; max-width:100%;">
+  <p><em>BEV: Acoustic AoA Plotted</em></p>
+</div>
+
+<div style="text-align:center;">
+  <img src="/2026/03/07/acoustic-sensor-fusion/emergency_vehicle_lidar.gif" 
+    style="display:block; margin-left:auto; margin-right:auto; max-width:100%;">
+  <p><em>LiDAR</em></p>
+</div>
+
+
+
+<h1 id="Implementation-Considerations"><a href="#Implementation-Considerations" class="headerlink" title="Implementation Considerations"></a>Implementation Considerations</h1><p>The passive acoustic monitoring pipeline can be implemented efficiently on embedded automotive hardware. In our implementation, the audio processing pipeline, machine learning inference, and angle of arrival estimation were designed to run on a single MCU core. This includes signal preprocessing, spectrogram generation, neural network inference, and cross-correlation based localization.</p>
+<p>The system was implemented on Renesas automotive controllers, specifically the RH850 microcontroller family. Audio input processing, AI target detection, and angle of arrival estimation ran on a single RH850 core alongside the A2B audio stack. In this configuration the full acoustic pipeline occupied roughly 300 KB of code space, even while running in a debug configuration and without aggressive optimization.</p>
+<p>This relatively small footprint makes it feasible to deploy acoustic sensing alongside other perception tasks without requiring specialized hardware acceleration. On RH850 devices, significant CPU, flash, and RAM resources remain available for additional vehicle functions.</p>
+<p>Microphone array configurations can also be adapted depending on coverage requirements. A four-microphone array provides approximately 180 degrees of coverage, while an eight-microphone configuration enables full 360 degree sensing around the vehicle.</p>
+<p>In practice, the computational requirements depend on the complexity of the processing pipeline. Efficient PAM processing can run entirely on automotive-grade microcontrollers such as the RH850. Larger microphone arrays or more complex neural networks may benefit from more powerful automotive SoCs such as the Renesas R-Car platform. Regardless of the hardware platform, maintaining real-time processing is critical so that acoustic events can be incorporated into the perception pipeline with minimal latency.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   Microphone Array</span><br><span class="line">(4 or 8 digital microphones)</span><br><span class="line">         │</span><br><span class="line">         │</span><br><span class="line">         ▼</span><br><span class="line"> +------------------+</span><br><span class="line"> |   A2B Audio Bus  |</span><br><span class="line"> | (Automotive Audio|</span><br><span class="line"> |   Backbone)      |</span><br><span class="line"> +------------------+</span><br><span class="line">         │</span><br><span class="line">         │</span><br><span class="line">         ▼</span><br><span class="line"> +----------------------+</span><br><span class="line"> |   RH850 MCU          |</span><br><span class="line"> |----------------------|</span><br><span class="line"> |  Audio Preprocessing |</span><br><span class="line"> |  STFT / Spectrogram  |</span><br><span class="line"> |  VGGish Inference    |</span><br><span class="line"> |  GCC-PHAT (TDOA)     |</span><br><span class="line"> |  AoA Estimation      |</span><br><span class="line"> +----------------------+</span><br><span class="line">         │</span><br><span class="line">         │</span><br><span class="line">         ▼</span><br><span class="line"> +----------------------+</span><br><span class="line"> |  Acoustic Detection  |</span><br><span class="line"> |  θ (bearing)         |</span><br><span class="line"> |  class probabilities |</span><br><span class="line"> +----------------------+</span><br><span class="line">         │</span><br><span class="line">         │</span><br><span class="line">         ▼</span><br><span class="line"> +----------------------+</span><br><span class="line"> |   BEV Fusion Layer   |</span><br><span class="line"> | (Camera + Lidar +    |</span><br><span class="line"> |    Acoustic)         |</span><br><span class="line"> +----------------------+</span><br><span class="line">         │</span><br><span class="line">         ▼</span><br><span class="line"> +----------------------+</span><br><span class="line"> |  Tracking / Planning |</span><br><span class="line"> +----------------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>Passive acoustic monitoring has shown significant potential but has not yet become standard in autonomous vehicle perception stacks. There are several challenges that limit its adoption:</p>
+<ol>
+<li>Ambient noise and signal variability – urban environments are full of sounds that can mask sirens, horns, and other important cues.  </li>
+<li>Environmental acoustic complexity – reflections, occlusions, and vibrations from the vehicle itself make accurate localization difficult.  </li>
+<li>Automotive qualification and safety standards – microphones and processing hardware must meet rigorous requirements such as ISO 26262 and AEC-Q100, and survive extreme temperatures and vibrations.  </li>
+<li>Limited generalization of machine learning models – systems that perform well in controlled tests can struggle on highways, in multi-siren urban settings, or with unusual sound events.  </li>
+<li>No regulatory requirement – without a mandate from safety standards or OEMs, there is little commercial incentive to integrate acoustic sensing into production vehicles.</li>
+</ol>
+<p>Despite these obstacles, acoustic sensing can still provide value when used as a complementary modality. Integrating sound cues through late fusion on top of camera and lidar tracks allows early warnings of approaching emergency vehicles or other hazards, even before they enter the field of view. In this way, the acoustic signal reinforces and augments traditional sensors, enhancing situational awareness without requiring a full redesign of the perception stack. Performance improvements were observed in EuroNACP obstructed view testing scenarios, demonstrating the practical benefit of including an acoustic modality in complex urban environments.</p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><ul>
+<li><p>Renesas Electronics. Seeing Sound: AI-Based Detection of Participants in Automotive Environment Using Passive Audio. White Paper.<br><a target="_blank" rel="noopener" href="https://www.renesas.com/en/document/whp/seeing-sound-ai-based-detection-participants-automotive-environment-passive-audio?r=1626806">https://www.renesas.com/en/document/whp/seeing-sound-ai-based-detection-participants-automotive-environment-passive-audio?r=1626806</a></p>
+</li>
+<li><p>Princeton University Light + Sound Interaction Lab. Seeing with Sound.<br><a target="_blank" rel="noopener" href="https://light.princeton.edu/publication/seeingwithsound/">https://light.princeton.edu/publication/seeingwithsound/</a></p>
+</li>
+</ul>
+</div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/autonomous-vehicles/">autonomous-vehicles</a><a class="link-muted mr-2" rel="tag" href="/tags/sensor-fusion/">sensor-fusion</a><a class="link-muted mr-2" rel="tag" href="/tags/signal-processing/">signal-processing</a><a class="link-muted mr-2" rel="tag" href="/tags/machine-learning/">machine-learning</a><a class="link-muted mr-2" rel="tag" href="/tags/embedded-ml/">embedded-ml</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2026/02/28/quantum-fourier-transform/"><span class="level-item">From Bits to Clocks: A Visual Intuition for the Quantum Fourier Transform</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card" id="comments"><div class="card-content"><h3 class="title is-5">Comments</h3><script src="https://giscus.app/client.js" repo="FranciscoRMendes/FranciscoRMendes.github.io" data-repo="FranciscoRMendes/FranciscoRMendes.github.io" data-repo-id="REPLACE_WITH_REPO_ID" data-category-id="REPLACE_WITH_CATEGORY_ID" data-category="Announcements" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="noborder_light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/gallery/DSC00878.jpg" alt="Francisco Romaldo Mendes"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">Francisco Romaldo Mendes</p><p class="is-size-6 is-block">Senior ML Engineer</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Chicago, Illinois</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="/archives/"><p class="title">31</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/categories/"><p class="title">9</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="/tags/"><p class="title">41</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="me noopener">Follow</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Github" href="https://github.com/FranciscoRMendes"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">Links</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://cri.uchicago.edu/portfolio/thirty-million-words/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">TMW Center</span></span><span class="level-right"><span class="level-item tag">cri.uchicago.edu</span></span></a></li><li><a class="level is-mobile" href="https://www.linkedin.com/in/franciscormendes/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">LinkedIn</span></span><span class="level-right"><span class="level-item tag">www.linkedin.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/autonomous-vehicles/"><span class="level-start"><span class="level-item">autonomous-vehicles</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/autonomous-vehicles/machine-learning/"><span class="level-start"><span class="level-item">machine-learning</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/book-review/"><span class="level-start"><span class="level-item">book-review</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/economics/"><span class="level-start"><span class="level-item">economics</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/machine-learning/"><span class="level-start"><span class="level-item">machine-learning</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/categories/mathematics/"><span class="level-start"><span class="level-item">mathematics</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/opinion/"><span class="level-start"><span class="level-item">opinion</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/physics/"><span class="level-start"><span class="level-item">physics</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/statistics/"><span class="level-start"><span class="level-item">statistics</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><figure class="media-left"><a class="image" href="/2026/03/07/acoustic-sensor-fusion/"><img src="/gallery/thumbnails/SWS.jpg" alt="Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-03-07T00:00:00.000Z">2026-03-07</time></p><p class="title"><a href="/2026/03/07/acoustic-sensor-fusion/">Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles</a></p><p class="categories"><a href="/categories/autonomous-vehicles/">autonomous-vehicles</a> / <a href="/categories/autonomous-vehicles/machine-learning/">machine-learning</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2026/02/28/quantum-fourier-transform/"><img src="/gallery/thumbnails/qft_cover.png" alt="From Bits to Clocks: A Visual Intuition for the Quantum Fourier Transform"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-02-28T00:00:00.000Z">2026-02-28</time></p><p class="title"><a href="/2026/02/28/quantum-fourier-transform/">From Bits to Clocks: A Visual Intuition for the Quantum Fourier Transform</a></p><p class="categories"><a href="/categories/mathematics/">mathematics</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2026/02/20/ssd-career-conference/"><img src="/gallery/thumbnails/career_conference_notes.jpeg" alt="Signaling, Skills, and Intellectual Health in the Age of AI: Thoughts from UChicago Career Conference 2026"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-02-20T00:00:00.000Z">2026-02-20</time></p><p class="title"><a href="/2026/02/20/ssd-career-conference/">Signaling, Skills, and Intellectual Health in the Age of AI: Thoughts from UChicago Career Conference 2026</a></p><p class="categories"><a href="/categories/opinion/">opinion</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2025/12/16/3d-coastline-paradox/"><img src="/gallery/thumbnails/telegraph-hill.webp" alt="Telegraph Hill and the Coastline Paradox: Measuring a City in Fractional Dimensions"></a></figure><div class="media-content"><p class="date"><time dateTime="2025-12-16T00:00:00.000Z">2025-12-16</time></p><p class="title"><a href="/2025/12/16/3d-coastline-paradox/">Telegraph Hill and the Coastline Paradox: Measuring a City in Fractional Dimensions</a></p><p class="categories"><a href="/categories/mathematics/">mathematics</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2025/12/06/convolution/"><img src="/gallery/thumbnails/2D%20Fourier%20Transform.jpg" alt="Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain"></a></figure><div class="media-content"><p class="date"><time dateTime="2025-12-06T00:00:00.000Z">2025-12-06</time></p><p class="title"><a href="/2025/12/06/convolution/">Locality, Learning, and the FFT: Why CNNs Avoid the Fourier Domain</a></p><p class="categories"><a href="/categories/machine-learning/">machine-learning</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2026/03/"><span class="level-start"><span class="level-item">March 2026</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2026/02/"><span class="level-start"><span class="level-item">February 2026</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/12/"><span class="level-start"><span class="level-item">December 2025</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/11/"><span class="level-start"><span class="level-item">November 2025</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/09/"><span class="level-start"><span class="level-item">September 2025</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/02/"><span class="level-start"><span class="level-item">February 2025</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/12/"><span class="level-start"><span class="level-item">December 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/11/"><span class="level-start"><span class="level-item">November 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/10/"><span class="level-start"><span class="level-item">October 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/09/"><span class="level-start"><span class="level-item">September 2024</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/08/"><span class="level-start"><span class="level-item">August 2024</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/07/"><span class="level-start"><span class="level-item">July 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/05/"><span class="level-start"><span class="level-item">May 2024</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/11/"><span class="level-start"><span class="level-item">November 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/01/"><span class="level-start"><span class="level-item">January 2022</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/machine-learning/"><span class="tag">machine-learning</span><span class="tag">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/embedded-ml/"><span class="tag">embedded-ml</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mathematics/"><span class="tag">mathematics</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/economics/"><span class="tag">economics</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/low-rank-approximation/"><span class="tag">low-rank-approximation</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/model-compression/"><span class="tag">model-compression</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/signal-processing/"><span class="tag">signal-processing</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/statistics/"><span class="tag">statistics</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/recommender-systems/"><span class="tag">recommender-systems</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/book-review/"><span class="tag">book-review</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/politics/"><span class="tag">politics</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/experimentation/"><span class="tag">experimentation</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/convolutional-neural-networks/"><span class="tag">convolutional-neural-networks</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/fiction/"><span class="tag">fiction</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lora/"><span class="tag">lora</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/philosophy/"><span class="tag">philosophy</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/physics/"><span class="tag">physics</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/career/"><span class="tag">career</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/a-b-testing/"><span class="tag">a-b-testing</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/causal-inference/"><span class="tag">causal-inference</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/fourier-transform/"><span class="tag">fourier-transform</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/graph-neural-networks/"><span class="tag">graph-neural-networks</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/game-theory/"><span class="tag">game-theory</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/essay/"><span class="tag">essay</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/quantization/"><span class="tag">quantization</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/reinforcement-learning/"><span class="tag">reinforcement-learning</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/neural-networks/"><span class="tag">neural-networks</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/artificial-intelligence/"><span class="tag">artificial-intelligence</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/fractals/"><span class="tag">fractals</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/autonomous-vehicles/"><span class="tag">autonomous-vehicles</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sensor-fusion/"><span class="tag">sensor-fusion</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bayesian-statistics/"><span class="tag">bayesian-statistics</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/history/"><span class="tag">history</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/spectral-methods/"><span class="tag">spectral-methods</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/football/"><span class="tag">football</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sports/"><span class="tag">sports</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/matching/"><span class="tag">matching</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/general-relativity/"><span class="tag">general-relativity</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/quantum-computing/"><span class="tag">quantum-computing</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/algorithms/"><span class="tag">algorithms</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/policy/"><span class="tag">policy</span><span class="tag">1</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">Subscribe for updates</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">follow.it</h3><form action="" method="post" target="_blank"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/gallery/favicon-32x32.png" alt="Hexo" height="28"></a><p class="is-size-7"><span>&copy; 2026 Francisco Romaldo Fernandes Mendes</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/javascript" id="MathJax-script" async>MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      chtml: {
+        matchFontHeight: false
+      }
+    };</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script><!--!--><script>
+      var sc_project=13006621;
+      var sc_invisible=1;
+      var sc_security="b56ff72f";
+      var sc_https=1;
+      var sc_remove_link=1;</script><script src="https://www.statcounter.com/counter/counter.js" async></script><noscript><div class="statcounter"><img class="statcounter" src="https://c.statcounter.com/13006621/0/b56ff72f/1/" alt="real time web analytics"></div></noscript><!--!--><script data-pjax src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>

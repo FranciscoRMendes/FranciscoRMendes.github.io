@@ -4,15 +4,13 @@ date: 2024-05-16
 mathjax: true
 thumbnail: gallery/thumbnails/quantization.png
 cover: gallery/thumbnails/quantization.png
-tags : 
-    - AI
-    - Machine Learning
-    - Deep Learning
-    - Quantization
-    - Neural Networks
-    - Optimization
+tags:
+    - machine-learning
+    - quantization
+    - model-compression
+    - embedded-ml
 categories:
-    - artificial-intelligence
+    - machine-learning
 excerpt: "A manual implementation of quantization in PyTorch."
 ---
  

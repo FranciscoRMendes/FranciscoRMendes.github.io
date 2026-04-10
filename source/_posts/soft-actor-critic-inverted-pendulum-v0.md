@@ -4,15 +4,12 @@ date : 2025-02-17
 mathjax : true
 thumbnail : gallery/thumbnails/inverted_cart_pole.png
 cover : gallery/thumbnails/inverted_cart_pole.png
-tags : 
-    - AI
-    - Machine Learning
-    - Deep Learning
-    - Neural Networks
-    - Reinforcement Learning
-
+tags:
+    - machine-learning
+    - reinforcement-learning
+    - neural-networks
 categories:
-    - artificial-intelligence
+    - machine-learning
 
 excerpt: "From scratch implementation of the SAC algorithm in PyTorch for Inverted Pendulum."
 ---

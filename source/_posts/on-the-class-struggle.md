@@ -3,8 +3,12 @@ title : "On The Class Struggle."
 date : 2024-08-1
 mathjax : true
 tags:
-categories:
+    - politics
+    - philosophy
+    - economics
     - essay
+categories:
+    - opinion
 excerpt: "An essay on the class struggle."
 ---
 

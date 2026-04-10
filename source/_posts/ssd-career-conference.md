@@ -8,6 +8,7 @@ cover_size: cover
 cover_height: 600px
 tags:
     - career
+    - artificial-intelligence
 categories:
     - opinion
 excerpt: "Thoughts "

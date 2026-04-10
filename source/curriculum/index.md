@@ -3,130 +3,204 @@ title: Curriculum Vitae
 date: 2024-06-09
 ---
 
-## Overall Experience Summary
+<div class="cv-header">
+  <div class="cv-name-block">
+    <h1>Francisco Romaldo Mendes</h1>
+    <p class="cv-updated"><em>Last updated April 2026</em></p>
+  </div>
+  <div class="cv-contact-block">
+    <a href="mailto:Mendes.franciscoromaldo@gmail.com">Mendes.franciscoromaldo@gmail.com</a><br>
+    <a href="https://franciscormendes.github.io/">franciscormendes.github.io</a>
+  </div>
+</div>
 
-Senior Machine Learning Engineer and Applied Statistician with 8+ years of experience designing, analysing, and deploying production-grade ML systems across large-scale mobility data, autonomous vehicle (AV) analytics, and embedded sensor platforms.
+<hr class="cv-rule">
 
-My expertise spans rare-event detection, statistical efficiency, signal processing, and hardware-constrained deployment. I have built and shipped models operating under severe class imbalance, tight latency/memory constraints, and safety-sensitive environments. My work consistently integrates:
+<div class="cv-section">
+<h2>Expertise</h2>
 
-1. **Problem Formalization**  
-   Translating ambiguous real-world objectives (business, safety, physics-driven constraints) into precise statistical learning problems.
+Marketplace data scientist with experience in autonomous technology and hardware. Two-sided marketplace optimisation, causal inference, experimentation, real-time perception, embedded ML, sensor fusion.
+</div>
 
-2. **Signal & Sensor Analysis**  
-   Understanding the physical and statistical properties of signals (spectral structure, stationarity, noise characteristics, sampling rates, hardware limitations).
+<hr class="cv-rule">
 
-3. **Statistical Modeling & Feature Design**  
-   Designing discriminative features using spectral analysis, cepstral analysis, and domain-specific transforms; developing calibrated classifiers and regression systems.
+<div class="cv-section">
+<h2>Experience</h2>
 
-4. **Rare-Event & Long-Tail Optimization**  
-   Building importance-weighted and variance-aware modeling pipelines; tuning decision thresholds along ROC and PR curves to optimize for asymmetric cost structures.
+<div class="cv-entry">
+  <div class="cv-entry-header">
+    <strong>Senior Applied Scientist / ML Engineer</strong>, Lyft Business
+    <span class="cv-date">2025 – Present</span>
+  </div>
+  <ul>
+    <li>Built rider-level price elasticity framework and rewards targeting model, optimising incentive allocation under budget constraints with A/B validation (PMM, PBET).</li>
+    <li>Built graph-based lookalike models (GCN, label propagation) over the Lyft marketplace graph for targeting, fraud, and incentives across product surfaces.</li>
+    <li>Developed driver supply forecasting at geohash level (24h ahead) to enable forward booking for Lyft Business.</li>
+    <li>Led causal inference on ad creatives using CV feature extraction (face, text, saliency) and propensity modelling to isolate true drivers of CTR.</li>
+  </ul>
+</div>
 
-5. **Production Deployment & Efficiency Engineering**  
-   Deploying models in Python, C++, and embedded environments; applying low-rank approximations, quantization (FP32 → INT8), and architectural compression while studying tradeoffs between accuracy, latency, and memory footprint.
+<div class="cv-entry">
+  <div class="cv-entry-header">
+    <strong>Senior AI Engineer</strong>, Renesas Electronics / Reality AI
+    <span class="cv-date">2023 – 2025</span>
+  </div>
+  <p class="cv-subtitle"><em>Hardware Machine Learning</em></p>
+  <ul>
+    <li>Architected multi-sensor ML pipelines across accelerometer, acoustic, voltage, pressure, and LIDAR modalities for automotive and industrial environments.</li>
+    <li>Deployed CNN and DNN models on DRP-AI accelerators, NPUs, and MCUs; compressed via INT8 quantisation and low-rank tensor factorisation.</li>
+    <li>Led and mentored 4 engineers; established CI, testing, and benchmarking pipelines.</li>
+  </ul>
+</div>
 
----
+<div class="cv-entry">
+  <div class="cv-entry-header">
+    <strong>Senior Data Scientist</strong>, Boston Consulting Group (BCG X / Gamma)
+    <span class="cv-date">2022 – 2023</span>
+  </div>
+  <ul>
+    <li>Built C++ production ML pipelines (perception, forecasting, recommender systems) for latency-sensitive industrial and enterprise applications.</li>
+  </ul>
+</div>
 
-## Professional Experience
+<div class="cv-entry">
+  <div class="cv-entry-header">
+    <strong>Research Assistant</strong>, University of Chicago
+    <span class="cv-date">2020 – 2022</span>
+  </div>
+  <ul>
+    <li>Built a fully embedded audio perception system under 512 kB memory: segmentation, denoising, and neural inference.</li>
+  </ul>
+</div>
 
-### Lyft — Senior Machine Learning Engineer / Data Scientist  
-2023 – Present  
+<div class="cv-entry">
+  <div class="cv-entry-header">
+    <strong>Senior Data Scientist</strong>, Deloitte Consulting LLP
+    <span class="cv-date">2016 – 2020</span>
+  </div>
+  <ul>
+    <li>Built real-time C++ anomaly detection and embedded inference pipelines for industrial and energy clients.</li>
+  </ul>
+</div>
 
-Design and deployment of large-scale, production ML systems for anomaly detection, safety analytics, and statistical efficiency in high-volume mobility data.
+</div>
 
-**Rare-Event Detection & Statistical Efficiency**
-- Architected and led development of a ghost ride detection system, an inherently low-base-rate classification problem operating on highly imbalanced datasets.
-- Applied importance sampling, probability calibration, and variance-aware modeling techniques to extract weak signals from large-scale positioning and behavioral data.
-- Achieved ~60.41% prevention of ghost rides while maintaining operational precision constraints.
-- Designed normalized risk scoring frameworks to ensure comparability across heterogeneous traffic environments.
+<hr class="cv-rule">
 
-**AV Safety & Operational Analytics**
-- Worked with autonomous vehicle operational logs and telemetry to derive structured accident and safety detection features.
-- Built large-scale Python and SQL pipelines to mine long-tail safety-relevant events from high-volume logs.
-- Designed statistically rigorous evaluation frameworks to prioritize rare but high-impact safety signals under resource constraints.
-- Contributed to production codebases in Python and C++, maintaining code health and reproducibility standards.
+<div class="cv-section">
+<h2>Technical Stack</h2>
 
----
+<div class="cv-stack">
+  <div><strong>Programming:</strong> Python, C++, MATLAB, R, Julia</div>
+  <div><strong>Frameworks:</strong> PyTorch, JAX, TensorFlow</div>
+  <div><strong>Deployment:</strong> ONNX, embedded toolchains, AWS, Docker</div>
+  <div><strong>Domains:</strong> Computer Vision, Sensor Fusion, Marketplace ML, RL</div>
+</div>
+</div>
 
-### Renesas Electronics / Reality AI — Senior AI Engineer, Hardware ML  
-2020 – 2023  
+<hr class="cv-rule">
 
-Led development and deployment of neural network pipelines for automotive and industrial sensor platforms.
+<div class="cv-section">
+<h2>Education</h2>
 
-- Designed and deployed ML models across accelerometer, acoustic, voltage, temperature, pressure, and LIDAR signals.
-- Built end-to-end optimized pipelines that ingest client sensor data, extract proprietary signal-processing features, train models, and deploy to MCUs.
-- Implemented memory- and latency-constrained inference on DRP-AI accelerators and microcontrollers.
-- Optimized linear transforms of the form Ax + b (equivalent to fully connected layers) through:
-  - INT8 quantization of matrix multiplications
-  - Low-rank matrix approximations
-  - Numerical representation optimization
-- Developed multi-objective reinforcement learning systems (Soft Actor-Critic) for energy optimization under physical constraints.
-- Led and mentored a team of four engineers; enforced CI/CD, unit testing, regression testing, and structured code review processes.
+<div class="cv-entry">
+  <div class="cv-entry-header">
+    <strong>University of Chicago</strong>
+    <span class="cv-date">GPA: 3.8 / 4.0</span>
+  </div>
+  M.S. Computational Economics / Theoretical Computer Science (2022)
+</div>
 
----
+<div class="cv-entry">
+  <div class="cv-entry-header">
+    <strong>Indian Statistical Institute, Kolkata</strong>
+    <span class="cv-date">Full Scholarship, Govt. of India</span>
+  </div>
+  M.S. Statistics (Honours), QE Specialisation (2016)
+</div>
 
-### Boston Consulting Group (BCG X / BCG GAMMA) — Senior Data Scientist  
-2022 – 2023  
+</div>
 
-- Designed statistically rigorous ML and optimization systems for industrial and retail clients.
-- Built high-performance C++ and Python production pipelines.
-- Developed cost-sensitive classification and regression models aligned to client unit economics.
-- Presented technical findings to executive stakeholders in high-stakes competitive settings.
-
----
-
-### University of Chicago — Research Assistant  
-Kenneth C. Griffin Department of Economics  
-2020 – 2022  
-
-- Designed and deployed an embedded audio ML pipeline (<512kB) for parentese detection on LENA devices.
-- Implemented wake detection, gender classification, and acoustic feature extraction using cepstral and spectral methods.
-- Translated subjective behavioral definitions into measurable signal-processing features (pitch shifts, syllable rates, vowel elongation).
-- Led experimental design and statistical validation of treatment-control interventions.
-
----
-
-### Deloitte Consulting LLP — Senior Data Scientist  
-2016 – 2020  
-
-- Developed real-time anomaly detection and signal analytics pipelines for oil & gas, medical, and industrial clients.
-- Modeled non-stationary time-series processes and optimized cost-sensitive decision thresholds.
-- Delivered production-grade ML systems in collaboration with engineering and operations teams.
-
----
-
-## Select Technical Projects
-
-### Rare-Event Ghost Ride Detection (Lyft)
-- Importance-sampled anomaly detection in large-scale mobility data.
-- Calibrated probability outputs and cost-sensitive threshold optimization.
-- Achieved ~60% rare-event prevention under strict operational constraints.
-
-### AV Accident & Safety Scenario Extraction
-- Long-tail event mining from AV operational logs.
-- Structured feature extraction for accident and safety detection analytics.
-- High-volume log processing in Python and SQL.
-
-### Grass-Level Detection (Computer Vision + LIDAR)
-- CNN-based classification of grass length for power optimization in electric lawnmowers.
-- Memory reduction via low-rank approximations and INT8 quantization.
-- Sensor tradeoff analysis balancing power consumption and predictive accuracy.
-
-### Arc Fault Detection
-- Designed sinusoidal deviation-based features for anomaly detection in electrical signals.
-- Optimized model performance under asymmetric false-positive cost constraints.
-- Won competitive bake-off based on cost-sensitive optimization.
-
----
-
-## Skills
-
-**Programming:** Python, C++, SQL, MATLAB, R, Julia  
-**ML Frameworks:** PyTorch, JAX, TensorFlow, scikit-learn  
-**Deployment:** ONNX, embedded toolchains, C++ inference pipelines  
-**Statistical Methods:** Rare-event modeling, importance sampling, probability calibration, cost-sensitive classification, experimental design  
-**Signal Processing:** Spectral analysis, cepstral analysis, time-frequency transforms  
-**Systems Engineering:** CI/CD, unit testing, regression testing, code review, large multi-language codebases  
-
----
-
-I combine mathematical rigor with production engineering discipline. I am comfortable deriving algorithms from first principles, implementing them from scratch, and deploying them in real-world systems under safety, latency, and resource constraints.
+<style>
+.cv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.cv-header h1 {
+  font-size: 1.9rem;
+  margin: 0 0 4px 0;
+  border: none;
+}
+.cv-updated {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #888;
+}
+.cv-contact-block {
+  text-align: right;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+.cv-rule {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 18px 0;
+}
+.cv-section {
+  margin-bottom: 8px;
+}
+.cv-section h2 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #555;
+  margin-bottom: 14px;
+  border: none;
+}
+.cv-entry {
+  margin-bottom: 18px;
+}
+.cv-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.cv-date {
+  font-size: 0.85rem;
+  color: #888;
+  white-space: nowrap;
+  font-style: italic;
+}
+.cv-subtitle {
+  margin: 2px 0 6px 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+.cv-entry ul {
+  margin: 6px 0 0 0;
+  padding-left: 1.4em;
+}
+.cv-entry ul li {
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.cv-stack {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 24px;
+  font-size: 0.95rem;
+}
+@media (max-width: 600px) {
+  .cv-header { flex-direction: column; }
+  .cv-contact-block { text-align: left; }
+  .cv-stack { grid-template-columns: 1fr; }
+}
+</style>

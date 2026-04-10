@@ -2,15 +2,13 @@
 title: "Are Values Passed Between Layers Float or Int in PyTorch Post Quantization?"
 date: 2024-05-16
 mathjax: true
-tags : 
-    - AI
-    - Machine Learning
-    - Deep Learning
-    - Quantization
-    - Neural Networks
-    - Optimization
+tags:
+    - machine-learning
+    - quantization
+    - model-compression
+    - embedded-ml
 categories:
-    - artificial-intelligence
+    - machine-learning
 excerpt: "In this article, we will discuss how values are passed between layers post quantization in PyTorch. We will also discuss why floating point operations are slower than integer operations."
 
 ---

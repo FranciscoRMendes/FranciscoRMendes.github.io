@@ -5,17 +5,13 @@ mathjax: true
 thumbnail: gallery/thumbnails/2D Fourier Transform.jpg
 cover: gallery/thumbnails/2D Fourier Transform.jpg
 tags:
-    - AI
-    - Machine Learning
-    - Deep Learning
-    - Low Rank Approximation
-    - Matrix Factorization
-    - Neural Networks
-    - Convolutional Neural Networks
-    - Graph Neural Networks
-    - Graph Convolutional Neural Networks
+    - machine-learning
+    - signal-processing
+    - fourier-transform
+    - convolutional-neural-networks
+    - low-rank-approximation
 categories:
-    - artificial-intelligence
+    - machine-learning
 excerpt: "In-Depth Explanation of Various kinds of Convolution: 1D, 2D and Graph"
 ---
 
@@ -263,9 +259,9 @@ Construct the **input Toeplitz matrix**:
 $$
 T_x =
 \begin{bmatrix}
-x_1 & x_2 & x_3 \
-x_2 & x_3 & x_4 \
-x_3 & x_4 & x_5 \
+x_1 & x_2 & x_3 \\\\
+x_2 & x_3 & x_4 \\\\
+x_3 & x_4 & x_5 \\\\
 x_4 & x_5 & x_6
 \end{bmatrix}.
 $$
@@ -400,7 +396,7 @@ $$
 The 2D DFT matrix for a 4×4 image (flattened row-major) is:
 
 $$
-F_{k,n} = e^{-2\pi i, kn/16},
+F_{k,n} = e^{-2\pi i \cdot kn/16},
 \qquad k,n = 0,\dots,15.
 $$
 
@@ -472,7 +468,7 @@ $$
 
 Take the first row, 
 $$
-\hat{W}_1 = w_\{11} + w_\{12} + w_\{13} + w_\{21} + w_\{22} + w_\{23} + w_\{31} + w_\{32} + w_\{33}
+\hat{W}_1 = w_{11} + w_{12} + w_{13} + w_{21} + w_{22} + w_{23} + w_{31} + w_{32} + w_{33}
 $$
 
 # 2. Fourier Transform of the Image
@@ -483,7 +479,7 @@ $$
 
 Take the first row, 
 $$
-\hat{X}_1 = x_\{11} + x_\{12} + x_\{13} + x_\{14} + x_\{21} + x_\{22} + x_\{23} + x_\{24} + x_\{31} + x_\{32} + x_\{33} + x_\{34} + x_\{41} + x_\{42} + x_\{43} + x_\{44}
+\hat{X}_1 = x_{11} + x_{12} + x_{13} + x_{14} + x_{21} + x_{22} + x_{23} + x_{24} + x_{31} + x_{32} + x_{33} + x_{34} + x_{41} + x_{42} + x_{43} + x_{44}
 $$
 
 
@@ -502,7 +498,7 @@ $$
 \hat{W}_1 \hat{X}_1 \\\\
 \hat{W}_2 \hat{X}_2 \\\\
 \vdots \\\\
-\hat{W}_\{16} \hat{X}_\{16}\\\\
+\hat{W}_{16} \hat{X}_{16}
 \end{bmatrix}
 $$
 
@@ -550,14 +546,14 @@ F
 \hat{W}_2 \hat{X}_2 \\\\
 \hat{W}_3 \hat{X}_3 \\\\
 \vdots \\\\
-\hat{W}_\{16} \hat{X}_\{16} \\\\
+\hat{W}_{16} \hat{X}_{16}
 \end{bmatrix}.
 $$
 
 Thus the first row of the output looks like (the subscript is 11 because it will eventually be recast to an image), 
 $$
-y_{11} = \frac{1}\{16} \left(
-\hat{W}_1 \hat{X}_1 + \hat{W}_2 \hat{X}_2 + \hat{W}_3 \hat{X}_3 + \cdots + \hat{W}_\{16} \hat{X}_\{16}
+y_{11} = \frac{1}{16} \left(
+\hat{W}_1 \hat{X}_1 + \hat{W}_2 \hat{X}_2 + \hat{W}_3 \hat{X}_3 + \cdots + \hat{W}_{16} \hat{X}_{16}
 \right)
 $$
 
@@ -565,17 +561,17 @@ We will try to focus on that first term on the RHS, $\hat{W}_1$, $\hat{X}_1$,
 
 
 $$
-\hat{W}_1\hat{X}_1 = (w_\{11} + w_\{12} + w_\{13} + w_\{21} + w_\{22} + w_\{23} + w_\{31} + w_\{32} + w_\{33}) \times (x_\{11} + x_\{12} + x_\{13} + x_\{14} + x_\{21} + x_\{22} + x_\{23} + x_\{24} + x_\{31} + x_\{32} + x_\{33} + x_\{34} + x_\{41} + x_\{42} + x_\{43} + x_\{44})
+\hat{W}_1\hat{X}_1 = (w_{11} + w_{12} + w_{13} + w_{21} + w_{22} + w_{23} + w_{31} + w_{32} + w_{33}) \times (x_{11} + x_{12} + x_{13} + x_{14} + x_{21} + x_{22} + x_{23} + x_{24} + x_{31} + x_{32} + x_{33} + x_{34} + x_{41} + x_{42} + x_{43} + x_{44})
 $$
 
 $$
-y_\{11} = \frac{1}{16} (w_\{11} + w_\{12} + w_\{13} +\dots + w_\{33}) \times (x_\{11} + x_\{12} + x_\{13} +\dots + x_\{42} + x_\{43} + \textcolor{red}{x_\{44}})
+y_{11} = \frac{1}{16} (w_{11} + w_{12} + w_{13} +\dots + w_{33}) \times (x_{11} + x_{12} + x_{13} +\dots + x_{42} + x_{43} + \textcolor{red}{x_{44}})
 $$
 
 Compare this to $y_{11}$ from the spatial case, notice that the term $\textcolor{red}{x_{44}}$ is missing in the below expression, 
 
 $$
-y_\{11} = w_\{11} x_\{11} + w_\{12} x_\{12} + w_\{13} x_\{13} + w_\{21}x_{21} + w_\{22} x_\{22} + w_\{23} x_\{23}+ w_\{31} x_\{31} + w_\{32} x_\{32} + w_\{33} x_\{33}
+y_{11} = w_{11} x_{11} + w_{12} x_{12} + w_{13} x_{13} + w_{21}x_{21} + w_{22} x_{22} + w_{23} x_{23}+ w_{31} x_{31} + w_{32} x_{32} + w_{33} x_{33}
 $$
 
 Eventually these two values will be numerically the same! We know this from the convolution theorem. In the next section we will see that the contributing values matter to the gradient back propagation and that is where the two approaches will differ. 
@@ -636,7 +632,7 @@ Suppose:
 
 * Input image: $X$ of size $N \times N$
 * Kernel: $W$ of size $K \times K$
-* Output: $Y of size $(N-K+1) \times (N-K+1)$
+* Output: $Y$ of size $(N-K+1) \times (N-K+1)$
 
 ### Number of multiplications
 

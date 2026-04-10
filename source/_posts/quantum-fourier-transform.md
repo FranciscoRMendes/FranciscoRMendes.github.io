@@ -5,9 +5,13 @@ mathjax : true
 thumbnail: gallery/thumbnails/qft_cover.png
 cover: gallery/thumbnails/qft_cover.png
 tags:
-    - career
+    - quantum-computing
+    - fourier-transform
+    - mathematics
+    - physics
+    - algorithms
 categories:
-    - opinion
+    - mathematics
 excerpt: "From binary numbers to clocks?: a visual guide to the Quantum Fourier Transform."
 ---
 

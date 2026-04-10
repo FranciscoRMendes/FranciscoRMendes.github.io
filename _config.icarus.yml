@@ -166,9 +166,27 @@ search:
 # Comment plugin configurations
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Comment/
 comment:
-    type: facebook
-    # Disqus shortname
-#    shortname: ''
+    type: giscus
+    # GitHub repo in the format "owner/repo"
+    repo: FranciscoRMendes/FranciscoRMendes.github.io
+    # Repo ID — get this from https://giscus.app after installing the app
+    repoId: REPLACE_WITH_REPO_ID
+    # Discussion category name (Announcements is recommended for one-way announcements)
+    category: Announcements
+    # Category ID — get this from https://giscus.app
+    categoryId: REPLACE_WITH_CATEGORY_ID
+    # How to map posts to discussions: pathname, url, title, og:title
+    mapping: pathname
+    # Enable emoji reactions on the discussion post
+    reactionsEnabled: true
+    # Theme: noborder_light, light, dark, preferred_color_scheme, etc.
+    theme: noborder_light
+    # Comment input position: top or bottom
+    inputPosition: bottom
+    # Language
+    lang: en
+    # Lazy load comments (only load when scrolled into view)
+    lazy: true
 # Donate plugin configurations
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Donation/
 #donates:
@@ -304,9 +322,9 @@ widgets:
         position: left
         type: tags
         # How to order tags. For example 'name' to order by name in ascending order, and '-length' to order by number of posts in each tags in descending order
-        order_by: name
+        order_by: -length
         # Amount of tags to show. Will show all if not set.
-        amount: 
+        amount:
         # Whether to show tags count, i.e. number of posts in the tag.
         show_count: true
     # Google FeedBurner email subscription widget configurations
@@ -387,7 +405,7 @@ plugins:
     katex: false
     # Enable the MathJax math typesetting support
     # https://www.mathjax.org/
-    mathjax: false
+    mathjax: true
     # Enable the Outdated Browser plugin
     # http://outdatedbrowser.com/
     outdated_browser: false

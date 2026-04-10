@@ -3,11 +3,11 @@ title: "On Comparing Newtonian and Einsteinian Gravity using Mars' Orbit"
 date: 2023-11-03
 mathjax: true
 tags:
-  - physics
-  - gravity
-  - mathematics
+    - physics
+    - general-relativity
+    - mathematics
 categories:
-  - physics
+    - physics
 ---
 
 # Introduction

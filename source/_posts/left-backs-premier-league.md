@@ -4,8 +4,9 @@ date: 2024-05-16
 mathjax: true
 thumbnail: gallery/thumbnails/img.png
 cover: gallery/thumbnails/img_1.png
-tags : 
+tags:
     - football
+    - sports
 categories:
     - opinion
 excerpt: "A lament for the left back in modern football."

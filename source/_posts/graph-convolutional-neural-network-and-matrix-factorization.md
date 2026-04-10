@@ -5,17 +5,12 @@ mathjax : true
 thumbnail : gallery/thumbnails/recommender-cartoon.png
 cover : gallery/thumbnails/recommender-cartoon.png
 tags:
-    - AI
-    - Machine Learning
-    - Deep Learning
-    - Low Rank Approximation
-    - Matrix Factorization
-    - Neural Networks
-    - Convolutional Neural Networks
-    - Graph Neural Networks
-    - Graph Convolutional Neural Networks
+    - machine-learning
+    - graph-neural-networks
+    - low-rank-approximation
+    - recommender-systems
 categories:
-    - artificial-intelligence
+    - machine-learning
 excerpt: "A review of the mathematical essentials for recommender systems, comparing matrix factorization and graph neural networks."
 ---
 

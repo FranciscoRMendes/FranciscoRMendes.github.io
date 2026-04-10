@@ -3,11 +3,10 @@ title : "Matching MATLAB's resample function in Python"
 date : 2024-12-17
 mathjax : true
 tags:
-    - statistics   
-    - signal processing
+    - statistics
+    - signal-processing
 categories:
     - statistics
-    - machine learning
 excerpt: "Matching MATLAB's resample function in Python."
 ---
 

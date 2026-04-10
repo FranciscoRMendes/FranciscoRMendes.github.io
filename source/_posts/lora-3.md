@@ -5,17 +5,14 @@ mathjax : true
 thumbnail : gallery/thumbnails/decomposition_illustration.png
 cover : gallery/thumbnails/decomposition_illustration.png
 tags:
-    - AI
-    - Machine Learning
-    - Deep Learning
-    - Low Rank Approximation
-    - SVD
-    - Neural Networks
-    - Optimization
-    - LORA
-    - Convolutional Neural Networks
+    - machine-learning
+    - low-rank-approximation
+    - model-compression
+    - embedded-ml
+    - lora
+    - convolutional-neural-networks
 categories:
-    - artificial-intelligence
+    - machine-learning
 excerpt: "In this post, we will explore the Low Rank Approximation (LoRA) technique for shrinking neural networks for embedded systems. We will focus on the Convolutional Neural Network (CNN) case and discuss the rank selection process."
 ---
 # Decomposition of a Convolutional layer

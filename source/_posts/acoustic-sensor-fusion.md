@@ -2,16 +2,17 @@
 title : "Beyond Photons: Passive Acoustic Sensing for Autonomous Vehicles"
 date : 2026-03-07
 mathjax : true
-thumbnail : gallery/thumbnails/pamvon-thumbnail.png
-cover : gallery/thumbnails/pamvon-thumbnail.png
+thumbnail : gallery/thumbnails/SWS.jpg
+cover : gallery/thumbnails/SWS.jpg
 tags:
-    - autonomous vehicles
-    - sensor fusion
-    - machine learning
-    - signal processing
+    - autonomous-vehicles
+    - sensor-fusion
+    - signal-processing
+    - machine-learning
+    - embedded-ml
 categories:
-    - autonomous vehicles
-    - machine learning
+    - autonomous-vehicles
+    - machine-learning
 excerpt: "Exploring PAMVON, a passive acoustic monitoring system for emergency vehicle detection, and the challenges preventing its production adoption."
 ---
 

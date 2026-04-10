@@ -4,9 +4,10 @@ date: 2024-01-06
 mathjax: true
 thumbnail: gallery/thumbnails/child-in-korean-war.png
 cover: gallery/thumbnails/child-in-korean-war.png
-tags : 
-    - book review
+tags:
+    - book-review
     - politics
+    - history
 categories:
     - book-review
 excerpt: "A review of The Cold War: A World History by Odd Arne Westad and reflections on the Cold War."

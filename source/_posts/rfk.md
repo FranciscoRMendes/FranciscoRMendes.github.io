@@ -5,8 +5,9 @@ mathjax : true
 thumbnail: gallery/thumbnails/rfk.png
 cover: gallery/thumbnails/rfk.png
 tags:
-    - economics
+    - game-theory
     - politics
+    - economics
 categories:
     - opinion
 excerpt: "A non-opinion piece on the strategic implications of voting for RFK."

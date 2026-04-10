@@ -3,17 +3,71 @@
    Francisco Mendes — FranciscoRMendes.github.io
    ============================================ */
 
+/* ---------- Fonts ---------- */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+body,
+.content,
+.navbar-item,
+.title,
+.subtitle,
+.button,
+.input,
+.tag,
+.card-content,
+.widget,
+.footer {
+  font-family: 'IBM Plex Sans', sans-serif !important;
+}
+
+code,
+pre,
+.highlight,
+tt,
+kbd,
+samp {
+  font-family: 'IBM Plex Mono', monospace !important;
+}
+
+/* Tighten Inter's letter-spacing slightly for headings */
+article.article .content h1,
+article.article .content h2,
+article.article .content h3,
+article.article .content h4,
+article.article .content h5 {
+  letter-spacing: -0.02em;
+}
+
+/* Body text: Inter reads better at slightly lighter weight */
+article.article .content {
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
 /* ---------- Background ---------- */
 body {
-  background-color: #eef1f6 !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background:
+    radial-gradient(ellipse at 8% 8%, rgba(99, 125, 230, 0.28) 0%, transparent 48%),
+    radial-gradient(ellipse at 92% 92%, rgba(140, 99, 220, 0.2) 0%, transparent 48%),
+    linear-gradient(160deg, #dde4f0 0%, #e8edf7 45%, #dfe6f2 100%) fixed !important;
+  min-height: 100vh;
+}
+
+/* Branded text selection */
+::selection {
+  background: rgba(50, 115, 220, 0.18);
+  color: inherit;
 }
 
 /* ---------- Navbar ---------- */
 .navbar-main {
-  background: rgba(255, 255, 255, 0.96) !important;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.07), 0 4px 24px rgba(0, 0, 0, 0.05) !important;
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6), 0 4px 24px rgba(0, 0, 0, 0.06) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -24,6 +78,26 @@ body {
   font-size: 0.88rem;
   letter-spacing: 0.02em;
   transition: color 0.15s ease !important;
+  position: relative;
+}
+
+/* Animated underline on nav hover */
+.navbar-main a.navbar-item::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 18px;
+  height: 2px;
+  background: linear-gradient(90deg, #3273dc, #7c3aed);
+  border-radius: 2px;
+  transition: transform 0.2s ease;
+}
+
+.navbar-main a.navbar-item:hover::after,
+.navbar-main a.navbar-item.is-active::after {
+  transform: translateX(-50%) scaleX(1);
 }
 
 .navbar-logo img {
@@ -32,15 +106,20 @@ body {
 
 /* ---------- Cards (posts + sidebar) ---------- */
 .card {
-  border-radius: 14px !important;
-  background: #ffffff !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 20px rgba(0, 0, 0, 0.06) !important;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  transition: box-shadow 0.25s ease, transform 0.25s ease !important;
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.68) !important;
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05), 0 8px 28px rgba(0, 0, 0, 0.07) !important;
+  border: 1px solid rgba(255, 255, 255, 0.75) !important;
+  transition: box-shadow 0.3s ease, transform 0.3s ease, background 0.3s ease !important;
 }
 
 .card:hover {
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08), 0 20px 48px rgba(0, 0, 0, 0.1) !important;
+  background: rgba(255, 255, 255, 0.82) !important;
+  box-shadow:
+    0 4px 16px rgba(50, 115, 220, 0.1),
+    0 24px 56px rgba(50, 115, 220, 0.1) !important;
   transform: translateY(-4px);
 }
 
@@ -78,6 +157,21 @@ article.article .content {
   font-size: 1.05rem;
   line-height: 1.9;
   color: #374151;
+  max-width: 690px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Post page title */
+article.article .article-title {
+  font-size: 2.1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.2 !important;
+  color: #0f172a !important;
+  max-width: 690px;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 article.article .content h1,
@@ -93,7 +187,8 @@ article.article .content h5 {
 
 article.article .content h2 {
   padding-bottom: 0.45rem;
-  border-bottom: 2px solid #e5e7eb;
+  border-bottom: 2px solid;
+  border-image: linear-gradient(90deg, #3273dc 0%, rgba(50, 115, 220, 0.15) 55%, transparent 100%) 1;
 }
 
 /* ---------- Blockquotes ---------- */
@@ -110,7 +205,7 @@ article.article .content blockquote {
 /* ---------- Code ---------- */
 article.article .content pre {
   border-radius: 10px !important;
-  box-shadow: inset 0 1px 5px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.14) !important;
 }
 
 article.article .content :not(pre) > code {
@@ -136,14 +231,21 @@ article.article .content a:not(.button):not(.tag):hover {
 }
 
 /* ---------- Tables ---------- */
+article.article .content .table-container,
+article.article .content table {
+  width: 100%;
+}
+
 article.article .content table {
   border-radius: 10px;
-  overflow: hidden;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 article.article .content thead th {
-  background-color: #f8fafc;
+  background-color: rgba(50, 115, 220, 0.06);
   font-weight: 600;
   letter-spacing: 0.03em;
   font-size: 0.85em;
@@ -169,25 +271,48 @@ article.article .content thead th {
 }
 
 /* ---------- Profile widget ---------- */
+/* Gradient banner behind the avatar */
+[data-type="profile"] .card {
+  background:
+    linear-gradient(135deg, #3273dc 0%, #7c3aed 100%) top / 100% 150px no-repeat,
+    rgba(255, 255, 255, 0.72) !important;
+  overflow: hidden !important;
+}
+
+[data-type="profile"] .card:hover {
+  background:
+    linear-gradient(135deg, #3273dc 0%, #7c3aed 100%) top / 100% 150px no-repeat,
+    rgba(255, 255, 255, 0.85) !important;
+  box-shadow:
+    0 4px 16px rgba(50, 115, 220, 0.15),
+    0 24px 56px rgba(50, 115, 220, 0.12) !important;
+}
+
+/* Push content down so the banner is visible above the avatar */
 [data-type="profile"] .card-content {
-  padding: 1.5rem 1.25rem;
+  padding: 70px 1.25rem 1.5rem !important;
+}
+
+[data-type="profile"] .image.is-128x128 {
+  width: 256px;
+  height: 256px;
 }
 
 [data-type="profile"] .image img.avatar {
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.14) !important;
-  border: 3px solid #fff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 4px rgba(255, 255, 255, 0.7) !important;
   transition: transform 0.3s ease, box-shadow 0.3s ease !important;
 }
 
 [data-type="profile"] .image img.avatar:hover {
-  transform: scale(1.04);
-  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.2) !important;
+  transform: scale(1.03);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), 0 0 0 5px rgba(255, 255, 255, 0.9) !important;
 }
 
 [data-type="profile"] .title.is-size-4 {
   font-weight: 700;
-  letter-spacing: -0.01em;
-  margin-top: 0.5rem;
+  letter-spacing: -0.02em;
+  margin-top: 0.75rem;
+  color: #0f172a;
 }
 
 /* Social link icon buttons */
@@ -208,6 +333,17 @@ article.article .content thead th {
 [data-type="profile"] .level.is-mobile .title {
   font-weight: 600;
   color: #3273dc;
+}
+
+/* Article card gets more generous padding */
+article.article > .card > .card-content {
+  padding: 2rem 2.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  article.article > .card > .card-content {
+    padding: 1.5rem 1.25rem;
+  }
 }
 
 /* ---------- Sidebar widget cards spacing ---------- */
@@ -256,24 +392,25 @@ article.article .content thead th {
 
 /* ---------- Progress bar ---------- */
 #nprogress .bar {
-  background: #3273dc !important;
+  background: linear-gradient(90deg, #3273dc, #7c3aed) !important;
   height: 3px !important;
 }
 
 #nprogress .peg {
-  box-shadow: 0 0 10px #3273dc, 0 0 5px #3273dc !important;
+  box-shadow: 0 0 10px #7c3aed, 0 0 5px #7c3aed !important;
 }
 
 /* ---------- Back-to-top button ---------- */
 #back-to-top {
   border-radius: 50% !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+  background: linear-gradient(135deg, #3273dc, #7c3aed) !important;
+  box-shadow: 0 4px 16px rgba(50, 115, 220, 0.35) !important;
   transition: all 0.3s ease !important;
 }
 
 #back-to-top:hover {
   transform: translateY(-3px) !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
+  box-shadow: 0 8px 24px rgba(50, 115, 220, 0.5) !important;
 }
 
 /* ---------- Section spacing ---------- */

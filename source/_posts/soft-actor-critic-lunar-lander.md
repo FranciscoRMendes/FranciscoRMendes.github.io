@@ -4,14 +4,12 @@ date : 2025-02-28
 mathjax : true
 thumbnail : gallery/thumbnails/lunar-lander-2.png
 cover : gallery/thumbnails/lunar-lander-2.png
-tags : 
-    - AI
-    - Machine Learning
-    - Deep Learning
-    - Neural Networks
-    - Reinforcement Learning
+tags:
+    - machine-learning
+    - reinforcement-learning
+    - neural-networks
 categories:
-    - artificial-intelligence
+    - machine-learning
 excerpt: "From scratch implementation of the SAC algorithm in PyTorch for Lunar Lander."
 ---
 

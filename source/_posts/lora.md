@@ -2,17 +2,14 @@
 title: "Part I :  Shrinking Neural Networks for Embedded Systems Using Low Rank Approximations (LoRA)"
 date: 2024-04-03
 mathjax: true
-tags : 
-    - AI
-    - Machine Learning
-    - Deep Learning
-    - Low Rank Approximation
-    - SVD
-    - Neural Networks
-    - Optimization
-    - LORA
+tags:
+    - machine-learning
+    - low-rank-approximation
+    - model-compression
+    - embedded-ml
+    - lora
 categories:
-    - - artificial-intelligence
+    - machine-learning
 excerpt: "An elementary explanation of the problem with full rank matrices in neural networks and their solution via low rank approximations. Detailed explanation on how to set up the optimization problem and how to solve it, in possibly linear time."
 ---
 

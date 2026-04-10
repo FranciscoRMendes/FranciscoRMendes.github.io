@@ -4,8 +4,9 @@ date: 2025-09-01
 mathjax: true
 thumbnail: gallery/thumbnails/kafka_on_the_shore.jpeg
 cover: gallery/thumbnails/kafka_on_the_shore.jpeg
-tags : 
-    - book review
+tags:
+    - book-review
+    - fiction
 categories:
     - book-review
 excerpt: "A review of Haruki Murakami's Kafka On The Shore"

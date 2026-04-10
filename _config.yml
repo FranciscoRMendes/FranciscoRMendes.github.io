@@ -1,11 +1,11 @@
-title: Hexo
-subtitle: ''
-description: ''
-keywords: null
+title: Francisco Mendes
+subtitle: 'Machine Learning & Statistics'
+description: 'Writing about machine learning, statistics, and signal processing.'
+keywords: machine learning, statistics, signal processing, deep learning
 author: Francisco Romaldo Fernandes Mendes
 language: en
 timezone: ''
-url: http://example.com
+url: https://franciscormendes.github.io
 permalink: ':year/:month/:day/:title/'
 permalink_defaults: null
 pretty_urls:

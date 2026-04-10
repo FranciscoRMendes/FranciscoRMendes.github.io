@@ -390,7 +390,7 @@ The essential matrix $E = [\mathbf{t}]_\times R$ is not a definition — it is t
 
 All of these facts follow from a single observation: camera pose lives in $SE(3)$, a Lie group with a rich algebraic and geometric structure. Understanding this structure does not make the engineering easier — AV perception pipelines are hard regardless — but it tells you *which* parts of the problem are fundamental and *which* are implementation details. That distinction is what makes the difference between debugging by intuition and debugging by geometry.
 
-<!-- TODO: closing paragraph from Francisco's AV experience -->
+There is a common complaint about mathematics education: why are we made to study abstract algebra, differential geometry, and Lie theory when none of it seems to connect to anything real? The answer, as usual, only becomes clear in hindsight. The moment you sit down to do something genuinely interesting — building a perception stack for an autonomous vehicle, optimising a camera pose in real time, recovering 3D structure from two frames of video — you find that the abstract machinery is not optional background. It is the load-bearing wall. $SE(3)$ is not a curiosity from a graduate algebra course. It is the reason your rotation matrices stay orthogonal, the reason your epipolar lines are conjugate, and the reason five point correspondences are enough to recover motion. The mathematics was always practical. It just needed a cool enough problem to make that obvious.
 
 ---
 

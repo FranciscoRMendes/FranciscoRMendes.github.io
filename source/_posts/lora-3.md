@@ -19,7 +19,7 @@ series_index: 3
 ---
 # Decomposition of a Convolutional layer
 
-In [a previous post](/2024/04/03/lora/) I described (in some detail) what it means to decompose a matrix multiply into a sequence of low rank matrix multiplies. We can do something similar for a tensor as well, this is somewhat less easy to see since tensors (particularly in higher dimensions) are quite hard to visualize.
+In [Part I](/2024/04/03/lora/) I described (in some detail) what it means to decompose a matrix multiply into a sequence of low rank matrix multiplies, and [Part II](/2024/04/24/lora-2/) extended that to convolutional kernels and rank selection. We can go further still for general tensors, though this is somewhat less easy to see since tensors in higher dimensions are quite hard to visualize.
 Recall, the matrix formulation,
 $$Y = XW + b = XUSV' + b$$
 Where $U$ and $V$ are the left and right singular vectors of $W$ respectively. The idea is to approximate $W$ as a sum of outer products of $U$ and $V$ of lower rank. 

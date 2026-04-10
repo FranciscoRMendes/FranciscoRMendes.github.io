@@ -6,9 +6,9 @@ thumbnail: gallery/thumbnails/telegraph-hill.webp
 cover: gallery/thumbnails/telegraph-hill.webp
 tags:
     - mathematics
-    - physics
+    - fractals
 categories:
-    - artificial-intelligence
+    - mathematics
 excerpt: "3D Proof of the Coastline Paradox"
 ---
 

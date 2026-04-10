@@ -6,8 +6,10 @@ thumbnail: gallery/thumbnails/Poor_Fisherman.jpg
 cover: gallery/thumbnails/Poor_Fisherman.jpg
 tags:
     - artificial-intelligence
-categories:
+    - philosophy
     - essay
+categories:
+    - opinion
 excerpt: "Thoughts on beauty and its relationship with AI"
 ---
 

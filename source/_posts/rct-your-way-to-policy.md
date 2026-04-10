@@ -5,8 +5,11 @@ mathjax : true
 cover: gallery/token-picture-of-poor.png
 thumbnail: gallery/thumbnails/banerjee-duflo-kramer.png
 tags:
-  - statistics
-  - economics
+    - statistics
+    - economics
+    - causal-inference
+    - experimentation
+    - policy
 categories:
     - opinion
 excerpt: "A critique of the Randomized Controlled Trial (RCT) in economics."

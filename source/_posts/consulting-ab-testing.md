@@ -5,10 +5,13 @@ mathjax : true
 thumbnail : gallery/thumbnails/ab-testing-cartoon.png
 cover : gallery/thumbnails/ab-testing-cartoon.png
 tags:
-    - statistics   
+    - statistics
+    - a-b-testing
+    - experimentation
+    - causal-inference
+    - recommender-systems
 categories:
     - statistics
-    - machine learning
 excerpt: "A comprehensive guide to AB Testing in the context of management consulting, with a special focus on recommender systems."
 ---
 

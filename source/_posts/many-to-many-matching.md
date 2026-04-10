@@ -2,11 +2,11 @@
 title: " Fixed Points of Many to Many matching"
 date: 2022-01-10
 mathjax: true
-tags : 
-    - fixed-point-theorem
-    - matching
-    - pure-mathematics
+tags:
     - game-theory
+    - matching
+    - mathematics
+    - economics
 categories:
     - economics
 excerpt: "A discussion of the fixed points of many to many matching."

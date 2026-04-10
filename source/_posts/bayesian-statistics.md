@@ -4,8 +4,12 @@ date: 2024-07-19
 mathjax: true
 thumbnail: gallery/thumbnails/bayesian-cover.png
 cover: gallery/thumbnails/bayesian-cover.png
-tags : 
-    - Bayesian Statistics
+tags:
+    - bayesian-statistics
+    - a-b-testing
+    - statistics
+    - experimentation
+    - recommender-systems
 categories:
     - statistics
 excerpt: "A comprehensive guide to Bayesian statistics in consulting, from A/B testing to recommendation engines."

@@ -4,19 +4,20 @@ title: About Me
 date: 2020-10-17
 ---
 
-Hello! Welcome to my blog. I am a Senior Machine Learning Engineer at Lyft, where I work on large-scale, production-grade ML systems focused on rare-event detection, statistical efficiency, and safety analytics. My work involves designing and deploying models that extract weak signals from high-volume, highly imbalanced data — often under tight operational and computational constraints.
+I'm Francisco — a machine learning engineer and applied statistician based in Chicago.
 
-I spend much of my time thinking about long-tail events, probability calibration, importance sampling, and how to build systems that remain robust under uncertainty. I work across Python, C++, and SQL production pipelines, and collaborate closely with cross-functional teams to ensure that models are not only accurate, but statistically sound and operationally reliable.
+My work sits at the intersection of statistical theory and production systems. I've spent the last decade building ML in environments where the math has to work *and* the code has to ship: embedded microcontrollers with 512 kB of memory, real-time sensor pipelines for autonomous vehicles, and two-sided marketplace models at Lyft scale.
 
-In previous roles, I was a Senior AI Engineer at Renesas Electronics, where I implemented deep neural networks on embedded hardware for automotive and industrial systems. That experience gave me a strong appreciation for hardware-aware model design, efficiency constraints, and the mathematics required to make models both light and fast. Earlier in my career, I was an AI Consultant at the Boston Consulting Group and a researcher at the University of Chicago's Thirty Million Words Center (under John List and Dana Suskind).
+Currently I'm a **Senior Applied Scientist at Lyft**, working on marketplace optimisation — price elasticity, incentive targeting, driver supply forecasting, and graph-based lookalike models over the Lyft ride network.
 
-I love mathematics, probability, and algorithms, and I use this blog to share thoughts and ideas on these topics. Because of my background in mathematics, I prefer to teach using small toy examples and proofs that make the core idea transparent — often without relying on code. To me, learning AI is about understanding the algorithm deeply enough to implement it by hand with pen and paper.
+Before that I was at **Renesas Electronics / Reality AI** deploying compressed neural networks (INT8 quantisation, low-rank factorisation) onto automotive-grade hardware. And before that, **BCG** and **Deloitte**, building production C++ inference pipelines for industrial clients.
 
+I hold an M.S. in Computational Economics and Theoretical Computer Science from the **University of Chicago**.
 
-In my free time I play a lot of basketball and football (soccer), and you can usually find me in rec leagues across the city.
+---
 
-<!-- <div align="center">
-  <img src="/source/gallery/franco-benfica.jpeg" width="400">
-</div> -->
+This blog is where I write about things I find interesting enough to work through in detail: signal processing, deep learning theory, causal inference, reinforcement learning, the occasional book, and whatever I happen to be thinking about. The posts tend to be long and mathematical. I write them mostly for myself — to force precision — but I hope they're useful to others.
 
-<!-- gallery/franco-benfica.jpeg -->
+If you want the full picture, the [CV is here](/curriculum).
+
+You can reach me at [Mendes.franciscoromaldo@gmail.com](mailto:Mendes.franciscoromaldo@gmail.com) or find me on [GitHub](https://github.com/FranciscoRMendes) and [LinkedIn](https://www.linkedin.com/in/franciscormendes/).

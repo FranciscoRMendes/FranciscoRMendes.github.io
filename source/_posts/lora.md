@@ -24,7 +24,7 @@ The first affects the amount of memory required to store the model, while the se
 
 I have worked extensively in matrix factorization before, mostly factorizing sparse matrices for recommendation systems. 
 Unfortunately, while there are many LoRA walk throughs using code, I was not able to find a simple succint explanation of the problem and the solution. And _why_ it works. This article aims to address that gap by providing an elementary explanation of the problem, how to set up the optimization problem and how to solve it, in possibly linear time. 
-This is part I, that deals with factorizing a fully connected layer. [Part II will deal with factorizing a convolutional layer](/2024/04/24/lora-2/). 
+This is part I, that deals with factorizing a fully connected layer. [Part II will deal with factorizing a convolutional layer](/2024/04/24/lora-2/). If you are more interested in the quantization approach to embedded compression — reducing arithmetic cost rather than weight count — [this post on INT8 quantization from scratch](/2024/05/16/quantization-1/) covers the same motivation from a different angle.
 
 # Code Follow Along
 The Jupyter Notebook for this is at https://github.com/FranciscoRMendes/tensor-rank

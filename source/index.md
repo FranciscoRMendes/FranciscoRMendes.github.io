@@ -8,7 +8,7 @@ I'm Francisco — a machine learning engineer and applied statistician based in 
 
 My work sits at the intersection of statistical theory and production systems. I've spent the last decade building ML in environments where the math has to work *and* the code has to ship: embedded microcontrollers with 512 kB of memory, real-time sensor pipelines for autonomous vehicles, and two-sided marketplace models at Lyft scale.
 
-Currently I'm a **Senior Applied Scientist at Lyft**, working on marketplace optimisation — price elasticity, incentive targeting, driver supply forecasting, and graph-based lookalike models over the Lyft ride network.
+Currently I'm a **Staff ML Engineer at Lyft**, working on marketplace optimisation — price elasticity, incentive targeting, driver supply forecasting, and graph-based lookalike models over the Lyft ride network.
 
 Before that I was at **Renesas Electronics / Reality AI** deploying compressed neural networks (INT8 quantisation, low-rank factorisation) onto automotive-grade hardware. And before that, **BCG** and **Deloitte**, building production C++ inference pipelines for industrial clients.
 

@@ -10,14 +10,16 @@ tags:
     - neural-networks
 categories:
     - machine-learning
-excerpt: "From scratch implementation of the SAC algorithm in PyTorch for Lunar Lander."
+excerpt: "From-scratch SAC in PyTorch applied to Lunar Lander: extends the Inverted Pendulum implementation to a harder task with sparse rewards and a 2D continuous action space."
+series: "Soft Actor-Critic: Reinforcement Learning from Scratch"
+series_index: 2
 ---
 
 # Introduction
 Just like in the previous example using the CartPole environment, we will be using the Lunar Lander environment from OpenAI Gym. The goal of this example is to implement the Soft Actor Critic (SAC) algorithm from scratch using PyTorch. The SAC algorithm is a model-free, off-policy actor-critic algorithm that uses a stochastic policy and a value function to learn optimal policies in continuous action spaces. 
-Like before, I will be using notation that matches the original paper (Haarnoja et al., 2018) and the code will be structured in a similar way to the previous example. The main difference is that we will be using a different environment and a different algorithm.
+[Like in the Inverted Pendulum example](/2025/02/17/soft-actor-critic-inverted-pendulum-v0/), I will be using notation that matches the original paper (Haarnoja et al., 2018) and the code will be structured in a similar way. The main difference is that we will be using a different environment and a different algorithm.
 Since the paper's notation is critical to the understanding of the code, I highly recommend reading that alongside (or before) diving into the code.
-Part 1 of this series provides extensive details linking the theory to the code. In this part, we will focus on the implementation of the SAC algorithm in PyTorch for Lunar Lander. 
+[Part 1 of this series](/2025/02/17/soft-actor-critic-inverted-pendulum-v0/) provides extensive details linking the theory to the code. In this part, we will focus on the implementation of the SAC algorithm in PyTorch for Lunar Lander. 
 
 https://github.com/FranciscoRMendes/soft-actor-critic/blob/main/lunar-lander/LL_main_sac.py
 

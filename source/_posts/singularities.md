@@ -9,7 +9,7 @@ tags:
     - mathematics
 categories:
     - physics
-excerpt: "A short note on singularities in physics and mathematics."
+excerpt: "From 1/x to the Schwarzschild radius: what singularities mean in analysis and general relativity, and whether they correspond to anything physically real."
 ---
 
 # Introduction

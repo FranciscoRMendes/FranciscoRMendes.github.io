@@ -12,7 +12,7 @@ tags:
     - recommender-systems
 categories:
     - machine-learning
-excerpt: "Explore how Fourier transforms on graphs power spectral GCNs, from modeling heat flow to solving cold-start recommendations."
+excerpt: "Fourier transforms on graphs, spectral GCNs, and the heat equation: how diffusion operators connect graph signal processing to cold-start recommendation problems."
 ---
 
 # Introduction

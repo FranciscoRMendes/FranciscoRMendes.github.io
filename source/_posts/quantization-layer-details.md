@@ -14,7 +14,7 @@ excerpt: "In this article, we will discuss how values are passed between layers 
 ---
 
 # Introduction
-A common question I had when I first started working with quantization was, how exactly are values passed between layers post quantization? Looking at the quantization equations it was not immediately obvious to me how to do away with ALL floating point operations and what values were used exactly in the forward pass operation. 
+After [implementing a quantized layer from scratch](/2024/05/16/quantization-1/), a natural question is: how exactly are values passed between layers post quantization? Looking at the quantization equations it was not immediately obvious to me how to do away with ALL floating point operations and what values were used exactly in the forward pass operation. 
 In this article, I will address two main questions,
 - How does PyTorch pass values between layers post quantization? And what are the quantization equations used. 
 - What exactly makes floating point operations slower than integer operations?

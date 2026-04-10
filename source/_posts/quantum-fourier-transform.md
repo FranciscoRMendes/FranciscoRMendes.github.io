@@ -12,7 +12,7 @@ tags:
     - algorithms
 categories:
     - mathematics
-excerpt: "From binary numbers to clocks?: a visual guide to the Quantum Fourier Transform."
+excerpt: "Visual guide to the Quantum Fourier Transform: from binary numbers and roots of unity to the QFT circuit, with comparisons to classical DFT and implications for Shor's algorithm."
 ---
 
 # Introduction
@@ -22,7 +22,7 @@ Sometimes it does seem like my blog is just increasingly complex applications of
 At the end of the day this is all just linear algebra, requiring no knowledge of actual quantum physics. Because the Quantum Fourier Transform can be somewhat mathematically abstract and also because the Fourier Transform is so easily visualized as a decomposition into various sines and cosines, I thought of coming up with a similar visualization for the Quantum Fourier Transform case (spoiler: it involves clocks). 
 
 # Motivation
-\section{Motivation}
+
 Before discussing in detail what the QFT is mathematically, it is useful to recap what the Fourier transform is in general. The Fourier transform is a way of transforming information from one domain to another domain. Why? Because certain operations become simpler in the transformed domain. For example, in classical signal processing, convolution of a signal (the mathematical definition of filtering) in the time domain corresponds to simple multiplication in the frequency domain. 
 
 In the graph setting, we saw that potentially complex behaviors in the edge-node representation of the graph were far more mathematically tractable when looking at the "frequency" equivalent of the graph. Eigenvectors of the graph Laplacian isolate modes of variation: low-frequency components capture global structure, while high-frequency components capture local fluctuations.  
@@ -39,16 +39,7 @@ I might do a post later on why this is true on so many different problems. But i
 # Useful Intuition
 
 One of the reasons the Fourier transform in its simplest form is so
-interesting is that it is so visual. Consider below the Fourier
-transform on a simple 1-D wave (pulled from the internet) and a Fourier
-Transform (from yours truly).
-
-![4 Qubit QFT Animation](quantum-fourier-transform/Fourier_Transform.png)
-
-![4 Qubit QFT Animation](quantum-fourier-transform/Fourier_Transform_graph.png)
-
-
-In this blog post I will try to provide a nice visual explanation for
+interesting is that it is so visual. In this blog post I will try to provide a nice visual explanation for
 the QFT. Essentially we want to draw a connection between the binary
 representation of a number and the cyclical nature of the QFT.
 Fortunately, there is a nice visual representation for a binary

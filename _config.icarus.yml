@@ -48,18 +48,18 @@ head:
         url: 
         # Page cover (og:image) (optional)
         # You should leave this blank for most of the time
-        image: 
+        image: https://franciscormendes.github.io/gallery/DSC00878.jpg
         # Site name (og:site_name) (optional)
         # You should leave this blank for most of the time
-        site_name: 
+        site_name: Francisco Mendes
         # Page author (article:author) (optional)
         # You should leave this blank for most of the time
-        author: 
+        author: Francisco Romaldo Mendes
         # Page description (og:description) (optional)
         # You should leave this blank for most of the time
-        description: 
+        description: Writing about machine learning, statistics, signal processing, and deep learning.
         # Twitter card type (twitter:card)
-        twitter_card: 
+        twitter_card: summary_large_image
         # Twitter ID (twitter:creator)
         twitter_id: 
         # Twitter Site (twitter:site)
@@ -84,23 +84,23 @@ head:
         url: 
         # Page author (article:author) (optional)
         # You should leave this blank for most of the time
-        author: 
+        author: Francisco Romaldo Mendes
         # Page publisher (optional)
         # You should leave this blank for most of the time
-        publisher: 
+        publisher: Francisco Mendes
         # Page publisher logo (optional)
         # You should leave this blank for most of the time
-        publisher_logo: 
+        publisher_logo: https://franciscormendes.github.io/gallery/favicon-32x32.png
         # Page images (optional)
         # You should leave this blank for most of the time
-        image: 
+        image: https://franciscormendes.github.io/gallery/DSC00878.jpg
     # Additional HTML meta tags in an array
     meta:
         # Meta tag specified in <attribute>=<value> style
         # E.g., name=theme-color;content=#123456 => <meta name="theme-color" content="#123456">
         - ''
     # URL or path to the website's RSS atom.xml
-    rss: 
+    rss: /atom.xml
 # Page top navigation bar configurations
 navbar:
     # Navigation menu items
@@ -109,7 +109,6 @@ navbar:
         Archives: /archives
         Categories: /categories
         Tags: /tags
-        About: /about
         Curriculum: /curriculum
     # Links to be shown on the right of the navigation bar
     links:
@@ -119,7 +118,7 @@ navbar:
 # Page footer configurations
 footer:
     # Copyright text
-    copyright: © 2019
+    copyright: © 2025
     # Links to be shown on the right of the footer section
     links:
         Creative Commons:
@@ -170,11 +169,11 @@ comment:
     # GitHub repo in the format "owner/repo"
     repo: FranciscoRMendes/FranciscoRMendes.github.io
     # Repo ID — get this from https://giscus.app after installing the app
-    repoId: REPLACE_WITH_REPO_ID
+    repoId: R_kgDOLromOA
     # Discussion category name (Announcements is recommended for one-way announcements)
     category: Announcements
     # Category ID — get this from https://giscus.app
-    categoryId: REPLACE_WITH_CATEGORY_ID
+    categoryId: DIC_kwDOLromOM4C6fij
     # How to map posts to discussions: pathname, url, title, og:title
     mapping: pathname
     # Enable emoji reactions on the discussion post
@@ -237,7 +236,7 @@ sidebar:
     # Left sidebar configurations
     left:
         # Whether the sidebar sticks to the top when page scrolls
-        sticky: false
+        sticky: true
     # Right sidebar configurations
     right:
         # Whether the sidebar sticks to the top when page scrolls
@@ -253,7 +252,7 @@ widgets:
         # Author name
         author: Francisco Romaldo Mendes
         # Author title
-        author_title: Senior ML Engineer
+        author_title: Staff ML Engineer
         # Author's current location
         location: Chicago, Illinois
         # URL or path to the avatar image
@@ -263,25 +262,24 @@ widgets:
         # Email address for the Gravatar
         gravatar: 
         # URL or path for the follow button
-        follow_link: https://github.com/ppoffice
+        follow_link: https://github.com/FranciscoRMendes
         # Links to be shown on the bottom of the profile widget
         social_links:
             Github:
                 icon: fab fa-github
                 url: https://github.com/FranciscoRMendes
-            Facebook:
-                icon: fab fa-facebook
-                url: https://facebook.com
-            Twitter:
-                icon: fab fa-twitter
-                url: https://twitter.com
-            Dribbble:
-                icon: fab fa-dribbble
-                url: https://dribbble.com
+            LinkedIn:
+                icon: fab fa-linkedin
+                url: https://www.linkedin.com/in/franciscormendes/
             RSS:
                 icon: fas fa-rss
                 url: /
-    # Table of contents widget configurations
+    # Recent posts widget configurations
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: recent_posts
+    # Table of contents widget configurations (shown on post pages only via layout)
     -
         # Where should the widget be placed, left sidebar or right sidebar
         position: left
@@ -300,54 +298,22 @@ widgets:
         # Names and URLs of the sites
         links:
             TMW Center: https://cri.uchicago.edu/portfolio/thirty-million-words/
-            LinkedIn: https://www.linkedin.com/in/franciscormendes/
-    # Categories widget configurations
-    -
-        # Where should the widget be placed, left sidebar or right sidebar
-        position: left
-        type: categories
-    # Recent posts widget configurations
-    -
-        # Where should the widget be placed, left sidebar or right sidebar
-        position: left
-        type: recent_posts
-    # Archives widget configurations
-    -
-        # Where should the widget be placed, left sidebar or right sidebar
-        position: left
-        type: archives
     # Tags widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
-        position: left
+        position: right
         type: tags
         # How to order tags. For example 'name' to order by name in ascending order, and '-length' to order by number of posts in each tags in descending order
         order_by: -length
         # Amount of tags to show. Will show all if not set.
-        amount:
+        amount: 20
         # Whether to show tags count, i.e. number of posts in the tag.
         show_count: true
-    # Google FeedBurner email subscription widget configurations
+    # Archives widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
-        position: left
-        type: subscribe_email
-        # Hint text under the email input
-        description: 
-        # Feedburner ID
-        feedburner_id: ''
-    # Google AdSense unit configurations
-    # Follow.it email subscription widget configurations
-    -
-        # Where should the widget be placed, left sidebar or right sidebar
-        position: left
-        type: followit
-        # Hint text under the email input
-        description: 
-        # Subscription form action URL
-        action_url: ''
-        # Feed claiming verification code
-        verification_code: ''
+        position: right
+        type: archives
 # Plugin configurations
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/
 plugins:

@@ -165,18 +165,14 @@ Marketplace data scientist with experience in autonomous technology and hardware
   margin-bottom: 18px;
 }
 .cv-entry-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 6px;
   margin-bottom: 4px;
 }
 .cv-date {
+  display: block;
   font-size: 0.85rem;
   color: #888;
-  white-space: nowrap;
   font-style: italic;
+  margin-top: 1px;
 }
 .cv-subtitle {
   margin: 2px 0 6px 0;

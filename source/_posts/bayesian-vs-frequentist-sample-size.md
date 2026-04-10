@@ -1,5 +1,5 @@
 ---
-title: "Bayesian A/B Testing Is Not Immune to Peeking: Insights from a Costly Two-Sided Marketplace"
+title: "Bayesian A/B Testing Is Not Immune to Peeking"
 date: 2026-04-10
 mathjax: true
 thumbnail: gallery/thumbnails/av-experiment-cover.jpg

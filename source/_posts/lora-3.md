@@ -14,10 +14,12 @@ tags:
 categories:
     - machine-learning
 excerpt: "In this post, we will explore the Low Rank Approximation (LoRA) technique for shrinking neural networks for embedded systems. We will focus on the Convolutional Neural Network (CNN) case and discuss the rank selection process."
+series: "Low-Rank Approximation for Neural Networks"
+series_index: 3
 ---
 # Decomposition of a Convolutional layer
 
-In a previous post I described (in some detail) what it means to decompose a matrix multiply into a sequence of low rank matrix multiplies. We can do something similar for a tensor as well, this is somewhat less easy to see since tensors (particularly in higher dimensions) are quite hard to visualize.
+In [a previous post](/2024/04/03/lora/) I described (in some detail) what it means to decompose a matrix multiply into a sequence of low rank matrix multiplies. We can do something similar for a tensor as well, this is somewhat less easy to see since tensors (particularly in higher dimensions) are quite hard to visualize.
 Recall, the matrix formulation,
 $$Y = XW + b = XUSV' + b$$
 Where $U$ and $V$ are the left and right singular vectors of $W$ respectively. The idea is to approximate $W$ as a sum of outer products of $U$ and $V$ of lower rank. 

@@ -10,7 +10,7 @@ tags:
     - essay
 categories:
     - opinion
-excerpt: "Thoughts on beauty and its relationship with AI"
+excerpt: "A short story: after AI eliminates first labor and then thought itself, an old man explains to a child why beauty matters — and what is lost when making things costs nothing."
 ---
 
 He was a quiet Old Man. My Mother said he was one of the old ones. One

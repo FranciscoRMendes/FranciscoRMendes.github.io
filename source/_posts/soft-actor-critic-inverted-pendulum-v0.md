@@ -11,7 +11,9 @@ tags:
 categories:
     - machine-learning
 
-excerpt: "From scratch implementation of the SAC algorithm in PyTorch for Inverted Pendulum."
+excerpt: "From-scratch PyTorch implementation of Soft Actor-Critic for the Inverted Pendulum task — entropy-regularized policy gradients, twin Q-networks, and automatic temperature tuning."
+series: "Soft Actor-Critic: Reinforcement Learning from Scratch"
+series_index: 1
 ---
 
 # Introduction
@@ -278,7 +280,7 @@ $$\bar{\psi} \leftarrow \tau \psi + (1-\tau)\bar\psi$$
 # Conclusion 
 This post has been a detailed walk through of the Soft Actor Critic algorithm using inverted pendulum as an example. Other implementations of this algorithm exist. The best one I have found is Phil Tabor's implementation. 
 However, there was not a very good connection between the code and the paper. This post was an attempt to bridge that gap by using notation that exactly matches the paper, while keeping the overall structure simple to understand. 
-In my next post, I will implement the Soft Actor Critic Algorithm on the Lunar Lander game, this will hopefully make for a more interesting visualization of how the algorithm learns better. 
+In [my next post](/2025/02/28/soft-actor-critic-lunar-lander/), I will implement the Soft Actor Critic Algorithm on the Lunar Lander game, this will hopefully make for a more interesting visualization of how the algorithm learns better. 
 
 
 # References 

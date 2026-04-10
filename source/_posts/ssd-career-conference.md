@@ -11,7 +11,7 @@ tags:
     - artificial-intelligence
 categories:
     - opinion
-excerpt: "Thoughts "
+excerpt: "Spence's signaling model updated for AI: when the cost of educational signaling collapses to near-zero, what genuine intellectual skill looks like and how to build it."
 ---
 
 # Introduction

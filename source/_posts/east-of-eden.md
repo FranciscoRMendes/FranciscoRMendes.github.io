@@ -9,7 +9,7 @@ tags:
     - fiction
 categories:
     - book-review
-excerpt: "Book review of John Steinbeck's East of Eden."
+excerpt: "Steinbeck's retelling of Cain and Abel across California generations — the moral argument of 'timshel', and why the book's real subject is the capacity to choose otherwise."
 ---
 
 

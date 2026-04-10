@@ -11,7 +11,7 @@ tags:
     - embedded-ml
 categories:
     - machine-learning
-excerpt: "A manual implementation of quantization in PyTorch."
+excerpt: "INT8 quantization in PyTorch from scratch — scale factors, zero points, and integer arithmetic without QuantStub, to understand exactly what quantized layers do under the hood."
 ---
  
 # Introduction
@@ -287,7 +287,7 @@ int_model.dequant(int_model.fc(int_model.quant(sample_data)))
  # tensor([[-0.7907,  0.6919]])
 ```
 
-Thus, in order to recreate a quantization operation from PyTorch in any embedded system you do not need to implement a de-quant layer. You can simply multiply and subtract zero points from your weight layers appropriately. Look for the long note inside the forward pass of the manually quantized model for more information. 
+Thus, in order to recreate a quantization operation from PyTorch in any embedded system you do not need to implement a de-quant layer. You can simply multiply and subtract zero points from your weight layers appropriately. [The follow-up post examines exactly how integer values are passed between layers in practice](/2024/05/16/quantization-layer-details/). Look for the long note inside the forward pass of the manually quantized model for more information. 
 
 ### A Word on PyTorch and Quantization
 PyTorch's display in the console is not always indicative of what is happening in the back end, this section should clear up some questions, you may have (since I had them). The fundamental unit of data that goes between layers in PyTorch is always a Tensor, that is always displayed as a float. This is fairly confusing since when we think of a vector/tensor as quantized we see all the data as integers. But PyTorch works differently, when a tensor is quantized it is still displayed as a float, but its quantized data type and quantization scheme to get to that data type is stored as additional attributes to the tensor object. Thus, do not be confused if you still see float values displayed, you must look at the dtype to get a clear understanding of what the values are. In order to view a quantized tensor as a int, you need to call int_repr() on the tensor object. Note, this throws an error if the tensor has not been quantized in the first place. Also, note that when PyTorch encounters a quantized tensor, it will carry out multiplication on the quantized values automatically and thus the benefits of quantization will be realized even if you do not actually see them. When exporting the model this information is packaged as well, no need for anything extra to be done. 

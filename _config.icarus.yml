@@ -48,18 +48,18 @@ head:
         url: 
         # Page cover (og:image) (optional)
         # You should leave this blank for most of the time
-        image: 
+        image: https://franciscormendes.github.io/gallery/DSC00878.jpg
         # Site name (og:site_name) (optional)
         # You should leave this blank for most of the time
-        site_name: 
+        site_name: Francisco Mendes
         # Page author (article:author) (optional)
         # You should leave this blank for most of the time
-        author: 
+        author: Francisco Romaldo Mendes
         # Page description (og:description) (optional)
         # You should leave this blank for most of the time
-        description: 
+        description: Writing about machine learning, statistics, signal processing, and deep learning.
         # Twitter card type (twitter:card)
-        twitter_card: 
+        twitter_card: summary_large_image
         # Twitter ID (twitter:creator)
         twitter_id: 
         # Twitter Site (twitter:site)
@@ -84,23 +84,23 @@ head:
         url: 
         # Page author (article:author) (optional)
         # You should leave this blank for most of the time
-        author: 
+        author: Francisco Romaldo Mendes
         # Page publisher (optional)
         # You should leave this blank for most of the time
-        publisher: 
+        publisher: Francisco Mendes
         # Page publisher logo (optional)
         # You should leave this blank for most of the time
-        publisher_logo: 
+        publisher_logo: https://franciscormendes.github.io/gallery/favicon-32x32.png
         # Page images (optional)
         # You should leave this blank for most of the time
-        image: 
+        image: https://franciscormendes.github.io/gallery/DSC00878.jpg
     # Additional HTML meta tags in an array
     meta:
         # Meta tag specified in <attribute>=<value> style
         # E.g., name=theme-color;content=#123456 => <meta name="theme-color" content="#123456">
         - ''
     # URL or path to the website's RSS atom.xml
-    rss: 
+    rss: /atom.xml
 # Page top navigation bar configurations
 navbar:
     # Navigation menu items
@@ -118,7 +118,7 @@ navbar:
 # Page footer configurations
 footer:
     # Copyright text
-    copyright: © 2019
+    copyright: © 2025
     # Links to be shown on the right of the footer section
     links:
         Creative Commons:
@@ -169,11 +169,11 @@ comment:
     # GitHub repo in the format "owner/repo"
     repo: FranciscoRMendes/FranciscoRMendes.github.io
     # Repo ID — get this from https://giscus.app after installing the app
-    repoId: REPLACE_WITH_REPO_ID
+    repoId: R_kgDOLromOA
     # Discussion category name (Announcements is recommended for one-way announcements)
     category: Announcements
     # Category ID — get this from https://giscus.app
-    categoryId: REPLACE_WITH_CATEGORY_ID
+    categoryId: DIC_kwDOLromOM4C6fij
     # How to map posts to discussions: pathname, url, title, og:title
     mapping: pathname
     # Enable emoji reactions on the discussion post
@@ -236,7 +236,7 @@ sidebar:
     # Left sidebar configurations
     left:
         # Whether the sidebar sticks to the top when page scrolls
-        sticky: false
+        sticky: true
     # Right sidebar configurations
     right:
         # Whether the sidebar sticks to the top when page scrolls
@@ -274,6 +274,11 @@ widgets:
             RSS:
                 icon: fas fa-rss
                 url: /
+    # Recent posts widget configurations
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: recent_posts
     # Table of contents widget configurations (shown on post pages only via layout)
     -
         # Where should the widget be placed, left sidebar or right sidebar

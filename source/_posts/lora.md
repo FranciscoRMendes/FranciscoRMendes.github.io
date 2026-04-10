@@ -11,6 +11,8 @@ tags:
 categories:
     - machine-learning
 excerpt: "An elementary explanation of the problem with full rank matrices in neural networks and their solution via low rank approximations. Detailed explanation on how to set up the optimization problem and how to solve it, in possibly linear time."
+series: "Low-Rank Approximation for Neural Networks"
+series_index: 1
 ---
 
 # Motivation
@@ -22,7 +24,7 @@ The first affects the amount of memory required to store the model, while the se
 
 I have worked extensively in matrix factorization before, mostly factorizing sparse matrices for recommendation systems. 
 Unfortunately, while there are many LoRA walk throughs using code, I was not able to find a simple succint explanation of the problem and the solution. And _why_ it works. This article aims to address that gap by providing an elementary explanation of the problem, how to set up the optimization problem and how to solve it, in possibly linear time. 
-This is part I, that deals with factorizing a fully connected layer. Part II will deal with factorizing a convolutional layer. 
+This is part I, that deals with factorizing a fully connected layer. [Part II will deal with factorizing a convolutional layer](/2024/04/24/lora-2/). 
 
 # Code Follow Along
 The Jupyter Notebook for this is at https://github.com/FranciscoRMendes/tensor-rank
@@ -85,7 +87,7 @@ T = \begin{bmatrix}
 $$
 
 While it is useful to think of tensors as a list of matrices, it is important to note that they have some important differences as mathematical objects. It is perhaps more useful to think of matrices as a "special case" of a tensor. 
-For this introduction, we will stick to matrices. In a following article, I will build the equivalent intuition but for tensors. However, I will provide points of equivalence between the two, wherever possible.
+For this introduction, we will stick to matrices. In [a following article](/2024/09/13/lora-3/), I will build the equivalent intuition but for tensors. However, I will provide points of equivalence between the two, wherever possible.
 
 # Number of Operations
 For the given operation, we're performing a matrix multiplication of a 3×43×4 matrix with a 4×14×1 column vector. The resulting matrix will be a 3×13×1 column vector.

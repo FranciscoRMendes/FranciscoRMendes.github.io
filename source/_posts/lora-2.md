@@ -14,7 +14,8 @@ tags:
 categories:
     - machine-learning
 excerpt: "In this post, we will explore the Low Rank Approximation (LoRA) technique for shrinking neural networks for embedded systems. We will focus on the Convolutional Neural Network (CNN) case and discuss the rank selection process."
-
+series: "Low-Rank Approximation for Neural Networks"
+series_index: 2
 ---
 
 # Code Follow Along
@@ -23,7 +24,7 @@ https://github.com/FranciscoRMendes/tensor-rank/blob/main/CNN_Decomposition.ipyn
 
 # Convolutional Layer Case
 
-The primary difference between the fully connected layer case and the convolutional layer case is the fact that the convolutional kernel is a tensor. We say that the number of multiplications in an operation depends on the size of the dimensions of the tensors involved in the multiplication. It becomes critical to approximate one large multi-dimensional kernel with multiple smaller kernels of lower dimension.
+The primary difference between the [fully connected layer case covered in Part I](/2024/04/03/lora/) and the convolutional layer case is the fact that the convolutional kernel is a tensor. We say that the number of multiplications in an operation depends on the size of the dimensions of the tensors involved in the multiplication. It becomes critical to approximate one large multi-dimensional kernel with multiple smaller kernels of lower dimension.
 
 ## Working Example
 
@@ -54,7 +55,7 @@ In the figure above each of the red arrows indicates a one convolution operation
 
 # Rank Selection
 
-So we are ready to go with a decomposition, all that remains is finding out the optimal rank. Again, if the rank is too low we end up with high compression but possibly low accuracy, and if the rank is too high we end up with very low compression. In embedded systems we need to be quite aggressive in compression since this can be a hard constraint on solving a problem. In our previous example, we could \"locally\" optimize rank but in the case of CNNs this is not possible since at the very least we would have at least one FC and one convolutional layer and we must compress both somewhat simultaneously. Brute force quickly becomes hard, as for even modest tensor combinations such as $(16, x, x, x)$ and $(128, x)$ we can end up with far too many combinations to try. Binary search is also not possible since it is not clear if simultaneously lowering both ranks lowers accuracy.
+So we are ready to go with a decomposition, all that remains is finding out the optimal rank. Again, if the rank is too low we end up with high compression but possibly low accuracy, and if the rank is too high we end up with very low compression. In embedded systems we need to be quite aggressive in compression since this can be a hard constraint on solving a problem. In our previous example, we could \"locally\" optimize rank but in the case of CNNs this is not possible since at the very least we would have at least one FC and one convolutional layer and we must compress both somewhat simultaneously. [Part III explores what this decomposition actually does to a convolutional layer](/2024/09/13/lora-3/). Brute force quickly becomes hard, as for even modest tensor combinations such as $(16, x, x, x)$ and $(128, x)$ we can end up with far too many combinations to try. Binary search is also not possible since it is not clear if simultaneously lowering both ranks lowers accuracy.
 
 ## Naive Rank Selection Algorithm
 

@@ -10,7 +10,7 @@ tags:
     - history
 categories:
     - book-review
-excerpt: "A review of The Cold War: A World History by Odd Arne Westad and reflections on the Cold War."
+excerpt: "Notes on Westad's Cold War history, which reframes the conflict as a global struggle fought mainly in the Third World — and what this lens reveals about American and Soviet interventionism."
 ---
 
 

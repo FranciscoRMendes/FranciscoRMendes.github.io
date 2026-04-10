@@ -4,7 +4,7 @@
    ============================================ */
 
 /* ---------- Fonts ---------- */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
 
 body,
 .content,
@@ -17,7 +17,7 @@ body,
 .card-content,
 .widget,
 .footer {
-  font-family: 'IBM Plex Sans', sans-serif !important;
+  font-family: 'Lora', Georgia, serif !important;
 }
 
 code,
@@ -29,19 +29,21 @@ samp {
   font-family: 'IBM Plex Mono', monospace !important;
 }
 
-/* Tighten Inter's letter-spacing slightly for headings */
-article.article .content h1,
-article.article .content h2,
-article.article .content h3,
-article.article .content h4,
-article.article .content h5 {
-  letter-spacing: -0.02em;
-}
-
-/* Body text: Inter reads better at slightly lighter weight */
+/* Body text */
 article.article .content {
   font-weight: 400;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
+}
+
+/* ---------- Drop caps ---------- */
+article.article .content > p:first-of-type::first-letter {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 3.6em;
+  font-weight: 700;
+  float: left;
+  line-height: 0.78;
+  margin: 0.06em 0.1em 0 0;
+  color: #1e293b;
 }
 
 /* ---------- Background ---------- */
@@ -49,9 +51,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background:
-    radial-gradient(ellipse at 8% 8%, rgba(99, 125, 230, 0.28) 0%, transparent 48%),
-    radial-gradient(ellipse at 92% 92%, rgba(140, 99, 220, 0.2) 0%, transparent 48%),
-    linear-gradient(160deg, #dde4f0 0%, #e8edf7 45%, #dfe6f2 100%) fixed !important;
+    radial-gradient(ellipse at 15% 15%, rgba(210, 190, 150, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 85%, rgba(190, 165, 120, 0.08) 0%, transparent 50%),
+    linear-gradient(160deg, #f5f1ea 0%, #f8f4ed 50%, #f3efe7 100%) fixed !important;
   min-height: 100vh;
 }
 
@@ -135,12 +137,14 @@ body {
 }
 
 .card .card-image img {
-  transition: transform 0.5s ease !important;
+  transition: transform 0.5s ease, filter 0.4s ease !important;
   display: block;
+  filter: sepia(0.18) saturate(0.82) brightness(1.01);
 }
 
 .card:hover .card-image img {
   transform: scale(1.05);
+  filter: none;
 }
 
 /* ---------- Post card title links ---------- */
@@ -150,6 +154,17 @@ body {
 
 .card .card-content .title a:hover {
   color: #3273dc !important;
+}
+
+/* ---------- Image color grading ---------- */
+article.article .content img {
+  filter: sepia(0.18) saturate(0.82) brightness(1.01);
+  transition: filter 0.4s ease;
+  border-radius: 6px;
+}
+
+article.article .content img:hover {
+  filter: none;
 }
 
 /* ---------- Article content typography ---------- */
@@ -164,10 +179,11 @@ article.article .content {
 
 /* Post page title */
 article.article .article-title {
+  font-family: 'Lora', Georgia, serif;
   font-size: 2.1rem !important;
   font-weight: 700 !important;
-  letter-spacing: -0.03em !important;
-  line-height: 1.2 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.25 !important;
   color: #0f172a !important;
   max-width: 690px;
   margin-left: auto !important;
@@ -290,22 +306,29 @@ article.article .content thead th {
 
 /* Push content down so the banner is visible above the avatar */
 [data-type="profile"] .card-content {
-  padding: 70px 1.25rem 1.5rem !important;
+  padding: 60px 1.25rem 1.5rem !important;
 }
 
 [data-type="profile"] .image.is-128x128 {
-  width: 256px;
-  height: 256px;
+  width: 128px;
+  height: 128px;
 }
 
 [data-type="profile"] .image img.avatar {
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 4px rgba(255, 255, 255, 0.7) !important;
+  border-radius: 50% !important;
+  box-shadow:
+    0 0 0 4px #fff,
+    0 0 0 7px rgba(114, 58, 237, 0.35),
+    0 8px 32px rgba(0, 0, 0, 0.22) !important;
   transition: transform 0.3s ease, box-shadow 0.3s ease !important;
 }
 
 [data-type="profile"] .image img.avatar:hover {
-  transform: scale(1.03);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), 0 0 0 5px rgba(255, 255, 255, 0.9) !important;
+  transform: scale(1.04);
+  box-shadow:
+    0 0 0 4px #fff,
+    0 0 0 8px rgba(114, 58, 237, 0.5),
+    0 12px 40px rgba(0, 0, 0, 0.28) !important;
 }
 
 [data-type="profile"] .title.is-size-4 {
@@ -453,7 +476,549 @@ article.article > .card > .card-content {
   }
 }
 
+/* ---------- Series navigation box ---------- */
+.series-box {
+  border: 1px solid rgba(50, 115, 220, 0.2);
+  border-left: 4px solid #3273dc;
+  border-radius: 0 8px 8px 0;
+  background: linear-gradient(to right, rgba(50, 115, 220, 0.04), transparent);
+  padding: 1rem 1.25rem 1rem 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.series-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #3273dc;
+  margin-bottom: 0.2rem;
+}
+
+.series-name {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.75rem;
+}
+
+.series-list {
+  margin: 0 !important;
+  padding-left: 1.25rem !important;
+  list-style: decimal !important;
+}
+
+.series-item {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #64748b;
+  margin-bottom: 0.15rem !important;
+}
+
+.series-item a {
+  color: #3273dc !important;
+  text-decoration: none !important;
+}
+
+.series-item a:hover {
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+}
+
+.series-item.series-current span {
+  color: #0f172a;
+  font-weight: 600;
+}
+
 /* ---------- Smooth transitions site-wide ---------- */
 a {
   transition: color 0.15s ease, background-color 0.15s ease, opacity 0.15s ease;
+}
+
+/* ---------- Popular posts on home page ---------- */
+.popular-posts {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(50, 115, 220, 0.18);
+}
+
+.popular-posts-heading {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 0.75rem;
+}
+
+.popular-posts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: popular-counter;
+}
+
+.popular-posts-list li {
+  counter-increment: popular-counter;
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.popular-posts-list li:last-child {
+  border-bottom: none;
+}
+
+.popular-posts-list li::before {
+  content: counter(popular-counter, decimal-leading-zero);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  color: #d1d5db;
+  min-width: 1.6em;
+  flex-shrink: 0;
+}
+
+.popular-posts-list li a {
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: #374151;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.popular-posts-list li a:hover {
+  color: #3273dc !important;
+}
+
+/* ---------- Footnotes ---------- */
+article.article .content sup {
+  line-height: 0;
+  vertical-align: super;
+  font-size: 0.72em;
+}
+
+article.article .content sup a {
+  color: #3273dc !important;
+  text-decoration: none !important;
+  font-weight: 600;
+  padding: 0 1px;
+}
+
+article.article .content sup a:hover {
+  text-decoration: underline !important;
+}
+
+article.article .content .footnotes,
+article.article .content section.footnotes {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 0.83rem;
+  color: #6b7280;
+  line-height: 1.75;
+}
+
+article.article .content .footnotes ol,
+article.article .content section.footnotes ol {
+  padding-left: 1.5rem;
+  margin: 0 !important;
+}
+
+article.article .content .footnotes li,
+article.article .content section.footnotes li {
+  margin-bottom: 0.4rem;
+}
+
+/* Suppress ⁂ ornament on the auto-generated footnote separator */
+article.article .content .footnotes hr::after,
+article.article .content section.footnotes hr::after {
+  display: none;
+}
+
+/* ---------- Category-tinted cards ---------- */
+.card[data-category] {
+  position: relative;
+  overflow: hidden;
+}
+
+.card[data-category]::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  z-index: 1;
+}
+
+.card[data-category="machine-learning"]::before { background: rgba(59, 130, 246, 0.55); }
+.card[data-category="statistics"]::before       { background: rgba(13, 148, 136, 0.55); }
+.card[data-category="opinion"]::before          { background: rgba(245, 158, 11, 0.55); }
+.card[data-category="economics"]::before        { background: rgba(5, 150, 105, 0.55); }
+.card[data-category="books"]::before            { background: rgba(161, 98, 7, 0.55); }
+.card[data-category="physics"]::before          { background: rgba(124, 58, 237, 0.55); }
+.card[data-category="mathematics"]::before      { background: rgba(79, 70, 229, 0.55); }
+
+/* ---------- Display math (MathJax v3) ---------- */
+article.article .content mjx-container[display="true"] {
+  display: block;
+  padding: 1.25rem 1.75rem;
+  margin: 2rem 0 !important;
+  background: rgba(50, 115, 220, 0.04);
+  border-radius: 6px;
+  border-left: 3px solid rgba(50, 115, 220, 0.18);
+  overflow-x: auto;
+}
+
+/* ---------- Horizontal rules ---------- */
+article.article .content hr {
+  border: none;
+  height: auto;
+  margin: 3rem 0;
+  text-align: center;
+  background: none;
+}
+
+article.article .content hr::after {
+  content: '⁂';
+  display: inline-block;
+  color: #94a3b8;
+  font-size: 1.1rem;
+  letter-spacing: 0.5em;
+}
+
+/* ============================================
+   Dark Mode  (html.dark — set by dark-mode.js)
+   ============================================ */
+
+/* Smooth theme transitions on key surfaces */
+body,
+.navbar-main,
+.card {
+  transition: background 0.25s ease, background-color 0.25s ease,
+              color 0.25s ease, border-color 0.25s ease !important;
+}
+
+/* --- Body background --- */
+html.dark body {
+  background:
+    radial-gradient(ellipse at 8% 8%, rgba(59, 89, 200, 0.18) 0%, transparent 48%),
+    radial-gradient(ellipse at 92% 92%, rgba(109, 58, 190, 0.12) 0%, transparent 48%),
+    linear-gradient(160deg, #0c1220 0%, #0f172a 45%, #0b1120 100%) fixed !important;
+}
+
+/* --- Navbar --- */
+html.dark .navbar-main {
+  background: rgba(10, 18, 35, 0.85) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 4px 24px rgba(0,0,0,0.5) !important;
+}
+
+html.dark .navbar-main .navbar-item,
+html.dark .navbar-main .navbar-link {
+  color: #94a3b8 !important;
+}
+
+html.dark .navbar-main a.navbar-item:hover,
+html.dark .navbar-main .navbar-link:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .navbar-main a.navbar-item::after {
+  background: linear-gradient(90deg, #60a5fa, #a78bfa);
+}
+
+/* Mobile collapsed menu */
+html.dark .navbar-menu {
+  background: rgba(10, 18, 35, 0.97) !important;
+}
+
+/* --- Cards --- */
+html.dark .card {
+  background: rgba(17, 28, 50, 0.72) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4), 0 8px 28px rgba(0,0,0,0.5) !important;
+}
+
+html.dark .card:hover {
+  background: rgba(22, 36, 62, 0.85) !important;
+  box-shadow:
+    0 4px 16px rgba(96, 165, 250, 0.08),
+    0 24px 56px rgba(96, 165, 250, 0.06) !important;
+}
+
+html.dark .card .card-content {
+  color: #94a3b8 !important;
+}
+
+html.dark .card .card-content .title,
+html.dark .card .card-content .title a {
+  color: #e2e8f0 !important;
+}
+
+html.dark .card .card-content .title a:hover {
+  color: #60a5fa !important;
+}
+
+/* --- Article body --- */
+html.dark article.article .content {
+  color: #cbd5e1 !important;
+}
+
+html.dark article.article .article-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark article.article .content h1,
+html.dark article.article .content h2,
+html.dark article.article .content h3,
+html.dark article.article .content h4,
+html.dark article.article .content h5 {
+  color: #f1f5f9 !important;
+}
+
+html.dark article.article .content h2 {
+  border-image: linear-gradient(90deg, #60a5fa 0%, rgba(96,165,250,0.15) 55%, transparent 100%) 1;
+}
+
+html.dark article.article .content a:not(.button):not(.tag) {
+  color: #60a5fa;
+}
+
+html.dark article.article .content a:not(.button):not(.tag):hover {
+  color: #93c5fd !important;
+}
+
+html.dark article.article .content blockquote {
+  border-left-color: #60a5fa !important;
+  background: linear-gradient(to right, rgba(96,165,250,0.08), transparent) !important;
+  color: #94a3b8 !important;
+}
+
+html.dark article.article .content :not(pre) > code {
+  background: rgba(96, 165, 250, 0.12) !important;
+  color: #93c5fd !important;
+}
+
+html.dark article.article .content pre {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5) !important;
+}
+
+html.dark article.article .content table {
+  color: #cbd5e1 !important;
+}
+
+html.dark article.article .content thead th {
+  background-color: rgba(96, 165, 250, 0.08) !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark article.article .content td,
+html.dark article.article .content th {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* --- Article meta --- */
+html.dark .article-meta .level-item,
+html.dark .article-meta a {
+  color: #475569 !important;
+}
+
+html.dark .article-tags .tag,
+html.dark .article-meta .tag {
+  background: rgba(96, 165, 250, 0.12) !important;
+  color: #93c5fd !important;
+}
+
+/* --- Sidebar widgets --- */
+html.dark .widget .menu-label,
+html.dark .widget li a {
+  color: #64748b !important;
+}
+
+html.dark .widget li a:hover {
+  color: #93c5fd !important;
+}
+
+html.dark .widget .title {
+  color: #cbd5e1 !important;
+}
+
+html.dark .widget .tags .tag {
+  background: rgba(96, 165, 250, 0.1) !important;
+  color: #60a5fa !important;
+}
+
+html.dark .widget .tags .tag:hover {
+  background: rgba(96, 165, 250, 0.2) !important;
+}
+
+/* --- Profile widget --- */
+html.dark [data-type="profile"] .card {
+  background:
+    linear-gradient(135deg, #1d3d7a 0%, #3b1f6e 100%) top / 100% 90px no-repeat,
+    rgba(17, 28, 50, 0.85) !important;
+}
+
+html.dark [data-type="profile"] .card:hover {
+  background:
+    linear-gradient(135deg, #1d3d7a 0%, #3b1f6e 100%) top / 100% 90px no-repeat,
+    rgba(22, 36, 62, 0.9) !important;
+}
+
+html.dark [data-type="profile"] .title.is-size-4 {
+  color: #f1f5f9 !important;
+}
+
+html.dark [data-type="profile"] .level-item p.heading {
+  color: #475569 !important;
+}
+
+html.dark [data-type="profile"] .level-item .title {
+  color: #60a5fa !important;
+}
+
+html.dark [data-type="profile"] .button.is-transparent {
+  color: #64748b !important;
+}
+
+html.dark [data-type="profile"] .button.is-transparent:hover {
+  background-color: rgba(96, 165, 250, 0.1) !important;
+  color: #60a5fa !important;
+}
+
+/* --- Popular posts (home page) --- */
+html.dark .popular-posts {
+  border-top-color: rgba(96, 165, 250, 0.15);
+}
+
+html.dark .popular-posts-list li {
+  border-bottom-color: rgba(255, 255, 255, 0.04);
+}
+
+html.dark .popular-posts-list li a {
+  color: #94a3b8;
+}
+
+html.dark .popular-posts-list li a:hover {
+  color: #60a5fa !important;
+}
+
+/* --- Image color grading --- */
+html.dark article.article .content img {
+  filter: sepia(0.08) saturate(0.75) brightness(0.88) contrast(0.95);
+}
+
+html.dark article.article .content img:hover,
+html.dark .card:hover .card-image img {
+  filter: none;
+}
+
+html.dark .card .card-image img {
+  filter: sepia(0.08) saturate(0.75) brightness(0.88) contrast(0.95);
+}
+
+/* --- Drop caps --- */
+html.dark article.article .content > p:first-of-type::first-letter {
+  color: #f1f5f9;
+}
+
+/* --- Footnotes --- */
+html.dark article.article .content sup a {
+  color: #60a5fa !important;
+}
+
+html.dark article.article .content .footnotes,
+html.dark article.article .content section.footnotes {
+  border-top-color: rgba(255, 255, 255, 0.07);
+  color: #475569;
+}
+
+/* --- Display math --- */
+html.dark article.article .content mjx-container[display="true"] {
+  background: rgba(96, 165, 250, 0.06);
+  border-left-color: rgba(96, 165, 250, 0.25);
+}
+
+/* --- Horizontal rules --- */
+html.dark article.article .content hr::after {
+  color: #334155;
+}
+
+/* --- Series box --- */
+html.dark .series-box {
+  border-color: rgba(96, 165, 250, 0.2);
+  border-left-color: #60a5fa;
+  background: linear-gradient(to right, rgba(96,165,250,0.06), transparent);
+}
+
+html.dark .series-name {
+  color: #e2e8f0;
+}
+
+html.dark .series-item {
+  color: #475569 !important;
+}
+
+/* --- Pagination --- */
+html.dark .pagination-link,
+html.dark .pagination-previous,
+html.dark .pagination-next {
+  background: rgba(17, 28, 50, 0.7) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #94a3b8 !important;
+}
+
+html.dark .pagination-link:hover,
+html.dark .pagination-previous:hover,
+html.dark .pagination-next:hover {
+  color: #e2e8f0 !important;
+  border-color: rgba(96, 165, 250, 0.3) !important;
+}
+
+html.dark .pagination-link.is-current {
+  background: #3273dc !important;
+  color: #fff !important;
+}
+
+/* --- Dark mode toggle button --- */
+#dark-mode-toggle {
+  cursor: pointer;
+  padding: 0 0.5rem !important;
+}
+
+#dark-mode-toggle .icon {
+  color: #9ca3af;
+  transition: color 0.2s ease, transform 0.4s ease;
+}
+
+#dark-mode-toggle:hover .icon {
+  color: #3273dc !important;
+  transform: rotate(20deg);
+}
+
+html.dark #dark-mode-toggle .icon {
+  color: #64748b;
+}
+
+html.dark #dark-mode-toggle:hover .icon {
+  color: #fbbf24 !important;
+  transform: rotate(30deg);
+}
+
+/* ---------- Background noise texture ---------- */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
 }

@@ -12,7 +12,9 @@ tags:
     - recommender-systems
 categories:
     - statistics
-excerpt: "A comprehensive guide to AB Testing in the context of management consulting, with a special focus on recommender systems."
+excerpt: "A/B testing in management consulting: frequentist and Bayesian methods, multiple testing corrections, and the specific challenges of testing recommender systems in a live production environment."
+series: "Bayesian Methods and Experimentation"
+series_index: 3
 ---
 
 # Introduction

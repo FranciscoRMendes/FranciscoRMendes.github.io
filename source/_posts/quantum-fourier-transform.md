@@ -12,7 +12,7 @@ tags:
     - algorithms
 categories:
     - mathematics
-excerpt: "From binary numbers to clocks?: a visual guide to the Quantum Fourier Transform."
+excerpt: "Visual guide to the Quantum Fourier Transform: from binary numbers and roots of unity to the QFT circuit, with comparisons to classical DFT and implications for Shor's algorithm."
 ---
 
 # Introduction

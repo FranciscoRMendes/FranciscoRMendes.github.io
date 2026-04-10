@@ -9,7 +9,7 @@ tags:
     - economics
 categories:
     - economics
-excerpt: "A discussion of the fixed points of many to many matching."
+excerpt: "Many-to-many stable matching as an extension of Gale-Shapley deferred acceptance: fixed points, stability conditions, and what changes when each agent can match to multiple partners."
 ---
 
 # The Gale Shapley Algorithm (Deferred Acceptance Algorithm or DAA)

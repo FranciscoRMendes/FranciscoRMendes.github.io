@@ -9,7 +9,7 @@ tags:
     - fiction
 categories:
     - book-review
-excerpt: "A review of Haruki Murakami's Kafka On The Shore"
+excerpt: "A close reading of Kafka on the Shore: how Murakami's parallel narratives that never converge explore fate, memory, and the self — and why the irresolution is the point."
 ---
 
 # Introduction

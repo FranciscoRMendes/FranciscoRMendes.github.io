@@ -8,6 +8,7 @@ tags:
     - mathematics
 categories:
     - physics
+excerpt: "A minimum working example comparing Newtonian and Einsteinian gravity using Mars' orbit — starting from the Schwarzschild metric and solving the resulting differential equations numerically."
 ---
 
 # Introduction

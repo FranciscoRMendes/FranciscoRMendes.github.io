@@ -9,7 +9,7 @@ tags:
     - fractals
 categories:
     - mathematics
-excerpt: "3D Proof of the Coastline Paradox"
+excerpt: "Does a hilly city have more surface area than a flat one? The 3D coastline paradox explored via fractal dimension, Hausdorff measure, and a Python notebook applied to Telegraph Hill."
 ---
 
 # Introduction

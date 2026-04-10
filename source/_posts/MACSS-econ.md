@@ -7,7 +7,7 @@ tags:
     - career
 categories:
     - opinion
-excerpt: "An interview with a UChicago Economics grad school alumni."
+excerpt: "Q&A on the MACSS Economics program at UChicago: the path from computational social science to ML engineering, what the degree prepared me for, and what I would do differently."
 ---
 
 

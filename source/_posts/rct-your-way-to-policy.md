@@ -12,7 +12,9 @@ tags:
     - policy
 categories:
     - opinion
-excerpt: "A critique of the Randomized Controlled Trial (RCT) in economics."
+excerpt: "On the limits of RCT-based development economics: why experimental methods work at village scale but struggle to inform national policy, and what external validity actually requires."
+series: "Bayesian Methods and Experimentation"
+series_index: 2
 ---
 
 # The Bayesian Policy Maker 

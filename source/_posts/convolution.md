@@ -12,7 +12,7 @@ tags:
     - low-rank-approximation
 categories:
     - machine-learning
-excerpt: "In-Depth Explanation of Various kinds of Convolution: 1D, 2D and Graph"
+excerpt: "A unified treatment of 1D signal convolution, 2D image convolution via the convolution theorem, and graph convolution as a spectral operation on the normalized Laplacian."
 ---
 
 # Introduction

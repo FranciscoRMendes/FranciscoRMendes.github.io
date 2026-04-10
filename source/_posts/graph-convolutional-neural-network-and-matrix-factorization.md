@@ -11,7 +11,7 @@ tags:
     - recommender-systems
 categories:
     - machine-learning
-excerpt: "A review of the mathematical essentials for recommender systems, comparing matrix factorization and graph neural networks."
+excerpt: "The mathematical essentials for recommender systems: from matrix factorization via SVD to graph convolutional networks, and why the spectral perspective unifies both approaches."
 ---
 
 # Introduction

@@ -10,7 +10,7 @@ tags:
     - economics
 categories:
     - opinion
-excerpt: "A non-opinion piece on the strategic implications of voting for RFK."
+excerpt: "Game theory applied to third-party voting: why winner-takes-all systems punish independent votes, and what Nash equilibrium says about whether voting for RFK is ever strategically rational."
 ---
 
 # Introduction

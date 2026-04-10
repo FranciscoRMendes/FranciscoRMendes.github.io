@@ -7,7 +7,7 @@ tags:
     - signal-processing
 categories:
     - statistics
-excerpt: "Matching MATLAB's resample function in Python."
+excerpt: "A drop-in Python implementation of MATLAB's resample function using scipy's polyphase filter — matching MATLAB's output exactly, with no signal-processing background required."
 ---
 
 # Matching MATLAB's resample function in Python

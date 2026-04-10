@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://franciscormendes.github.io/sitemap.xml

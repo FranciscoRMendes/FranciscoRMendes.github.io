@@ -20,7 +20,11 @@ series_index: 2
 
 # Introduction
 
-<!-- TODO: personal anecdote — Francisco, add a sentence or two from your AV work. Something related to visual odometry, camera calibration, or a moment when the geometry clicked. E.g. a bug that turned out to be non-commutativity of rotations, or why naive Euler angle parameterisation caused a gimbal lock issue. -->
+A few years ago I set out to teach myself physics — properly, from the mathematics up. I started with classical mechanics, moved into electromagnetism, and eventually found myself trying to understand quantum mechanics. Somewhere in that journey I encountered $SO(3)$, the group of 3D rotations, framed as an abstract mathematical object: a compact Lie group whose elements act on quantum states, whose Lie algebra gives you angular momentum operators, and whose representation theory produces the spin-$\frac{1}{2}$ structure of electrons.
+
+What struck me — and this is the kind of thing that stops you mid-page — was the realisation that this same abstract object was sitting quietly inside code I had written at Reality AI. Every time I composed two camera rotations, every time I integrated an IMU, every time a rotation matrix came out non-orthogonal after a naive gradient update and I had to re-orthogonalise it with an SVD: all of that was a consequence of $SO(3)$ being a manifold, not a vector space, and of my code pretending otherwise. The physics textbook had the right abstraction all along. The engineering code was working around the consequences of not using it.
+
+This post is an attempt to close that gap explicitly — to show that the epipolar constraint, bundle adjustment, and the 5-point algorithm are not computer vision recipes but theorems about $SE(3)$, the Lie group of rigid motions in 3D.
 
 There is a standard way to teach stereo vision. You draw two cameras, drop a 3D point, connect it to both image planes, note that the projections must lie on conjugate epipolar lines, write down the constraint $\mathbf{x}_2^\top F \mathbf{x}_1 = 0$, and call the matrix $F$ the fundamental matrix. It works. You can implement it, run RANSAC, triangulate points, and build a working system.
 

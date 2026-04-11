@@ -287,8 +287,10 @@ article.article .content thead th {
 }
 
 /* ---------- Profile widget ---------- */
-/* Gradient banner behind the avatar */
+/* Gradient banner behind the avatar — no backdrop blur to avoid child image blurriness */
 [data-type="profile"] .card {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   background:
     linear-gradient(135deg, #3273dc 0%, #7c3aed 100%) top / 100% 150px no-repeat,
     rgba(255, 255, 255, 0.72) !important;
@@ -316,6 +318,12 @@ article.article .content thead th {
 
 [data-type="profile"] .image img.avatar {
   border-radius: 50% !important;
+  object-fit: cover;
+  object-position: center top;
+  width: 100%;
+  height: 100%;
+  filter: none !important;
+  image-rendering: high-quality;
   box-shadow:
     0 0 0 4px #fff,
     0 0 0 7px rgba(114, 58, 237, 0.35),

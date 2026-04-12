@@ -4,6 +4,8 @@ date: 2025-11-23
 mathjax: true
 thumbnail: gallery/thumbnails/torus_heat_snapshots.png
 cover: gallery/thumbnails/torus_heat_snapshots.png
+series: "Spectral Graph Networks"
+series_index: 2
 tags:
     - machine-learning
     - graph-neural-networks
@@ -363,7 +365,7 @@ Both methods spread information, but they answer different questions. Heat diffu
 
 # Cold Start: Recommender Systems
 
-What does spectral graph theory have to do with recommender systems? Once we view user--item behaviour as a graph, the connection becomes natural. In the spectral domain, *low-frequency* Laplacian eigenvectors capture broad, mainstream purchasing patterns, while *high-frequency* components represent niche tastes and micro-segments. Matrix Factorisation (MF) implicitly applies a *low-pass filter*: embeddings vary smoothly across the item--item graph, meaning MF emphasises low-frequency structure. But MF breaks down for cold-start items because an isolated item contributes no collaborative signal.
+What does spectral graph theory have to do with recommender systems? Once we view user--item behaviour as a graph, the connection becomes natural. In the spectral domain, *low-frequency* Laplacian eigenvectors capture broad, mainstream purchasing patterns, while *high-frequency* components represent niche tastes and micro-segments. Matrix Factorisation (MF) implicitly applies a *low-pass filter*: embeddings vary smoothly across the item--item graph, meaning MF emphasises low-frequency structure. But MF breaks down for cold-start items because an isolated item contributes no coliorative signal.
 
 In contrast, a spectral GCN applies a learned filter $$T x = g(L)x = U\ g(\Lambda) U^\top x$$
 

@@ -4,6 +4,8 @@ date: 2025-11-22
 mathjax: true
 thumbnail: gallery/thumbnails/dft_connection.png
 cover: gallery/thumbnails/dft_connection.png
+series: "Spectral Graph Networks"
+series_index: 1
 tags:
     - machine-learning
     - graph-neural-networks

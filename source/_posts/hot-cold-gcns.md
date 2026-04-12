@@ -20,10 +20,11 @@ excerpt: "Fourier transforms on graphs, spectral GCNs, and the heat equation: ho
 I have always been obsessed with the Fourier Transform, it is in my opinion the single greatest invention in the history of mathematics. Check out this [Veritasium video](https://www.youtube.com/watch?v=nmgFG7PUHfo) on it! Part of what makes the Fourier Transform so ubiquitous is that any function can be broken down into its component frequencies. What is less well known is that the definition of \"frequency\" is purely mathematical and applies to a broader class of mathematical objects than just functions! In this post I will try to provide some intuition and visualizations that expand the Fourier Transform to graphs, called the Graph Fourier Transform. Hopefully once that is clear, we will apply the Graph Fourier Transform in a Spectral Graph Convolution Network to model heat propagation in a toroidal surface.
 
 Repo:
-https://github.com/FranciscoRMendes/graph_networks/tree/main
+https://github.com/FranciscoRMendes/graph-networks/tree/main
 
-Colab Notebook:
-https://github.com/FranciscoRMendes/graph_networks/blob/main/GCN.ipynb
+Notebooks:
+- [GCN.ipynb](https://github.com/FranciscoRMendes/graph-networks/blob/main/GCN.ipynb) — end-to-end experiment on a 3-D torus
+- [foundations.ipynb](https://github.com/FranciscoRMendes/graph-networks/blob/main/foundations.ipynb) — mathematical derivations from DFT to irregular graphs
 
 # Classical Fourier Transform As A Special Case Of The Graph Fourier Transform
 While there are many ways to view the Fourier Transform, the most revealing perspective is to regard it as multiplication of a discrete signal by a special matrix. This viewpoint is useful for several reasons.
@@ -137,7 +138,15 @@ Take an undirected weighted graph $G = (V, E, W)$. The normalised Laplacian is d
 
 $$L = I - D^{-1/2} A D^{-1/2},$$
 
-where $A$ is the adjacency matrix and $D$ the degree matrix. Write more about why this is important and a good choice.
+where $A$ is the adjacency matrix and $D$ the degree matrix. Why this specific form? Two reasons stand out.
+
+**Bounded eigenvalues.** The eigenvalues of the normalized Laplacian always lie in $[0, 2]$, regardless of the graph's degree distribution. The combinatorial Laplacian $L = D - A$ has eigenvalues that scale with the maximum degree, so on a graph where one node has degree 1000 and another has degree 2, the combinatorial Laplacian is poorly conditioned. The normalization by $D^{-1/2}$ on both sides cancels this out, giving a well-conditioned operator whose spectral domain is always the same bounded interval. This matters enormously for learning: a neural network filtering in the spectral domain benefits from eigenvalues that don't vary wildly between graphs.
+
+**Degree-fair smoothness.** The quadratic form of the normalized Laplacian gives
+
+$$x^\top L x = \sum_{(i,j)\in E} w_{ij}\left(\frac{x_i}{\sqrt{d_i}} - \frac{x_j}{\sqrt{d_j}}\right)^2,$$
+
+which measures the smoothness of $x$ relative to each node's degree. A hub node connected to 100 neighbours and a leaf node connected to 1 neighbour contribute to the smoothness measure on comparable terms. The combinatorial form would weight the hub's contribution 100× more heavily, making the learned eigenmodes dominated by high-degree nodes.
 
 ## Sidebar on $L$
 
@@ -433,6 +442,25 @@ Applying a spectral filter $g(\Lambda)$ to a heat signal $x$ acts by scaling eac
 $$x_{\text{filtered}} = U g(\Lambda) U^\top x$$ 
 so a low-pass filter suppresses the high-frequency panel patterns and produces smoother heat distributions, while a high-pass filter accentuates the oscillatory features visible in the high-frequency panel.
 
+## The Heat Kernel: The Analytically Correct Filter
+
+One particularly revealing special case: the heat equation $\frac{dx}{dt} = -Lx$ has a closed-form solution. Starting from initial condition $x(0)$ and evolving for time $t$:
+
+$$x(t) = e^{-Lt}\, x(0) = U\, \mathrm{diag}(e^{-\lambda_k t})\, U^\top x(0).$$
+
+This means the *exact* spectral filter for heat diffusion at time $t$ is the **heat kernel**:
+
+$$h(\lambda, t) = e^{-\lambda \cdot t}.$$
+
+Smooth modes (small $\lambda$) survive nearly unchanged; oscillatory modes (large $\lambda$) are exponentially suppressed. In code this is a single line:
+
+```python
+def heat_kernel_filter(Lambda: torch.Tensor, t: float) -> torch.Tensor:
+    return torch.exp(-Lambda * t)
+```
+
+This provides a physics-informed baseline: after training on heat-diffusion data, the learned weights $\theta$ should approximately recover this exponential shape. Heat diffusion is therefore an ideal test case for spectral GCNs—the ground-truth spectral filter has a known closed form, so we can verify that the network has learned something physically meaningful rather than a coincidental fit.
+
 # Neural Network To Learn $g_{\theta}(\Lambda)$
 We can write a spectral graph convolution / filter with learnable parameters $\theta$ as
 
@@ -488,11 +516,79 @@ $$
 
 This makes it explicit that each column vector $U_i$ (the $i$-th eigenvector) is scaled by the learnable weight $\theta_i$ in the spectral domain, and then transformed back to the original node space via $U$ to produce the predicted signal $x_{t+1}$.
 
+## PyTorch Implementation
+
+The three core operations—GFT, elementwise filtering, and inverse GFT—translate directly to PyTorch matrix operations (from `graph_fourier.py`):
+
+```python
+def gft(x: torch.Tensor, U: torch.Tensor) -> torch.Tensor:
+    """Graph Fourier Transform: x̂ = Uᵀ x"""
+    return U.T @ x
+
+def igft(x_hat: torch.Tensor, U: torch.Tensor) -> torch.Tensor:
+    """Inverse GFT: x = U x̂"""
+    return U @ x_hat
+
+def spectral_filter(x, U, h):
+    """Graph convolution: y = U (h ⊙ Uᵀ x)"""
+    return igft(h * gft(x, U), U)
+```
+
+The `SpectralGCN` module wraps these into a learnable layer. The only trainable parameter is `theta`—one weight per eigenvector:
+
+```python
+class SpectralGCN(nn.Module):
+    def __init__(self, U, Lambda):
+        super().__init__()
+        self.U = U                # eigenvectors (fixed)
+        self.Lambda = Lambda      # eigenvalues (fixed)
+        self.theta = nn.Parameter(torch.ones(U.shape[0]))
+
+    def forward(self, x):
+        x_hat = self.U.T @ x                          # GFT
+        filtered = torch.sigmoid(self.theta) * x_hat  # learned filter
+        return self.U @ filtered                       # inverse GFT
+```
+
+The graph Laplacian is assembled from the mesh topology in `build_graph.py`. Each triangular face contributes three undirected edges, self-loops are added for stability, and the degree-normalised form is computed:
+
+```python
+def create_adjacency_matrix(mesh):
+    vertices, faces = mesh.vertices, mesh.faces
+    num_nodes = len(vertices)
+    adj = np.zeros((num_nodes, num_nodes))
+    for face in faces:
+        for i in range(3):
+            for j in range(i + 1, 3):
+                adj[face[i], face[j]] = 1
+                adj[face[j], face[i]] = 1
+    adj = torch.tensor(adj, dtype=torch.float32) + torch.eye(num_nodes)
+    deg = adj.sum(dim=1)
+    D_inv_sqrt = torch.diag(1.0 / torch.sqrt(deg))
+    L = torch.eye(num_nodes) - D_inv_sqrt @ adj @ D_inv_sqrt
+    return adj, L
+```
+
 # Why Use A Neural Network?
 Two motivating examples illustrate the practical usefulness of such a model:
 
 - **Partial Observations from Sensors**
-In many real-world systems, heat or pressure sensors are only available at a small subset of points. We train the Spectral GCN using only these sparse observations, yet the learned model reconstructs and predicts the heat field across *all* vertices on the mesh. This effectively transforms a sparse set of measurements into a full-field prediction.
+In many real-world systems, heat or pressure sensors are only available at a small subset of points. The experiment uses **750 sensors** placed on the torus using *farthest-point sampling* (FPS)—an algorithm that greedily picks each next sensor as the vertex farthest from all already-chosen sensors, ensuring uniform coverage of the surface rather than random clustering:
+
+```python
+def farthest_point_sampling(vertices, k):
+    dist = torch.full((len(vertices),), float('inf'))
+    sampled = [torch.randint(0, len(vertices), (1,)).item()]
+    for _ in range(1, k):
+        dist = torch.minimum(dist,
+                             torch.norm(vertices - vertices[sampled[-1]], dim=1))
+        sampled.append(torch.argmax(dist).item())
+    return sampled
+
+sensor_indices = farthest_point_sampling(mesh.vertices, num_sensors=750)
+```
+
+All non-sensor nodes are zeroed during training over 40 timesteps of diffusion (step size $\alpha = 0.4$). We train the Spectral GCN using only these sparse observations, yet the learned model reconstructs and predicts the heat field across *all* vertices on the mesh—effectively turning sparse sensor readings into a full-field prediction.
 
 - **Generalization to a New Geometry**
 One might hope that a model trained on one torus could be applied to a slightly different torus. Unfortunately, this is generally not possible in the GCN setting. The eigenvectors of the Laplacian form the coordinate system in which the model operates, and even small geometric changes produce different Laplacian spectra. As a result, the learned spectral filters are not transferable across meshes. This is a fundamental drawback of spectral GCNs. However, we shall see that the GCN framework inspires frameworks that do not suffer from this drawback. 
@@ -508,8 +604,44 @@ Two practical fixes alleviate this:
 
 - **Energy Conservation.** After each predicted step, the total heat can be renormalized to match the physical energy of the system. This ensures that although the *shape* of the prediction is learned by the model, the *magnitude* remains consistent with diffusion dynamics. Empirically, this correction dramatically improves long-horizon stability.
 
+## Training Results
+
+Training the SpectralGCN for 300 epochs with the Adam optimizer on 40 diffusion steps yields rapid convergence:
+
+| Epoch | MSE Loss |
+|-------|----------|
+| 0 | 0.000352 |
+| 50 | 0.000031 |
+| 100 | 0.000017 |
+| 150–300 | ≈ 0.000015 |
+
+The model achieves roughly a 10× loss reduction in the first 50 epochs, then plateaus near $1.5 \times 10^{-5}$. The steep initial descent reflects the fact that most heat-diffusion structure is captured by the lowest few eigenmodes — the tail of the training curve squeezes out residual error from higher-frequency components.
+
 Overall, the Spectral GCN provides a compact and interpretable model for heat propagation on a fixed mesh and performs remarkably well given its simplicity. However, its reliance on the Laplacian eigenbasis also limits its ability to generalize across geometries, motivating the need for more flexible spatial or message-passing approaches in applications where the underlying mesh may change.
 
+
+# Efficient Spectral Filtering: Chebyshev Approximation
+
+The full spectral GCN has a critical bottleneck: computing $U$ costs $O(N^3)$ and must be recomputed whenever the graph changes. An elegant fix avoids the eigendecomposition entirely by approximating the spectral filter as a truncated **Chebyshev polynomial**:
+
+$$g_\theta(L) \approx \sum_{k=0}^{K} \theta_k\, T_k(\tilde{L}),$$
+
+where $T_k$ is the $k$-th Chebyshev polynomial, $\tilde{L} = \frac{2}{\lambda_{\max}} L - I$ is a scaled Laplacian with spectrum in $[-1, 1]$, and $K$ is the polynomial order (typically 2–5). Two key advantages over the full eigendecomposition:
+
+- **Complexity**: $O(K \cdot |E|)$ per forward pass instead of $O(N^2)$, since applying $\tilde{L}$ is a sparse matrix–vector multiply.
+- **Locality**: A degree-$K$ polynomial only aggregates $K$-hop neighbourhoods—spatial support is finite and interpretable.
+
+The scaled Laplacian is assembled with a numerical stability term (from `build_graph.py`):
+
+```python
+def create_adjacency_matrix_tilde(mesh):
+    # ... build normalized Laplacian L as above ...
+    lambda_max = torch.linalg.eigvals(L).real.max()
+    L_tilde = (2.0 / lambda_max) * L - torch.eye(num_nodes)
+    return adj, L_tilde
+```
+
+This is the computational insight that made GCNs practical at scale. It directly leads to the Kipf & Welling (2017) formulation, which further simplifies to $K=1$ with $\lambda_{\max} \approx 2$, collapsing the polynomial to a single propagation step: $g_\theta(L) \approx \theta (I + D^{-1/2} A D^{-1/2})$. The tradeoff is expressiveness: the polynomial can only represent $K$-local filters, whereas the full spectral GCN can learn an arbitrary per-eigenvalue response.
 
 # Cold Start: Recommender Systems
 
@@ -529,6 +661,5 @@ While spectral GCNs shine on fixed graphs and structured problems, they also com
 
 So, whether you’re modeling heat flowing across a mesh or figuring out what obscure sock a new customer might want next, spectral graph theory shows that Fourier Transforms can take you a long way. 
 
-In my next post, I will deal with the the two main issues of the GCN. 
-- Adding a new node/ transferring information to a similar graph
-- Saving the computation of the Eigen values of the graph
+In my next post, I will deal with the remaining fundamental limitation of spectral GCNs:
+- Adding a new node / transferring information to a similar graph (spatial and message-passing approaches)

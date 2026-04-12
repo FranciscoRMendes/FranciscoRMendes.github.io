@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://franciscormendes.github.io/2025/11/23/hot-cold-gcns-2/</loc>
+    
+    <lastmod>2026-04-12</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://franciscormendes.github.io/2025/11/22/hot-cold-gcns/</loc>
     
     <lastmod>2026-04-12</lastmod>
@@ -21,6 +30,15 @@
   
   <url>
     <loc>https://franciscormendes.github.io/curriculum/index.html</loc>
+    
+    <lastmod>2026-04-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.github.io/index.html</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -128,6 +146,15 @@
   </url>
   
   <url>
+    <loc>https://franciscormendes.github.io/2026/01/15/on-murakami/</loc>
+    
+    <lastmod>2026-04-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://franciscormendes.github.io/2024/08/01/on-the-class-struggle/</loc>
     
     <lastmod>2026-04-10</lastmod>
@@ -147,6 +174,15 @@
   
   <url>
     <loc>https://franciscormendes.github.io/2024/12/17/matching-matlabs-resample/</loc>
+    
+    <lastmod>2026-04-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.github.io/2023/11/03/newton-einstein-mars-orbit-comparison/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -264,33 +300,6 @@
   
   <url>
     <loc>https://franciscormendes.github.io/2025/12/16/3d-coastline-paradox/</loc>
-    
-    <lastmod>2026-04-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.github.io/2023/11/03/newton-einstein-mars-orbit-comparison/</loc>
-    
-    <lastmod>2026-04-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.github.io/index.html</loc>
-    
-    <lastmod>2026-04-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.github.io/2026/01/15/on-murakami/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -554,20 +563,6 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/philosophy/</loc>
-    <lastmod>2026-04-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.github.io/tags/essay/</loc>
-    <lastmod>2026-04-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://franciscormendes.github.io/tags/physics/</loc>
     <lastmod>2026-04-12</lastmod>
     <changefreq>weekly</changefreq>
@@ -576,6 +571,20 @@
   
   <url>
     <loc>https://franciscormendes.github.io/tags/general-relativity/</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.github.io/tags/philosophy/</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.github.io/tags/essay/</loc>
     <lastmod>2026-04-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

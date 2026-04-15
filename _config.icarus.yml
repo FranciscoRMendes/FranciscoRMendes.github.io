@@ -48,7 +48,7 @@ head:
         url: 
         # Page cover (og:image) (optional)
         # You should leave this blank for most of the time
-        image: https://franciscormendes.github.io/gallery/DSC00878.jpg
+        image: https://franciscormendes.com/gallery/DSC00878.jpg
         # Site name (og:site_name) (optional)
         # You should leave this blank for most of the time
         site_name: Francisco Mendes
@@ -90,10 +90,10 @@ head:
         publisher: Francisco Mendes
         # Page publisher logo (optional)
         # You should leave this blank for most of the time
-        publisher_logo: https://franciscormendes.github.io/gallery/favicon-32x32.png
+        publisher_logo: https://franciscormendes.com/gallery/favicon-32x32.png
         # Page images (optional)
         # You should leave this blank for most of the time
-        image: https://franciscormendes.github.io/gallery/DSC00878.jpg
+        image: https://franciscormendes.com/gallery/DSC00878.jpg
     # Additional HTML meta tags in an array
     meta:
         # Meta tag specified in <attribute>=<value> style

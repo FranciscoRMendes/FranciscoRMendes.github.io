@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://franciscormendes.github.io/sitemap.xml
+Sitemap: https://franciscormendes.com/sitemap.xml

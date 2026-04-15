@@ -2,25 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://franciscormendes.github.io/2025/11/23/hot-cold-gcns-2/</loc>
+    <loc>https://franciscormendes.com/curriculum/index.html</loc>
     
-    <lastmod>2026-04-12</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.github.io/2025/11/22/hot-cold-gcns/</loc>
-    
-    <lastmod>2026-04-12</lastmod>
+    <lastmod>2026-04-15</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2026/04/10/bayesian-vs-frequentist-sample-size/</loc>
+    <loc>https://franciscormendes.com/2025/11/22/hot-cold-gcns/</loc>
+    
+    <lastmod>2026-04-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.com/2026/04/10/bayesian-vs-frequentist-sample-size/</loc>
+    
+    <lastmod>2026-04-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.com/2025/11/23/hot-cold-gcns-2/</loc>
+    
+    <lastmod>2026-04-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.com/index.html</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -29,7 +47,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/curriculum/index.html</loc>
+    <loc>https://franciscormendes.com/2024/09/07/we-evgeny-zamyatin/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -38,7 +56,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/index.html</loc>
+    <loc>https://franciscormendes.com/2025/02/28/soft-actor-critic-lunar-lander/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -47,7 +65,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/09/07/we-evgeny-zamyatin/</loc>
+    <loc>https://franciscormendes.com/2026/02/20/ssd-career-conference/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -56,7 +74,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2025/02/28/soft-actor-critic-lunar-lander/</loc>
+    <loc>https://franciscormendes.com/2025/11/20/summarized/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -65,7 +83,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2026/02/20/ssd-career-conference/</loc>
+    <loc>https://franciscormendes.com/2025/02/17/soft-actor-critic-inverted-pendulum-v0/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -74,7 +92,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2025/11/20/summarized/</loc>
+    <loc>https://franciscormendes.com/2024/10/22/singularities/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -83,7 +101,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2025/02/17/soft-actor-critic-inverted-pendulum-v0/</loc>
+    <loc>https://franciscormendes.com/2024/08/12/rfk/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -92,7 +110,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/10/22/singularities/</loc>
+    <loc>https://franciscormendes.com/2024/08/04/rct-your-way-to-policy/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -101,7 +119,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/08/12/rfk/</loc>
+    <loc>https://franciscormendes.com/2024/05/16/quantization-layer-details/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -110,7 +128,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/08/04/rct-your-way-to-policy/</loc>
+    <loc>https://franciscormendes.com/2026/02/28/quantum-fourier-transform/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -119,7 +137,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/05/16/quantization-layer-details/</loc>
+    <loc>https://franciscormendes.com/2024/05/16/quantization-1/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -128,7 +146,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2026/02/28/quantum-fourier-transform/</loc>
+    <loc>https://franciscormendes.com/2026/01/15/on-murakami/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -137,7 +155,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/05/16/quantization-1/</loc>
+    <loc>https://franciscormendes.com/2024/08/01/on-the-class-struggle/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -146,7 +164,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2026/01/15/on-murakami/</loc>
+    <loc>https://franciscormendes.com/2022/01/10/many-to-many-matching/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -155,7 +173,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/08/01/on-the-class-struggle/</loc>
+    <loc>https://franciscormendes.com/2024/12/17/matching-matlabs-resample/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -164,7 +182,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2022/01/10/many-to-many-matching/</loc>
+    <loc>https://franciscormendes.com/2023/11/03/newton-einstein-mars-orbit-comparison/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -173,7 +191,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/12/17/matching-matlabs-resample/</loc>
+    <loc>https://franciscormendes.com/2024/09/13/lora-3/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -182,7 +200,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2023/11/03/newton-einstein-mars-orbit-comparison/</loc>
+    <loc>https://franciscormendes.com/2024/04/03/lora/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -191,7 +209,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/09/13/lora-3/</loc>
+    <loc>https://franciscormendes.com/2025/09/01/kafka-on-the-shore/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -200,7 +218,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/04/03/lora/</loc>
+    <loc>https://franciscormendes.com/2024/05/16/left-backs-premier-league/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -209,7 +227,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2025/09/01/kafka-on-the-shore/</loc>
+    <loc>https://franciscormendes.com/2024/04/24/lora-2/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -218,7 +236,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/05/16/left-backs-premier-league/</loc>
+    <loc>https://franciscormendes.com/2024/09/28/graph-convolutional-neural-network-and-matrix-factorization/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -227,7 +245,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/04/24/lora-2/</loc>
+    <loc>https://franciscormendes.com/2025/12/06/convolution/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -236,7 +254,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/09/28/graph-convolutional-neural-network-and-matrix-factorization/</loc>
+    <loc>https://franciscormendes.com/2025/02/09/east-of-eden/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -245,7 +263,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2025/12/06/convolution/</loc>
+    <loc>https://franciscormendes.com/2024/11/08/consulting-ab-testing/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -254,7 +272,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2025/02/09/east-of-eden/</loc>
+    <loc>https://franciscormendes.com/2024/01/06/cold-war/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -263,7 +281,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/11/08/consulting-ab-testing/</loc>
+    <loc>https://franciscormendes.com/2024/07/19/bayesian-statistics/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -272,7 +290,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/01/06/cold-war/</loc>
+    <loc>https://franciscormendes.com/2024/05/09/MACSS-econ/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -281,7 +299,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/07/19/bayesian-statistics/</loc>
+    <loc>https://franciscormendes.com/2025/12/16/3d-coastline-paradox/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -290,7 +308,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2024/05/09/MACSS-econ/</loc>
+    <loc>https://franciscormendes.com/tags/index.html</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -299,7 +317,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/2025/12/16/3d-coastline-paradox/</loc>
+    <loc>https://franciscormendes.com/categories/index.html</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -308,7 +326,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/index.html</loc>
+    <loc>https://franciscormendes.com/2026/03/07/acoustic-sensor-fusion/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -317,25 +335,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/categories/index.html</loc>
-    
-    <lastmod>2026-04-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.github.io/2026/03/07/acoustic-sensor-fusion/</loc>
-    
-    <lastmod>2026-04-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.github.io/2024/02/02/the-debate-on-free-will/</loc>
+    <loc>https://franciscormendes.com/2024/02/02/the-debate-on-free-will/</loc>
     
     <lastmod>2026-04-10</lastmod>
     
@@ -345,296 +345,296 @@
   
 
   <url>
-    <loc>https://franciscormendes.github.io/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/mathematics/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/mathematics/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/fractals/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/fractals/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/economics/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/economics/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/career/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/career/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/autonomous-vehicles/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/bayesian-statistics/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/sensor-fusion/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/a-b-testing/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/signal-processing/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/statistics/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/machine-learning/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/experimentation/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/embedded-ml/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/recommender-systems/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/bayesian-statistics/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/book-review/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/a-b-testing/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/politics/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/statistics/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/history/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/experimentation/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/causal-inference/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/recommender-systems/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/machine-learning/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/book-review/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/signal-processing/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/politics/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/fourier-transform/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/history/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/convolutional-neural-networks/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/causal-inference/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/low-rank-approximation/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/fourier-transform/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/fiction/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/convolutional-neural-networks/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/graph-neural-networks/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/low-rank-approximation/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/spectral-methods/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/fiction/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/football/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/graph-neural-networks/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/sports/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/spectral-methods/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/model-compression/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/football/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/embedded-ml/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/sports/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/lora/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/model-compression/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/game-theory/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/lora/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/matching/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/game-theory/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/physics/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/matching/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/general-relativity/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/physics/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/philosophy/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/general-relativity/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/essay/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/philosophy/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/quantization/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/essay/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/quantum-computing/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/quantization/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/algorithms/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/quantum-computing/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/policy/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/algorithms/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/reinforcement-learning/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/policy/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/neural-networks/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/reinforcement-learning/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/artificial-intelligence/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/neural-networks/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/autonomous-vehicles/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/tags/artificial-intelligence/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/tags/sensor-fusion/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -642,64 +642,64 @@
 
   
   <url>
-    <loc>https://franciscormendes.github.io/categories/mathematics/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/categories/mathematics/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/categories/opinion/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/categories/opinion/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/categories/autonomous-vehicles/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/categories/statistics/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/categories/statistics/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/categories/book-review/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/categories/book-review/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/categories/machine-learning/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/categories/machine-learning/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/categories/economics/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/categories/autonomous-vehicles/machine-learning/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/categories/physics/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/categories/economics/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/categories/autonomous-vehicles/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.github.io/categories/physics/</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://franciscormendes.com/categories/autonomous-vehicles/machine-learning/</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

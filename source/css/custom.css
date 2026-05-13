@@ -167,6 +167,44 @@ article.article .content img:hover {
   filter: none;
 }
 
+/* ---------- Image captions ---------- */
+article.article .content figcaption {
+  margin-top: 0.65rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+article.article .content div[align="center"] figcaption,
+article.article .content div[style*="text-align:center"] figcaption,
+article.article .content div[style*="text-align: center"] figcaption {
+  text-align: center;
+}
+
+html.dark article.article .content figcaption {
+  color: #9ca3af;
+}
+
+/* p > em used as captions inside centered image wrappers */
+article.article .content div[align="center"] p > em,
+article.article .content div[style*="text-align:center"] p > em,
+article.article .content div[style*="text-align: center"] p > em {
+  display: block;
+  margin-top: 0.65rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+html.dark article.article .content div[align="center"] p > em,
+html.dark article.article .content div[style*="text-align:center"] p > em,
+html.dark article.article .content div[style*="text-align: center"] p > em {
+  color: #9ca3af;
+}
+
 /* ---------- Article content typography ---------- */
 article.article .content {
   font-size: 1.05rem;

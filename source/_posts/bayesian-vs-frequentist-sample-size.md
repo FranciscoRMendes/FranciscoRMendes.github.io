@@ -2,8 +2,8 @@
 title: "Bayesian Peeking is Still Peeking: Rigorous Proof, No Priors Required"
 date: 2026-04-10
 mathjax: true
-thumbnail: gallery/thumbnails/av-experiment-cover.jpg
-cover: gallery/thumbnails/av-experiment-cover.jpg
+thumbnail: gallery/thumbnails/av-matching-cover.jpg
+cover: gallery/thumbnails/av-matching-cover.jpg
 tags:
     - statistics
     - a-b-testing

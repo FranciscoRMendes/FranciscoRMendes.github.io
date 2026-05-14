@@ -22,8 +22,12 @@ Imagine you are running an experiment to test the efficacy of a rewards program 
 
 The catch is that the rewards program itself costs money for every day it runs. Every subsidised ride is a line item. So there is real pressure to end the experiment as early as possible. Enter some Bayesian fanatic who proposes the solution: run a Bayesian experiment instead of a frequentist one. The argument is that Bayesian methods allow you to check results continuously and stop the moment you have sufficient evidence, which would dispense entirely with the need for a fixed sample size, the indignity of waiting, and *crucially* the problem of peeking.
 
+<div style="text-align:center;">
+
 ![XKCD #1132 — Frequentists vs. Bayesians (Randall Munroe, CC BY-NC 2.5)](gallery/thumbnails/xkcd-frequentist-bayesian.png)
-*The Bayesian in this comic is right about priors. The Bayesian in our meeting was right about priors too. Neither of them was right about the experiment being cheap.*
+
+<p><em>XKCD #1132 — Frequentists vs. Bayesians (Randall Munroe, CC BY-NC 2.5). The Bayesian in this comic is right about priors. The Bayesian in our meeting was right about priors too. Neither of them was right about the experiment being cheap.</em></p>
+</div>
 
 My disagreement was vigorous enough that simply asserting it felt insufficient, and so I brought the math, which has the considerable advantage of being harder to dismiss than mere opinion.
 
@@ -96,8 +100,12 @@ The critical assumption buried in the Bayesian sample size formula is that you c
 
 Peeking is the practice of inspecting results before the planned sample size is reached and stopping early if the numbers look good. It is what invalidates frequentist tests when p-values are checked repeatedly mid-experiment — the false positive rate inflates because you are effectively running multiple tests and keeping the best result. The same logic applies to the Bayesian posterior.
 
+<div style="text-align:center;">
+
 ![XKCD #882 — Significant (Randall Munroe, CC BY-NC 2.5)](gallery/thumbnails/xkcd-significant.png)
-*Run enough tests, check often enough, and green jelly beans will cause acne. The Bayesian equivalent: check the posterior enough times and your rewards program will appear to work. The AV subsidy line item does not care which framework licensed your false positive.*
+
+<p><em>XKCD #882 — Significant (Randall Munroe, CC BY-NC 2.5). Run enough tests, check often enough, and green jelly beans will cause acne. The Bayesian equivalent: check the posterior enough times and your rewards program will appear to work. The AV subsidy line item does not care which framework licensed your false positive.</em></p>
+</div>
 
 If you evaluate $p_\text{wrong} < \epsilon$ continuously and stop the moment it dips below threshold, you have not run the experiment described by the formula above. You have run something different, with different — and worse — statistical properties. The Bayesian framing does not make this problem disappear. It reframes it. The stopping rule is still a rule, and it must be respected as such.
 

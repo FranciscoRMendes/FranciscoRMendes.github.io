@@ -16,6 +16,8 @@ series: "Bayesian Methods and Experimentation"
 series_index: 4
 ---
 
+*Disclaimer: the scenario described in this article is entirely fictional. Any resemblance to actual experiments, programs, or conversations is coincidental. The math, however, is real.*
+
 # The Setup
 
 Imagine you are running an experiment to test the efficacy of a rewards program built to incentivize the use of autonomous vehicles in a ride-share marketplace. AVs cost more to operate than driver cars, so the business case depends heavily on whether riders can be nudged toward them at sufficient volume. The rewards program is the nudge and you need to know if it works.

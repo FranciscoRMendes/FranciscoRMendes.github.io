@@ -22,7 +22,7 @@ series_index: 4
 
 Imagine you are running an experiment to test the efficacy of a rewards program built to incentivize the use of autonomous vehicles in a ride-share marketplace. AVs cost more to operate than driver cars (for now — this is largely due to logistical issues that will likely be solved by scale), so the business case depends heavily on whether riders can be nudged toward them at sufficient volume. The rewards program is the nudge and you need to know if it works.
 
-The rewards program costs money for every day it runs. Every subsidised ride is a line item. So there is real pressure to end the experiment as early as possible. Enter a Bayesian disciple who proposes a solution: run a Bayesian experiment instead of a frequentist one. The argument is that Bayesian methods allow you to check results continuously and stop the moment you have sufficient evidence, dispensing with the need for a fixed sample size, the indignity of waiting, and *crucially* the problem of peeking.
+The rewards program costs money for every day it runs. Every subsidised ride is a line item. So there is real pressure to end the experiment as early as possible. Enter a Bayesian disciple who proposes a solution: run a Bayesian experiment instead of a frequentist one. The argument is that Bayesian methods allow you to check results continuously and stop the moment you have sufficient evidence, dispensing with the need for a fixed sample size, the indignity of waiting, and *crucially* the problem of peeking — the practice of inspecting results before the planned sample size is reached and stopping early if the numbers look good, which inflates your false positive rate.
 
 <div style="text-align:center;">
 
@@ -98,9 +98,9 @@ On paper, the Bayesian approach needs roughly a third of the frequentist sample.
 
 # Bayesian Is Not Immune to Peeking
 
-The critical assumption buried in the Bayesian sample size formula is that you collect $n_\text{bayes}$ samples and *then* evaluate the stopping criterion. You do not evaluate it after every ride. You do not check it at the end of each day because finance is asking. You do not peek.
+For the uninitiated, peeking is the practice of inspecting results before the planned sample size is reached and stopping early if the numbers look good. It is what invalidates frequentist tests when p-values are checked repeatedly mid-experiment: the false positive rate inflates because you are effectively running multiple tests and keeping the best result. The same logic applies to the Bayesian posterior.
 
-Peeking is the practice of inspecting results before the planned sample size is reached and stopping early if the numbers look good. It is what invalidates frequentist tests when p-values are checked repeatedly mid-experiment: the false positive rate inflates because you are effectively running multiple tests and keeping the best result. The same logic applies to the Bayesian posterior.
+You might be tempted to think you can check the Bayesian experiment after every ride or every day. This is incorrect — you still need to let $n_\text{bayes}$ observations accumulate before evaluating the stopping criterion, otherwise this is also peeking. Bayesian methods have an additional problem here: the posterior variance can jump around quite a bit early on, so making a decision off it is unreliable. In other contexts such as the Kalman filter, this period of instability would be called burn-in.
 
 If you evaluate $p_\text{wrong} < \epsilon$ continuously and stop the moment it dips below threshold, you have not run the experiment described by the formula above. You have run something different, with different and worse statistical properties. The Bayesian framing does not make this problem disappear. It reframes it. The stopping rule is still a rule, and it must be respected as such.
 

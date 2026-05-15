@@ -102,13 +102,6 @@ The critical assumption buried in the Bayesian sample size formula is that you c
 
 Peeking is the practice of inspecting results before the planned sample size is reached and stopping early if the numbers look good. It is what invalidates frequentist tests when p-values are checked repeatedly mid-experiment: the false positive rate inflates because you are effectively running multiple tests and keeping the best result. The same logic applies to the Bayesian posterior.
 
-<div style="text-align:center;">
-
-![XKCD #882 — Significant (Randall Munroe, CC BY-NC 2.5)](gallery/thumbnails/xkcd-significant.png)
-
-<p><em>XKCD #882 — Significant (Randall Munroe, CC BY-NC 2.5). Run enough tests, check often enough, and green jelly beans will cause acne. The Bayesian equivalent: check the posterior enough times and your rewards program will appear to work. The AV subsidy line item does not care which framework licensed your false positive.</em></p>
-</div>
-
 If you evaluate $p_\text{wrong} < \epsilon$ continuously and stop the moment it dips below threshold, you have not run the experiment described by the formula above. You have run something different, with different and worse statistical properties. The Bayesian framing does not make this problem disappear. It reframes it. The stopping rule is still a rule, and it must be respected as such.
 
 # When Are the Two Formulas Exactly the Same?

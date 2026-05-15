@@ -20,7 +20,7 @@ series_index: 4
 
 # The Setup
 
-Imagine you are running an experiment to test the efficacy of a rewards program built to incentivize the use of autonomous vehicles in a ride-share marketplace. AVs cost more to operate than driver cars, so the business case depends heavily on whether riders can be nudged toward them at sufficient volume. The rewards program is the nudge and you need to know if it works.
+Imagine you are running an experiment to test the efficacy of a rewards program built to incentivize the use of autonomous vehicles in a ride-share marketplace. AVs cost more to operate than driver cars (for now — this is largely due to logistical issues that will likely be solved by scale), so the business case depends heavily on whether riders can be nudged toward them at sufficient volume. The rewards program is the nudge and you need to know if it works.
 
 The rewards program costs money for every day it runs. Every subsidised ride is a line item. So there is real pressure to end the experiment as early as possible. Enter a Bayesian disciple who proposes a solution: run a Bayesian experiment instead of a frequentist one. The argument is that Bayesian methods allow you to check results continuously and stop the moment you have sufficient evidence, dispensing with the need for a fixed sample size, the indignity of waiting, and *crucially* the problem of peeking.
 
@@ -133,6 +133,7 @@ $$
 
 This is what it means. For the Bayesian experiment to require the same sample size as the frequentist one, you must set $\epsilon = 0.26\%$, not the $5\%$ used in the earlier example. The apparent sample size reduction comes entirely from setting a far more lenient $\epsilon$. When you hold the error guarantees constant across both frameworks, the sample sizes are exactly equal.
 
+It is worth noting that the relationship between $\epsilon$ and the frequentist parameters $\alpha$ and $\beta$ is not always this transparent. Under the Gaussian approximation used here, the algebra works out cleanly. For other likelihood models or more complex posteriors, deriving the equivalent $\epsilon^*$ requires its own careful analysis and the equivalence will not always take such a neat closed form. The general principle, however, tends to hold: when you account for what each framework is actually guaranteeing, no free lunch is to be found.
 
 # Conclusion
 

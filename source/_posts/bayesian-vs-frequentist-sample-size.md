@@ -20,15 +20,15 @@ series_index: 4
 
 # The Setup
 
-Imagine you are running an experiment to test the efficacy of a rewards program built to incentivize the use of autonomous vehicles in a ride-share marketplace. AVs cost more to operate than driver cars (for now — this is largely due to logistical issues that will likely be solved by scale), so the business case depends heavily on whether riders can be nudged toward them at sufficient volume. The rewards program is the nudge and you need to know if it works.
+Imagine you are running an experiment to test the efficacy of a rewards program built to incentivize the use of autonomous vehicles in a ride-share marketplace. AVs cost more to operate than driver cars (for now; this is largely due to logistical issues that will likely be solved by scale), so the business case depends heavily on whether riders can be nudged toward them at sufficient volume. The rewards program is the nudge and you need to know if it works.
 
-The rewards program costs money for every day it runs. Every subsidised ride is a line item. So there is real pressure to end the experiment as early as possible. Enter a Bayesian disciple who proposes a solution: run a Bayesian experiment instead of a frequentist one. The argument is that Bayesian methods allow you to check results continuously and stop the moment you have sufficient evidence, dispensing with the need for a fixed sample size, the indignity of waiting, and *crucially* the problem of peeking — the practice of inspecting results before the planned sample size is reached and stopping early if the numbers look good, which inflates your false positive rate.
+The rewards program costs money for every day it runs. Every subsidised ride is a line item. So there is real pressure to end the experiment as early as possible. Enter a Bayesian disciple who proposes a solution: run a Bayesian experiment instead of a frequentist one. The argument is that Bayesian methods allow you to check results continuously and stop the moment you have sufficient evidence, dispensing with the need for a fixed sample size, the indignity of waiting, and *crucially* the problem of peeking, that is, the practice of inspecting results before the planned sample size is reached and stopping early if the numbers look good, which inflates your false positive rate.
 
 <div style="text-align:center;">
 
-![XKCD #1132 — Frequentists vs. Bayesians (Randall Munroe, CC BY-NC 2.5)](gallery/thumbnails/xkcd-frequentist-bayesian.png)
+![XKCD #1132: Frequentists vs. Bayesians (Randall Munroe, CC BY-NC 2.5)](gallery/thumbnails/xkcd-frequentist-bayesian.png)
 
-<p><em>XKCD #1132 — Frequentists vs. Bayesians (Randall Munroe, CC BY-NC 2.5). The Bayesian in this comic is right about priors. The Bayesian in our meeting was right about priors too. Neither of them was right about the experiment being cheap.</em></p>
+<p><em>XKCD #1132: Frequentists vs. Bayesians (Randall Munroe, CC BY-NC 2.5). The Bayesian in this comic is right about priors. The Bayesian in our meeting was right about priors too. Neither of them was right about the experiment being cheap.</em></p>
 </div>
 
 The proposal was reasonable and well-intentioned. My concern was specific, and asserting it without proof felt insufficient, so I brought the math.
@@ -100,7 +100,7 @@ On paper, the Bayesian approach needs roughly a third of the frequentist sample.
 
 For the uninitiated, peeking is the practice of inspecting results before the planned sample size is reached and stopping early if the numbers look good. It is what invalidates frequentist tests when p-values are checked repeatedly mid-experiment: the false positive rate inflates because you are effectively running multiple tests and keeping the best result. The same logic applies to the Bayesian posterior.
 
-You might be tempted to think you can check the Bayesian experiment after every ride or every day. This is incorrect — you still need to let $n_\text{bayes}$ observations accumulate before evaluating the stopping criterion, otherwise this is also peeking. Bayesian methods have an additional problem here: the posterior variance can jump around quite a bit early on, so making a decision off it is unreliable. In other contexts such as the Kalman filter, this period of instability would be called burn-in.
+You might be tempted to think you can check the Bayesian experiment after every ride or every day. This is incorrect: you still need to let $n_\text{bayes}$ observations accumulate before evaluating the stopping criterion, otherwise this is also peeking. Bayesian methods have an additional problem here: the posterior variance can jump around quite a bit early on, so making a decision off it is unreliable. In other contexts such as the Kalman filter, this period of instability would be called burn-in.
 
 If you evaluate $p_\text{wrong} < \epsilon$ continuously and stop the moment it dips below threshold, you have not run the experiment described by the formula above. You have run something different, with different and worse statistical properties. The Bayesian framing does not make this problem disappear. It reframes it. The stopping rule is still a rule, and it must be respected as such.
 
@@ -131,3 +131,11 @@ It is worth noting that the relationship between $\epsilon$ and the frequentist 
 # Conclusion
 
 The Bayesian framework is not buying a smaller experiment. It is buying a different interpretation of the same data, at the same cost, with the same number of subsidised AV rides. If the goal is to reduce experiment duration, the honest levers are: a larger MDE (better rewards design), higher tolerance for error, or lower power. Choosing a different statistical framework is not one of them.
+
+# Appendix: Burn-In in the Kalman Filter
+
+A Kalman filter is an algorithm for tracking a hidden quantity (say, the position of a vehicle) by combining noisy sensor readings with a prior belief about where the vehicle was a moment ago. At each time step it updates its estimate and, crucially, its uncertainty about that estimate.
+
+The problem is that the filter needs to be initialised somewhere. If you start it with a poor guess, or simply with a very diffuse prior because you genuinely do not know, the first several estimates will be unreliable. The posterior variance is large, the estimate is sensitive to whatever noisy observation came in first, and the filter has not yet had enough data to correct itself. This settling period is called burn-in. Practitioners routinely discard these early estimates and only trust the filter's output once the variance has stabilised.
+
+The parallel to a Bayesian experiment is direct. In the early observations, the posterior over your treatment effect is similarly volatile, dominated by the prior and highly sensitive to the first few data points. A posterior that crosses your threshold on day two is not evidence the treatment works; it is the filter still finding its feet. Waiting for $n_\text{bayes}$ is the experiment's equivalent of discarding the burn-in period.

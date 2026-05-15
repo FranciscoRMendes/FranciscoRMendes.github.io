@@ -107,7 +107,10 @@ Power analysis focuses on reducing the probability of accepting the null hypothe
 
 Finally, experiments are often powered at 80% for a postulated effect size --- enough to detect meaningful changes that justify the new feature's costs or improvements. Meaningful effect sizes depend on context, domain knowledge, and historical data on expected impacts, and this understanding helps allocate testing resources efficiently.
 
-![Power 2](consulting-ab-testing/netflix_power.png)
+<div style="text-align:center;">
+  <img src="consulting-ab-testing/netflix_power.png" style="display:block; margin-left:auto; margin-right:auto; max-width:100%;">
+  <p><em>Power as a function of effect size and sample size</em></p>
+</div>
 
 In an A/B test, the power of a test (the probability of correctly detecting a true effect) is influenced by the effect size, sample size, significance level, and pooled variance. The formula for power,
 $1 - \beta$, can be approximated as follows for a two-sample test:
@@ -228,14 +231,17 @@ The benefits of early stopping aren’t just about self-control. It can also hel
 
 In consulting you are going to peek early, you have to live with it. For one reason or another, a bug in production, an eager client whatever the case, you are going to peek, so you better prepare accordingly.
 
-<div align="left">
-
 #### Simulated Effect of Peeking on Experiment Outcomes
 
-| ![Without Peeking](consulting-ab-testing/withoutPeeking.png)        | ![With Peeking](consulting-ab-testing/withPeekingAfter100rounds.png) |
-|---------------------------------------------------------------------|----------------------------------------------------------------------|
-| **(a) Without Peeking:** $\frac{3}{100}$ reject null, $\alpha=0.05$ | **(b) With Peeking:** $\frac{29}{100}$ reject null, $\alpha=0.05$    |
-
+<div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap;">
+  <div style="text-align:center; flex:1; min-width:240px;">
+    <img src="consulting-ab-testing/withoutPeeking.png" style="display:block; margin-left:auto; margin-right:auto; max-width:100%;">
+    <p><em>(a) Without Peeking: $\frac{3}{100}$ reject null, $\alpha=0.05$</em></p>
+  </div>
+  <div style="text-align:center; flex:1; min-width:240px;">
+    <img src="consulting-ab-testing/withPeekingAfter100rounds.png" style="display:block; margin-left:auto; margin-right:auto; max-width:100%;">
+    <p><em>(b) With Peeking: $\frac{29}{100}$ reject null, $\alpha=0.05$</em></p>
+  </div>
 </div>
 
 Under a given null hypothesis, we run 100 simulations of experiments and record the z-statistic for each. We do this once without peeking and let the experiments run for $1000$ observations. In the peeking case, we stop whenever the z-statistic crosses the boundary but only after $100$th observation.
@@ -385,7 +391,10 @@ The statistical theory behind CUPED is fairly simple and setting up the regressi
 
 One way you can guess a good pre-treatment window is by simulating the treatment effect for various levels of MDEs (the change you expect to see in $Y_i$) and plot the probability of rejecting the alternative hypothesis if it is true i.e. Power.
 
-![MDE vs Power for 2 Different Metrics](consulting-ab-testing/variance_reduction_vs_Lift.png)
+<div style="text-align:center;">
+  <img src="consulting-ab-testing/variance_reduction_vs_Lift.png" style="display:block; margin-left:auto; margin-right:auto; max-width:100%;">
+  <p><em>MDE vs Power for 2 Different Metrics</em></p>
+</div>
 
 So you read off your hypothesized MDE and Power, and then every point to the left of that is a good window. As an example, lets say you know your MDE to be $3\%$ and you want a power of $0.8$, then your only option is the 16 week window. Analogously, if you have an MDE of $5\%$ and you want a power of $0.8$, then the conventional method (with no CUPED) is fine as you can attain an MDE of $4\%$ with a power of $0.8$. Finally, if you have an MDE of $4\%$ and you want a power of $0.8$ then a 1 week window is fine.
 

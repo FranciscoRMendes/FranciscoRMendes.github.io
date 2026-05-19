@@ -64,6 +64,7 @@ Here $U$ is a $5 \times 2$ matrix of movie embeddings and $V^\top$ is a $2 \time
 import numpy as np
 from sklearn.decomposition import NMF
 
+
 rng = np.random.default_rng(42)
 A_clean = np.array([
     [1, 0, 1, 0],
@@ -92,4 +93,66 @@ print("U =\n", np.round(U, 2))
 print("\nV^T =\n", np.round(VT, 2))
 print("\nU @ V^T =\n", np.round(A_hat, 2))
 print("\nMax reconstruction error:", np.round(np.max(np.abs(A - A_hat)), 4))
+```
+
+## Graph Convolutional Network Approach
+
+In the GCN approach we treat movies and users as nodes in a bipartite graph. An edge connects movie $m_i$ to user $u_j$ whenever $A_{ij} = 1$. We stack these into a single $(5+4) \times (5+4)$ adjacency matrix:
+
+$$
+R = \begin{pmatrix} \mathbf{0} & A \\ A^\top & \mathbf{0} \end{pmatrix}
+$$
+
+The top-right block is the movie-to-user interactions from $A$; the bottom-left is its transpose. There are no movie-movie or user-user edges.
+
+Before propagating information we symmetrically normalise $R$ by the degree matrix $D$, where $D_{ii} = \sum_j R_{ij}$:
+
+$$
+\hat{R} = D^{-1/2} \, R \, D^{-1/2}
+$$
+
+A single GCN aggregation layer then updates every node's embedding by averaging its neighbours':
+
+$$
+E^{(1)} = \hat{R} \, E^{(0)}
+$$
+
+where $E^{(0)} \in \mathbb{R}^{9 \times d}$ is a matrix of initial node embeddings (one row per node, $d$ dimensions). After one pass, a movie node's new embedding is a weighted average of the embeddings of the users who watched it — and vice versa. This is the key structural difference from matrix factorisation: instead of fitting two flat factor matrices independently, the GCN lets each node gather information from its neighbours before a prediction is made.
+
+```python
+import numpy as np
+
+A = np.array([
+    [1, 0, 1, 0],
+    [0, 1, 0, 1],
+    [1, 0, 1, 0],
+    [0, 1, 0, 1],
+    [1, 1, 1, 1],
+], dtype=float)
+
+n_movies, n_users = A.shape  # 5, 4
+
+# Build the (9 x 9) bipartite adjacency matrix
+R = np.block([
+    [np.zeros((n_movies, n_movies)), A],
+    [A.T, np.zeros((n_users, n_users))],
+])
+
+# Symmetric normalisation: D^{-1/2} R D^{-1/2}
+deg = R.sum(axis=1)
+D_inv_sqrt = np.diag(1.0 / np.sqrt(deg))
+R_hat = D_inv_sqrt @ R @ D_inv_sqrt
+
+# Random initial embeddings: 9 nodes, 2-dimensional
+rng = np.random.default_rng(0)
+E0 = rng.standard_normal((n_movies + n_users, 2))
+
+# One aggregation step (LightGCN-style: no weight matrix)
+E1 = R_hat @ E0
+
+print("Initial embeddings E0:\n", np.round(E0, 3))
+print("\nEmbeddings after one GCN layer E1:\n", np.round(E1, 3))
+print("\nNote: each movie embedding is now a weighted average")
+print("of its watching users, and each user a weighted average")
+print("of the movies they watched.")
 ```

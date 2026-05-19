@@ -59,3 +59,28 @@ $$
 
 Here $U$ is a $5 \times 2$ matrix of movie embeddings and $V^\top$ is a $2 \times 4$ matrix of user embeddings, where 2 is the number of latent factors.
  in this case the entries of A will not necessarily be 1s and 0s but rather as close as possible. 
+
+```python
+import numpy as np
+
+A = np.array([
+    [1, 0, 1, 0],
+    [0, 1, 0, 1],
+    [1, 0, 1, 0],
+    [0, 1, 0, 1],
+    [1, 1, 1, 1],
+], dtype=float)
+
+# Rank-2 truncated SVD: A ≈ U @ VT
+U_svd, s, VT_svd = np.linalg.svd(A, full_matrices=False)
+k = 2
+U  = U_svd[:, :k] * s[:k]   # (5, 2)
+VT = VT_svd[:k, :]           # (2, 4)
+
+A_hat = U @ VT
+
+print("U =\n", np.round(U, 3))
+print("\nV^T =\n", np.round(VT, 3))
+print("\nU @ V^T =\n", np.round(A_hat, 2))
+print("\nMax reconstruction error:", np.round(np.max(np.abs(A - A_hat)), 4))
+```

@@ -139,3 +139,11 @@ A Kalman filter is an algorithm for tracking a hidden quantity (say, the positio
 The problem is that the filter needs to be initialised somewhere. If you start it with a poor guess, or simply with a very diffuse prior because you genuinely do not know, the first several estimates will be unreliable. The posterior variance is large, the estimate is sensitive to whatever noisy observation came in first, and the filter has not yet had enough data to correct itself. This settling period is called burn-in. Practitioners routinely discard these early estimates and only trust the filter's output once the variance has stabilised.
 
 The parallel to a Bayesian experiment is direct. In the early observations, the posterior over your treatment effect is similarly volatile, dominated by the prior and highly sensitive to the first few data points. A posterior that crosses your threshold on day two is not evidence the treatment works; it is the filter still finding its feet. Waiting for $n_\text{bayes}$ is the experiment's equivalent of discarding the burn-in period.
+
+# References
+
+- Robinson, D. (2015). *Is Bayesian A/B Testing Immune to Peeking? Not Exactly*. Variance Explained. [http://varianceexplained.org/r/bayesian-ab-testing/](http://varianceexplained.org/r/bayesian-ab-testing/)
+
+- Miller, E. (2010). *How Not To Run an A/B Test*. [https://www.evanmiller.org/how-not-to-run-an-ab-test.html](https://www.evanmiller.org/how-not-to-run-an-ab-test.html)
+
+- Johari, R., Pekelis, L., & Walsh, D. (2015). *Always Valid Inference: Bringing Sequential Analysis to A/B Testing*. arXiv:1512.04922.

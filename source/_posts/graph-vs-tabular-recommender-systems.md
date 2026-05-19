@@ -62,8 +62,10 @@ Here $U$ is a $5 \times 2$ matrix of movie embeddings and $V^\top$ is a $2 \time
 
 ```python
 import numpy as np
+from sklearn.decomposition import NMF
 
-A = np.array([
+rng = np.random.default_rng(42)
+A_clean = np.array([
     [1, 0, 1, 0],
     [0, 1, 0, 1],
     [1, 0, 1, 0],
@@ -71,16 +73,23 @@ A = np.array([
     [1, 1, 1, 1],
 ], dtype=float)
 
-# Rank-2 truncated SVD: A ≈ U @ VT
-U_svd, s, VT_svd = np.linalg.svd(A, full_matrices=False)
-k = 2
-U  = U_svd[:, :k] * s[:k]   # (5, 2)
-VT = VT_svd[:k, :]           # (2, 4)
+# Add small noise so the factors are fuzzy rather than perfectly sparse
+noise = rng.uniform(-0.15, 0.15, A_clean.shape)
+A = np.clip(A_clean + noise, 0, 1)
+
+model = NMF(n_components=2, init='nndsvda', random_state=0, max_iter=1000)
+U  = model.fit_transform(A)
+VT = model.components_
+
+# Normalize columns of U to [0,1] and absorb the scale into VT
+col_max = U.max(axis=0)
+U  = U  / col_max
+VT = VT * col_max[:, None]
 
 A_hat = U @ VT
 
-print("U =\n", np.round(U, 3))
-print("\nV^T =\n", np.round(VT, 3))
+print("U =\n", np.round(U, 2))
+print("\nV^T =\n", np.round(VT, 2))
 print("\nU @ V^T =\n", np.round(A_hat, 2))
 print("\nMax reconstruction error:", np.round(np.max(np.abs(A - A_hat)), 4))
 ```

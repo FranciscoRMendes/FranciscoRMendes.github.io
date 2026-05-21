@@ -2,6 +2,8 @@
 title: "Are Values Passed Between Layers Float or Int in PyTorch Post Quantization?"
 date: 2024-05-16
 mathjax: true
+series: "Quantization for Embedded ML"
+series_index: 2
 tags:
     - machine-learning
     - quantization

@@ -3,6 +3,8 @@ title: "On Murakami"
 date: 2026-01-15
 thumbnail: gallery/thumbnails/murakami-moonlight.jpg
 cover: gallery/thumbnails/murakami-moonlight.jpg
+series: "Book Reviews"
+series_index: 5
 tags:
     - book-review
     - fiction

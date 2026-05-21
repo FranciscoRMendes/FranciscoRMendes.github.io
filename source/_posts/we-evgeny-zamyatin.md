@@ -4,6 +4,8 @@ date : 2024-9-7
 mathjax : true
 thumbnail: gallery/thumbnails/marching-for-one-state.png
 cover: gallery/thumbnails/marching-for-one-state.png
+series: "Book Reviews"
+series_index: 2
 tags:
     - book-review
     - fiction

@@ -35,8 +35,8 @@
       <name>Francisco Romaldo Fernandes Mendes</name>
     </author>
     <category term="machine-learning" scheme="https://franciscormendes.com/categories/machine-learning/"/>
-    <category term="machine-learning" scheme="https://franciscormendes.com/tags/machine-learning/"/>
     <category term="recommender-systems" scheme="https://franciscormendes.com/tags/recommender-systems/"/>
+    <category term="machine-learning" scheme="https://franciscormendes.com/tags/machine-learning/"/>
     <category term="graph-neural-networks" scheme="https://franciscormendes.com/tags/graph-neural-networks/"/>
     <category term="tabular-ml" scheme="https://franciscormendes.com/tags/tabular-ml/"/>
     <content>
@@ -187,9 +187,9 @@
       <name>Francisco Romaldo Fernandes Mendes</name>
     </author>
     <category term="machine-learning" scheme="https://franciscormendes.com/categories/machine-learning/"/>
+    <category term="recommender-systems" scheme="https://franciscormendes.com/tags/recommender-systems/"/>
     <category term="signal-processing" scheme="https://franciscormendes.com/tags/signal-processing/"/>
     <category term="machine-learning" scheme="https://franciscormendes.com/tags/machine-learning/"/>
-    <category term="recommender-systems" scheme="https://franciscormendes.com/tags/recommender-systems/"/>
     <category term="graph-neural-networks" scheme="https://franciscormendes.com/tags/graph-neural-networks/"/>
     <category term="spectral-methods" scheme="https://franciscormendes.com/tags/spectral-methods/"/>
     <content>
@@ -318,8 +318,8 @@
       <name>Francisco Romaldo Fernandes Mendes</name>
     </author>
     <category term="statistics" scheme="https://franciscormendes.com/categories/statistics/"/>
-    <category term="signal-processing" scheme="https://franciscormendes.com/tags/signal-processing/"/>
     <category term="statistics" scheme="https://franciscormendes.com/tags/statistics/"/>
+    <category term="signal-processing" scheme="https://franciscormendes.com/tags/signal-processing/"/>
     <content>
       <![CDATA[<h1 id="Matching-MATLAB’s-resample-function-in-Python"><a href="#Matching-MATLAB’s-resample-function-in-Python" class="headerlink" title="Matching MATLAB’s resample function in Python"></a>Matching MATLAB’s resample function in Python</h1><p>It is rather annoying that a fast implementation of MATLAB’s resample function does not exist in Python with minimal theoretical knowledge of signal processing. This post aims to provide a simple implementation of MATLAB’s resample function in Python. With, you guessed it, zero context and therefore no theoretical knowledge of signal processing. The function ha been tested against MATLAB’s resample function using a simple example. I might include that later. I had originally answered this on StackExchange, but it is lost because the question was deleted.<br>Btw, <a href="https://stackoverflow.com/questions/28506137/python-resampling-implementation-like-matlabs-signal-toolboxs-resampling-funct">this</a> did not work for me. </p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> scipy.signal <span class="keyword">import</span> resample_poly</span><br><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> gcd</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matlab_resample</span>(<span class="params">x, resample_rate, orig_sample_rate</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Resample a signal by a rational factor (p/q) to match MATLAB&#x27;s `resample` function.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Parameters:</span></span><br><span class="line"><span class="string">        x (array-like): Input signal.</span></span><br><span class="line"><span class="string">        p (int): Upsampling factor.</span></span><br><span class="line"><span class="string">        q (int): Downsampling factor.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">        array-like: Resampled signal.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    p = resample_rate</span><br><span class="line">    q = orig_sample_rate</span><br><span class="line">    factor_gcd = gcd(<span class="built_in">int</span>(p), <span class="built_in">int</span>(q))</span><br><span class="line">    p = <span class="built_in">int</span>(p // factor_gcd)</span><br><span class="line">    q = <span class="built_in">int</span>(q // factor_gcd)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Ensure input is a numpy array</span></span><br><span class="line">    x = np.asarray(x)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Use resample_poly to perform efficient polyphase filtering</span></span><br><span class="line">    y = resample_poly(x, p, q, window=(<span class="string">&#x27;kaiser&#x27;</span>, <span class="number">5.0</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Match MATLAB&#x27;s output length behavior</span></span><br><span class="line">    output_length = <span class="built_in">int</span>(np.ceil(<span class="built_in">len</span>(x) * p / q))</span><br><span class="line">    y = y[:output_length]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> y</span><br></pre></td></tr></table></figure><h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://stackoverflow.com/questions/28506137/python-resampling-implementation-like-matlabs-signal-toolboxs-resampling-funct">https://stackoverflow.com/questions/28506137/python-resampling-implementation-like-matlabs-signal-toolboxs-resampling-funct</a></p>]]>
     </content>
@@ -372,8 +372,8 @@
       <name>Francisco Romaldo Fernandes Mendes</name>
     </author>
     <category term="machine-learning" scheme="https://franciscormendes.com/categories/machine-learning/"/>
-    <category term="machine-learning" scheme="https://franciscormendes.com/tags/machine-learning/"/>
     <category term="recommender-systems" scheme="https://franciscormendes.com/tags/recommender-systems/"/>
+    <category term="machine-learning" scheme="https://franciscormendes.com/tags/machine-learning/"/>
     <category term="low-rank-approximation" scheme="https://franciscormendes.com/tags/low-rank-approximation/"/>
     <category term="graph-neural-networks" scheme="https://franciscormendes.com/tags/graph-neural-networks/"/>
     <content>

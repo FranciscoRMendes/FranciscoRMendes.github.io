@@ -236,7 +236,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.com/2024/12/17/matching-matlabs-resample/</loc>
+    <loc>https://franciscormendes.com/2022/01/10/many-to-many-matching/</loc>
     
     <lastmod>2026-04-18</lastmod>
     
@@ -245,7 +245,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.com/2022/01/10/many-to-many-matching/</loc>
+    <loc>https://franciscormendes.com/2024/12/17/matching-matlabs-resample/</loc>
     
     <lastmod>2026-04-18</lastmod>
     
@@ -281,7 +281,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.com/2024/04/24/lora-2/</loc>
+    <loc>https://franciscormendes.com/2024/09/13/lora-3/</loc>
     
     <lastmod>2026-04-18</lastmod>
     
@@ -290,7 +290,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.com/2024/09/13/lora-3/</loc>
+    <loc>https://franciscormendes.com/2024/04/24/lora-2/</loc>
     
     <lastmod>2026-04-18</lastmod>
     
@@ -434,7 +434,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.com/tags/statistics/</loc>
+    <loc>https://franciscormendes.com/tags/bayesian-statistics/</loc>
     <lastmod>2026-07-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -448,7 +448,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.com/tags/bayesian-statistics/</loc>
+    <loc>https://franciscormendes.com/tags/statistics/</loc>
     <lastmod>2026-07-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -651,6 +651,13 @@
   </url>
   
   <url>
+    <loc>https://franciscormendes.com/tags/artificial-intelligence/</loc>
+    <lastmod>2026-07-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://franciscormendes.com/tags/reinforcement-learning/</loc>
     <lastmod>2026-07-18</lastmod>
     <changefreq>weekly</changefreq>
@@ -659,13 +666,6 @@
   
   <url>
     <loc>https://franciscormendes.com/tags/neural-networks/</loc>
-    <lastmod>2026-07-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.com/tags/artificial-intelligence/</loc>
     <lastmod>2026-07-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

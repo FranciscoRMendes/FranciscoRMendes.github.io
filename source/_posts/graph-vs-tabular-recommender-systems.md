@@ -16,10 +16,10 @@ excerpt: ""
 
 # Background
 This blog post was spurred by an interesting discussion with a coworker of mine. The question was relatively simple, "why do we use graphs for recommender systems, why not just use tabular ML?". This question caused a sort of existential crisis in me, somewhat more than the average Murakami character (in the first 10 chapters). 
-We will use a strategy that is commonly used across mathematics, we will show that something is a simplified version of something else. In order to do this we need to have a principled way of thinking about recommender systems. 
+In order to answer this question, we will use a strategy that is commonly used across mathematics, we will show that something is a simplified version of something else. In order to do this we need to have a principled way of thinking about recommender systems. 
 
 # Basic Math of Recommender Systems
-The most general way to think about a recommender system is to actually think of it in terms of products x users. This is either the adjacency matrix for the graph or the matrix to be factorized for the matrix factorization approach. So let us create this, 
+The most general way to think about a recommender system is to think of it in terms of products x users. This is either one of the block diagonals of the adjacency matrix for the graph or the matrix to be factorized for the matrix factorization approach. So let us create this, 
 
 $$
 A = \begin{array}{c|cccc}

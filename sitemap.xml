@@ -2,24 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://franciscormendes.com/2024/11/08/consulting-ab-testing/</loc>
-    
-    <lastmod>2026-09-04</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.com/2026/04/10/bayesian-vs-frequentist-sample-size/</loc>
-    
-    <lastmod>2026-09-04</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://franciscormendes.com/2024/05/16/quantization-layer-details/</loc>
     
     <lastmod>2026-09-04</lastmod>
@@ -30,6 +12,15 @@
   
   <url>
     <loc>https://franciscormendes.com/2024/09/07/we-evgeny-zamyatin/</loc>
+    
+    <lastmod>2026-09-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.com/2026/01/15/on-murakami/</loc>
     
     <lastmod>2026-09-04</lastmod>
     
@@ -56,16 +47,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.com/2026/01/15/on-murakami/</loc>
-    
-    <lastmod>2026-09-04</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.com/2025/02/09/east-of-eden/</loc>
+    <loc>https://franciscormendes.com/2026/05/19/graph-vs-tabular-recommender-systems/</loc>
     
     <lastmod>2026-09-04</lastmod>
     
@@ -83,7 +65,52 @@
   </url>
   
   <url>
+    <loc>https://franciscormendes.com/2026/06/18/fall-of-new-atheism/</loc>
+    
+    <lastmod>2026-09-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://franciscormendes.com/2024/01/06/cold-war/</loc>
+    
+    <lastmod>2026-09-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.com/2025/02/09/east-of-eden/</loc>
+    
+    <lastmod>2026-09-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.com/2026/09/04/foundation-pose/</loc>
+    
+    <lastmod>2026-09-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.com/2024/11/08/consulting-ab-testing/</loc>
+    
+    <lastmod>2026-09-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.com/2026/04/10/bayesian-vs-frequentist-sample-size/</loc>
     
     <lastmod>2026-09-04</lastmod>
     
@@ -407,6 +434,27 @@
   </url>
   
   <url>
+    <loc>https://franciscormendes.com/tags/book-review/</loc>
+    <lastmod>2026-09-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.com/tags/politics/</loc>
+    <lastmod>2026-09-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.com/tags/history/</loc>
+    <lastmod>2026-09-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://franciscormendes.com/tags/causal-inference/</loc>
     <lastmod>2026-09-04</lastmod>
     <changefreq>weekly</changefreq>
@@ -449,27 +497,6 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.com/tags/book-review/</loc>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.com/tags/politics/</loc>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.com/tags/history/</loc>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://franciscormendes.com/tags/fiction/</loc>
     <lastmod>2026-09-04</lastmod>
     <changefreq>weekly</changefreq>
@@ -477,7 +504,21 @@
   </url>
   
   <url>
+    <loc>https://franciscormendes.com/tags/religion/</loc>
+    <lastmod>2026-09-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://franciscormendes.com/tags/graph-neural-networks/</loc>
+    <lastmod>2026-09-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.com/tags/tabular-ml/</loc>
     <lastmod>2026-09-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -640,14 +681,14 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.com/categories/machine-learning/</loc>
+    <loc>https://franciscormendes.com/categories/book-review/</loc>
     <lastmod>2026-09-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.com/categories/book-review/</loc>
+    <loc>https://franciscormendes.com/categories/machine-learning/</loc>
     <lastmod>2026-09-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

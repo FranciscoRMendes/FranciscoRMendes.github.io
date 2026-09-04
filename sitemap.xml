@@ -372,7 +372,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.com/tags/statistics/</loc>
+    <loc>https://franciscormendes.com/tags/bayesian-statistics/</loc>
     <lastmod>2026-09-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -386,7 +386,7 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.com/tags/bayesian-statistics/</loc>
+    <loc>https://franciscormendes.com/tags/statistics/</loc>
     <lastmod>2026-09-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -394,27 +394,6 @@
   
   <url>
     <loc>https://franciscormendes.com/tags/experimentation/</loc>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.com/tags/book-review/</loc>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.com/tags/politics/</loc>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.com/tags/history/</loc>
     <lastmod>2026-09-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -470,6 +449,27 @@
   </url>
   
   <url>
+    <loc>https://franciscormendes.com/tags/book-review/</loc>
+    <lastmod>2026-09-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.com/tags/politics/</loc>
+    <lastmod>2026-09-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://franciscormendes.com/tags/history/</loc>
+    <lastmod>2026-09-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://franciscormendes.com/tags/fiction/</loc>
     <lastmod>2026-09-04</lastmod>
     <changefreq>weekly</changefreq>
@@ -484,6 +484,13 @@
   </url>
   
   <url>
+    <loc>https://franciscormendes.com/tags/spectral-methods/</loc>
+    <lastmod>2026-09-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://franciscormendes.com/tags/football/</loc>
     <lastmod>2026-09-04</lastmod>
     <changefreq>weekly</changefreq>
@@ -492,13 +499,6 @@
   
   <url>
     <loc>https://franciscormendes.com/tags/sports/</loc>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://franciscormendes.com/tags/spectral-methods/</loc>
     <lastmod>2026-09-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -640,14 +640,14 @@
   </url>
   
   <url>
-    <loc>https://franciscormendes.com/categories/book-review/</loc>
+    <loc>https://franciscormendes.com/categories/machine-learning/</loc>
     <lastmod>2026-09-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://franciscormendes.com/categories/machine-learning/</loc>
+    <loc>https://franciscormendes.com/categories/book-review/</loc>
     <lastmod>2026-09-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

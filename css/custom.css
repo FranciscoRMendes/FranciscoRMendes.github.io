@@ -524,12 +524,6 @@ article.article > .card > .card-content {
 }
 
 /* ---------- Series navigation box ---------- */
-.series-index {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .series-box {
   border: 1px solid rgba(50, 115, 220, 0.2);
   border-left: 4px solid #3273dc;

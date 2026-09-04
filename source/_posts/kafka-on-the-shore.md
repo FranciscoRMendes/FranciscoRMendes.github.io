@@ -4,6 +4,8 @@ date: 2025-09-01
 mathjax: true
 thumbnail: gallery/thumbnails/kafka_on_the_shore.jpeg
 cover: gallery/thumbnails/kafka_on_the_shore.jpeg
+series: "Book Reviews"
+series_index: 4
 tags:
     - book-review
     - fiction

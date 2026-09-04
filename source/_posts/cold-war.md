@@ -4,6 +4,8 @@ date: 2024-01-06
 mathjax: true
 thumbnail: gallery/thumbnails/child-in-korean-war.png
 cover: gallery/thumbnails/child-in-korean-war.png
+series: "Book Reviews"
+series_index: 1
 tags:
     - book-review
     - politics

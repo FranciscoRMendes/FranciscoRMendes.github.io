@@ -4,6 +4,8 @@ date : 2024-09-28
 mathjax : true
 thumbnail : gallery/thumbnails/recommender-cartoon.png
 cover : gallery/thumbnails/recommender-cartoon.png
+series: "Recommender Systems"
+series_index: 1
 tags:
     - machine-learning
     - graph-neural-networks

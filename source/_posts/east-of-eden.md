@@ -4,6 +4,8 @@ date: 2025-02-09
 mathjax: true
 thumbnail: gallery/thumbnails/east-eden-cover.png
 cover: gallery/thumbnails/east-eden-cover.png
+series: "Book Reviews"
+series_index: 3
 tags:
     - book-review
     - fiction

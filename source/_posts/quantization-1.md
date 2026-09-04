@@ -4,6 +4,8 @@ date: 2024-05-16
 mathjax: true
 thumbnail: gallery/thumbnails/quantization.png
 cover: gallery/thumbnails/quantization.png
+series: "Quantization for Embedded ML"
+series_index: 1
 tags:
     - machine-learning
     - quantization
